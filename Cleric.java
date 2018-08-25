@@ -77,9 +77,13 @@ public int D8Roll(){
             endOfLine = scanner.nextLine();
             domainChoice = choice -1;
             System.out.println("You have chosen domain " + domains[domainChoice]);
-
-//            TODO Create Methods for each domain for each level call.
+             CheckVectorAndAdd(proficiencies,"Light Armor");
+             CheckVectorAndAdd(proficiencies,"Medium Armor");
+             CheckVectorAndAdd(proficiencies,"Shields");
+             CheckVectorAndAdd(proficiencies,"Simple Weapons");
             FindDomain(domainChoice,1);
+
+
 
 
         }if (level == 2){
@@ -102,6 +106,7 @@ public int D8Roll(){
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(2);
             CantripChoice();
+            FindDomain(domainChoice,4);
 
         }if (level == 5){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
@@ -141,21 +146,25 @@ public int D8Roll(){
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(5);
             CantripChoice();
+            FindDomain(domainChoice,10);
 
 
         }if (level == 11){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(6);
+            FindDomain(domainChoice,11);
 
         }if (level == 12){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
+            FindDomain(domainChoice,12);
 
         }if (level == 13){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(7);
+            FindDomain(domainChoice,13);
 
         }if (level == 14){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
@@ -165,10 +174,12 @@ public int D8Roll(){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(8);
+            FindDomain(domainChoice,15);
 
         }if (level == 16){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
+            FindDomain(domainChoice,16);
 
         }if (level == 17){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
@@ -180,16 +191,19 @@ public int D8Roll(){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(5);
+            FindDomain(domainChoice,18);
 
         }if (level == 19){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(6);
+            FindDomain(domainChoice,19);
 
         }if (level == 20){
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(7);
+            FindDomain(domainChoice,20);
 
         }
 
@@ -228,7 +242,6 @@ public int D8Roll(){
         }
     }
 
-    // TODO Finish Domain Levels and Such
 
     /**
      * If character chose Knowledge Domain, it will apply what's needed for that level.
@@ -259,8 +272,8 @@ public int D8Roll(){
             System.out.println("You have added " + choice + " to your languages");
 
 
-            SpellCheckAndAdd("Command");
-            SpellCheckAndAdd("Identify");
+            CheckVectorAndAdd(spells,"Command");
+            CheckVectorAndAdd(spells,"Identify");
 
             Vector<String> divineSkills = new Vector<>();
             divineSkills.add("Arcana");
@@ -286,19 +299,19 @@ public int D8Roll(){
             System.out.println("Channel Divinity: Knowledge of the Ages was added to features");
         }
         if (level == 3){
-            SpellCheckAndAdd("Augury");
-            SpellCheckAndAdd("Suggestion");
+            CheckVectorAndAdd(spells,"Augury");
+            CheckVectorAndAdd(spells,"Suggestion");
 
         } if (level == 5){
-            SpellCheckAndAdd("Nondetection");
-            SpellCheckAndAdd("Speak with Dead");
+            CheckVectorAndAdd(spells,"Nondetection");
+            CheckVectorAndAdd(spells,"Speak with Dead");
         } if (level == 6){
             features.add("Channel Divinity: Read Thoughts");
             System.out.println("Channel Divinity: Read Thoughts added to features");
         }
         if (level==7){
-            SpellCheckAndAdd("Arcane Eye");
-            SpellCheckAndAdd("Confusion");
+            CheckVectorAndAdd(spells,"Arcane Eye");
+            CheckVectorAndAdd(spells,"Confusion");
 
         }
         if (level == 8){
@@ -306,8 +319,8 @@ public int D8Roll(){
             System.out.println("Potent Spellcasting added to features");
         }
         if (level ==9){
-            SpellCheckAndAdd("Legend Lore");
-            SpellCheckAndAdd("Scrying");
+            CheckVectorAndAdd(spells,"Legend Lore");
+            CheckVectorAndAdd(spells,"Scrying");
 
         }
         if (level ==17){
@@ -321,30 +334,29 @@ public int D8Roll(){
      */
     public void LifeDomain (int level){
         if (level ==1){
-            SpellCheckAndAdd("Bless");
-            SpellCheckAndAdd("Cure Wounds");
-            features.add("Proficiency : Heavy Armor");
+            CheckVectorAndAdd(spells,"Bless");
+            CheckVectorAndAdd(spells,"Cure Wounds");
+            CheckVectorAndAdd(proficiencies,"Heavy Armor");
             features.add("Disciple of Life");
-            System.out.println("Proficiency : Heavy Armor and Disciple of Life added to features");
 
         } if (level == 2){
             features.add("Channel Divinity: Preserve Life");
         }
         if (level == 3){
-           SpellCheckAndAdd("Lesser Restoration");
-            SpellCheckAndAdd("Spiritual Weapon");
+           CheckVectorAndAdd(spells,"Lesser Restoration");
+            CheckVectorAndAdd(spells,"Spiritual Weapon");
 
         } if (level == 5){
-            SpellCheckAndAdd("Beacon of Hope");
-            SpellCheckAndAdd("Revivify");
+            CheckVectorAndAdd(spells,"Beacon of Hope");
+            CheckVectorAndAdd(spells,"Revivify");
 
         }if (level ==6 ){
             features.add("Blessed Healer");
             System.out.println("Blessed Healer added to features");
         }
         if (level==7){
-            SpellCheckAndAdd("Death Ward");
-            SpellCheckAndAdd("Guardian of Faith");
+            CheckVectorAndAdd(spells,"Death Ward");
+            CheckVectorAndAdd(spells,"Guardian of Faith");
 
         }
         if (level==8){
@@ -352,8 +364,8 @@ public int D8Roll(){
             System.out.println("Divine Strike (d8) added to features");
         }
         if (level ==9){
-           SpellCheckAndAdd("Mass Cure Wounds");
-           SpellCheckAndAdd("Raise Dead");
+           CheckVectorAndAdd(spells,"Mass Cure Wounds");
+           CheckVectorAndAdd(spells,"Raise Dead");
         }
         if (level==14){
             features.remove("Divine Strike (d8)");
@@ -371,8 +383,8 @@ public int D8Roll(){
      */
     public void LightDomain (int level){
         if (level ==1){
-            SpellCheckAndAdd("Burning Hands");
-            SpellCheckAndAdd("Faerie Fire");
+            CheckVectorAndAdd(spells,"Burning Hands");
+            CheckVectorAndAdd(spells,"Faerie Fire");
 
             if (!cantrips.contains("Light")){
                 cantrips.add("Light");
@@ -387,13 +399,13 @@ public int D8Roll(){
             System.out.println("Channel Divinity: Radiance of the Dawn added to features");
         }
         if (level == 3){
-            SpellCheckAndAdd("Flaming Sphere");
-            SpellCheckAndAdd("Scorching Ray");
+            CheckVectorAndAdd(spells,"Flaming Sphere");
+            CheckVectorAndAdd(spells,"Scorching Ray");
 
 
         } if (level == 5){
-            SpellCheckAndAdd("Daylight");
-            SpellCheckAndAdd("Fireball");
+            CheckVectorAndAdd(spells,"Daylight");
+            CheckVectorAndAdd(spells,"Fireball");
 
         }
         if (level == 6 ){
@@ -402,16 +414,16 @@ public int D8Roll(){
             System.out.println("Improved Warden Flare added to features");
         }
         if (level== 7){
-                SpellCheckAndAdd("Guardian of Faith");
-                SpellCheckAndAdd("Wall of Fire");
+                CheckVectorAndAdd(spells,"Guardian of Faith");
+                CheckVectorAndAdd(spells,"Wall of Fire");
         }
         if (level == 8 ){
            features.add("Potent Spellcasting");
             System.out.println("Potent Spellcasting added to features");
         }
         if (level ==9){
-            SpellCheckAndAdd("Flame Strike");
-            SpellCheckAndAdd("Scrying");
+            CheckVectorAndAdd(spells,"Flame Strike");
+            CheckVectorAndAdd(spells,"Scrying");
 
         }
         if (level == 17) {
@@ -426,8 +438,8 @@ public int D8Roll(){
      */
     public void NatureDomain (int level){
         if (level ==1){
-            SpellCheckAndAdd("Animal Friendship");
-            SpellCheckAndAdd("Speak with Animals");
+            CheckVectorAndAdd(spells,"Animal Friendship");
+            CheckVectorAndAdd(spells,"Speak with Animals");
             int choice;
             Scanner scanner = new Scanner(System.in);
             System.out.println("You have learned 1 Druid Cantrip. What cantrip would you like to learn?");
@@ -437,8 +449,8 @@ public int D8Roll(){
             cantrips.add(druidCantrips.get(choice-1));
             System.out.println("You have added " + druidCantrips.get(choice-1) + " to your cantrips");
             druidCantrips.remove(choice-1);
-            proficiencies.add("Heavy Armor");
-            System.out.println("You have added heavy armor to your proficiencies! ");
+           CheckVectorAndAdd(proficiencies, "Heavy Armor");
+
 
 
         }if (level == 2){
@@ -447,27 +459,27 @@ public int D8Roll(){
         }
 
         if (level == 3){
-            SpellCheckAndAdd("Barkskin");
-            SpellCheckAndAdd("Spike Growth");
+            CheckVectorAndAdd(spells,"Barkskin");
+            CheckVectorAndAdd(spells,"Spike Growth");
 
         } if (level == 5){
-            SpellCheckAndAdd("Plant Growth");
-            SpellCheckAndAdd("Wind Wall");
+            CheckVectorAndAdd(spells,"Plant Growth");
+            CheckVectorAndAdd(spells,"Wind Wall");
 
         }if (level == 6){
             features.add("Dampen Elements");
             System.out.println("Dampen Elements added to features");
         }if (level==7){
-                SpellCheckAndAdd("Dominate Beast");
-                SpellCheckAndAdd("Grasping Vine");
+                CheckVectorAndAdd(spells,"Dominate Beast");
+                CheckVectorAndAdd(spells,"Grasping Vine");
         }
         if (level == 8){
             features.add("Divine Strike (1d8)");
             System.out.println("Divine Strike (1d8) added to features");
         }
         if (level ==9){
-            SpellCheckAndAdd("Insect Plague");
-            SpellCheckAndAdd("Tree Stride ");
+            CheckVectorAndAdd(spells,"Insect Plague");
+            CheckVectorAndAdd(spells,"Tree Stride ");
 
         }
         if (level == 14){
@@ -489,11 +501,10 @@ public int D8Roll(){
      */
     public void TempestDomain (int level){
         if (level ==1){
-            SpellCheckAndAdd("Fog Cloud");
-            SpellCheckAndAdd("Thunderwave");
-            proficiencies.add("Martial Weapons");
-            proficiencies.add("Heavy Armor");
-            System.out.println("Martial Weapons and Heavy Armor have been added to Proficiencies");
+            CheckVectorAndAdd(spells,"Fog Cloud");
+            CheckVectorAndAdd(spells,"Thunderwave");
+            CheckVectorAndAdd(proficiencies,"Martial Weapons");
+            CheckVectorAndAdd(proficiencies,"Heavy Armor");
             features.add("Wrath of the Storm");
             System.out.println("Wrath of the Storms added to features");
 
@@ -502,20 +513,20 @@ public int D8Roll(){
             System.out.println("Channel Divinity: Destructive Wrath added to features");
         }
         if (level == 3){
-            SpellCheckAndAdd("Gust of Wind");
-            SpellCheckAndAdd("Shatter");
+            CheckVectorAndAdd(spells,"Gust of Wind");
+            CheckVectorAndAdd(spells,"Shatter");
 
         } if (level == 5){
-            SpellCheckAndAdd("Call Lightning");
-            SpellCheckAndAdd("Sleet Storm");
+            CheckVectorAndAdd(spells,"Call Lightning");
+            CheckVectorAndAdd(spells,"Sleet Storm");
 
         }if (level == 6){
             features.add("Thunderbolt Strike");
             System.out.println("Thunderbolt Strike added to features");
         }
         if (level==7){
-            SpellCheckAndAdd("Control Water");
-            SpellCheckAndAdd("Ice Storm");
+            CheckVectorAndAdd(spells,"Control Water");
+            CheckVectorAndAdd(spells,"Ice Storm");
 
         }
         if (level==8){
@@ -523,8 +534,8 @@ public int D8Roll(){
             System.out.println("Divine Strike (1d8) added to features");
         }
         if (level ==9){
-            SpellCheckAndAdd("Destructive Wave");
-            SpellCheckAndAdd("Insect Plague");
+            CheckVectorAndAdd(spells,"Destructive Wave");
+            CheckVectorAndAdd(spells,"Insect Plague");
         }
         if (level==14){
             features.remove("Divine Strike (1d8)");
@@ -535,23 +546,58 @@ public int D8Roll(){
             System.out.println("Stormborn added to features");
         }
     }
-    //TODO Stopped here
     /**
      * If character chose Trickery Domain, it will apply what's needed for that level.
      * @param level Level that the character is currently at
      */
     public void TrickeryDomain (int level){
         if (level ==1){
-
-        }if (level == 3){
-
-        } if (level == 5){
-
-        }if (level==7){
+            CheckVectorAndAdd(spells,"Charm Person");
+            CheckVectorAndAdd(spells,"Disguise Self");
+            features.add("Blessing of the Trickster");
+            System.out.println("Blessing of the Trickster added to features");
 
         }
-        if (level ==9){
+        if (level ==2){
+            features.add("Channel Divinity: Invoke Duplicity");
+            System.out.println("Channel Divinity: Invoke Duplicity added to features");
 
+        }if (level == 3){
+            CheckVectorAndAdd(spells,"Mirror Image");
+            CheckVectorAndAdd(spells,"Pass Without Trace");
+
+
+        } if (level == 5){
+            CheckVectorAndAdd(spells,"Blink");
+            CheckVectorAndAdd(spells,"Dispel Magic");
+
+        }if (level ==6){
+            features.add("Channel Divinity: Cloak of Shadows");
+            System.out.println("Channel Divinity: Cloak of Shadows added to features");
+
+        }
+        if (level==7){
+            CheckVectorAndAdd(spells,"Dimension Door");
+            CheckVectorAndAdd(spells,"Polymorph");
+
+        }
+        if (level ==8){
+            features.add("Channel Divinity: Divine Strike (1d8)");
+            System.out.println("Channel Divinity: Divine Strike (1d8) added to features");
+        }
+        if (level ==9){
+            CheckVectorAndAdd(spells,"Dominate Person");
+            CheckVectorAndAdd(spells,"Modify Memory");
+        }
+        if (level== 14){
+            features.remove("Channel Divinity: Divine Strike (1d8)");
+            features.add("Channel Divinity: Divine Strike (2d8)");
+            System.out.println("Channel Divinity: Divine Strike (2d8) added to features");
+        }
+        if (level ==17){
+            features.remove("Channel Divinity: Invoke Duplicity");
+            features.add("Channel Divinity: Improved Duplicity");
+            System.out.println("Channel Divinity: Improved Duplicity added to features");
         }
     }
     /**
@@ -560,23 +606,68 @@ public int D8Roll(){
      */
     public void WarDomain (int level){
         if (level ==1){
+            CheckVectorAndAdd(spells,"Divine Favor");
+            CheckVectorAndAdd(spells,"Shield of Faith");
+            CheckVectorAndAdd(proficiencies,"Martial Weapons");
+            CheckVectorAndAdd(proficiencies,"Heavy Armor");
+            features.add("War Priest");
+            System.out.println("War Priest added to features");
 
-        }if (level == 3){
+        }if (level==2){
+            features.add("Channel Divinity: Guided Strike");
+            System.out.println("Channel Divinity: Guided Strike added to features");
+
+        }
+        if (level == 3){
+            CheckVectorAndAdd(spells,"Magic Weapon");
+            CheckVectorAndAdd(spells, "Spiritual Weapon");
 
         } if (level == 5){
+            CheckVectorAndAdd(spells, "Crusader's Mantle");
+            CheckVectorAndAdd(spells, "Spirit Guardians");
 
-        }if (level==7){
+        } if (level ==6){
+            features.add("Channel Divinity: War God's Blessing");
+            System.out.println("Channel Divinity: War God's Blessing added to features");
+
+        }
+        if (level==7){
+            CheckVectorAndAdd(spells,"Freedom of Movement");
+            CheckVectorAndAdd(spells,"Stoneskin");
+
+        }
+        if (level ==8){
+            features.add("Divine Strike (1d8)");
+            System.out.println("Divine Strike (1d8) added to features");
 
         }
         if (level ==9){
+            CheckVectorAndAdd(spells, "Flame Strike");
+            CheckVectorAndAdd(spells,"Hold Monster");
+
+        }
+        if (level ==14){
+            features.remove("Divine Strike (1d8)");
+            features.add("Divine Strike (2d8)");
+            System.out.println("Divine Strike (2d8) added to features");
+
+        }
+        if (level == 17){
+            features.add("Avatar of Battle");
+            System.out.println("Avatar of Battle added to features");
 
         }
     }
 
-    public void SpellCheckAndAdd(String spellName){
-        if (!spells.contains(spellName)){
-            spells.add(spellName);
-            System.out.println(spellName+" added to spells");
+    /**
+     * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
+     * @param vector The vector you are checking/ adding the contents into
+     * @param contents String that you are checking/ adding in the vector
+     */
+    public void CheckVectorAndAdd(Vector vector, String contents){
+        if (!vector.contains(contents)){
+            vector.add(contents);
+            System.out.println(contents+" added to " + vector);
         }
 
     }

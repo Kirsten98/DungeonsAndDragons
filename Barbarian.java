@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class Barbarian{
- //TODO Hello Universe I Am Here
     CharacterSheet character;
     private int hitDice = 12;
     private int proficiency;
@@ -15,7 +14,7 @@ public class Barbarian{
     private String primalPath;
     private String totemSpirit;
 
-    //TODO Add all proficiencies to vector
+    //TODO Add all proficiencies to vector by using CheckVectorAndAdd
     Vector<String> proficiencies = new Vector<>();
 
 
@@ -467,6 +466,19 @@ public class Barbarian{
 
 
     }
+    /**
+     * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
+     * @param vector The vector you are checking/ adding the contents into
+     * @param contents String that you are checking/ adding in the vector
+     */
+    public void CheckVectorAndAdd(Vector vector, String contents){
+        if (!vector.contains(contents)){
+            vector.add(contents);
+            System.out.println(contents+" added to " + vector);
+        }
+
+    }
+
 
     /**
      *

@@ -42,7 +42,7 @@ public class Bard {
     Vector<String> allEighthLevelSpells= Spells.AllClassSpellSetUp(8);
     Vector<String> allNinthLevelSpells = Spells.AllClassSpellSetUp(9);
 
-    //TODO Add all proficiencies to vector
+    //TODO Add all proficiencies to vector by using CheckVectorAndAdd
     Vector<String> proficiencies = new Vector<>();
 
 
@@ -461,6 +461,19 @@ public class Bard {
             features.add("Superior Inspiration");
             System.out.println("You have added Superior Inspiration to your features");
 
+        }
+
+    }
+
+    /**
+     * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
+     * @param vector The vector you are checking/ adding the contents into
+     * @param contents String that you are checking/ adding in the vector
+     */
+    public void CheckVectorAndAdd(Vector vector, String contents){
+        if (!vector.contains(contents)){
+            vector.add(contents);
+            System.out.println(contents+" added to " + vector);
         }
 
     }
