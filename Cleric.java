@@ -1,10 +1,13 @@
 package DungeonsAndDragons;
 
+import sun.java2d.InvalidPipeException;
+
 import java.util.Scanner;
 import java.util.Vector;
 
 public class Cleric {
     private CharacterSheet character;
+    private String pack;
     private int hitDice = 8;
     private int proficiency=2;
     private Vector<String> features = new Vector();
@@ -76,12 +79,155 @@ public class Cleric {
 
     }
 
+    //TODO Redo Method
+    /**
+     * Walks user through on adding their Weapons / Equipment ot the character
+     */
+    public void ChooseWeapon(){
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        String endOfLine = "";
 
-    //TODO ChooseWeapon
+        if (proficiencies.contains("Warhammer")){
+            System.out.println("Choose a weapon. 1.) Mace or 2.) Warhammer");
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice=InputErrorCheck(choice,1,2);
+            if (choice==1){
+            CheckVectorAndAdd(character.weapons,"Mace");
+            }if (choice==2){
+                CheckVectorAndAdd(character.weapons, "Warhammer");
+            }
+        }else {
+            CheckVectorAndAdd(character.weapons,"Mace");
+        }
 
-    //TODO ChooseSkills
+        if (proficiencies.contains("Chain Mail")){
 
-    //TODO EquipmentSetUp
+            System.out.println("Choose an armor. 1.) Scale Mail 2.) Leather Armor or 3.) Chain Mail.");
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice=InputErrorCheck(choice,1,2);
+            if (choice==1){
+                CheckVectorAndAdd(character.armorList,"Scale Mail");
+            }if (choice==2){
+                CheckVectorAndAdd(character.armorList,"Leather Armor");
+            }
+            if (choice==3){
+                CheckVectorAndAdd(character.armorList,"Chain Mail");
+            }
+
+        }else {
+            System.out.println("Choose an armor. 1.) Scale Mail or 2.) Leather Armor.");
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice=InputErrorCheck(choice,1,2);
+            if (choice==1){
+                CheckVectorAndAdd(character.armorList,"Scale Mail");
+            }if (choice==2){
+                CheckVectorAndAdd(character.armorList,"Leather Armor");
+            }
+
+        }
+
+        System.out.println("Choose a weapon. 1.) Light Crossbow and 20 Bolts oe 2.) Any Simple Weapon.");
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice=InputErrorCheck(choice,1,2);
+        if (choice==1){
+            CheckVectorAndAdd(character.weapons,"Light Crossbow");
+            character.inventory.add("20 Bolts");
+        }if (choice==2){
+            System.out.println("Choose any simple weapon");
+            System.out.println("** Simple Melee Weapons **");
+            for (int i =0; i<character.getSimpleMeleeWeapons().length; i++){
+                System.out.println(i+1 + ".) " + character.getSimpleMeleeWeapons()[i]);
+            }
+            System.out.println("** Simple Ranged Weapons **");
+            for (int i =0 ; i <character.getSimpleRangedWeapons().length; i++ ){
+                System.out.println(character.getSimpleMeleeWeapons().length+i+1 + ".) " + character.getSimpleRangedWeapons()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice=InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length+character.getSimpleRangedWeapons().length);
+            if (choice<character.getSimpleMeleeWeapons().length){
+                CheckVectorAndAdd(character.weapons,character.getSimpleMeleeWeapons()[choice-1]);
+
+            }if (choice>= character.getSimpleMeleeWeapons().length){
+                CheckVectorAndAdd(character.weapons, character.getSimpleRangedWeapons()[choice-1-character.getSimpleMeleeWeapons().length]);
+            }
+
+        }
+
+        System.out.println("Choose your pack. 1.)Priest's Pack or 2.) Explorer's Pack");
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice=InputErrorCheck(choice,1,2);
+        if (choice==1){
+            pack="Priest";
+            character.inventory.add("Backpack");
+            character.inventory.add("Blanket");
+            character.inventory.add("Candles : x10");
+            character.inventory.add("Tinderbox");
+            character.inventory.add("Alms Box");
+            character.inventory.add("Blocks of Incense : x2");
+            character.inventory.add("Censer");
+            character.inventory.add("Vestments");
+            character.inventory.add("Rations : x2");
+            character.inventory.add("Waterskin");
+            System.out.println("Backpack, Bedroll, Candles : x10, Tinderbox, Alms Box, Blocks of Incense : x2, Censer, Vestments, Rations : x2, and Waterskin added to inventory. ");
+
+        }if (choice==2){
+            pack="Explorer";
+            character.inventory.add("Backpack");
+            character.inventory.add("Bedroll");
+            character.inventory.add("Mess Kit");
+            character.inventory.add("Tinderbox");
+            character.inventory.add("Torches : x10");
+            character.inventory.add("Rations : x10");
+            character.inventory.add("Waterskin");
+            character.inventory.add("Hempen Rope : 50 ft");
+            System.out.println("Backpack, Bedroll, Mess Kit, Tinderbox, Torches : x10, Rations : x10, Waterskin, and Hempen Rope : 50 ft added to inventory. ");
+        }
+        character.setShield(true);
+        character.inventory.add("Shield");
+        character.inventory.add("Holy Symbol");
+
+
+    }
+
+
+    //TODO test method
+
+    /**
+     * Allows user to add the skills they want to be proficient in.
+     */
+    public void ChooseSkillProficiencies(){
+        Scanner scanner = new Scanner(System.in);
+        int choice =-1;
+        String endOfLine = "";
+      Vector<String> tempskills = new Vector<>();
+      tempskills.add("History");
+      tempskills.add("Insight");
+      tempskills.add("Medicine");
+      tempskills.add("Persuasion");
+      tempskills.add("Religion");
+
+        System.out.println("Choose your first skill to be proficient in from the list below.");
+        for(int i =0; i<2;i++){
+            if (i ==1){
+                System.out.println("Choose your second skill to be proficient in from the list below.");
+            }
+            VectorPrintOut(tempskills);
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice= InputErrorCheck(choice,1,tempskills.size());
+            CheckVectorAndAdd(proficiencies,tempskills.get(choice-1));
+            tempskills.remove(choice-1);
+        }
+
+    }
+
 
 
 public int D8Roll(){
@@ -90,7 +236,7 @@ public int D8Roll(){
     int roll = randomDouble2.intValue();
     return roll;
 }
-
+//TODO Finish
     public void AddLevel(){
         Scanner scanner = new Scanner(System.in);
         int choice = 0;

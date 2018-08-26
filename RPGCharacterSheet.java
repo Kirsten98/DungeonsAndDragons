@@ -52,7 +52,7 @@ public class RPGCharacterSheet {
             bardCharacter.ChooseArmor();
             bardCharacter.ChooseWeapon();
             bardCharacter.ToolsProficiencies();
-            bardCharacter.SkillProficiencies();
+            bardCharacter.ChooseSkillProficiencies();
             System.out.println("What level is your Bard? ");
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
@@ -63,6 +63,16 @@ public class RPGCharacterSheet {
 
         }
         if((classArrayNumber + 1) == 3 ){
+            Cleric clericCharacter = new Cleric(character);
+            clericCharacter.ChooseArmor();
+            clericCharacter.ChooseWeapon();
+            clericCharacter.ChooseSkillProficiencies();
+            System.out.println("What level is your Cleric? ");
+            int choice = scanner.nextInt();
+            String endOfLine = scanner.nextLine();
+            for(int i = 0; i < choice; i++) {
+                clericCharacter.AddLevel();
+            }
 
         }
         if((classArrayNumber + 1) == 4 ){

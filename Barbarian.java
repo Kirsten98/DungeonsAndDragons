@@ -10,6 +10,7 @@ public class Barbarian{
     private Vector<String> features = new Vector();
     private int rages;
     private int rageDamage;
+    private String pack;
     private int level = 0;
     private String primalPath;
     private String totemSpirit;
@@ -70,9 +71,12 @@ public class Barbarian{
      */
     public void ChooseWeapon(){
         Scanner scanner = new Scanner(System.in);
-        Scanner endOfLine = new Scanner(System.in);
+        int choice = -1;
+        String endOfLine = "";
+
+        System.out.println("** Equipment Choices **");
         System.out.println("Would you like a 1.) Greataxe or 2.) Any Martial Melee Weapon? ");
-        int choice = scanner.nextInt();
+        choice = scanner.nextInt();
         String endLine = scanner.nextLine();
         while (choice != 1 && choice !=2){
             System.out.println("Incorrect choice. Would you like a 1.) Greataxe or 2.) Any Martial Melee Weapon?");
@@ -137,10 +141,17 @@ public class Barbarian{
                 System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
             }
             System.out.println("Explorers pack, and four Javelins were added to your Inventory");
-            character.inventory.add("Explorers Pack");
-            for (int i = 0 ; i <4; i++){
-                character.weapons.add("Javelin");
-            }
+            pack="Explorer";
+            character.inventory.add("Backpack");
+            character.inventory.add("Bedroll");
+            character.inventory.add("Mess Kit");
+            character.inventory.add("Tinderbox");
+            character.inventory.add("Torches : x10");
+            character.inventory.add("Rations : x10");
+            character.inventory.add("Waterskin");
+            character.inventory.add("Hempen Rope : 50 ft");
+            System.out.println("Backpack, Bedroll, Mess Kit, Tinderbox, Torches : x10, Rations : x10, Waterskin, and Hempen Rope : 50 ft added to inventory. ");
+                character.weapons.add("Javelin : x4");
         }
     }
 

@@ -2,6 +2,7 @@ package DungeonsAndDragons;
 
 import java.util.Vector;
 
+//TODO Format all strings the same and do \n inbetween 1,2,3 options
 public class CharacterSheet {
     private String name;
     private String race;
@@ -35,6 +36,7 @@ public class CharacterSheet {
     private String[] simpleRangedWeapons = {"Light Crossbow", "Dart", "Sling"};
     private String[] martialMeleeWeapons = {"Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War Pick", "Warhammer", "Whip"};
     private String[] martialRangedWeapons = {"Blowgun", "Hand Crossbow", "Heavy Crossbow", "Longbow", "Net"};
+    private String[] allWeapons = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War Pick", "Warhammer", "Whip", "Blowgun", "Hand Crossbow", "Heavy Crossbow", "Longbow", "Net"};
     private String[] musicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan Flute","Shawm","Viol"};
     Vector<String> weapons = new Vector();
     Vector<String> armorList = new Vector<>();
@@ -299,5 +301,9 @@ public class CharacterSheet {
 
     public void setShield(boolean shield) {
         this.shield = shield;
+    }
+
+    public String[] getAllWeapons() {
+        return allWeapons;
     }
 }

@@ -81,6 +81,9 @@ public class Bard {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         String endOfLine = "";
+
+
+        System.out.println("** Equipment Choice **");
         System.out.println("Choose your equipment 1.)Rapier 2.)Longsword or 3.)any simple weapon?");
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
@@ -97,7 +100,7 @@ public class Bard {
                 if (i < character.getSimpleMeleeWeapons().length){
                     System.out.println( i+1 + ".) " + character.getSimpleMeleeWeapons()[i]);
                 }
-                if (i > character.getSimpleMeleeWeapons().length){
+                if (i >= character.getSimpleMeleeWeapons().length){
                     System.out.println(i+1 + ".) " + character.getSimpleRangedWeapons()[i-character.getSimpleMeleeWeapons().length]);
                 }
             }
@@ -107,7 +110,7 @@ public class Bard {
             if (choice < character.getSimpleMeleeWeapons().length){
                 System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
             }
-            if (choice>character.getSimpleMeleeWeapons().length){
+            if (choice>=character.getSimpleMeleeWeapons().length){
                 System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
             }
         }
@@ -168,6 +171,9 @@ public class Bard {
         character.armorList.add("Leather");
         character.weapons.add("Dagger");
     }
+
+
+
     //TODO Test Method
 
     /**
@@ -234,68 +240,28 @@ public class Bard {
     }
     //TODO Test Method
     /**
-     * Walks user through choosing the tools they want to be proficient in
+     * Allows user to add the skills they want to be proficient in.
      */
-    public void SkillProficiencies(){
+    public void ChooseSkillProficiencies(){
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int choice =-1;
         String endOfLine = "";
-        System.out.println("Choose any three skills to be proficient in.");
-        for (int i =0; i<character.getAllSkills().length; i++){
-            System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getAllSkills().length);
-        while (proficiencies.contains(character.getAllSkills()[choice-1])){
-            System.out.println("You are already proficient in this, choose another skill ");
-            for (int i =0; i<character.getAllSkills().length; i++){
+        System.out.println("Choose your first skill to be proficient in.");
+        for (int k =0; k<3; k++){
+            if (k==1){
+                System.out.println("Choose your second skill to be proficient in.");
+
+            }if (k==2){
+                System.out.println("Choose your third skill to be proficient in.");
+            }
+            for (int i =0; i< character.getAllSkills().length; i++){
                 System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
             }
             choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
+            endOfLine =scanner.nextLine();
             choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+            CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
         }
-        CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
-
-        System.out.println("Choose your second skill.");
-        for (int i =0; i<character.getAllSkills().length; i++){
-            System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getAllSkills().length);
-        while (proficiencies.contains(character.getAllSkills()[choice-1])){
-            System.out.println("You are already proficient in this, choose another skill ");
-            for (int i =0; i<character.getAllSkills().length; i++){
-                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
-        }
-        CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
-
-        System.out.println("Choose your third skill.");
-        for (int i =0; i<character.getAllSkills().length; i++){
-            System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getAllSkills().length);
-        while (proficiencies.contains(character.getAllSkills()[choice-1])){
-            System.out.println("You are already proficient in this, choose another skill ");
-            for (int i =0; i<character.getAllSkills().length; i++){
-                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
-        }
-        CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
-
-
-
 
     }
 
@@ -1328,6 +1294,8 @@ public class Bard {
 
             }
     }
+
+
 
 
 }
