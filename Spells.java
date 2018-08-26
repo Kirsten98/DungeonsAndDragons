@@ -6,7 +6,7 @@ import java.util.Vector;
 public class Spells {
 
 
-    /** Creates Vectors for each Level for the DungeonsAndDragons.Bard Class
+    /** Creates Vectors for each Level for the Bard Class
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
@@ -184,7 +184,7 @@ public class Spells {
 
     }
 
-    /** Creates Vectors for each Level for the DungeonsAndDragons.Cleric Class
+    /** Creates Vectors for each Level for the Cleric Class
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */

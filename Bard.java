@@ -42,11 +42,10 @@ public class Bard {
     Vector<String> allEighthLevelSpells= Spells.AllClassSpellSetUp(8);
     Vector<String> allNinthLevelSpells = Spells.AllClassSpellSetUp(9);
 
-    //TODO Add all proficiencies to vector by using CheckVectorAndAdd
     Vector<String> proficiencies = new Vector<>();
 
 
-    //TODO Test DungeonsAndDragons.Spells
+    //TODO Test Spells
 
     /**
      * Randomly Generates a number between 1 and 8. Simulating a D8
@@ -59,6 +58,22 @@ public class Bard {
         return roll;
     }
 
+    public void ChooseArmor(){
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        String endOfLine = "";
+        System.out.println("You are proficient in Light Armor");
+        for (int i =0 ; i<character.getLightArmor().length; i++){
+            System.out.println(i+1 + ".) " + character.getLightArmor()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getLightArmor().length);
+        character.setArmor(character.getLightArmor()[choice-1]);
+        character.setAc(character.getLightArmorAC()[choice-1]);
+
+    }
+
     /**
      * Walks user through on adding their Weapons / Equipment ot the character
      */
@@ -69,7 +84,7 @@ public class Bard {
         System.out.println("Choose your equipment 1.)Rapier 2.)Longsword or 3.)any simple weapon?");
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice, 1,3);
+        choice = InputErrorCheck(choice, 1,3);
         if(choice==1){
             character.weapons.add("Rapier");
             System.out.println("Rapier added to Weapons");
@@ -88,7 +103,7 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
+            choice = InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
             if (choice < character.getSimpleMeleeWeapons().length){
                 System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
             }
@@ -100,7 +115,7 @@ public class Bard {
         System.out.println("Do you want 1.)Diplomat's pack or 2.)Entertainer's pack");
         choice=scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice,1,2);
+        choice = InputErrorCheck(choice,1,2);
         if(choice == 1){
             pack = "Diplomat";
             character.inventory.add("Chest");
@@ -132,7 +147,7 @@ public class Bard {
         System.out.println("Do you want 1.)Lute or 2.) any other musical instrument");
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice ,1,2);
+        choice = InputErrorCheck(choice ,1,2);
         if (choice == 1){
             character.instruments.add("Lute");
             System.out.println("Lute added to instruments");
@@ -144,7 +159,7 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
             character.instruments.add(character.getMusicalInstruments()[choice-1]);
             System.out.println(character.getMusicalInstruments()[choice-1] + " added to your instruments");
         }
@@ -152,6 +167,136 @@ public class Bard {
         System.out.println("Leather Armor and a dagger have been added to your inventory");
         character.armorList.add("Leather");
         character.weapons.add("Dagger");
+    }
+    //TODO Test Method
+
+    /**
+     * Walks user through choosing the tools they want to be proficient in
+     */
+    public void ToolsProficiencies(){
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        String endOfLine="";
+        System.out.println("You are proficient in three musical instruments, choose your first instrument.");
+        for (int i = 0; i < character.getMusicalInstruments().length; i++){
+            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
+            System.out.println("You are already proficient in this item, please choose a different option");
+            for (int i = 0; i < character.getMusicalInstruments().length; i++){
+                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        }
+        CheckVectorAndAdd(proficiencies,character.getMusicalInstruments()[choice-1]);
+
+        System.out.println("Choose your second instrument.");
+        for (int i = 0; i < character.getMusicalInstruments().length; i++){
+            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
+            System.out.println("You are already proficient in this item, please choose a different option");
+            for (int i = 0; i < character.getMusicalInstruments().length; i++){
+                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        }
+        CheckVectorAndAdd(proficiencies,character.getMusicalInstruments()[choice-1]);
+
+        System.out.println("Choose your third instrument");
+        for (int i = 0; i < character.getMusicalInstruments().length; i++){
+            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
+            System.out.println("You are already proficient in this item, please choose a different option");
+            for (int i = 0; i < character.getMusicalInstruments().length; i++){
+                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        }
+        CheckVectorAndAdd(proficiencies,character.getMusicalInstruments()[choice-1]);
+
+    }
+    //TODO Test Method
+    /**
+     * Walks user through choosing the tools they want to be proficient in
+     */
+    public void SkillProficiencies(){
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        String endOfLine = "";
+        System.out.println("Choose any three skills to be proficient in.");
+        for (int i =0; i<character.getAllSkills().length; i++){
+            System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+        while (proficiencies.contains(character.getAllSkills()[choice-1])){
+            System.out.println("You are already proficient in this, choose another skill ");
+            for (int i =0; i<character.getAllSkills().length; i++){
+                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+        }
+        CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
+
+        System.out.println("Choose your second skill.");
+        for (int i =0; i<character.getAllSkills().length; i++){
+            System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+        while (proficiencies.contains(character.getAllSkills()[choice-1])){
+            System.out.println("You are already proficient in this, choose another skill ");
+            for (int i =0; i<character.getAllSkills().length; i++){
+                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+        }
+        CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
+
+        System.out.println("Choose your third skill.");
+        for (int i =0; i<character.getAllSkills().length; i++){
+            System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+        while (proficiencies.contains(character.getAllSkills()[choice-1])){
+            System.out.println("You are already proficient in this, choose another skill ");
+            for (int i =0; i<character.getAllSkills().length; i++){
+                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+        }
+        CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
+
+
+
+
     }
 
     /**
@@ -180,7 +325,7 @@ public class Bard {
             VectorPrintOut(cantripList);
             choice=scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,cantripList.size());
+            choice = InputErrorCheck(choice,1,cantripList.size());
             System.out.println("You have added " + cantripList.get(choice-1));
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
@@ -188,7 +333,7 @@ public class Bard {
             VectorPrintOut(cantripList);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,cantripList.size());
+            choice = InputErrorCheck(choice,1,cantripList.size());
             System.out.println("You have added " + cantripList.get(choice-1));
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
@@ -196,7 +341,7 @@ public class Bard {
             VectorPrintOut(firstLevelSpells);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,firstLevelSpells.size());
+            choice = InputErrorCheck(choice,1,firstLevelSpells.size());
             System.out.println("You chose " + firstLevelSpells.get(choice -1 ));
             spells.add(firstLevelSpells.get(choice-1));
             firstLevelSpells.remove(choice -1);
@@ -204,10 +349,19 @@ public class Bard {
             VectorPrintOut(firstLevelSpells);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,firstLevelSpells.size());
+            choice = InputErrorCheck(choice,1,firstLevelSpells.size());
             System.out.println("You chose " + firstLevelSpells.get(choice -1 ));
             spells.add(firstLevelSpells.get(choice-1));
             firstLevelSpells.remove(choice -1);
+
+            CheckVectorAndAdd(proficiencies,"Dexterity");
+            CheckVectorAndAdd(proficiencies,"Charisma");
+            CheckVectorAndAdd(proficiencies,"Simple Weapons");
+            CheckVectorAndAdd(proficiencies,"Hand Crossbows");
+            CheckVectorAndAdd(proficiencies,"Longswords");
+            CheckVectorAndAdd(proficiencies,"Rapiers");
+            CheckVectorAndAdd(proficiencies,"Shortswords");
+
 
 
         }
@@ -232,18 +386,18 @@ public class Bard {
             for (int i = 0 ; i <2 ; i++){
                 ChooseYourSpell(2);
             }
-            System.out.println("Choose your DungeonsAndDragons.Bard College 1.) College of Lore or 2.) College of Valor . ");
+            System.out.println("Choose your Bard College 1.) College of Lore or 2.) College of Valor . ");
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,2);
+            choice = InputErrorCheck(choice,1,2);
             if (choice ==1){
-                features.add("DungeonsAndDragons.Bard College : College of Lore");
+                features.add("Bard College : College of Lore");
                 college = "College of Lore";
-                System.out.println("DungeonsAndDragons.Bard College : College of Lore and Expertise added to features");
+                System.out.println("Bard College : College of Lore and Expertise added to features");
             }if(choice == 2){
-                features.add("DungeonsAndDragons.Bard College : College of Valor");
+                features.add("Bard College : College of Valor");
                 college = "College of Valor";
-                System.out.println("DungeonsAndDragons.Bard College : College of Valor and Expertise added to features");
+                System.out.println("Bard College : College of Valor and Expertise added to features");
             }
         }
         if(level == 4){
@@ -256,7 +410,7 @@ public class Bard {
             VectorPrintOut(cantripList);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,cantripList.size());
+            choice = InputErrorCheck(choice,1,cantripList.size());
             System.out.println("You added " + cantripList.get(choice-1));
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
@@ -354,7 +508,7 @@ public class Bard {
             VectorPrintOut(cantripList);
             choice=scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,cantripList.size());
+            choice = InputErrorCheck(choice,1,cantripList.size());
             System.out.println("You have added " + cantripList.get(choice-1));
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
@@ -480,7 +634,7 @@ public class Bard {
 
     /**
      *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
-     * @param character DungeonsAndDragons.CharacterSheet that the ability improvement is happening to
+     * @param character CharacterSheet that the ability improvement is happening to
      */
     public static void AbilityScoreImprovement(CharacterSheet character){
         Scanner scanner = new Scanner(System.in);
@@ -532,7 +686,7 @@ public class Bard {
 
     /**
      *
-     * @param character DungeonsAndDragons.CharacterSheet that needs the Ability Modifier added to
+     * @param character CharacterSheet that needs the Ability Modifier added to
      * @param choice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
@@ -736,7 +890,7 @@ public class Bard {
      * @param higherCheck The upper bound
      * @return Returns choice once it is a valid option
      */
-    public int inputErrorCheck(int choice, int lowerCheck, int higherCheck){
+    public int InputErrorCheck(int choice, int lowerCheck, int higherCheck){
         Scanner scanner = new Scanner(System.in);
         while (choice < lowerCheck || choice > higherCheck){
             System.out.println("Incorrect option, please choose a different option");
@@ -758,23 +912,23 @@ public class Bard {
 
     /**
      * Code needed to complete the Magical Secrets Feature
-     * @param maxlevel Max Level that the DungeonsAndDragons.Spells can be
+     * @param maxlevel Max Level that the Spells can be
      */
     public void MagicalSecrects(int maxlevel){
         Scanner scanner = new Scanner(System.in);
         int choice ;
         String endOdLine = "";
 
-        System.out.println("What level of DungeonsAndDragons.Spells would you like to learn 0.) Cantrips , 1, 2, 3, 4, 5, 6, 7, 8, or 9? Your Max Level is :" + maxlevel);
+        System.out.println("What level of Spells would you like to learn 0.) Cantrips , 1, 2, 3, 4, 5, 6, 7, 8, or 9? Your Max Level is :" + maxlevel);
         choice = scanner.nextInt();
         endOdLine = scanner.nextLine();
-        choice = inputErrorCheck(choice, 0, maxlevel);
+        choice = InputErrorCheck(choice, 0, maxlevel);
         if(choice==0){
             System.out.println("All Cantrips");
             VectorPrintOut(allCantrips);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allCantrips.size());
+            choice = InputErrorCheck(choice,1,allCantrips.size());
             if (spells.contains(allCantrips.get(choice-1))){
                 while(spells.contains(allCantrips.get(choice-1))){
                     allCantrips.remove(choice-1);
@@ -794,11 +948,11 @@ public class Bard {
         }
 
         if(choice==1){
-            System.out.println("All First Level DungeonsAndDragons.Spells");
+            System.out.println("All First Level Spells");
             VectorPrintOut(allFirstLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allFirstLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allFirstLevelSpells.size());
             if (spells.contains(allFirstLevelSpells.get(choice-1))){
                 while(spells.contains(allFirstLevelSpells.get(choice-1))){
                     allFirstLevelSpells.remove(choice-1);
@@ -818,11 +972,11 @@ public class Bard {
         }
 
         if(choice==2){
-            System.out.println("All Second Level DungeonsAndDragons.Spells");
+            System.out.println("All Second Level Spells");
             VectorPrintOut(allSecondLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allSecondLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allSecondLevelSpells.size());
             if (spells.contains(allSecondLevelSpells.get(choice-1))){
                 while(spells.contains(allSecondLevelSpells.get(choice-1))) {
                     allSecondLevelSpells.remove(choice - 1);
@@ -842,11 +996,11 @@ public class Bard {
 
 
         if(choice==3){
-            System.out.println("All Third Level DungeonsAndDragons.Spells");
+            System.out.println("All Third Level Spells");
             VectorPrintOut(allThirdLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allThirdLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allThirdLevelSpells.size());
             if (spells.contains(allThirdLevelSpells.get(choice-1))){
                 while(spells.contains(allThirdLevelSpells.get(choice-1))){
                     allThirdLevelSpells.remove(choice-1);
@@ -866,11 +1020,11 @@ public class Bard {
         }
 
         if(choice==4){
-            System.out.println("All Fourth Level DungeonsAndDragons.Spells");
+            System.out.println("All Fourth Level Spells");
             VectorPrintOut(allFourthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allFourthLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allFourthLevelSpells.size());
             if (spells.contains(allFourthLevelSpells.get(choice-1))){
                 while(spells.contains(allFourthLevelSpells.get(choice-1))){
                     allFourthLevelSpells.remove(choice-1);
@@ -889,11 +1043,11 @@ public class Bard {
         }
 
         if(choice==5){
-            System.out.println("All Fifth Level DungeonsAndDragons.Spells");
+            System.out.println("All Fifth Level Spells");
             VectorPrintOut(allFifthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allFifthLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allFifthLevelSpells.size());
             if (spells.contains(allFifthLevelSpells.get(choice-1))){
                 while(spells.contains(allFifthLevelSpells.get(choice-1))){
                     allFifthLevelSpells.remove(choice-1);
@@ -911,11 +1065,11 @@ public class Bard {
         }
 
         if(choice==6){
-            System.out.println("All Sixth Level DungeonsAndDragons.Spells");
+            System.out.println("All Sixth Level Spells");
             VectorPrintOut(allSixthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allSixthLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allSixthLevelSpells.size());
             if (spells.contains(allSixthLevelSpells.get(choice-1))){
                 while(spells.contains(allSixthLevelSpells.get(choice-1))){
                     allSixthLevelSpells.remove(choice-1);
@@ -933,11 +1087,11 @@ public class Bard {
         }
 
         if(choice==7){
-            System.out.println("All Seventh Level DungeonsAndDragons.Spells");
+            System.out.println("All Seventh Level Spells");
             VectorPrintOut(allSeventhLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allSeventhLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allSeventhLevelSpells.size());
             if (spells.contains(allSeventhLevelSpells.get(choice-1))){
                 while(spells.contains(allSeventhLevelSpells.get(choice-1))){
                     allSeventhLevelSpells.remove(choice-1);
@@ -955,11 +1109,11 @@ public class Bard {
         }
 
         if(choice==8){
-            System.out.println("All Eighth Level DungeonsAndDragons.Spells");
+            System.out.println("All Eighth Level Spells");
             VectorPrintOut(allEighthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allEighthLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allEighthLevelSpells.size());
             if (spells.contains(allEighthLevelSpells.get(choice-1))){
                 while(spells.contains(allEighthLevelSpells.get(choice-1))){
                     allEighthLevelSpells.remove(choice-1);
@@ -978,11 +1132,11 @@ public class Bard {
         }
 
         if(choice==9){
-            System.out.println("All Ninth Level DungeonsAndDragons.Spells");
+            System.out.println("All Ninth Level Spells");
             VectorPrintOut(allNinthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,allNinthLevelSpells.size());
+            choice = InputErrorCheck(choice,1,allNinthLevelSpells.size());
             if (spells.contains(allNinthLevelSpells.get(choice-1))){
                 while(spells.contains(allNinthLevelSpells.get(choice-1))){
                     allNinthLevelSpells.remove(choice-1);
@@ -1023,7 +1177,7 @@ public class Bard {
                 VectorPrintOut(firstLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice, 1, firstLevelSpells.size());
+                choice = InputErrorCheck(choice, 1, firstLevelSpells.size());
                 System.out.println("You added " + firstLevelSpells.get(choice - 1));
                 spells.add(firstLevelSpells.get(choice - 1));
                 firstLevelSpells.remove(choice - 1);
@@ -1040,7 +1194,7 @@ public class Bard {
                 VectorPrintOut(secondLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice, 1, secondLevelSpells.size());
+                choice = InputErrorCheck(choice, 1, secondLevelSpells.size());
                 System.out.println("You added " + secondLevelSpells.get(choice - 1));
                 spells.add(secondLevelSpells.get(choice - 1));
                 secondLevelSpells.remove(choice - 1);
@@ -1057,7 +1211,7 @@ public class Bard {
                     VectorPrintOut(thirdLevelSpells);
                     choice = scanner.nextInt();
                     endOfLine = scanner.nextLine();
-                    choice = inputErrorCheck(choice, 1, thirdLevelSpells.size());
+                    choice = InputErrorCheck(choice, 1, thirdLevelSpells.size());
                     System.out.println("You added " + thirdLevelSpells.get(choice - 1));
                     spells.add(thirdLevelSpells.get(choice - 1));
                     thirdLevelSpells.remove(choice - 1);
@@ -1075,7 +1229,7 @@ public class Bard {
                     VectorPrintOut(fourthLevelSpells);
                     choice = scanner.nextInt();
                     endOfLine = scanner.nextLine();
-                    choice = inputErrorCheck(choice, 1, fourthLevelSpells.size());
+                    choice = InputErrorCheck(choice, 1, fourthLevelSpells.size());
                     System.out.println("You added " + fourthLevelSpells.get(choice - 1));
                     spells.add(fourthLevelSpells.get(choice - 1));
                     fourthLevelSpells.remove(choice - 1);
@@ -1093,7 +1247,7 @@ public class Bard {
                     VectorPrintOut(fifthLevelSpells);
                     choice = scanner.nextInt();
                     endOfLine = scanner.nextLine();
-                    choice = inputErrorCheck(choice, 1, fifthLevelSpells.size());
+                    choice = InputErrorCheck(choice, 1, fifthLevelSpells.size());
                     System.out.println("You added " + fifthLevelSpells.get(choice - 1));
                     spells.add(fifthLevelSpells.get(choice - 1));
                     fifthLevelSpells.remove(choice - 1);
@@ -1111,7 +1265,7 @@ public class Bard {
                     VectorPrintOut(sixthLevelSpells);
                     choice = scanner.nextInt();
                     endOfLine = scanner.nextLine();
-                    choice = inputErrorCheck(choice, 1, sixthLevelSpells.size());
+                    choice = InputErrorCheck(choice, 1, sixthLevelSpells.size());
                     System.out.println("You added " + sixthLevelSpells.get(choice - 1));
                     spells.add(sixthLevelSpells.get(choice - 1));
                     sixthLevelSpells.remove(choice - 1);
@@ -1129,7 +1283,7 @@ public class Bard {
                     VectorPrintOut(seventhLevelSpells);
                     choice = scanner.nextInt();
                     endOfLine = scanner.nextLine();
-                    choice = inputErrorCheck(choice, 1, seventhLevelSpells.size());
+                    choice = InputErrorCheck(choice, 1, seventhLevelSpells.size());
                     System.out.println("You added " + seventhLevelSpells.get(choice - 1));
                     spells.add(seventhLevelSpells.get(choice - 1));
                     seventhLevelSpells.remove(choice - 1);
@@ -1147,7 +1301,7 @@ public class Bard {
                     VectorPrintOut(eighthLevelSpells);
                     choice = scanner.nextInt();
                     endOfLine = scanner.nextLine();
-                    choice = inputErrorCheck(choice, 1, eighthLevelSpells.size());
+                    choice = InputErrorCheck(choice, 1, eighthLevelSpells.size());
                     System.out.println("You added " + eighthLevelSpells.get(choice - 1));
                     spells.add(eighthLevelSpells.get(choice - 1));
                     eighthLevelSpells.remove(choice - 1);
@@ -1165,7 +1319,7 @@ public class Bard {
                     VectorPrintOut(ninthLevelSpells);
                     choice = scanner.nextInt();
                     endOfLine = scanner.nextLine();
-                    choice = inputErrorCheck(choice, 1, ninthLevelSpells.size());
+                    choice = InputErrorCheck(choice, 1, ninthLevelSpells.size());
                     System.out.println("You added " + ninthLevelSpells.get(choice - 1));
                     spells.add(ninthLevelSpells.get(choice - 1));
                     ninthLevelSpells.remove(choice - 1);

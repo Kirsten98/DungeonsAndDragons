@@ -14,7 +14,6 @@ public class Barbarian{
     private String primalPath;
     private String totemSpirit;
 
-    //TODO Add all proficiencies to vector by using CheckVectorAndAdd
     Vector<String> proficiencies = new Vector<>();
 
 
@@ -28,7 +27,7 @@ public class Barbarian{
      */
     public void ChooseArmor(){
         Scanner scanner = new Scanner(System.in);
-        Scanner endOfLine = new Scanner(System.in);
+        String endOfLine = "";
         System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
         for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
             if(i< character.getLightArmor().length){
@@ -42,11 +41,7 @@ public class Barbarian{
         int choice = scanner.nextInt();
         String endLine = scanner.nextLine();
 
-        while(choice<0 || choice> (character.getLightArmor().length + character.getMediumArmor().length)){
-            System.out.println("Incorrect Choice, please choose again");
-            choice = scanner.nextInt();
-            endLine = scanner.nextLine();
-        }
+        choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
 
         if(choice < character.getLightArmor().length){
             System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
@@ -57,6 +52,15 @@ public class Barbarian{
             character.setArmor(character.getMediumArmor()[choice-character.getLightArmor().length - 1]);
             character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
 
+        }
+
+        System.out.println("Would you like to have a shield? 1.) Yes or 2.) No ?");
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,2);
+        if (choice==1){
+            character.setShield(true);
+            character.setAc(character.getAc() +2);
         }
 
     }
@@ -166,21 +170,21 @@ public class Barbarian{
             this.rages = 2;
             this.rageDamage = 2;
             System.out.println("Proficiency : +2\n Features added : Rage / Unarmored Defense \n Rages : 2 \n Rage Damage : +2");
-            System.out.println("You have learned two new skills, what skills have you learned 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
+            System.out.println("You have learned two new skills to be proficient in, what skills will you choose? 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
             if(choice == 1 ){
-                character.skills.add("Animal Handling");
+                CheckVectorAndAdd(proficiencies,"Animal Handling");
             }if(choice == 2 ){
-                character.skills.add("Athletics");
+                CheckVectorAndAdd(proficiencies,"Athletics");
             }if(choice == 3 ){
-                character.skills.add("Intimidation");
+                CheckVectorAndAdd(proficiencies,"Intimidation");
             }if(choice == 4 ){
-                character.skills.add("Nature");
+                CheckVectorAndAdd(proficiencies,"Nature");
             }if(choice == 5 ){
-                character.skills.add("Perception");
+                CheckVectorAndAdd(proficiencies,"Perception");
             }if(choice == 6 ){
-                character.skills.add("Survival");
+                CheckVectorAndAdd(proficiencies,"Survival");
             }
             System.out.println("And what is your second skill? 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
             int choice2 = scanner.nextInt();
@@ -190,18 +194,26 @@ public class Barbarian{
                 endOfLine = scanner.nextLine();
             }
             if(choice == 1 ){
-                character.skills.add("Animal Handling");
+                CheckVectorAndAdd(proficiencies,"Animal Handling");
             }if(choice == 2 ){
-                character.skills.add("Athletics");
+                CheckVectorAndAdd(proficiencies,"Athletics");
             }if(choice == 3 ){
-                character.skills.add("Intimidation");
+                CheckVectorAndAdd(proficiencies,"Intimidation");
             }if(choice == 4 ){
-                character.skills.add("Nature");
+                CheckVectorAndAdd(proficiencies,"Nature");
             }if(choice == 5 ){
-                character.skills.add("Perception");
+                CheckVectorAndAdd(proficiencies,"Perception");
             }if(choice == 6 ){
-                character.skills.add("Survival");
+                CheckVectorAndAdd(proficiencies,"Survival");
             }
+
+            CheckVectorAndAdd(proficiencies,"Strength");
+            CheckVectorAndAdd(proficiencies,"Constitution");
+            CheckVectorAndAdd(proficiencies,"Light Armor");
+            CheckVectorAndAdd(proficiencies, "Medium Armor");
+            CheckVectorAndAdd(proficiencies,"Shields");
+            CheckVectorAndAdd(proficiencies,"Simple Weapons");
+            CheckVectorAndAdd(proficiencies,"Martial Weapons");
         }
         if(level == 2){
             System.out.println("Level 2");
@@ -482,7 +494,7 @@ public class Barbarian{
 
     /**
      *
-     * @param character DungeonsAndDragons.CharacterSheet that needs the Ability Modifier added to
+     * @param character CharacterSheet that needs the Ability Modifier added to
      * @param choice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
@@ -601,7 +613,7 @@ public class Barbarian{
 
     /**
      *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
-     * @param character DungeonsAndDragons.CharacterSheet that the ability improvement is happening to
+     * @param character CharacterSheet that the ability improvement is happening to
      */
     public static void AbilityScoreImprovement(CharacterSheet character){
         Scanner scanner = new Scanner(System.in);
@@ -725,6 +737,23 @@ public class Barbarian{
         }
         return 10;
 
+    }
+
+    /**
+     * Checks to make sure that the choice from the user does not exceed the lower or upper bounds
+     * @param choice Numberic Choice made by user
+     * @param lowerCheck The lower bound
+     * @param higherCheck The upper bound
+     * @return Returns choice once it is a valid option
+     */
+    public int InputErrorCheck(int choice, int lowerCheck, int higherCheck){
+        Scanner scanner = new Scanner(System.in);
+        while (choice < lowerCheck || choice > higherCheck){
+            System.out.println("Incorrect option, please choose a different option");
+            choice = scanner.nextInt();
+            String endofLine = scanner.nextLine();
+        }
+        return choice;
     }
 
 

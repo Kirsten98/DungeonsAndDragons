@@ -34,7 +34,48 @@ public class Cleric {
         this.character = character;
     }
 
-    //TODO ChooseArmor
+    //TODO Test Out Method
+    public void ChooseArmor(){
+        Scanner scanner = new Scanner(System.in);
+        String endOfLine ="";
+
+        System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
+        for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
+            if(i< character.getLightArmor().length){
+                System.out.println(i+1+".)"+character.getLightArmor()[i]);
+            }
+            if (i>character.getLightArmor().length){
+                System.out.println(i+1 +".)"+character.getMediumArmor()[i-character.getLightArmor().length]);
+            }
+
+        }
+        int choice = scanner.nextInt();
+        String endLine = scanner.nextLine();
+
+        choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
+
+        if(choice < character.getLightArmor().length){
+            System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
+            character.setArmor(character.getLightArmor()[choice-1]);
+            character.setAc(character.getLightArmorAC()[choice-1]);
+        } if(choice > character.getLightArmor().length){
+            System.out.println("You have chosen "  + character.getMediumArmor()[choice - character.getLightArmor().length - 1]);
+            character.setArmor(character.getMediumArmor()[choice-character.getLightArmor().length - 1]);
+            character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
+
+        }
+
+        System.out.println("Would you like to have a shield? 1.) Yes or 2.) No ?");
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,2);
+        if (choice==1){
+            character.setShield(true);
+            character.setAc(character.getAc() +2);
+        }
+
+    }
+
 
     //TODO ChooseWeapon
 
@@ -61,6 +102,12 @@ public int D8Roll(){
             System.out.println("Proficiency Bonus : " + proficiency);
             character.setHitPoints(8 + character.getConstitutionMod());
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
+            CheckVectorAndAdd(proficiencies,"Light Armor");
+            CheckVectorAndAdd(proficiencies,"Medium Armor");
+            CheckVectorAndAdd(proficiencies,"Shields");
+            CheckVectorAndAdd(proficiencies,"Simple Weapons");
+            CheckVectorAndAdd(proficiencies,"Wisdom");
+            CheckVectorAndAdd(proficiencies,"Charisma");
             cantripList.setSize(3);
             for (int i = 0 ; i<2; i++){
                 ChooseYourSpell(1);
@@ -77,10 +124,6 @@ public int D8Roll(){
             endOfLine = scanner.nextLine();
             domainChoice = choice -1;
             System.out.println("You have chosen domain " + domains[domainChoice]);
-             CheckVectorAndAdd(proficiencies,"Light Armor");
-             CheckVectorAndAdd(proficiencies,"Medium Armor");
-             CheckVectorAndAdd(proficiencies,"Shields");
-             CheckVectorAndAdd(proficiencies,"Simple Weapons");
             FindDomain(domainChoice,1);
 
 
@@ -1109,6 +1152,23 @@ public int D8Roll(){
             endOfLine = scanner.nextLine();
             ChooseYourSpell(choice);
         }
+    }
+
+    /**
+     * Checks to make sure that the choice from the user does not exceed the lower or upper bounds
+     * @param choice Numberic Choice made by user
+     * @param lowerCheck The lower bound
+     * @param higherCheck The upper bound
+     * @return Returns choice once it is a valid option
+     */
+    public int InputErrorCheck(int choice, int lowerCheck, int higherCheck){
+        Scanner scanner = new Scanner(System.in);
+        while (choice < lowerCheck || choice > higherCheck){
+            System.out.println("Incorrect option, please choose a different option");
+            choice = scanner.nextInt();
+            String endofLine = scanner.nextLine();
+        }
+        return choice;
     }
 
 

@@ -11,7 +11,7 @@ public class RPGCharacterSheet {
         String name = scanner.nextLine();
         String[] abilityNames = {"Charisma", "Strength", "Dexterity", "Wisdom", "Intelligence", "Constitution"};
         String[] race = {"Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"};
-        String[] classes = {"DungeonsAndDragons.Barbarian", "DungeonsAndDragons.Bard", "DungeonsAndDragons.Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"};
+        String[] classes = {"Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"};
         int raceArrayNumber =ChooseRace(race) ;
         int classArrayNumber = ChooseClass(classes);
         CharacterSheet character = new CharacterSheet(name, race[raceArrayNumber], classes[classArrayNumber]);
@@ -37,24 +37,29 @@ public class RPGCharacterSheet {
         }
         if((classArrayNumber + 1) == 1 ){
             Barbarian barbarianCharacter = new Barbarian(character);
-            System.out.println("What level is your DungeonsAndDragons.Barbarian? ");
+            barbarianCharacter.ChooseArmor();
+            barbarianCharacter.ChooseWeapon();
+            System.out.println("What level is your Barbarian? ");
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
             for(int i = 0; i < choice; i++) {
                 barbarianCharacter.AddLevel();
             }
-            barbarianCharacter.ChooseArmor();
-            barbarianCharacter.ChooseWeapon();
+
         }
         if((classArrayNumber + 1) == 2 ){
             Bard bardCharacter = new Bard(character);
-            System.out.println("What level is your DungeonsAndDragons.Bard? ");
+            bardCharacter.ChooseArmor();
+            bardCharacter.ChooseWeapon();
+            bardCharacter.ToolsProficiencies();
+            bardCharacter.SkillProficiencies();
+            System.out.println("What level is your Bard? ");
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
             for(int i = 0; i < choice; i++) {
                 bardCharacter.AddLevel();
             }
-            bardCharacter.ChooseWeapon();
+
 
         }
         if((classArrayNumber + 1) == 3 ){
@@ -478,7 +483,7 @@ public class RPGCharacterSheet {
 
     /**
      *
-     * @param character DungeonsAndDragons.CharacterSheet that needs the Ability Modifier added to
+     * @param character CharacterSheet that needs the Ability Modifier added to
      * @param choice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */

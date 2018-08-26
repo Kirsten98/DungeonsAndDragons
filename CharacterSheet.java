@@ -29,6 +29,7 @@ public class CharacterSheet {
     private int[] mediumArmorAC = {12+dexterityMod, 13+dexterityMod , 14+dexterityMod, 14+dexterityMod,15+dexterityMod};
     private String[] heavyArmor = {"Ring Mail", " Chain Mail" , "Splint", "Plate"};
     private int[] heavyArmorAC = {14,16,17,18};
+    private boolean shield; // If shield = true , +2 to AC
     private String armor;
     private String[] simpleMeleeWeapons  = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light Hammer", "Mace", "Quarterstaff", "Sickle", "Spear"};
     private String[] simpleRangedWeapons = {"Light Crossbow", "Dart", "Sling"};
@@ -41,6 +42,12 @@ public class CharacterSheet {
     Vector<String> languages = new Vector();
      Vector<String> skills = new Vector();
      Vector<String> inventory = new Vector();
+     private String[] strengthSkills = {"Athletics"};
+     private String[] dexteritySkills = {"Acrobatics","Sleight of Hand","Stealth"};
+     private String[] intelligenceSkills = {"Arcana","History","Investigation","Nature","Religion"};
+     private String[] wisdomSkills = {"Animal Handling","Insight","Medicine","Perception","Survival"};
+     private String[] charismaSkills = {"Deception","Intimidation","Performance","Persuasion"};
+     private String[] allSkills = {"Athletics","Acrobatics","Sleight of Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
 
 
 
@@ -260,5 +267,37 @@ public class CharacterSheet {
 
     public void setMusicalInstruments(String[] musicalInstruments) {
         this.musicalInstruments = musicalInstruments;
+    }
+
+    public String[] getAllSkills() {
+        return allSkills;
+    }
+
+    public String[] getCharismaSkills() {
+        return charismaSkills;
+    }
+
+    public String[] getWisdomSkills() {
+        return wisdomSkills;
+    }
+
+    public String[] getIntelligenceSkills() {
+        return intelligenceSkills;
+    }
+
+    public String[] getDexteritySkills() {
+        return dexteritySkills;
+    }
+
+    public String[] getStrengthSkills() {
+        return strengthSkills;
+    }
+
+    public boolean isShield() {
+        return shield;
+    }
+
+    public void setShield(boolean shield) {
+        this.shield = shield;
     }
 }
