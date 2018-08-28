@@ -30,6 +30,7 @@ public class Barbarian{
         Scanner scanner = new Scanner(System.in);
         String endOfLine = "";
         System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
+        System.out.println("Choose your Armor.");
         for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
             if(i< character.getLightArmor().length){
                 System.out.println(i+1+".)"+character.getLightArmor()[i]);
@@ -44,7 +45,7 @@ public class Barbarian{
 
         choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
 
-        if(choice < character.getLightArmor().length){
+        if(choice <= character.getLightArmor().length){
             System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
             character.setArmor(character.getLightArmor()[choice-1]);
             character.setAc(character.getLightArmorAC()[choice-1]);
@@ -78,11 +79,8 @@ public class Barbarian{
         System.out.println("Would you like a 1.) Greataxe or 2.) Any Martial Melee Weapon? ");
         choice = scanner.nextInt();
         String endLine = scanner.nextLine();
-        while (choice != 1 && choice !=2){
-            System.out.println("Incorrect choice. Would you like a 1.) Greataxe or 2.) Any Martial Melee Weapon?");
-            choice = scanner.nextInt();
-            endLine = scanner.nextLine();
-        }
+        choice=InputErrorCheck(choice,1,2);
+
         if (choice ==1){
             character.weapons.add("Greataxe");
             System.out.println("You have chosen a Greataxe");
@@ -94,22 +92,15 @@ public class Barbarian{
             }
             choice = scanner.nextInt();
             endLine = scanner.nextLine();
-            while (choice<1 || choice> character.getMartialMeleeWeapons().length){
-                System.out.println("Incorrect choice, please select a different option");
-                choice = scanner.nextInt();
-                endLine = scanner.nextLine();
-            }
+            choice = InputErrorCheck(choice,1,character.getMartialMeleeWeapons().length);
             System.out.println("You have chosen " + character.getMartialMeleeWeapons()[choice-1]);
             character.weapons.add(character.getMartialMeleeWeapons()[choice-1]);
         }
         System.out.println("For a secondary, would you like 1.)Two Handaxes or 2.) Any Simple Martial Melee Weapon?");
         choice = scanner.nextInt();
         endLine = scanner.nextLine();
-        while(choice!=1 && choice !=2){
-            System.out.println("Incorrect choice. Would you like 1.)Two Handaxes or 2.) Any Simple Martial Melee Weapon? ");
-            choice = scanner.nextInt();
-            endLine = scanner.nextLine();
-        }
+        choice =InputErrorCheck(choice,1,2);
+
         if(choice==1){
             character.weapons.add("Handaxe");
             character.weapons.add("Handaxe");
@@ -128,12 +119,8 @@ public class Barbarian{
             }
             choice = scanner.nextInt();
             endLine = scanner.nextLine();
+            choice=InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length );
 
-            while (choice < 0 || choice >character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length ){
-                System.out.println("Incorrect choice, please select another option");
-                choice = scanner.nextInt();
-                endLine = scanner.nextLine();
-            }
             if (choice < character.getSimpleMeleeWeapons().length){
                 System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
             }
@@ -142,17 +129,18 @@ public class Barbarian{
             }
             System.out.println("Explorers pack, and four Javelins were added to your Inventory");
             pack="Explorer";
-            character.inventory.add("Backpack");
-            character.inventory.add("Bedroll");
-            character.inventory.add("Mess Kit");
-            character.inventory.add("Tinderbox");
-            character.inventory.add("Torches : x10");
-            character.inventory.add("Rations : x10");
-            character.inventory.add("Waterskin");
-            character.inventory.add("Hempen Rope : 50 ft");
-            System.out.println("Backpack, Bedroll, Mess Kit, Tinderbox, Torches : x10, Rations : x10, Waterskin, and Hempen Rope : 50 ft added to inventory. ");
-                character.weapons.add("Javelin : x4");
-        }
+            CheckAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Torches","A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rasions consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
+
+
+    }
     }
 
     /**
@@ -767,5 +755,26 @@ public class Barbarian{
         return choice;
     }
 
+
+    /**
+     *
+     * @param inventory Vector of items
+     * @param item item you are adding in vector, or adding quantity to already existing item
+     */
+    public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
+        int counter =0;
+        for (int i =0; i< inventory.size();i++){
+            if (inventory.get(i).getName().equals(item.getName())){
+                inventory.get(i).Addition(item);
+                counter++;
+                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory\nQuantity: " + inventory.get(i).getQuantity());
+            }
+        }
+        if (counter == 0){
+            System.out.println(item.getName() + " added to inventory");
+            inventory.add(item);
+        }
+
+    }
 
 }

@@ -43,7 +43,8 @@ public class CharacterSheet {
     Vector<String> instruments = new Vector<>();
     Vector<String> languages = new Vector();
      Vector<String> skills = new Vector();
-     Vector<String> inventory = new Vector();
+     Vector<Item> inventory = new Vector();
+//    Vector<String> inventory = new Vector();
      private String[] strengthSkills = {"Athletics"};
      private String[] dexteritySkills = {"Acrobatics","Sleight of Hand","Stealth"};
      private String[] intelligenceSkills = {"Arcana","History","Investigation","Nature","Religion"};

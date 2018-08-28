@@ -121,29 +121,41 @@ public class Bard {
         choice = InputErrorCheck(choice,1,2);
         if(choice == 1){
             pack = "Diplomat";
-            character.inventory.add("Chest");
-            character.inventory.add("Case (for maps/scrolls) : x2");
-            character.inventory.add("Set of Fine Clothes");
-            character.inventory.add("Bottle of ink");
-            character.inventory.add("Ink pen");
-            character.inventory.add("Lamp");
-            character.inventory.add("Flask of oil : x2");
-            character.inventory.add("Sheets of Paper  : x5");
-            character.inventory.add("Vial of perfume");
-            character.inventory.add("Sealing Wax");
-            character.inventory.add("Soap");
-            System.out.println("Chest, Case (for maps/scrolls) : x2, Set of Fine Clothes, Bottle of ink, Ink pen, Lamp, Flask of oil : x2, Sheets of Paper  : x5, Vial of perfume, Sealing Wax, and Soap added to inventory.");
-
-        }if (choice ==2){
-            pack = "Entertainer";
-            character.inventory.add("Backpack");
-            character.inventory.add("Bedroll");
-            character.inventory.add("Costumes : x2");
-            character.inventory.add("Candles : x5");
-            character.inventory.add("Rations : x5");
-            character.inventory.add("Waterskin");
-            character.inventory.add("Disguise kit");
-            System.out.println("Backpack, Bedroll, Costumes : x2, Candles : x5, Rations : x5, Waterskin, and Disguise kit added to inventory.");
+            //TODO uncomment and finish adding inventory.
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            CheckAndAddItemQuantity(character.inventory, new Item());
+//            character.inventory.add("Chest");
+//            character.inventory.add("Case (for maps/scrolls) : x2");
+//            character.inventory.add("Set of Fine Clothes");
+//            character.inventory.add("Bottle of ink");
+//            character.inventory.add("Ink pen");
+//            character.inventory.add("Lamp");
+//            character.inventory.add("Flask of oil : x2");
+//            character.inventory.add("Sheets of Paper  : x5");
+//            character.inventory.add("Vial of perfume");
+//            character.inventory.add("Sealing Wax");
+//            character.inventory.add("Soap");
+//            System.out.println("Chest, Case (for maps/scrolls) : x2, Set of Fine Clothes, Bottle of ink, Ink pen, Lamp, Flask of oil : x2, Sheets of Paper  : x5, Vial of perfume, Sealing Wax, and Soap added to inventory.");
+//
+//        }if (choice ==2){
+//            pack = "Entertainer";
+//            character.inventory.add("Backpack");
+//            character.inventory.add("Bedroll");
+//            character.inventory.add("Costumes : x2");
+//            character.inventory.add("Candles : x5");
+//            character.inventory.add("Rations : x5");
+//            character.inventory.add("Waterskin");
+//            character.inventory.add("Disguise kit");
+//            System.out.println("Backpack, Bedroll, Costumes : x2, Candles : x5, Rations : x5, Waterskin, and Disguise kit added to inventory.");
 
         }
 
@@ -1293,6 +1305,27 @@ public class Bard {
                 }
 
             }
+    }
+
+    /**
+     *
+     * @param inventory Vector of items
+     * @param item item you are adding in vector, or adding quantity to already existing item
+     */
+    public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
+        int counter =0;
+        for (int i =0; i< inventory.size();i++){
+            if (inventory.get(i).getName().equals(item.getName())){
+                inventory.get(i).Addition(item);
+                counter++;
+                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory\nQuantity: " + inventory.get(i).getQuantity());
+            }
+        }
+        if (counter == 0){
+            System.out.println(item.getName() + " added to inventory");
+            inventory.add(item);
+        }
+
     }
 
 

@@ -68,18 +68,9 @@ public class Cleric {
 
         }
 
-        System.out.println("Would you like to have a shield? 1.) Yes or 2.) No ?");
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,2);
-        if (choice==1){
-            character.setShield(true);
-            character.setAc(character.getAc() +2);
-        }
 
     }
 
-    //TODO Redo Method
     /**
      * Walks user through on adding their Weapons / Equipment ot the character
      */
@@ -192,6 +183,16 @@ public class Cleric {
         character.setShield(true);
         character.inventory.add("Shield");
         character.inventory.add("Holy Symbol");
+
+        System.out.println("Shield and Holy Symbol added to inventory.");
+
+        System.out.println("Would you like to equip your shield? 1.) Yes or 2.) No ?");
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,2);
+        if (choice==1){
+            character.setAc(character.getAc() +2);
+        }
 
 
     }
