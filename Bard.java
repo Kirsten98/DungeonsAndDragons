@@ -121,41 +121,31 @@ public class Bard {
         choice = InputErrorCheck(choice,1,2);
         if(choice == 1){
             pack = "Diplomat";
-            //TODO uncomment and finish adding inventory.
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            CheckAndAddItemQuantity(character.inventory, new Item());
-//            character.inventory.add("Chest");
-//            character.inventory.add("Case (for maps/scrolls) : x2");
-//            character.inventory.add("Set of Fine Clothes");
-//            character.inventory.add("Bottle of ink");
-//            character.inventory.add("Ink pen");
-//            character.inventory.add("Lamp");
-//            character.inventory.add("Flask of oil : x2");
-//            character.inventory.add("Sheets of Paper  : x5");
-//            character.inventory.add("Vial of perfume");
-//            character.inventory.add("Sealing Wax");
-//            character.inventory.add("Soap");
-//            System.out.println("Chest, Case (for maps/scrolls) : x2, Set of Fine Clothes, Bottle of ink, Ink pen, Lamp, Flask of oil : x2, Sheets of Paper  : x5, Vial of perfume, Sealing Wax, and Soap added to inventory.");
-//
-//        }if (choice ==2){
-//            pack = "Entertainer";
-//            character.inventory.add("Backpack");
-//            character.inventory.add("Bedroll");
-//            character.inventory.add("Costumes : x2");
-//            character.inventory.add("Candles : x5");
-//            character.inventory.add("Rations : x5");
-//            character.inventory.add("Waterskin");
-//            character.inventory.add("Disguise kit");
-//            System.out.println("Backpack, Bedroll, Costumes : x2, Candles : x5, Rations : x5, Waterskin, and Disguise kit added to inventory.");
+
+            CheckAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
+            System.out.println("Diplomat Pack added to inventory.");
+
+        }if (choice ==2){
+            pack = "Entertainer";
+            CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Disguise kit","This pouch of cosmetics, hair dye,and small props let you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",1,25));
+
+            System.out.println("Entertainer pack added to inventory.");
 
         }
 
@@ -1314,16 +1304,17 @@ public class Bard {
      */
     public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
         int counter =0;
-        for (int i =0; i< inventory.size();i++){
+        int i;
+        for ( i =0; i< inventory.size();i++){
             if (inventory.get(i).getName().equals(item.getName())){
                 inventory.get(i).Addition(item);
                 counter++;
-                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory\nQuantity: " + inventory.get(i).getQuantity());
+                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
             }
         }
         if (counter == 0){
-            System.out.println(item.getName() + " added to inventory");
             inventory.add(item);
+            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
         }
 
     }

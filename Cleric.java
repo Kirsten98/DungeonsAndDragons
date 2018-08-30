@@ -127,7 +127,7 @@ public class Cleric {
         choice=InputErrorCheck(choice,1,2);
         if (choice==1){
             CheckVectorAndAdd(character.weapons,"Light Crossbow");
-            character.inventory.add("20 Bolts");
+//            character.inventory.add("20 Bolts");
         }if (choice==2){
             System.out.println("Choose any simple weapon");
             System.out.println("** Simple Melee Weapons **");
@@ -156,33 +156,33 @@ public class Cleric {
         choice=InputErrorCheck(choice,1,2);
         if (choice==1){
             pack="Priest";
-            character.inventory.add("Backpack");
-            character.inventory.add("Blanket");
-            character.inventory.add("Candles : x10");
-            character.inventory.add("Tinderbox");
-            character.inventory.add("Alms Box");
-            character.inventory.add("Blocks of Incense : x2");
-            character.inventory.add("Censer");
-            character.inventory.add("Vestments");
-            character.inventory.add("Rations : x2");
-            character.inventory.add("Waterskin");
+//            character.inventory.add("Backpack");
+//            character.inventory.add("Blanket");
+//            character.inventory.add("Candles : x10");
+//            character.inventory.add("Tinderbox");
+//            character.inventory.add("Alms Box");
+//            character.inventory.add("Blocks of Incense : x2");
+//            character.inventory.add("Censer");
+//            character.inventory.add("Vestments");
+//            character.inventory.add("Rations : x2");
+//            character.inventory.add("Waterskin");
             System.out.println("Backpack, Bedroll, Candles : x10, Tinderbox, Alms Box, Blocks of Incense : x2, Censer, Vestments, Rations : x2, and Waterskin added to inventory. ");
 
         }if (choice==2){
             pack="Explorer";
-            character.inventory.add("Backpack");
-            character.inventory.add("Bedroll");
-            character.inventory.add("Mess Kit");
-            character.inventory.add("Tinderbox");
-            character.inventory.add("Torches : x10");
-            character.inventory.add("Rations : x10");
-            character.inventory.add("Waterskin");
-            character.inventory.add("Hempen Rope : 50 ft");
+//            character.inventory.add("Backpack");
+//            character.inventory.add("Bedroll");
+//            character.inventory.add("Mess Kit");
+//            character.inventory.add("Tinderbox");
+//            character.inventory.add("Torches : x10");
+//            character.inventory.add("Rations : x10");
+//            character.inventory.add("Waterskin");
+//            character.inventory.add("Hempen Rope : 50 ft");
             System.out.println("Backpack, Bedroll, Mess Kit, Tinderbox, Torches : x10, Rations : x10, Waterskin, and Hempen Rope : 50 ft added to inventory. ");
         }
         character.setShield(true);
-        character.inventory.add("Shield");
-        character.inventory.add("Holy Symbol");
+//        character.inventory.add("Shield");
+//        character.inventory.add("Holy Symbol");
 
         System.out.println("Shield and Holy Symbol added to inventory.");
 
@@ -1316,6 +1316,28 @@ public int D8Roll(){
             String endofLine = scanner.nextLine();
         }
         return choice;
+    }
+
+    /**
+     *
+     * @param inventory Vector of items
+     * @param item item you are adding in vector, or adding quantity to already existing item
+     */
+    public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
+        int counter =0;
+        int i;
+        for ( i =0; i< inventory.size();i++){
+            if (inventory.get(i).getName().equals(item.getName())){
+                inventory.get(i).Addition(item);
+                counter++;
+                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
+            }
+        }
+        if (counter == 0){
+            inventory.add(item);
+            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
+        }
+
     }
 
 

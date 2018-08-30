@@ -133,8 +133,7 @@ public class Barbarian{
             CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
             CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
             CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Torches","A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
-            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rasions consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
             CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
             CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
             CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
@@ -763,16 +762,17 @@ public class Barbarian{
      */
     public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
         int counter =0;
-        for (int i =0; i< inventory.size();i++){
+        int i;
+        for ( i =0; i< inventory.size();i++){
             if (inventory.get(i).getName().equals(item.getName())){
                 inventory.get(i).Addition(item);
                 counter++;
-                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory\nQuantity: " + inventory.get(i).getQuantity());
+                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
             }
         }
         if (counter == 0){
-            System.out.println(item.getName() + " added to inventory");
             inventory.add(item);
+            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
         }
 
     }
