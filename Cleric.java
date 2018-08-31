@@ -57,11 +57,13 @@ public class Cleric {
 
         if(choice < character.getLightArmor().length){
             System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
-            character.setArmor(character.getLightArmor()[choice-1]);
+            CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
+//            character.setArmor(character.getLightArmor()[choice-1]);
             character.setAc(character.getLightArmorAC()[choice-1]);
         } if(choice > character.getLightArmor().length){
             System.out.println("You have chosen "  + character.getMediumArmor()[choice - character.getLightArmor().length - 1]);
-            character.setArmor(character.getMediumArmor()[choice-character.getLightArmor().length - 1]);
+            CheckAndAddItemQuantity(character.armorList, new Item(character.getMediumArmor()[choice - character.getLightArmor().length - 1], character.getMediumArmorDescription()[choice - character.getLightArmor().length - 1],1,character.getMediumArmorCost()[choice - character.getLightArmor().length - 1]));
+//            character.setArmor(character.getMediumArmor()[choice-character.getLightArmor().length - 1]);
             character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
 
         }
@@ -98,12 +100,15 @@ public class Cleric {
             endOfLine = scanner.nextLine();
             choice=InputErrorCheck(choice,1,2);
             if (choice==1){
-                CheckVectorAndAdd(character.armorList,"Scale Mail");
+//                CheckVectorAndAdd(character.armorList,"Scale Mail");
+                CheckAndAddItemQuantity(character.armorList,new Item(character.getMediumArmor()[2],character.getMediumArmorDescription()[2],1,character.getMediumArmorCost()[2]));
             }if (choice==2){
-                CheckVectorAndAdd(character.armorList,"Leather Armor");
+//                CheckVectorAndAdd(character.armorList,"Leather Armor");
+                CheckAndAddItemQuantity(character.armorList,new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
             }
             if (choice==3){
-                CheckVectorAndAdd(character.armorList,"Chain Mail");
+//                CheckVectorAndAdd(character.armorList,"Chain Mail");
+                CheckAndAddItemQuantity(character.armorList,new Item(character.getMediumArmor()[1],character.getMediumArmorDescription()[1],1,character.getMediumArmorCost()[1]));
             }
 
         }else {
@@ -112,9 +117,11 @@ public class Cleric {
             endOfLine = scanner.nextLine();
             choice=InputErrorCheck(choice,1,2);
             if (choice==1){
-                CheckVectorAndAdd(character.armorList,"Scale Mail");
+//                CheckVectorAndAdd(character.armorList,"Scale Mail");
+                CheckAndAddItemQuantity(character.armorList,new Item(character.getMediumArmor()[2],character.getMediumArmorDescription()[2],1,character.getMediumArmorCost()[2]));
             }if (choice==2){
-                CheckVectorAndAdd(character.armorList,"Leather Armor");
+//                CheckVectorAndAdd(character.armorList,"Leather Armor");
+                CheckAndAddItemQuantity(character.armorList,new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
             }
 
         }
@@ -154,33 +161,35 @@ public class Cleric {
         choice=InputErrorCheck(choice,1,2);
         if (choice==1){
             pack="Priest";
-//            character.inventory.add("Backpack");
-//            character.inventory.add("Blanket");
-//            character.inventory.add("Candles : x10");
-//            character.inventory.add("Tinderbox");
-//            character.inventory.add("Alms Box");
-//            character.inventory.add("Blocks of Incense : x2");
-//            character.inventory.add("Censer");
-//            character.inventory.add("Vestments");
-//            character.inventory.add("Rations : x2");
-//            character.inventory.add("Waterskin");
-            System.out.println("Backpack, Bedroll, Candles : x10, Tinderbox, Alms Box, Blocks of Incense : x2, Censer, Vestments, Rations : x2, and Waterskin added to inventory. ");
+            CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Blanket","",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",10,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Alms Box","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Blocks of Incense","",2,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Censer","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Vestments","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",2,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+            System.out.println("Priest Pack added to inventory. ");
 
         }if (choice==2){
             pack="Explorer";
-//            character.inventory.add("Backpack");
-//            character.inventory.add("Bedroll");
-//            character.inventory.add("Mess Kit");
-//            character.inventory.add("Tinderbox");
-//            character.inventory.add("Torches : x10");
-//            character.inventory.add("Rations : x10");
-//            character.inventory.add("Waterskin");
-//            character.inventory.add("Hempen Rope : 50 ft");
-            System.out.println("Backpack, Bedroll, Mess Kit, Tinderbox, Torches : x10, Rations : x10, Waterskin, and Hempen Rope : 50 ft added to inventory. ");
+            CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Torch","A torch burns for 1 hour providing bright light in a 20 foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
+
+            System.out.println("Explorer added to inventory. ");
         }
         character.setShield(true);
-//        character.inventory.add("Shield");
-//        character.inventory.add("Holy Symbol");
+        CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+        character.setShield(true);
+        CheckAndAddItemQuantity(character.inventory, new Item("Holy Symbol","A holy symbol us a representation of a god or pantheon. It might be an amulet depicting a symbol representing s deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic. Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus, as described in chapter 10. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield. ",1,5));
 
         System.out.println("Shield and Holy Symbol added to inventory.");
 

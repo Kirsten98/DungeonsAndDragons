@@ -5,12 +5,12 @@ import java.util.Vector;
 public class Tester {
 
     public static void main(String[] args) {
-        CharacterSheet character = new CharacterSheet("Q","Elf","Barbarian");
-        Barbarian barbarian = new Barbarian(character);
+        CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
+        Bard bard = new Bard(character);
 
-        barbarian.CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
-        barbarian.CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
-        barbarian.CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+        bard.ChooseWeapon();
+
+
 
 
     }

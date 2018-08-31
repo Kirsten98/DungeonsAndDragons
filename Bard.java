@@ -69,7 +69,8 @@ public class Bard {
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
         choice = InputErrorCheck(choice,1,character.getLightArmor().length);
-        character.setArmor(character.getLightArmor()[choice-1]);
+        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
+//        character.setArmor(character.getLightArmor()[choice-1]);
         character.setAc(character.getLightArmorAC()[choice-1]);
 
     }
@@ -169,9 +170,10 @@ public class Bard {
             System.out.println(character.getMusicalInstruments()[choice-1] + " added to your instruments");
         }
 
-        System.out.println("Leather Armor and a dagger have been added to your inventory");
-        character.armorList.add("Leather");
+//        character.armorList.add("Leather");
+        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
         character.weapons.add("Dagger");
+        System.out.println("Dagger has been added to your inventory");
     }
 
 

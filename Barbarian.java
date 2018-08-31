@@ -22,7 +22,7 @@ public class Barbarian{
     public Barbarian (CharacterSheet character){
         this.character = character;
     }
-
+    // TODO test with Items for Armor
     /**
      * Walks user through on choosing their Armor for their Character
      */
@@ -47,11 +47,13 @@ public class Barbarian{
 
         if(choice <= character.getLightArmor().length){
             System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
-            character.setArmor(character.getLightArmor()[choice-1]);
+            CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
+//            character.setArmor(character.getLightArmor()[choice-1]);
             character.setAc(character.getLightArmorAC()[choice-1]);
         } if(choice > character.getLightArmor().length){
             System.out.println("You have chosen "  + character.getMediumArmor()[choice - character.getLightArmor().length - 1]);
-            character.setArmor(character.getMediumArmor()[choice-character.getLightArmor().length - 1]);
+            CheckAndAddItemQuantity(character.armorList, new Item(character.getMediumArmor()[choice-1],character.getMediumArmorDescription()[choice - character.getLightArmor().length - 1],1,character.getMediumArmorCost()[choice - character.getLightArmor().length - 1]));
+//            character.setArmor(character.getMediumArmor()[choice-character.getLightArmor().length - 1]);
             character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
 
         }
@@ -62,6 +64,7 @@ public class Barbarian{
         choice = InputErrorCheck(choice,1,2);
         if (choice==1){
             character.setShield(true);
+            CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
             character.setAc(character.getAc() +2);
         }
 
@@ -133,6 +136,7 @@ public class Barbarian{
             CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
             CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
             CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
+            CheckAndAddItemQuantity(character.inventory,new Item("Torch","A torch burns for 1 hour providing bright light in a 20 foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
             CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
             CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
             CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));

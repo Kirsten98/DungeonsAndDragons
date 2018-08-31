@@ -3,6 +3,7 @@ package DungeonsAndDragons;
 import java.util.Vector;
 
 //TODO Format all strings the same and do \n inbetween 1,2,3 options
+
 public class CharacterSheet {
     private String name;
     private String race;
@@ -25,11 +26,17 @@ public class CharacterSheet {
     private int hitPoints;
     private int ac;
     private String[] lightArmor = {"Padded", "Leather","Studded Leather"};
+    private int[] lightArmorCost = {5,10,45};
     private int[] lightArmorAC={11+dexterityMod, 11+dexterityMod, 12+dexterityMod};
+    private String[] lightArmorDescription = {"Padded armor consists of quilted layers of cloth batting","The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.", "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes"};
     private String[] mediumArmor= {"Hide", "Chain Shirt", "Scale Mail", "Breastplate", "Halfplate"};
+    private int[] mediumArmorCost = {10,50,50,400,750};
     private int[] mediumArmorAC = {12+dexterityMod, 13+dexterityMod , 14+dexterityMod, 14+dexterityMod,15+dexterityMod};
+    private String[] mediumArmorDescription = {"This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.","Made of interlocking metal rings, a chain shirt is worn between layers of clothing or leather. This armor offers modest protection to the wearer's upper body and allows the sound of the rings rubbing against one another to be muffled by outer layers.","This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. This suit includes gauntlets.", "This armor consists of a fitted metal chest piece worn with supple leather. Although it leaves the legs and arms relatively unprotected, this armor provides good protection for the wearer's vital organs while leaving the wearer relatively unencumbered.", "Half plate consists of shaped metal plates that cover most of the wearer's body. It does not include leg protection beyond simple greaves that are attached with leather straps."};
     private String[] heavyArmor = {"Ring Mail", " Chain Mail" , "Splint", "Plate"};
+    private int[] heavyArmorCost = {30,75,200,1500};
     private int[] heavyArmorAC = {14,16,17,18};
+    private String[] heavyArmorDescriptions= {"This armor is leather armor with heavy rings sewn into it. The rings help reinforce the armor against blows from swords and axes. Ring mail is inferior to chain mail, and it's usually worn by those who can't afford better armor.", "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets."," This armor is made of narrow vertical strips of metal riveted to a backing of leather that is worn over cloth padding. Flexible chain mail protects the joints.", "Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body."};
     private boolean shield; // If shield = true , +2 to AC
     private String armor;
     private String[] simpleMeleeWeapons  = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light Hammer", "Mace", "Quarterstaff", "Sickle", "Spear"};
@@ -39,7 +46,7 @@ public class CharacterSheet {
     private String[] allWeapons = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War Pick", "Warhammer", "Whip", "Blowgun", "Hand Crossbow", "Heavy Crossbow", "Longbow", "Net"};
     private String[] musicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan Flute","Shawm","Viol"};
     Vector<String> weapons = new Vector();
-    Vector<String> armorList = new Vector<>();
+    Vector<Item> armorList = new Vector<>();
     Vector<String> instruments = new Vector<>();
     Vector<String> languages = new Vector();
      Vector<String> skills = new Vector();
@@ -306,5 +313,29 @@ public class CharacterSheet {
 
     public String[] getAllWeapons() {
         return allWeapons;
+    }
+
+    public int[] getLightArmorCost() {
+        return lightArmorCost;
+    }
+
+    public int[] getMediumArmorCost() {
+        return mediumArmorCost;
+    }
+
+    public int[] getHeavyArmorCost() {
+        return heavyArmorCost;
+    }
+
+    public String[] getLightArmorDescription() {
+        return lightArmorDescription;
+    }
+
+    public String[] getMediumArmorDescription() {
+        return mediumArmorDescription;
+    }
+
+    public String[] getHeavyArmorDescriptions() {
+        return heavyArmorDescriptions;
     }
 }
