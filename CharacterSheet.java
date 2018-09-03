@@ -25,27 +25,49 @@ public class CharacterSheet {
     private int age;
     private int hitPoints;
     private int ac;
+
     private String[] lightArmor = {"Padded", "Leather","Studded Leather"};
     private int[] lightArmorCost = {5,10,45};
     private int[] lightArmorAC={11+dexterityMod, 11+dexterityMod, 12+dexterityMod};
     private String[] lightArmorDescription = {"Padded armor consists of quilted layers of cloth batting","The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.", "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes"};
+
     private String[] mediumArmor= {"Hide", "Chain Shirt", "Scale Mail", "Breastplate", "Halfplate"};
     private int[] mediumArmorCost = {10,50,50,400,750};
     private int[] mediumArmorAC = {12+dexterityMod, 13+dexterityMod , 14+dexterityMod, 14+dexterityMod,15+dexterityMod};
     private String[] mediumArmorDescription = {"This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.","Made of interlocking metal rings, a chain shirt is worn between layers of clothing or leather. This armor offers modest protection to the wearer's upper body and allows the sound of the rings rubbing against one another to be muffled by outer layers.","This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. This suit includes gauntlets.", "This armor consists of a fitted metal chest piece worn with supple leather. Although it leaves the legs and arms relatively unprotected, this armor provides good protection for the wearer's vital organs while leaving the wearer relatively unencumbered.", "Half plate consists of shaped metal plates that cover most of the wearer's body. It does not include leg protection beyond simple greaves that are attached with leather straps."};
+
     private String[] heavyArmor = {"Ring Mail", " Chain Mail" , "Splint", "Plate"};
     private int[] heavyArmorCost = {30,75,200,1500};
     private int[] heavyArmorAC = {14,16,17,18};
     private String[] heavyArmorDescriptions= {"This armor is leather armor with heavy rings sewn into it. The rings help reinforce the armor against blows from swords and axes. Ring mail is inferior to chain mail, and it's usually worn by those who can't afford better armor.", "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets."," This armor is made of narrow vertical strips of metal riveted to a backing of leather that is worn over cloth padding. Flexible chain mail protects the joints.", "Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body."};
+
     private boolean shield; // If shield = true , +2 to AC
     private String armor;
+
     private String[] simpleMeleeWeapons  = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light Hammer", "Mace", "Quarterstaff", "Sickle", "Spear"};
-    private String[] simpleRangedWeapons = {"Light Crossbow", "Dart", "Sling"};
+    private String[] simpleMeleeWeaponProperties = {"Light","Finesse, light, thrown(range 20/60)","Two-handed","Light, thrown (range 20/60)","Thrown (range 30/120)","Light, thrown (range 20/60)","","Versatile (1d8)","Light","Thrown (range 20/60), versatile (1d8)"};
+    private int[] simpleMeleeWeaponsCost = {1,2,2,5,5,2,5,2,1,1};
+
+    private String[] simpleRangedWeapons = {"Light Crossbow", "Dart", "Shortbow","Sling"};
+    private String[] simpleRangedWeaponsProperties = {"Ammunition (range 80/320), loading, two-handed","Finesse, thrown (range 20/60)","Ammunition (range 80/320), two-handed","Ammunition (range 30/120)"};
+    private int[] simpleRangedWeaponsCost = {25,5,25,1};
+
     private String[] martialMeleeWeapons = {"Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War Pick", "Warhammer", "Whip"};
+    private String[] martialMeleeWeaponsProperties = {"Versatile (1d10)","","Heavy , reach, two-handed","Heavy, two-handed","Heavy , two-handed","Heavy, reach, two-handed","Reach, special","Versatile (1d10)","Heavy, two-handed","","Heavy, reach, two-handed","Finesse","Finesse, light","Finesse, light","Thrown (range 20/60), versatile (1d8","","Versatile (1d10)","Finesse, reach"};
+    private int[] martialMeleeWeaponCost = {10,10,20,30,50,20,10,15,10,15,5,25,25,10,5,5,15,2};
+
     private String[] martialRangedWeapons = {"Blowgun", "Hand Crossbow", "Heavy Crossbow", "Longbow", "Net"};
+    private String[] martialRangedWeaponProperties = {"Ammunition (range 25/100), loading","Ammunition (range 30/120), light, loading","Ammunition (range 100/400), heavy, loading, two-handed","Ammunition (range 150/600), heavy, two-handed","Special, thrown (range 5/15)"};
+    private int[] martialRangedWeaponCost ={10,75,50,50,1};
+
+
+
     private String[] allWeapons = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War Pick", "Warhammer", "Whip", "Blowgun", "Hand Crossbow", "Heavy Crossbow", "Longbow", "Net"};
+    private String[] allWeaponsProperties = {"Light","Finesse, light, thrown(range 20/60)","Two-handed","Light, thrown (range 20/60)","Thrown (range 30/120)","Light, thrown (range 20/60)","","Versatile (1d8)","Light","Thrown (range 20/60), versatile (1d8)","Ammunition (range 80/320), loading, two-handed","Finesse, thrown (range 20/60)","Ammunition (range 80/320), two-handed","Ammunition (range 30/120)","Versatile (1d10)","","Heavy , reach, two-handed","Heavy, two-handed","Heavy , two-handed","Heavy, reach, two-handed","Reach, special","Versatile (1d10)","Heavy, two-handed","","Heavy, reach, two-handed","Finesse","Finesse, light","Finesse, light","Thrown (range 20/60), versatile (1d8","","Versatile (1d10)","Finesse, reach","Ammunition (range 25/100), loading","Ammunition (range 30/120), light, loading","Ammunition (range 100/400), heavy, loading, two-handed","Ammunition (range 150/600), heavy, two-handed","Special, thrown (range 5/15)"};
+    private int[] allWeaponCost = {1,2,2,5,5,2,5,2,1,1,25,5,25,1,10,10,20,30,50,20,10,15,10,15,5,25,25,10,5,5,15,2,10,75,50,50,1};
+
     private String[] musicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan Flute","Shawm","Viol"};
-    Vector<String> weapons = new Vector();
+    Vector<Item> weapons = new Vector();
     Vector<Item> armorList = new Vector<>();
     Vector<String> instruments = new Vector<>();
     Vector<String> languages = new Vector();
@@ -337,5 +359,45 @@ public class CharacterSheet {
 
     public String[] getHeavyArmorDescriptions() {
         return heavyArmorDescriptions;
+    }
+
+    public String[] getSimpleMeleeWeaponProperties() {
+        return simpleMeleeWeaponProperties;
+    }
+
+    public int[] getSimpleMeleeWeaponsCost() {
+        return simpleMeleeWeaponsCost;
+    }
+
+    public String[] getSimpleRangedWeaponsProperties() {
+        return simpleRangedWeaponsProperties;
+    }
+
+    public int[] getSimpleRangedWeaponsCost() {
+        return simpleRangedWeaponsCost;
+    }
+
+    public String[] getMartialMeleeWeaponsProperties() {
+        return martialMeleeWeaponsProperties;
+    }
+
+    public int[] getMartialMeleeWeaponCost() {
+        return martialMeleeWeaponCost;
+    }
+
+    public String[] getMartialRangedWeaponProperties() {
+        return martialRangedWeaponProperties;
+    }
+
+    public int[] getMartialRangedWeaponCost() {
+        return martialRangedWeaponCost;
+    }
+
+    public String[] getAllWeaponsProperties() {
+        return allWeaponsProperties;
+    }
+
+    public int[] getAllWeaponCost() {
+        return allWeaponCost;
     }
 }

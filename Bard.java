@@ -90,10 +90,10 @@ public class Bard {
         endOfLine = scanner.nextLine();
         choice = InputErrorCheck(choice, 1,3);
         if(choice==1){
-            character.weapons.add("Rapier");
+//            character.weapons.add("Rapier");
             System.out.println("Rapier added to Weapons");
         }if(choice ==2){
-            character.weapons.add("Longsword");
+//            character.weapons.add("Longsword");
             System.out.println("Longsword added to Weapons");
         }if (choice == 3){
             System.out.println("Which Simple Melee Weapon do you choose?");
@@ -172,7 +172,7 @@ public class Bard {
 
 //        character.armorList.add("Leather");
         CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
-        character.weapons.add("Dagger");
+//        character.weapons.add("Dagger");
         System.out.println("Dagger has been added to your inventory");
     }
 
