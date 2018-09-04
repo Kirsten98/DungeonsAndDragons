@@ -161,6 +161,7 @@ public class Barbarian{
         return roll;
     }
 
+    // Tested and verified 9/3
     /**
      * Adds Levels and related information to the character.
      */
@@ -240,11 +241,12 @@ public class Barbarian{
             System.out.println("Choose your Primal Path 1.) Path of Berserker or 2.) Path of the Totem Warrior");
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
-            while (choice!=1 && choice!=2){
-                System.out.println("Incorrect option, do you want to be 1.) Path of Berserker or 2.) Path of the Totem Warrior");
-                choice=scanner.nextInt();
-                endOfLine=scanner.nextLine();
-            }
+            choice = InputErrorCheck(choice,1,2);
+//            while (choice!=1 && choice!=2){
+//                System.out.println("Incorrect option, do you want to be 1.) Path of Berserker or 2.) Path of the Totem Warrior");
+//                choice=scanner.nextInt();
+//                endOfLine=scanner.nextLine();
+//            }
             if (choice==1){
                 primalPath = "Path of Berserker";
                 features.add("Primal Path: Frenzy");
@@ -260,11 +262,12 @@ public class Barbarian{
                 System.out.println("3.) Wolf");
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                if(choice<0 || choice > 3){
-                    System.out.println("Incorrect choice. Please choose another option");
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,3);
+//                if(choice<0 || choice > 3){
+//                    System.out.println("Incorrect choice. Please choose another option");
+//                    choice = scanner.nextInt();
+//                    endOfLine = scanner.nextLine();
+//                }
                 if (choice == 1){
                     totemSpirit = "Bear";
                 }
@@ -313,11 +316,12 @@ public class Barbarian{
                 System.out.println("3.) Wolf");
                 int choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                if(choice<0 || choice > 3){
-                    System.out.println("Incorrect choice. Please choose another option");
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,3);
+//                if(choice<0 || choice > 3){
+//                    System.out.println("Incorrect choice. Please choose another option");
+//                    choice = scanner.nextInt();
+//                    endOfLine = scanner.nextLine();
+//                }
                 if (choice == 1){
                     totemSpirit = "Bear";
                 }
@@ -412,11 +416,12 @@ public class Barbarian{
                 System.out.println("3.) Wolf");
                 int choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                if(choice<0 || choice > 3){
-                    System.out.println("Incorrect choice. Please choose another option");
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,3);
+//                if(choice<0 || choice > 3){
+//                    System.out.println("Incorrect choice. Please choose another option");
+//                    choice = scanner.nextInt();
+//                    endOfLine = scanner.nextLine();
+//                }
                 if (choice == 1){
                     totemSpirit = "Bear";
                 }
@@ -507,7 +512,7 @@ public class Barbarian{
      * @param choice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public static void AbilityAddtion(CharacterSheet character, int choice, int modifierAddtion){
+    public  void AbilityAddtion(CharacterSheet character, int choice, int modifierAddtion){
         Scanner scanner = new Scanner(System.in);
         if (choice == 1){
             if(character.getCharismaScore() >20){
@@ -515,12 +520,7 @@ public class Barbarian{
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,6);
                 AbilityAddtion(character, choice, modifierAddtion);
             }
             character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
@@ -533,12 +533,7 @@ public class Barbarian{
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,6);
                 AbilityAddtion(character, choice, modifierAddtion);
             }
             character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
@@ -551,12 +546,7 @@ public class Barbarian{
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,6);
                 AbilityAddtion(character, choice, modifierAddtion);
             }
             character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
@@ -569,12 +559,7 @@ public class Barbarian{
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,6);
                 AbilityAddtion(character, choice, modifierAddtion);
             }
             character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
@@ -587,12 +572,7 @@ public class Barbarian{
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,6);
                 AbilityAddtion(character, choice, modifierAddtion);
             }
             character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
@@ -605,12 +585,7 @@ public class Barbarian{
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
+                choice = InputErrorCheck(choice,1,6);
                 AbilityAddtion(character, choice, modifierAddtion);
             }
             character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
@@ -620,52 +595,38 @@ public class Barbarian{
         }
     }
 
+    // Tested and Verified 9/3
     /**
      *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
      * @param character CharacterSheet that the ability improvement is happening to
      */
-    public static void AbilityScoreImprovement(CharacterSheet character){
+    public void AbilityScoreImprovement(CharacterSheet character){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
         int choice = scanner.nextInt();
         String endOfLine = scanner.nextLine();
-        while(choice!=1 && choice !=2){
-            System.out.println("Incorrect choice. Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1");
-            choice= scanner.nextInt();
-            endOfLine= scanner.nextLine();
-        }
+        choice = InputErrorCheck(choice,1,2);
         if (choice==1){
             System.out.println("Which Ability score would you like to increase by +2 ?");
             AbilityChoicePrintout();
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            while (choice<0 || choice > 6){
-                System.out.println("Incorrect choice please select another option");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-            }
+            choice = InputErrorCheck(choice,1,6);
             AbilityAddtion(character, choice, 2 );
+            choice = 0;
         }
         if (choice==2){
             System.out.println("Choose your first ability");
             AbilityChoicePrintout();
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            while (choice<0 || choice > 6){
-                System.out.println("Incorrect choice please select another option");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-            }
+            choice = InputErrorCheck(choice,1,6);
             AbilityAddtion(character, choice, 1 );
             System.out.println("What is your second ability?");
             AbilityChoicePrintout();
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            while (choice<0 || choice > 6){
-                System.out.println("Incorrect choice please select another option");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-            }
+            choice = InputErrorCheck(choice,1,6);
             AbilityAddtion(character, choice, 1 );
 
 
