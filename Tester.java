@@ -8,9 +8,9 @@ public class Tester {
         CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
         Bard bard = new Bard(character);
 
-//        for(int i = 0; i < 20; i++) {
-//            bard.AddLevel();
-//        }
+        for(int i = 0; i < 20; i++) {
+            bard.AddLevel();
+        }
 
 
 

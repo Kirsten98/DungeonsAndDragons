@@ -281,6 +281,7 @@ public class Bard {
 
     }
 
+    // Tested and verified 9/9
     /**
      * Adds Levels and related information to the character.
      */
