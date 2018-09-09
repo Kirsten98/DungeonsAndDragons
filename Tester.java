@@ -8,21 +8,23 @@ public class Tester {
         CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
         Bard bard = new Bard(character);
 
-        bard.ChooseSkillProficiencies();
+//        for(int i = 0; i < 20; i++) {
+//            bard.AddLevel();
+//        }
 
 
- 
+
 //        for (int i =0 ; i<20; i++){
 //            System.out.println(bard.D8Roll());
 //        }
 //        VectorPrintOut(character.weapons);
-
-        for (int i = 0; i < character.inventory.size(); i++){
-            System.out.println(i + 1 + ".) " + character.inventory.get(i).getName());
-        }
-        for (int i = 0; i < character.weapons.size(); i++){
-            System.out.println(i + 1 + ".) " + character.weapons.get(i).getName());
-        }
+//
+//        for (int i = 0; i < character.inventory.size(); i++){
+//            System.out.println(i + 1 + ".) " + character.inventory.get(i).getName());
+//        }
+//        for (int i = 0; i < character.weapons.size(); i++){
+//            System.out.println(i + 1 + ".) " + character.weapons.get(i).getName());
+//        }
 
 
     }
