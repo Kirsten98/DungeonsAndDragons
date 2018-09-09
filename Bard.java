@@ -8,18 +8,18 @@ public class Bard {
         this.character = character;
     }
 
-
-    private CharacterSheet character;
-    private int hitDice = 8;
-    private int proficiency=2;
-    private Vector<String> features = new Vector();
-    private int level = 0;
-  /**  private**/ Vector<String> spells = new Vector<>();
     private  Vector<String> cantrips = new Vector<>();
-    private String pack;
+    private CharacterSheet character;
     private String college;
-    private int spellSaveDC;
+    private Vector<String> features = new Vector();
+    private int hitDice = 8;
+    private int level = 0;
+    private String pack;
+    private int proficiency=2;
     private int spellAttackMod;
+    private Vector<String> spells = new Vector<>();
+    private int spellSaveDC;
+
     Vector<String> cantripList = Spells.BardSpellSetUp(10);
     Vector<String> firstLevelSpells = Spells.BardSpellSetUp(1);
     Vector<String> secondLevelSpells = Spells.BardSpellSetUp(2);
@@ -45,241 +45,183 @@ public class Bard {
     Vector<String> proficiencies = new Vector<>();
 
 
+
     //TODO Test Spells
 
-    // Tested and verified 9/5
+
     /**
-     * Randomly Generates a number between 1 and 8. Simulating a D8
-     * @return Random Number between 1 and 8
+     *
+     * @param character CharacterSheet that needs the Ability Modifier added to
+     * @param choice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
+     * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public int D8Roll(){
-        double randomDouble = Math.random()*8 +1;
-        Double randomDouble2 = randomDouble;
-        int roll = randomDouble2.intValue();
-        return roll;
-    }
-
-    // Tested and verified 9/5
-    public void ChooseArmor(){
+    public static void AbilityAddtion(CharacterSheet character, int choice, int modifierAddtion){
         Scanner scanner = new Scanner(System.in);
-        int choice = -1;
-        String endOfLine = "";
-        System.out.println("You are proficient in Light Armor. Choose your Armor");
-        for (int i =0 ; i<character.getLightArmor().length; i++){
-            System.out.println(i+1 + ".) " + character.getLightArmor()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getLightArmor().length);
-        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
-        character.setAc(character.getLightArmorAC()[choice-1]);
-
-    }
-
-    // Tested and verified 9/5
-    /**
-     * Walks user through on adding their Weapons / Equipment ot the character
-     */
-    public void ChooseWeapon(){
-        Scanner scanner = new Scanner(System.in);
-        int choice = 0;
-        String endOfLine = "";
-
-
-        System.out.println("** Equipment Choice **");
-        System.out.println("Choose your equipment 1.)Rapier 2.)Longsword or 3.)any simple weapon?");
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice, 1,3);
-        if(choice==1){
-            character.weapons.add(new Item("Rapier",character.getMartialMeleeWeaponsProperties()[11],1,character.getMartialMeleeWeaponCost()[11]));
-            System.out.println("Rapier added to Weapons");
-        }if(choice ==2){
-            character.weapons.add(new Item("Longsword", character.getMartialMeleeWeaponsProperties()[7],1,character.getMartialMeleeWeaponCost()[7]));
-            System.out.println("Longsword added to Weapons");
-        }if (choice == 3){
-            System.out.println("Which Simple Melee Weapon do you choose?");
-            for (int i = 0; i < character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length; i++) {
-                if (i < character.getSimpleMeleeWeapons().length){
-                    System.out.println( i+1 + ".) " + character.getSimpleMeleeWeapons()[i]);
-                }
-                if (i >= character.getSimpleMeleeWeapons().length){
-                    System.out.println(i+1 + ".) " + character.getSimpleRangedWeapons()[i-character.getSimpleMeleeWeapons().length]);
-                }
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
-            if (choice < character.getSimpleMeleeWeapons().length){
-                character.weapons.add(new Item(character.getSimpleMeleeWeapons()[choice-1],character.getSimpleMeleeWeaponProperties()[choice-1],1,character.getSimpleMeleeWeaponsCost()[choice-1]));
-                System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
-            }
-            if (choice>=character.getSimpleMeleeWeapons().length){
-                character.weapons.add(new Item(character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1],character.getSimpleRangedWeaponsProperties()[choice-character.getSimpleMeleeWeapons().length -1],1,character.getSimpleRangedWeaponsCost()[choice-character.getSimpleMeleeWeapons().length -1]));
-                System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
-            }
-        }
-
-        System.out.println("Do you want 1.)Diplomat's pack or 2.)Entertainer's pack");
-        choice=scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,2);
-        if(choice == 1){
-            pack = "Diplomat";
-
-            CheckAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
-            CheckAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
-            CheckAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
-            System.out.println("Diplomat Pack added to inventory.");
-
-        }if (choice ==2){
-            pack = "Entertainer";
-            CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
-            CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
-            CheckAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
-            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
-            CheckAndAddItemQuantity(character.inventory, new Item("Disguise kit","This pouch of cosmetics, hair dye,and small props let you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",1,25));
-
-            System.out.println("Entertainer pack added to inventory.");
-
-        }
-
-        System.out.println("Do you want 1.)Lute or 2.) any other musical instrument");
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice ,1,2);
         if (choice == 1){
-            character.instruments.add("Lute");
-            System.out.println("Lute added to instruments");
-        }
-        if (choice ==2){
-            System.out.println("Choose your instrument");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
-            character.instruments.add(character.getMusicalInstruments()[choice-1]);
-            System.out.println(character.getMusicalInstruments()[choice-1] + " added to your instruments");
-        }
-
-//        character.armorList.add("Leather");
-        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
-//        character.weapons.add("Dagger");
-        System.out.println("Dagger has been added to your inventory");
-    }
-
-
-
-    //Tested and verified 9/9
-
-    /**
-     * Walks user through choosing the tools they want to be proficient in
-     */
-    public void ToolsProficiencies(){
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-        String endOfLine="";
-        System.out.println("You are proficient in three musical instruments, choose your first instrument.");
-        for (int i = 0; i < character.getMusicalInstruments().length; i++){
-            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
-            System.out.println("You are already proficient in this item, please choose a different option");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        }
-        CheckVectorAndAdd(proficiencies,"proficiencies", character.getMusicalInstruments()[choice-1]);
-
-        System.out.println("Choose your second instrument.");
-        for (int i = 0; i < character.getMusicalInstruments().length; i++){
-            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
-            System.out.println("You are already proficient in this item, please choose a different option");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        }
-        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
-
-        System.out.println("Choose your third instrument");
-        for (int i = 0; i < character.getMusicalInstruments().length; i++){
-            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
-            System.out.println("You are already proficient in this item, please choose a different option");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        }
-        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
-
-    }
-    //Tested and verified 9/10
-    /**
-     * Allows user to add the skills they want to be proficient in.
-     */
-    public void ChooseSkillProficiencies(){
-        Scanner scanner = new Scanner(System.in);
-        int choice =-1;
-        String endOfLine = "";
-        System.out.println("Choose your first skill to be proficient in.");
-        for (int k =0; k<3; k++){
-            if (k==1){
-                System.out.println("Choose your second skill to be proficient in.");
-
-            }if (k==2){
-                System.out.println("Choose your third skill to be proficient in.");
-            }
-            for (int i =0; i< character.getAllSkills().length; i++){
-                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine =scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
-            while (proficiencies.contains(character.getAllSkills()[choice-1])){
-                System.out.println("You are already proficient in this skill, please choose a different skill.");
+            if(character.getCharismaScore() >20){
+                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+                AbilityChoicePrintout();
                 choice = scanner.nextInt();
-                endOfLine =scanner.nextLine();
-                choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+                String endOfLine = scanner.nextLine();
+                while (choice <0 || choice >6){
+                    System.out.println("Incorrect Choice. Please choose a different option.");
+                    AbilityChoicePrintout();
+                    choice = scanner.nextInt();
+                    endOfLine = scanner.nextLine();
 
+                }
+                AbilityAddtion(character, choice, modifierAddtion);
             }
-            CheckVectorAndAdd(proficiencies, "proficiencies",character.getAllSkills()[choice-1]);
+            character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
+            System.out.println("Charisma +" + modifierAddtion);
+            character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
+        }
+        if (choice == 2){
+            if(character.getStrengthScore() >20){
+                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+                AbilityChoicePrintout();
+                choice = scanner.nextInt();
+                String endOfLine = scanner.nextLine();
+                while (choice <0 || choice >6){
+                    System.out.println("Incorrect Choice. Please choose a different option.");
+                    AbilityChoicePrintout();
+                    choice = scanner.nextInt();
+                    endOfLine = scanner.nextLine();
+                }
+                AbilityAddtion(character, choice, modifierAddtion);
+            }
+            character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
+            System.out.println("Strength +" + modifierAddtion);
+            character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
+        }
+        if (choice == 3){
+            if(character.getDexterityScore() >20){
+                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+                AbilityChoicePrintout();
+                choice = scanner.nextInt();
+                String endOfLine = scanner.nextLine();
+                while (choice <0 || choice >6){
+                    System.out.println("Incorrect Choice. Please choose a different option.");
+                    AbilityChoicePrintout();
+                    choice = scanner.nextInt();
+                    endOfLine = scanner.nextLine();
+                }
+                AbilityAddtion(character, choice, modifierAddtion);
+            }
+            character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
+            System.out.println("Dexterity +" + modifierAddtion);
+            character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
+        }
+        if (choice == 4){
+            if(character.getWisdomScore() >20){
+                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+                AbilityChoicePrintout();
+                choice = scanner.nextInt();
+                String endOfLine = scanner.nextLine();
+                while (choice <0 || choice >6){
+                    System.out.println("Incorrect Choice. Please choose a different option.");
+                    AbilityChoicePrintout();
+                    choice = scanner.nextInt();
+                    endOfLine = scanner.nextLine();
+                }
+                AbilityAddtion(character, choice, modifierAddtion);
+            }
+            character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
+            System.out.println("Wisdom +" + modifierAddtion);
+            character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
+        }
+        if (choice == 5){
+            if(character.getIntelligenceScore() >20){
+                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+                AbilityChoicePrintout();
+                choice = scanner.nextInt();
+                String endOfLine = scanner.nextLine();
+                while (choice <0 || choice >6){
+                    System.out.println("Incorrect Choice. Please choose a different option.");
+                    AbilityChoicePrintout();
+                    choice = scanner.nextInt();
+                    endOfLine = scanner.nextLine();
+                }
+                AbilityAddtion(character, choice, modifierAddtion);
+            }
+            character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
+            System.out.println("Intelligence +" + modifierAddtion);
+            character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
+        }
+        if (choice == 6){
+            if(character.getConstitutionScore() >20){
+                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+                AbilityChoicePrintout();
+                choice = scanner.nextInt();
+                String endOfLine = scanner.nextLine();
+                while (choice <0 || choice >6){
+                    System.out.println("Incorrect Choice. Please choose a different option.");
+                    AbilityChoicePrintout();
+                    choice = scanner.nextInt();
+                    endOfLine = scanner.nextLine();
+                }
+                AbilityAddtion(character, choice, modifierAddtion);
+            }
+            character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
+            System.out.println("Constitution +" + modifierAddtion);
+            character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
 
         }
+    }
+
+    /**
+     * Prints out the Ability Choices
+     */
+    public static void AbilityChoicePrintout(){
+        System.out.println("1.) Charisma");
+        System.out.println("2.) Strength");
+        System.out.println("3.) Dexterity");
+        System.out.println("4.) Wisdom");
+        System.out.println("5.) Intelligence");
+        System.out.println("6.) Constitution");
 
     }
+
+
+    // Tested and Verified 9/3
+    /**
+     *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
+     * @param character CharacterSheet that the ability improvement is happening to
+     */
+    public void AbilityScoreImprovement(CharacterSheet character){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
+        int choice = scanner.nextInt();
+        String endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,2);
+        if (choice==1){
+            System.out.println("Which Ability score would you like to increase by +2 ?");
+            AbilityChoicePrintout();
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,6);
+            AbilityAddtion(character, choice, 2 );
+            choice = 0;
+        }
+        if (choice==2){
+            System.out.println("Choose your first ability");
+            AbilityChoicePrintout();
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,6);
+            AbilityAddtion(character, choice, 1 );
+            System.out.println("What is your second ability?");
+            AbilityChoicePrintout();
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,6);
+            AbilityAddtion(character, choice, 1 );
+
+
+        }
+    }
+
+
 
     // Tested and verified 9/9
     /**
@@ -495,7 +437,7 @@ public class Bard {
             System.out.println("You have added " + cantripList.get(choice-1));
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
-           ChooseYourSpell(5);
+            ChooseYourSpell(5);
 
 
 
@@ -531,19 +473,19 @@ public class Bard {
             System.out.println("Level 14");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-                if (college.equals("College of Lore")){
-                    features.add("Peerless Skills");
-                    System.out.println("You have added Peerless Skills and Magical Secrets to features");
-                    for (int i =0; i < 2; i++){
-                        MagicalSecrects(7);
-                    }
+            if (college.equals("College of Lore")){
+                features.add("Peerless Skills");
+                System.out.println("You have added Peerless Skills and Magical Secrets to features");
+                for (int i =0; i < 2; i++){
+                    MagicalSecrects(7);
+                }
 
-                }
-                if (college.equals("College of Valor")){
-                    features.add("Battle Magic");
-                    System.out.println("You have added Battle Magic and Magical Secrets to features");
-                }
             }
+            if (college.equals("College of Valor")){
+                features.add("Battle Magic");
+                System.out.println("You have added Battle Magic and Magical Secrets to features");
+            }
+        }
 
         if(level == 15){
             System.out.println("Level 15");
@@ -551,7 +493,7 @@ public class Bard {
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             features.remove("Bardic Inspiration (d10)");
             features.add("Bardic Inspiration (d12)");
-           ChooseYourSpell(8);
+            ChooseYourSpell(8);
 
         }
         if(level == 16){
@@ -571,7 +513,7 @@ public class Bard {
             features.remove("Song of Rest (d10");
             features.add("Song of Rest (d12)");
 
-           ChooseYourSpell(9);
+            ChooseYourSpell(9);
 
         }
         if(level == 18){
@@ -602,6 +544,29 @@ public class Bard {
 
     }
 
+
+    /**
+     *
+     * @param inventory Vector of items
+     * @param item item you are adding in vector, or adding quantity to already existing item
+     */
+    public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
+        int counter =0;
+        int i;
+        for ( i =0; i< inventory.size();i++){
+            if (inventory.get(i).getName().equals(item.getName())){
+                inventory.get(i).Addition(item);
+                counter++;
+                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
+            }
+        }
+        if (counter == 0){
+            inventory.add(item);
+            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
+        }
+
+    }
+
     /**
      * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
      * @param vector The vector you are checking/ adding the contents into
@@ -616,169 +581,180 @@ public class Bard {
 
     }
 
-    // Tested and Verified 9/3
-    /**
-     *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
-     * @param character CharacterSheet that the ability improvement is happening to
-     */
-    public void AbilityScoreImprovement(CharacterSheet character){
+
+    // Tested and verified 9/5
+    public void ChooseArmor(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
-        int choice = scanner.nextInt();
-        String endOfLine = scanner.nextLine();
+        int choice = -1;
+        String endOfLine = "";
+        System.out.println("You are proficient in Light Armor. Choose your Armor");
+        for (int i =0 ; i<character.getLightArmor().length; i++){
+            System.out.println(i+1 + ".) " + character.getLightArmor()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getLightArmor().length);
+        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
+        character.setAc(character.getLightArmorAC()[choice-1]);
+
+    }
+
+    //Tested and verified 9/10
+    /**
+     * Allows user to add the skills they want to be proficient in.
+     */
+    public void ChooseSkillProficiencies(){
+        Scanner scanner = new Scanner(System.in);
+        int choice =-1;
+        String endOfLine = "";
+        System.out.println("Choose your first skill to be proficient in.");
+        for (int k =0; k<3; k++){
+            if (k==1){
+                System.out.println("Choose your second skill to be proficient in.");
+
+            }if (k==2){
+                System.out.println("Choose your third skill to be proficient in.");
+            }
+            for (int i =0; i< character.getAllSkills().length; i++){
+                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine =scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+            while (proficiencies.contains(character.getAllSkills()[choice-1])){
+                System.out.println("You are already proficient in this skill, please choose a different skill.");
+                choice = scanner.nextInt();
+                endOfLine =scanner.nextLine();
+                choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+
+            }
+            CheckVectorAndAdd(proficiencies, "proficiencies",character.getAllSkills()[choice-1]);
+
+        }
+
+    }
+
+    // Tested and verified 9/5
+    /**
+     * Walks user through on adding their Weapons / Equipment ot the character
+     */
+    public void ChooseWeapon(){
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        String endOfLine = "";
+
+
+        System.out.println("** Equipment Choice **");
+        System.out.println("Choose your equipment 1.)Rapier 2.)Longsword or 3.)any simple weapon?");
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice, 1,3);
+        if(choice==1){
+            character.weapons.add(new Item("Rapier",character.getMartialMeleeWeaponsProperties()[11],1,character.getMartialMeleeWeaponCost()[11]));
+            System.out.println("Rapier added to Weapons");
+        }if(choice ==2){
+            character.weapons.add(new Item("Longsword", character.getMartialMeleeWeaponsProperties()[7],1,character.getMartialMeleeWeaponCost()[7]));
+            System.out.println("Longsword added to Weapons");
+        }if (choice == 3){
+            System.out.println("Which Simple Melee Weapon do you choose?");
+            for (int i = 0; i < character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length; i++) {
+                if (i < character.getSimpleMeleeWeapons().length){
+                    System.out.println( i+1 + ".) " + character.getSimpleMeleeWeapons()[i]);
+                }
+                if (i >= character.getSimpleMeleeWeapons().length){
+                    System.out.println(i+1 + ".) " + character.getSimpleRangedWeapons()[i-character.getSimpleMeleeWeapons().length]);
+                }
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
+            if (choice < character.getSimpleMeleeWeapons().length){
+                character.weapons.add(new Item(character.getSimpleMeleeWeapons()[choice-1],character.getSimpleMeleeWeaponProperties()[choice-1],1,character.getSimpleMeleeWeaponsCost()[choice-1]));
+                System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
+            }
+            if (choice>=character.getSimpleMeleeWeapons().length){
+                character.weapons.add(new Item(character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1],character.getSimpleRangedWeaponsProperties()[choice-character.getSimpleMeleeWeapons().length -1],1,character.getSimpleRangedWeaponsCost()[choice-character.getSimpleMeleeWeapons().length -1]));
+                System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
+            }
+        }
+
+        System.out.println("Do you want 1.)Diplomat's pack or 2.)Entertainer's pack");
+        choice=scanner.nextInt();
+        endOfLine = scanner.nextLine();
         choice = InputErrorCheck(choice,1,2);
-        if (choice==1){
-            System.out.println("Which Ability score would you like to increase by +2 ?");
-            AbilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddtion(character, choice, 2 );
-            choice = 0;
+        if(choice == 1){
+            pack = "Diplomat";
+
+            CheckAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
+            System.out.println("Diplomat Pack added to inventory.");
+
+        }if (choice ==2){
+            pack = "Entertainer";
+            CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
+            CheckAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
+            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
+            CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+            CheckAndAddItemQuantity(character.inventory, new Item("Disguise kit","This pouch of cosmetics, hair dye,and small props let you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",1,25));
+
+            System.out.println("Entertainer pack added to inventory.");
+
         }
-        if (choice==2){
-            System.out.println("Choose your first ability");
-            AbilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddtion(character, choice, 1 );
-            System.out.println("What is your second ability?");
-            AbilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddtion(character, choice, 1 );
 
-
-        }
-    }
-
-    /**
-     *
-     * @param character CharacterSheet that needs the Ability Modifier added to
-     * @param choice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
-     * @param modifierAddtion The Value that is getting added to the Modifier
-     */
-    public static void AbilityAddtion(CharacterSheet character, int choice, int modifierAddtion){
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you want 1.)Lute or 2.) any other musical instrument");
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice ,1,2);
         if (choice == 1){
-            if(character.getCharismaScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
+            character.instruments.add("Lute");
+            System.out.println("Lute added to instruments");
+        }
+        if (choice ==2){
+            System.out.println("Choose your instrument");
+            for (int i = 0; i < character.getMusicalInstruments().length; i++){
+                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+            character.instruments.add(character.getMusicalInstruments()[choice-1]);
+            System.out.println(character.getMusicalInstruments()[choice-1] + " added to your instruments");
+        }
 
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
-            }
-            character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
-            System.out.println("Charisma +" + modifierAddtion);
-            character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
-        }
-        if (choice == 2){
-            if(character.getStrengthScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
-            }
-            character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
-            System.out.println("Strength +" + modifierAddtion);
-            character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
-        }
-        if (choice == 3){
-            if(character.getDexterityScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
-            }
-            character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
-            System.out.println("Dexterity +" + modifierAddtion);
-            character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
-        }
-        if (choice == 4){
-            if(character.getWisdomScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
-            }
-            character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
-            System.out.println("Wisdom +" + modifierAddtion);
-            character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
-        }
-        if (choice == 5){
-            if(character.getIntelligenceScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
-            }
-            character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
-            System.out.println("Intelligence +" + modifierAddtion);
-            character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
-        }
-        if (choice == 6){
-            if(character.getConstitutionScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
-            }
-            character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
-            System.out.println("Constitution +" + modifierAddtion);
-            character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
-
-        }
+//        character.armorList.add("Leather");
+        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
+//        character.weapons.add("Dagger");
+        System.out.println("Dagger has been added to your inventory");
     }
 
+
+    // Tested and verified 9/5
+    /**
+     * Randomly Generates a number between 1 and 8. Simulating a D8
+     * @return Random Number between 1 and 8
+     */
+    public int D8Roll(){
+        double randomDouble = Math.random()*8 +1;
+        Double randomDouble2 = randomDouble;
+        int roll = randomDouble2.intValue();
+        return roll;
+    }
 
     /**
      *
      * @param abilityScore Takes in the Ability Score
-     * @return Returns the MOdifier based on the Ability Score
+     * @return Returns the Modifier based on the Ability Score
      */
     public static int FindAbilityMod(int abilityScore) {
         Scanner scanner = new Scanner(System.in);
@@ -838,21 +814,6 @@ public class Bard {
 
     }
 
-
-
-    /**
-     * Prints out the Ability Choices
-     */
-    public static void AbilityChoicePrintout(){
-        System.out.println("1.) Charisma");
-        System.out.println("2.) Strength");
-        System.out.println("3.) Dexterity");
-        System.out.println("4.) Wisdom");
-        System.out.println("5.) Intelligence");
-        System.out.println("6.) Constitution");
-
-    }
-
     /**
      * Checks to make sure that the choice from the user does not exceed the lower or upper bounds
      * @param choice Numberic Choice made by user
@@ -870,15 +831,6 @@ public class Bard {
         return choice;
     }
 
-    /**
-     * Prints out a vectore
-     * @param vector Vector that is needing to be printed out
-     */
-    public static void VectorPrintOut (Vector vector){
-        for (int i = 0; i < vector.size(); i++){
-            System.out.println(i + 1 + ".) " + vector.get(i));
-        }
-    }
 
     // Tested and verified 9/9
     /**
@@ -959,13 +911,13 @@ public class Bard {
                 }
                 choice = -1;
             }else {
-                    spells.add(allSecondLevelSpells.get(choice-1));
+                spells.add(allSecondLevelSpells.get(choice-1));
                 System.out.println("You have added : " +allSecondLevelSpells.get(choice-1));
-                    allSecondLevelSpells.remove(choice-1);
+                allSecondLevelSpells.remove(choice-1);
                 choice = -1;
             }
 
-            }
+        }
 
 
         if(level==3){
@@ -1128,7 +1080,86 @@ public class Bard {
 
 
 
+    }
+
+
+
+    //Tested and verified 9/9
+
+    /**
+     * Walks user through choosing the tools they want to be proficient in
+     */
+    public void ToolsProficiencies(){
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+        String endOfLine="";
+        System.out.println("You are proficient in three musical instruments, choose your first instrument.");
+        for (int i = 0; i < character.getMusicalInstruments().length; i++){
+            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
         }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
+            System.out.println("You are already proficient in this item, please choose a different option");
+            for (int i = 0; i < character.getMusicalInstruments().length; i++){
+                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        }
+        CheckVectorAndAdd(proficiencies,"proficiencies", character.getMusicalInstruments()[choice-1]);
+
+        System.out.println("Choose your second instrument.");
+        for (int i = 0; i < character.getMusicalInstruments().length; i++){
+            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
+            System.out.println("You are already proficient in this item, please choose a different option");
+            for (int i = 0; i < character.getMusicalInstruments().length; i++){
+                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        }
+        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
+
+        System.out.println("Choose your third instrument");
+        for (int i = 0; i < character.getMusicalInstruments().length; i++){
+            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+        }
+        choice = scanner.nextInt();
+        endOfLine = scanner.nextLine();
+        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
+            System.out.println("You are already proficient in this item, please choose a different option");
+            for (int i = 0; i < character.getMusicalInstruments().length; i++){
+                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+            }
+            choice = scanner.nextInt();
+            endOfLine = scanner.nextLine();
+            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        }
+        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
+
+    }
+
+
+    /**
+     * Prints out a vectore
+     * @param vector Vector that is needing to be printed out
+     */
+    public static void VectorPrintOut (Vector vector){
+        for (int i = 0; i < vector.size(); i++){
+            System.out.println(i + 1 + ".) " + vector.get(i));
+        }
+    }
+
 
 
     /**
@@ -1257,27 +1288,6 @@ public class Bard {
             }
     }
 
-    /**
-     *
-     * @param inventory Vector of items
-     * @param item item you are adding in vector, or adding quantity to already existing item
-     */
-    public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
-        int counter =0;
-        int i;
-        for ( i =0; i< inventory.size();i++){
-            if (inventory.get(i).getName().equals(item.getName())){
-                inventory.get(i).Addition(item);
-                counter++;
-                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
-            }
-        }
-        if (counter == 0){
-            inventory.add(item);
-            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
-        }
-
-    }
 
 
 
