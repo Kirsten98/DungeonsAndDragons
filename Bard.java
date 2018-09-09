@@ -47,22 +47,24 @@ public class Bard {
 
     //TODO Test Spells
 
+    // Tested and verified 9/5
     /**
      * Randomly Generates a number between 1 and 8. Simulating a D8
      * @return Random Number between 1 and 8
      */
     public int D8Roll(){
-        double randomDouble = Math.random()*8;
+        double randomDouble = Math.random()*8 +1;
         Double randomDouble2 = randomDouble;
         int roll = randomDouble2.intValue();
         return roll;
     }
 
+    // Tested and verified 9/5
     public void ChooseArmor(){
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
         String endOfLine = "";
-        System.out.println("You are proficient in Light Armor");
+        System.out.println("You are proficient in Light Armor. Choose your Armor");
         for (int i =0 ; i<character.getLightArmor().length; i++){
             System.out.println(i+1 + ".) " + character.getLightArmor()[i]);
         }
@@ -70,11 +72,11 @@ public class Bard {
         endOfLine = scanner.nextLine();
         choice = InputErrorCheck(choice,1,character.getLightArmor().length);
         CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
-//        character.setArmor(character.getLightArmor()[choice-1]);
         character.setAc(character.getLightArmorAC()[choice-1]);
 
     }
 
+    // Tested and verified 9/5
     /**
      * Walks user through on adding their Weapons / Equipment ot the character
      */
@@ -90,10 +92,10 @@ public class Bard {
         endOfLine = scanner.nextLine();
         choice = InputErrorCheck(choice, 1,3);
         if(choice==1){
-//            character.weapons.add("Rapier");
+            character.weapons.add(new Item("Rapier",character.getMartialMeleeWeaponsProperties()[11],1,character.getMartialMeleeWeaponCost()[11]));
             System.out.println("Rapier added to Weapons");
         }if(choice ==2){
-//            character.weapons.add("Longsword");
+            character.weapons.add(new Item("Longsword", character.getMartialMeleeWeaponsProperties()[7],1,character.getMartialMeleeWeaponCost()[7]));
             System.out.println("Longsword added to Weapons");
         }if (choice == 3){
             System.out.println("Which Simple Melee Weapon do you choose?");
@@ -109,9 +111,11 @@ public class Bard {
             endOfLine = scanner.nextLine();
             choice = InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
             if (choice < character.getSimpleMeleeWeapons().length){
+                character.weapons.add(new Item(character.getSimpleMeleeWeapons()[choice-1],character.getSimpleMeleeWeaponProperties()[choice-1],1,character.getSimpleMeleeWeaponsCost()[choice-1]));
                 System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
             }
             if (choice>=character.getSimpleMeleeWeapons().length){
+                character.weapons.add(new Item(character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1],character.getSimpleRangedWeaponsProperties()[choice-character.getSimpleMeleeWeapons().length -1],1,character.getSimpleRangedWeaponsCost()[choice-character.getSimpleMeleeWeapons().length -1]));
                 System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
             }
         }

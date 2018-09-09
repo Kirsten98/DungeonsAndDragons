@@ -6,17 +6,23 @@ public class Tester {
 
     public static void main(String[] args) {
         CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
-        Barbarian barbarian = new Barbarian(character);
+        Bard bard = new Bard(character);
+
+        bard.ChooseWeapon();
 
 
-        for (int i =0 ; i<20; i++){
-            barbarian.AddLevel();
-        }
+        VectorPrintOut(character.instruments);
+//        for (int i =0 ; i<20; i++){
+//            System.out.println(bard.D8Roll());
+//        }
 //        VectorPrintOut(character.weapons);
 
-//        for (int i = 0; i < character.weapons.size(); i++){
-//            System.out.println(i + 1 + ".) " + character.weapons.get(i).getName());
-//        }
+        for (int i = 0; i < character.inventory.size(); i++){
+            System.out.println(i + 1 + ".) " + character.inventory.get(i).getName());
+        }
+        for (int i = 0; i < character.weapons.size(); i++){
+            System.out.println(i + 1 + ".) " + character.weapons.get(i).getName());
+        }
 
 
     }
