@@ -496,6 +496,7 @@ public class Barbarian{
      * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
      * @param vector The vector you are checking/ adding the contents into
      * @param contents String that you are checking/ adding in the vector
+     * @param vectorName Name of the vector you are adding the item to
      */
     public void CheckVectorAndAdd(Vector vector,String vectorName, String contents){
         if (!vector.contains(contents)){

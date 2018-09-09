@@ -182,7 +182,7 @@ public class Bard {
 
 
 
-    //TODO Test Method
+    //Tested and verified 9/9
 
     /**
      * Walks user through choosing the tools they want to be proficient in
@@ -207,7 +207,7 @@ public class Bard {
             endOfLine = scanner.nextLine();
             choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
         }
-        CheckVectorAndAdd(proficiencies,character.getMusicalInstruments()[choice-1]);
+        CheckVectorAndAdd(proficiencies,"proficiencies", character.getMusicalInstruments()[choice-1]);
 
         System.out.println("Choose your second instrument.");
         for (int i = 0; i < character.getMusicalInstruments().length; i++){
@@ -225,7 +225,7 @@ public class Bard {
             endOfLine = scanner.nextLine();
             choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
         }
-        CheckVectorAndAdd(proficiencies,character.getMusicalInstruments()[choice-1]);
+        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
 
         System.out.println("Choose your third instrument");
         for (int i = 0; i < character.getMusicalInstruments().length; i++){
@@ -243,10 +243,10 @@ public class Bard {
             endOfLine = scanner.nextLine();
             choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
         }
-        CheckVectorAndAdd(proficiencies,character.getMusicalInstruments()[choice-1]);
+        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
 
     }
-    //TODO Test Method
+    //Tested and verified 9/10
     /**
      * Allows user to add the skills they want to be proficient in.
      */
@@ -268,7 +268,15 @@ public class Bard {
             choice = scanner.nextInt();
             endOfLine =scanner.nextLine();
             choice = InputErrorCheck(choice,1,character.getAllSkills().length);
-            CheckVectorAndAdd(proficiencies,character.getAllSkills()[choice-1]);
+            while (proficiencies.contains(character.getAllSkills()[choice-1])){
+                System.out.println("You are already proficient in this skill, please choose a different skill.");
+                choice = scanner.nextInt();
+                endOfLine =scanner.nextLine();
+                choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+
+            }
+            CheckVectorAndAdd(proficiencies, "proficiencies",character.getAllSkills()[choice-1]);
+
         }
 
     }
@@ -328,13 +336,13 @@ public class Bard {
             spells.add(firstLevelSpells.get(choice-1));
             firstLevelSpells.remove(choice -1);
 
-            CheckVectorAndAdd(proficiencies,"Dexterity");
-            CheckVectorAndAdd(proficiencies,"Charisma");
-            CheckVectorAndAdd(proficiencies,"Simple Weapons");
-            CheckVectorAndAdd(proficiencies,"Hand Crossbows");
-            CheckVectorAndAdd(proficiencies,"Longswords");
-            CheckVectorAndAdd(proficiencies,"Rapiers");
-            CheckVectorAndAdd(proficiencies,"Shortswords");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Dexterity");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Charisma");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Simple Weapons");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Hand Crossbows");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Longswords");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Rapiers");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Shortswords");
 
 
 
@@ -597,15 +605,15 @@ public class Bard {
      * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
      * @param vector The vector you are checking/ adding the contents into
      * @param contents String that you are checking/ adding in the vector
+     * @param vectorName Name of the vector you are adding the item to
      */
-    public void CheckVectorAndAdd(Vector vector, String contents){
+    public void CheckVectorAndAdd(Vector vector,String vectorName, String contents){
         if (!vector.contains(contents)){
             vector.add(contents);
-            System.out.println(contents+" added to " + vector);
+            System.out.println(contents+" added to " + vectorName);
         }
 
     }
-
     /**
      *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
      * @param character CharacterSheet that the ability improvement is happening to

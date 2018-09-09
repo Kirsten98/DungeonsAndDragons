@@ -8,10 +8,10 @@ public class Tester {
         CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
         Bard bard = new Bard(character);
 
-        bard.ChooseWeapon();
+        bard.ChooseSkillProficiencies();
 
 
-        VectorPrintOut(character.instruments);
+ 
 //        for (int i =0 ; i<20; i++){
 //            System.out.println(bard.D8Roll());
 //        }
