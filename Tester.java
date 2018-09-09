@@ -14,11 +14,6 @@ public class Tester {
 
 
 
-//        for (int i =0 ; i<20; i++){
-//            System.out.println(bard.D8Roll());
-//        }
-//        VectorPrintOut(character.weapons);
-//
 //        for (int i = 0; i < character.inventory.size(); i++){
 //            System.out.println(i + 1 + ".) " + character.inventory.get(i).getName());
 //        }

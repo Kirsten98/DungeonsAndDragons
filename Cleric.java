@@ -237,13 +237,19 @@ public class Cleric {
     }
 
 
+    // Tested and verified 9/5
+    /**
+     * Randomly Generates a number between 1 and 8. Simulating a D8
+     * @return Random Number between 1 and 8
+     */
+    public int D8Roll(){
+        double randomDouble = Math.random()*8 +1;
+        Double randomDouble2 = randomDouble;
+        int roll = randomDouble2.intValue();
+        return roll;
+    }
 
-public int D8Roll(){
-    double randomDouble = Math.random()*8;
-    Double randomDouble2 = randomDouble;
-    int roll = randomDouble2.intValue();
-    return roll;
-}
+
 //TODO Finish
     public void AddLevel(){
         Scanner scanner = new Scanner(System.in);
