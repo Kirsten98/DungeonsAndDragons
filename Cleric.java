@@ -27,7 +27,6 @@ public class Cleric {
     Vector<String> eighthLevelSpells = Spells.ClericSpellSetUp(8);
     Vector<String> ninthLevelSpells = Spells.ClericSpellSetUp(9);
 
-    //TODO Add all proficiencies to vector
     Vector<String> proficiencies = new Vector<>();
 
 
@@ -85,12 +84,12 @@ public class Cleric {
             endOfLine = scanner.nextLine();
             choice=InputErrorCheck(choice,1,2);
             if (choice==1){
-            CheckVectorAndAdd(character.weapons,"Mace");
+            CheckVectorAndAdd(character.weapons,"weapons","Mace");
             }if (choice==2){
-                CheckVectorAndAdd(character.weapons, "Warhammer");
+                CheckVectorAndAdd(character.weapons, "weapons","Warhammer");
             }
         }else {
-            CheckVectorAndAdd(character.weapons,"Mace");
+            CheckVectorAndAdd(character.weapons,"weapons","Mace");
         }
 
         if (proficiencies.contains("Chain Mail")){
@@ -131,7 +130,7 @@ public class Cleric {
         endOfLine = scanner.nextLine();
         choice=InputErrorCheck(choice,1,2);
         if (choice==1){
-            CheckVectorAndAdd(character.weapons,"Light Crossbow");
+            CheckVectorAndAdd(character.weapons,"weapons","Light Crossbow");
 //            character.inventory.add("20 Bolts");
         }if (choice==2){
             System.out.println("Choose any simple weapon");
@@ -147,10 +146,10 @@ public class Cleric {
             endOfLine = scanner.nextLine();
             choice=InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length+character.getSimpleRangedWeapons().length);
             if (choice<character.getSimpleMeleeWeapons().length){
-                CheckVectorAndAdd(character.weapons,character.getSimpleMeleeWeapons()[choice-1]);
+                CheckVectorAndAdd(character.weapons,"weapons",character.getSimpleMeleeWeapons()[choice-1]);
 
             }if (choice>= character.getSimpleMeleeWeapons().length){
-                CheckVectorAndAdd(character.weapons, character.getSimpleRangedWeapons()[choice-1-character.getSimpleMeleeWeapons().length]);
+                CheckVectorAndAdd(character.weapons, "weapons",character.getSimpleRangedWeapons()[choice-1-character.getSimpleMeleeWeapons().length]);
             }
 
         }
@@ -230,7 +229,7 @@ public class Cleric {
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
             choice= InputErrorCheck(choice,1,tempskills.size());
-            CheckVectorAndAdd(proficiencies,tempskills.get(choice-1));
+            CheckVectorAndAdd(proficiencies,"proficiencies",tempskills.get(choice-1));
             tempskills.remove(choice-1);
         }
 
@@ -262,12 +261,12 @@ public class Cleric {
             System.out.println("Proficiency Bonus : " + proficiency);
             character.setHitPoints(8 + character.getConstitutionMod());
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            CheckVectorAndAdd(proficiencies,"Light Armor");
-            CheckVectorAndAdd(proficiencies,"Medium Armor");
-            CheckVectorAndAdd(proficiencies,"Shields");
-            CheckVectorAndAdd(proficiencies,"Simple Weapons");
-            CheckVectorAndAdd(proficiencies,"Wisdom");
-            CheckVectorAndAdd(proficiencies,"Charisma");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Light Armor");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Medium Armor");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Shields");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Simple Weapons");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Wisdom");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Charisma");
             cantripList.setSize(3);
             for (int i = 0 ; i<2; i++){
                 ChooseYourSpell(1);
@@ -475,8 +474,8 @@ public class Cleric {
             System.out.println("You have added " + choice + " to your languages");
 
 
-            CheckVectorAndAdd(spells,"Command");
-            CheckVectorAndAdd(spells,"Identify");
+            CheckVectorAndAdd(spells,"spells","Command");
+            CheckVectorAndAdd(spells,"spells","Identify");
 
             Vector<String> divineSkills = new Vector<>();
             divineSkills.add("Arcana");
@@ -502,19 +501,19 @@ public class Cleric {
             System.out.println("Channel Divinity: Knowledge of the Ages was added to features");
         }
         if (level == 3){
-            CheckVectorAndAdd(spells,"Augury");
-            CheckVectorAndAdd(spells,"Suggestion");
+            CheckVectorAndAdd(spells,"spells","Augury");
+            CheckVectorAndAdd(spells,"spells","Suggestion");
 
         } if (level == 5){
-            CheckVectorAndAdd(spells,"Nondetection");
-            CheckVectorAndAdd(spells,"Speak with Dead");
+            CheckVectorAndAdd(spells,"spells","Nondetection");
+            CheckVectorAndAdd(spells,"spells","Speak with Dead");
         } if (level == 6){
             features.add("Channel Divinity: Read Thoughts");
             System.out.println("Channel Divinity: Read Thoughts added to features");
         }
         if (level==7){
-            CheckVectorAndAdd(spells,"Arcane Eye");
-            CheckVectorAndAdd(spells,"Confusion");
+            CheckVectorAndAdd(spells,"spells","Arcane Eye");
+            CheckVectorAndAdd(spells,"spells","Confusion");
 
         }
         if (level == 8){
@@ -522,8 +521,8 @@ public class Cleric {
             System.out.println("Potent Spellcasting added to features");
         }
         if (level ==9){
-            CheckVectorAndAdd(spells,"Legend Lore");
-            CheckVectorAndAdd(spells,"Scrying");
+            CheckVectorAndAdd(spells,"spells","Legend Lore");
+            CheckVectorAndAdd(spells,"spells","Scrying");
 
         }
         if (level ==17){
@@ -537,29 +536,29 @@ public class Cleric {
      */
     public void LifeDomain (int level){
         if (level ==1){
-            CheckVectorAndAdd(spells,"Bless");
-            CheckVectorAndAdd(spells,"Cure Wounds");
-            CheckVectorAndAdd(proficiencies,"Heavy Armor");
+            CheckVectorAndAdd(spells,"spells","Bless");
+            CheckVectorAndAdd(spells,"spells","Cure Wounds");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Heavy Armor");
             features.add("Disciple of Life");
 
         } if (level == 2){
             features.add("Channel Divinity: Preserve Life");
         }
         if (level == 3){
-           CheckVectorAndAdd(spells,"Lesser Restoration");
-            CheckVectorAndAdd(spells,"Spiritual Weapon");
+           CheckVectorAndAdd(spells,"spells","Lesser Restoration");
+            CheckVectorAndAdd(spells,"spells","Spiritual Weapon");
 
         } if (level == 5){
-            CheckVectorAndAdd(spells,"Beacon of Hope");
-            CheckVectorAndAdd(spells,"Revivify");
+            CheckVectorAndAdd(spells,"spells","Beacon of Hope");
+            CheckVectorAndAdd(spells,"spells","Revivify");
 
         }if (level ==6 ){
             features.add("Blessed Healer");
             System.out.println("Blessed Healer added to features");
         }
         if (level==7){
-            CheckVectorAndAdd(spells,"Death Ward");
-            CheckVectorAndAdd(spells,"Guardian of Faith");
+            CheckVectorAndAdd(spells,"spells","Death Ward");
+            CheckVectorAndAdd(spells,"spells","Guardian of Faith");
 
         }
         if (level==8){
@@ -567,8 +566,8 @@ public class Cleric {
             System.out.println("Divine Strike (d8) added to features");
         }
         if (level ==9){
-           CheckVectorAndAdd(spells,"Mass Cure Wounds");
-           CheckVectorAndAdd(spells,"Raise Dead");
+           CheckVectorAndAdd(spells,"spells","Mass Cure Wounds");
+           CheckVectorAndAdd(spells,"spells","Raise Dead");
         }
         if (level==14){
             features.remove("Divine Strike (d8)");
@@ -586,8 +585,8 @@ public class Cleric {
      */
     public void LightDomain (int level){
         if (level ==1){
-            CheckVectorAndAdd(spells,"Burning Hands");
-            CheckVectorAndAdd(spells,"Faerie Fire");
+            CheckVectorAndAdd(spells,"spells","Burning Hands");
+            CheckVectorAndAdd(spells,"spells","Faerie Fire");
 
             if (!cantrips.contains("Light")){
                 cantrips.add("Light");
@@ -602,13 +601,13 @@ public class Cleric {
             System.out.println("Channel Divinity: Radiance of the Dawn added to features");
         }
         if (level == 3){
-            CheckVectorAndAdd(spells,"Flaming Sphere");
-            CheckVectorAndAdd(spells,"Scorching Ray");
+            CheckVectorAndAdd(spells,"spells","Flaming Sphere");
+            CheckVectorAndAdd(spells,"spells","Scorching Ray");
 
 
         } if (level == 5){
-            CheckVectorAndAdd(spells,"Daylight");
-            CheckVectorAndAdd(spells,"Fireball");
+            CheckVectorAndAdd(spells,"spells","Daylight");
+            CheckVectorAndAdd(spells,"spells","Fireball");
 
         }
         if (level == 6 ){
@@ -617,16 +616,16 @@ public class Cleric {
             System.out.println("Improved Warden Flare added to features");
         }
         if (level== 7){
-                CheckVectorAndAdd(spells,"Guardian of Faith");
-                CheckVectorAndAdd(spells,"Wall of Fire");
+                CheckVectorAndAdd(spells,"spells","Guardian of Faith");
+                CheckVectorAndAdd(spells,"spells","Wall of Fire");
         }
         if (level == 8 ){
            features.add("Potent Spellcasting");
             System.out.println("Potent Spellcasting added to features");
         }
         if (level ==9){
-            CheckVectorAndAdd(spells,"Flame Strike");
-            CheckVectorAndAdd(spells,"Scrying");
+            CheckVectorAndAdd(spells,"spells","Flame Strike");
+            CheckVectorAndAdd(spells,"spells","Scrying");
 
         }
         if (level == 17) {
@@ -641,8 +640,8 @@ public class Cleric {
      */
     public void NatureDomain (int level){
         if (level ==1){
-            CheckVectorAndAdd(spells,"Animal Friendship");
-            CheckVectorAndAdd(spells,"Speak with Animals");
+            CheckVectorAndAdd(spells,"spells","Animal Friendship");
+            CheckVectorAndAdd(spells,"spells","Speak with Animals");
             int choice;
             Scanner scanner = new Scanner(System.in);
             System.out.println("You have learned 1 Druid Cantrip. What cantrip would you like to learn?");
@@ -652,7 +651,7 @@ public class Cleric {
             cantrips.add(druidCantrips.get(choice-1));
             System.out.println("You have added " + druidCantrips.get(choice-1) + " to your cantrips");
             druidCantrips.remove(choice-1);
-           CheckVectorAndAdd(proficiencies, "Heavy Armor");
+           CheckVectorAndAdd(proficiencies, "proficiencies","Heavy Armor");
 
 
 
@@ -662,27 +661,27 @@ public class Cleric {
         }
 
         if (level == 3){
-            CheckVectorAndAdd(spells,"Barkskin");
-            CheckVectorAndAdd(spells,"Spike Growth");
+            CheckVectorAndAdd(spells,"spells","Barkskin");
+            CheckVectorAndAdd(spells,"spells","Spike Growth");
 
         } if (level == 5){
-            CheckVectorAndAdd(spells,"Plant Growth");
-            CheckVectorAndAdd(spells,"Wind Wall");
+            CheckVectorAndAdd(spells,"spells","Plant Growth");
+            CheckVectorAndAdd(spells,"spells","Wind Wall");
 
         }if (level == 6){
             features.add("Dampen Elements");
             System.out.println("Dampen Elements added to features");
         }if (level==7){
-                CheckVectorAndAdd(spells,"Dominate Beast");
-                CheckVectorAndAdd(spells,"Grasping Vine");
+                CheckVectorAndAdd(spells,"spells","Dominate Beast");
+                CheckVectorAndAdd(spells,"spells","Grasping Vine");
         }
         if (level == 8){
             features.add("Divine Strike (1d8)");
             System.out.println("Divine Strike (1d8) added to features");
         }
         if (level ==9){
-            CheckVectorAndAdd(spells,"Insect Plague");
-            CheckVectorAndAdd(spells,"Tree Stride ");
+            CheckVectorAndAdd(spells,"spells","Insect Plague");
+            CheckVectorAndAdd(spells,"spells","Tree Stride ");
 
         }
         if (level == 14){
@@ -704,10 +703,10 @@ public class Cleric {
      */
     public void TempestDomain (int level){
         if (level ==1){
-            CheckVectorAndAdd(spells,"Fog Cloud");
-            CheckVectorAndAdd(spells,"Thunderwave");
-            CheckVectorAndAdd(proficiencies,"Martial Weapons");
-            CheckVectorAndAdd(proficiencies,"Heavy Armor");
+            CheckVectorAndAdd(spells,"spells","Fog Cloud");
+            CheckVectorAndAdd(spells,"spells","Thunderwave");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Martial Weapons");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Heavy Armor");
             features.add("Wrath of the Storm");
             System.out.println("Wrath of the Storms added to features");
 
@@ -716,20 +715,20 @@ public class Cleric {
             System.out.println("Channel Divinity: Destructive Wrath added to features");
         }
         if (level == 3){
-            CheckVectorAndAdd(spells,"Gust of Wind");
-            CheckVectorAndAdd(spells,"Shatter");
+            CheckVectorAndAdd(spells,"spells","Gust of Wind");
+            CheckVectorAndAdd(spells,"spells","Shatter");
 
         } if (level == 5){
-            CheckVectorAndAdd(spells,"Call Lightning");
-            CheckVectorAndAdd(spells,"Sleet Storm");
+            CheckVectorAndAdd(spells,"spells","Call Lightning");
+            CheckVectorAndAdd(spells,"spells","Sleet Storm");
 
         }if (level == 6){
             features.add("Thunderbolt Strike");
             System.out.println("Thunderbolt Strike added to features");
         }
         if (level==7){
-            CheckVectorAndAdd(spells,"Control Water");
-            CheckVectorAndAdd(spells,"Ice Storm");
+            CheckVectorAndAdd(spells,"spells","Control Water");
+            CheckVectorAndAdd(spells,"spells","Ice Storm");
 
         }
         if (level==8){
@@ -737,8 +736,8 @@ public class Cleric {
             System.out.println("Divine Strike (1d8) added to features");
         }
         if (level ==9){
-            CheckVectorAndAdd(spells,"Destructive Wave");
-            CheckVectorAndAdd(spells,"Insect Plague");
+            CheckVectorAndAdd(spells,"spells","Destructive Wave");
+            CheckVectorAndAdd(spells,"spells","Insect Plague");
         }
         if (level==14){
             features.remove("Divine Strike (1d8)");
@@ -755,8 +754,8 @@ public class Cleric {
      */
     public void TrickeryDomain (int level){
         if (level ==1){
-            CheckVectorAndAdd(spells,"Charm Person");
-            CheckVectorAndAdd(spells,"Disguise Self");
+            CheckVectorAndAdd(spells,"spells","Charm Person");
+            CheckVectorAndAdd(spells,"spells","Disguise Self");
             features.add("Blessing of the Trickster");
             System.out.println("Blessing of the Trickster added to features");
 
@@ -766,13 +765,13 @@ public class Cleric {
             System.out.println("Channel Divinity: Invoke Duplicity added to features");
 
         }if (level == 3){
-            CheckVectorAndAdd(spells,"Mirror Image");
-            CheckVectorAndAdd(spells,"Pass Without Trace");
+            CheckVectorAndAdd(spells,"spells","Mirror Image");
+            CheckVectorAndAdd(spells,"spells","Pass Without Trace");
 
 
         } if (level == 5){
-            CheckVectorAndAdd(spells,"Blink");
-            CheckVectorAndAdd(spells,"Dispel Magic");
+            CheckVectorAndAdd(spells,"spells","Blink");
+            CheckVectorAndAdd(spells,"spells","Dispel Magic");
 
         }if (level ==6){
             features.add("Channel Divinity: Cloak of Shadows");
@@ -780,8 +779,8 @@ public class Cleric {
 
         }
         if (level==7){
-            CheckVectorAndAdd(spells,"Dimension Door");
-            CheckVectorAndAdd(spells,"Polymorph");
+            CheckVectorAndAdd(spells,"spells","Dimension Door");
+            CheckVectorAndAdd(spells,"spells","Polymorph");
 
         }
         if (level ==8){
@@ -789,8 +788,8 @@ public class Cleric {
             System.out.println("Channel Divinity: Divine Strike (1d8) added to features");
         }
         if (level ==9){
-            CheckVectorAndAdd(spells,"Dominate Person");
-            CheckVectorAndAdd(spells,"Modify Memory");
+            CheckVectorAndAdd(spells,"spells","Dominate Person");
+            CheckVectorAndAdd(spells,"spells","Modify Memory");
         }
         if (level== 14){
             features.remove("Channel Divinity: Divine Strike (1d8)");
@@ -809,10 +808,10 @@ public class Cleric {
      */
     public void WarDomain (int level){
         if (level ==1){
-            CheckVectorAndAdd(spells,"Divine Favor");
-            CheckVectorAndAdd(spells,"Shield of Faith");
-            CheckVectorAndAdd(proficiencies,"Martial Weapons");
-            CheckVectorAndAdd(proficiencies,"Heavy Armor");
+            CheckVectorAndAdd(spells,"spells","Divine Favor");
+            CheckVectorAndAdd(spells,"spells","Shield of Faith");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Martial Weapons");
+            CheckVectorAndAdd(proficiencies,"proficiencies","Heavy Armor");
             features.add("War Priest");
             System.out.println("War Priest added to features");
 
@@ -822,12 +821,12 @@ public class Cleric {
 
         }
         if (level == 3){
-            CheckVectorAndAdd(spells,"Magic Weapon");
-            CheckVectorAndAdd(spells, "Spiritual Weapon");
+            CheckVectorAndAdd(spells,"spells","Magic Weapon");
+            CheckVectorAndAdd(spells,"spells", "Spiritual Weapon");
 
         } if (level == 5){
-            CheckVectorAndAdd(spells, "Crusader's Mantle");
-            CheckVectorAndAdd(spells, "Spirit Guardians");
+            CheckVectorAndAdd(spells,"spells", "Crusader's Mantle");
+            CheckVectorAndAdd(spells,"spells", "Spirit Guardians");
 
         } if (level ==6){
             features.add("Channel Divinity: War God's Blessing");
@@ -835,8 +834,8 @@ public class Cleric {
 
         }
         if (level==7){
-            CheckVectorAndAdd(spells,"Freedom of Movement");
-            CheckVectorAndAdd(spells,"Stoneskin");
+            CheckVectorAndAdd(spells,"spells","Freedom of Movement");
+            CheckVectorAndAdd(spells,"spells","Stoneskin");
 
         }
         if (level ==8){
@@ -845,8 +844,8 @@ public class Cleric {
 
         }
         if (level ==9){
-            CheckVectorAndAdd(spells, "Flame Strike");
-            CheckVectorAndAdd(spells,"Hold Monster");
+            CheckVectorAndAdd(spells,"spells", "Flame Strike");
+            CheckVectorAndAdd(spells,"spells","Hold Monster");
 
         }
         if (level ==14){
@@ -866,11 +865,12 @@ public class Cleric {
      * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
      * @param vector The vector you are checking/ adding the contents into
      * @param contents String that you are checking/ adding in the vector
+     * @param vectorName Name of the vector you are adding the item to
      */
-    public void CheckVectorAndAdd(Vector vector, String contents){
+    public void CheckVectorAndAdd(Vector vector,String vectorName, String contents){
         if (!vector.contains(contents)){
             vector.add(contents);
-            System.out.println(contents+" added to " + vector);
+            System.out.println(contents+" added to " + vectorName);
         }
 
     }
