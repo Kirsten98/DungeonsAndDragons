@@ -34,17 +34,17 @@ public class Cleric {
         this.character = character;
     }
 
-    //TODO Test Out Method
+// Tested and verified
     public void ChooseArmor(){
         Scanner scanner = new Scanner(System.in);
         String endOfLine ="";
 
-        System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
+        System.out.println("You are proficient in Light Armor, Medium Armor, and Shields. Choose your Armor.");
         for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
             if(i< character.getLightArmor().length){
                 System.out.println(i+1+".)"+character.getLightArmor()[i]);
             }
-            if (i>character.getLightArmor().length){
+            if (i>=character.getLightArmor().length){
                 System.out.println(i+1 +".)"+character.getMediumArmor()[i-character.getLightArmor().length]);
             }
 
@@ -54,7 +54,7 @@ public class Cleric {
 
         choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
 
-        if(choice < character.getLightArmor().length){
+        if(choice <= character.getLightArmor().length){
             System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
             CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
 //            character.setArmor(character.getLightArmor()[choice-1]);
