@@ -6,12 +6,10 @@ public class Tester {
 
     public static void main(String[] args) {
         CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
-        Bard bard = new Bard(character);
+        Cleric cleric = new Cleric(character);
 
-        for(int i = 0; i < 20; i++) {
-            bard.AddLevel();
-        }
-
+        cleric.proficiencies.add("Warhammer");
+        cleric.ChooseWeapon();
 
 
 //        for (int i = 0; i < character.inventory.size(); i++){

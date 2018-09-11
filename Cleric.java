@@ -70,6 +70,7 @@ public class Cleric {
 
     }
 
+    // Tested and verified 9/10
     /**
      * Walks user through on adding their Weapons / Equipment ot the character
      */
@@ -99,14 +100,11 @@ public class Cleric {
             endOfLine = scanner.nextLine();
             choice=InputErrorCheck(choice,1,2);
             if (choice==1){
-//                CheckVectorAndAdd(character.armorList,"Scale Mail");
                 CheckAndAddItemQuantity(character.armorList,new Item(character.getMediumArmor()[2],character.getMediumArmorDescription()[2],1,character.getMediumArmorCost()[2]));
             }if (choice==2){
-//                CheckVectorAndAdd(character.armorList,"Leather Armor");
                 CheckAndAddItemQuantity(character.armorList,new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
             }
             if (choice==3){
-//                CheckVectorAndAdd(character.armorList,"Chain Mail");
                 CheckAndAddItemQuantity(character.armorList,new Item(character.getMediumArmor()[1],character.getMediumArmorDescription()[1],1,character.getMediumArmorCost()[1]));
             }
 
@@ -116,22 +114,19 @@ public class Cleric {
             endOfLine = scanner.nextLine();
             choice=InputErrorCheck(choice,1,2);
             if (choice==1){
-//                CheckVectorAndAdd(character.armorList,"Scale Mail");
                 CheckAndAddItemQuantity(character.armorList,new Item(character.getMediumArmor()[2],character.getMediumArmorDescription()[2],1,character.getMediumArmorCost()[2]));
             }if (choice==2){
-//                CheckVectorAndAdd(character.armorList,"Leather Armor");
                 CheckAndAddItemQuantity(character.armorList,new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
             }
 
         }
 
-        System.out.println("Choose a weapon. 1.) Light Crossbow and 20 Bolts oe 2.) Any Simple Weapon.");
+        System.out.println("Choose a weapon. 1.) Light Crossbow and 20 Bolts or 2.) Any Simple Weapon.");
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
         choice=InputErrorCheck(choice,1,2);
         if (choice==1){
             CheckVectorAndAdd(character.weapons,"weapons","Light Crossbow");
-//            character.inventory.add("20 Bolts");
         }if (choice==2){
             System.out.println("Choose any simple weapon");
             System.out.println("** Simple Melee Weapons **");
@@ -198,6 +193,7 @@ public class Cleric {
         choice = InputErrorCheck(choice,1,2);
         if (choice==1){
             character.setAc(character.getAc() +2);
+            System.out.println("AC +2\n" + "Current AC : 1" +character.getAc());
         }
 
 
@@ -891,7 +887,7 @@ public class Cleric {
 
     }
 
-    public static void AbilityScoreImprovement(CharacterSheet character){
+    public void AbilityScoreImprovement(CharacterSheet character){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
         int choice = scanner.nextInt();
@@ -911,7 +907,7 @@ public class Cleric {
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
             }
-            AbilityAddtion(character, choice, 2 );
+            AbilityAddition(character, choice, 2 );
         }
         if (choice==2){
             System.out.println("Choose your first ability");
@@ -923,7 +919,7 @@ public class Cleric {
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
             }
-            AbilityAddtion(character, choice, 1 );
+            AbilityAddition(character, choice, 1 );
             System.out.println("What is your second ability?");
             AbilityChoicePrintout();
             choice = scanner.nextInt();
@@ -933,122 +929,111 @@ public class Cleric {
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
             }
-            AbilityAddtion(character, choice, 1 );
+            AbilityAddition(character, choice, 1 );
 
 
         }
     }
 
-    public static void AbilityAddtion(CharacterSheet character, int choice, int modifierAddtion){
+    // Tested and verfied 9/10
+    /**
+     *
+     * @param character CharacterSheet that needs the Ability Modifier added to
+     * @param AbilityChoice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
+     * @param modifierAddtion The Value that is getting added to the Modifier
+     */
+    public void AbilityAddition(CharacterSheet character, int AbilityChoice, int modifierAddtion){
+        int choice = 0;
         Scanner scanner = new Scanner(System.in);
-        if (choice == 1){
-            if(character.getCharismaScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+        if (AbilityChoice == 1){
+            if(character.getCharismaScore() >= 20){
+                System.out.println("Ability score is greater than 20. Please choose a different option.");
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
+                choice = InputErrorCheck(choice,1,6);
+                AbilityAddition(character, choice, modifierAddtion);
+            }else {
+                character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
+                System.out.println("Charisma +" + modifierAddtion);
+                character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
+            }
 
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
-            }
-            character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
-            System.out.println("Charisma +" + modifierAddtion);
-            character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
         }
-        if (choice == 2){
-            if(character.getStrengthScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+        if (AbilityChoice == 2){
+            if(character.getStrengthScore() >=20){
+                System.out.println("Ability score is greater than 20. Please choose a different option.");
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
+                choice = InputErrorCheck(choice,1,6);
+                AbilityAddition(character, choice, modifierAddtion);
+            }else {
+                character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
+                System.out.println("Strength +" + modifierAddtion);
+                character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
             }
-            character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
-            System.out.println("Strength +" + modifierAddtion);
-            character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
+
         }
-        if (choice == 3){
-            if(character.getDexterityScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+        if (AbilityChoice == 3){
+            if(character.getDexterityScore() >=20){
+                System.out.println("Ability score is greater than 20. Please choose a different option.");
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
+                choice = InputErrorCheck(choice,1,6);
+                AbilityAddition(character, choice, modifierAddtion);
+            } else {
+                character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
+                System.out.println("Dexterity +" + modifierAddtion);
+                character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
             }
-            character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
-            System.out.println("Dexterity +" + modifierAddtion);
-            character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
+
         }
-        if (choice == 4){
-            if(character.getWisdomScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+        if (AbilityChoice == 4){
+            if(character.getWisdomScore() >=20){
+                System.out.println("Ability score is greater than 20. Please choose a different option.");
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
+                choice = InputErrorCheck(choice,1,6);
+                AbilityAddition(character, choice, modifierAddtion);
+            } else{
+                character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
+                System.out.println("Wisdom +" + modifierAddtion);
+                character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
             }
-            character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
-            System.out.println("Wisdom +" + modifierAddtion);
-            character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
+
         }
-        if (choice == 5){
-            if(character.getIntelligenceScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+        if (AbilityChoice == 5){
+            if(character.getIntelligenceScore() >=20){
+                System.out.println("Ability score is greater than 20. Please choose a different option.");
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
+                choice = InputErrorCheck(choice,1,6);
+                AbilityAddition(character, choice, modifierAddtion);
+            } else {
+                character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
+                System.out.println("Intelligence +" + modifierAddtion);
+                character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
             }
-            character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
-            System.out.println("Intelligence +" + modifierAddtion);
-            character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
+
         }
-        if (choice == 6){
-            if(character.getConstitutionScore() >20){
-                System.out.println("Ability score is Greater than 20. Please choose a different option.");
+        if (AbilityChoice == 6){
+            if(character.getConstitutionScore() >=20){
+                System.out.println("Ability score is greater than 20. Please choose a different option.");
                 AbilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                while (choice <0 || choice >6){
-                    System.out.println("Incorrect Choice. Please choose a different option.");
-                    AbilityChoicePrintout();
-                    choice = scanner.nextInt();
-                    endOfLine = scanner.nextLine();
-                }
-                AbilityAddtion(character, choice, modifierAddtion);
+                choice = InputErrorCheck(choice,1,6);
+                AbilityAddition(character, choice, modifierAddtion);
+            }else {
+                character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
+                System.out.println("Constitution +" + modifierAddtion);
+                character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
             }
-            character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
-            System.out.println("Constitution +" + modifierAddtion);
-            character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
+
 
         }
     }
