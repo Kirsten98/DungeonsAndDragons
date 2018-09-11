@@ -245,7 +245,10 @@ public class Cleric {
     }
 
 
-
+    // Tested and verified 9/10
+    /**
+     * Adds Levels and related information to the character.
+     */
     public void AddLevel(){
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
@@ -254,6 +257,7 @@ public class Cleric {
 
 
         if (level == 1){
+            System.out.println("\nLevel 1");
             System.out.println("Proficiency Bonus : " + proficiency);
             character.setHitPoints(8 + character.getConstitutionMod());
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
@@ -285,12 +289,14 @@ public class Cleric {
 
 
         }if (level == 2){
+            System.out.println("\nLevel 2");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(1);
             FindDomain(domainChoice,2);
 
         }if (level == 3){
+            System.out.println("\nLevel 3");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(1);
@@ -300,6 +306,7 @@ public class Cleric {
             FindDomain(domainChoice,3);
 
         }if (level == 4){
+            System.out.println("\nLevel 4");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(2);
@@ -307,6 +314,7 @@ public class Cleric {
             FindDomain(domainChoice,4);
 
         }if (level == 5){
+            System.out.println("\nLevel 5");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             for(int i = 0; i<2 ;i++){
@@ -315,24 +323,28 @@ public class Cleric {
             FindDomain(domainChoice,5);
 
         }if (level == 6){
+            System.out.println("\nLevel 6");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(3);
             FindDomain(domainChoice,6);
 
         }if (level == 7){
+            System.out.println("\nLevel 7");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(4);
             FindDomain(domainChoice,7);
 
         }if (level == 8){
+            System.out.println("\nLevel 8");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(4);
             FindDomain(domainChoice,8);
 
         }if (level == 9){
+            System.out.println("\nLevel 9");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(4);
@@ -340,6 +352,7 @@ public class Cleric {
             FindDomain(domainChoice,9);
 
         }if (level == 10){
+            System.out.println("\nLevel 10");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(5);
@@ -348,56 +361,66 @@ public class Cleric {
 
 
         }if (level == 11){
+            System.out.println("\nLevel 11");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(6);
             FindDomain(domainChoice,11);
 
         }if (level == 12){
+            System.out.println("\nLevel 12");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             FindDomain(domainChoice,12);
 
         }if (level == 13){
+            System.out.println("\nLevel 13");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(7);
             FindDomain(domainChoice,13);
 
         }if (level == 14){
+            System.out.println("\nLevel 14");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             FindDomain(domainChoice,14);
         }if (level == 15){
+            System.out.println("\nLevel 15");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(8);
             FindDomain(domainChoice,15);
 
         }if (level == 16){
+            System.out.println("\nLevel 16");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             FindDomain(domainChoice,16);
 
         }if (level == 17){
+            System.out.println("\nLevel 17");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(9);
             FindDomain(domainChoice,17);
 
         }if (level == 18){
+            System.out.println("\nLevel 18");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(5);
             FindDomain(domainChoice,18);
 
         }if (level == 19){
+            System.out.println("\nLevel 19");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(6);
             FindDomain(domainChoice,19);
 
         }if (level == 20){
+            System.out.println("\nLevel 20");
             character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             ChooseYourSpell(7);
@@ -530,6 +553,8 @@ public class Cleric {
             System.out.println("Features of the Past added to features");
         }
     }
+
+    //Tested and verified 9/10
     /**
      * If character chose Life Domain, it will apply what's needed for that level.
      * @param level Level that the character is currently at
