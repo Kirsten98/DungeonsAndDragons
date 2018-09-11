@@ -8,8 +8,9 @@ public class Tester {
         CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
         Cleric cleric = new Cleric(character);
 
-        cleric.proficiencies.add("Warhammer");
-        cleric.ChooseWeapon();
+      for (int i = 0; i <20 ; i++){
+          cleric.AddLevel();
+      }
 
 
 //        for (int i = 0; i < character.inventory.size(); i++){
