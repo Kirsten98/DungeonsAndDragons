@@ -200,7 +200,7 @@ public class Cleric {
     }
 
 
-    //TODO test method
+    //Tested and verified 9/10
 
     /**
      * Allows user to add the skills they want to be proficient in.
