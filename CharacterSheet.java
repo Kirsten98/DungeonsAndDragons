@@ -5,6 +5,8 @@ import java.util.Vector;
 //TODO Format all strings the same and do \n inbetween 1,2,3 options
 
 public class CharacterSheet {
+
+
     private String name;
     private String race;
     private String characterClass;
@@ -90,6 +92,22 @@ public class CharacterSheet {
         this.characterClass = characterClass;
 
     }
+
+    public String getName() {
+        return name;
+    }
+
+
+    public String getRace() {
+        return race;
+    }
+
+
+
+    public String getCharacterClass() {
+        return characterClass;
+    }
+
 
     public int getStrengthScore() {
         return strengthScore;

@@ -1,11 +1,45 @@
 package DungeonsAndDragons;
 
+import javafx.application.Application;
+
+
 import java.util.Scanner;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.geometry.VerticalDirection;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
+import  javafx.stage.Stage;
+import javafx.stage.Window;
+import sun.invoke.empty.Empty;
+
+import static javafx.scene.layout.BackgroundPosition.CENTER;
+import static javafx.scene.layout.BackgroundPosition.DEFAULT;
+import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
+import static javafx.scene.layout.BackgroundRepeat.REPEAT;
+import static javafx.scene.layout.BackgroundSize.AUTO;
 
 
-public class RPGCharacterSheet {
+public class RPGCharacterSheet extends Application{
+
+   static CharacterSheet character;
+
+   static String race;
+   static String characterClass;
+   static String characterName;
 
     public static void main(String[] args) {
+        launch(args); // Sets up program as javaFX application
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("What is your Characters name?");
         String name = scanner.nextLine();
@@ -14,7 +48,10 @@ public class RPGCharacterSheet {
         String[] classes = {"Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"};
         int raceArrayNumber =ChooseRace(race) ;
         int classArrayNumber = ChooseClass(classes);
-        CharacterSheet character = new CharacterSheet(name, race[raceArrayNumber], classes[classArrayNumber]);
+        character = new CharacterSheet(name, race[raceArrayNumber], classes[classArrayNumber]);
+
+
+
         String[] alignment = {"Good", "Neutral", "Chaotic Neutral", "Chaotic"};
         int[] d20Rolls = new int[6];
         System.out.println("Ability Score Rolls");
@@ -144,6 +181,7 @@ public class RPGCharacterSheet {
         }
         character.setAlignment(alignment[choice-1]);
         System.out.println("Alignment : " +alignment[choice-1]);
+
 
 
     }
@@ -614,7 +652,329 @@ public class RPGCharacterSheet {
 
     }
 
+
+
+
+
+
+
+    // JavaFX methods
+
+
+    /**
+     * launch(args) calls Application, Application calls start
+     * @param primaryStage
+     */
+    @Override
+    public void start(Stage primaryStage) {
+
+        // Make Primary stage show the values (Name and such) Make new stages for the methods and use showAndWait.
+
+
+
+
+        Button continueButton = new Button("Continue");
+
+//        while (!name.getText().isEmpty()){
+//            pane.getChildren().add(continueButton);
+//        }
+
+        String[] abilityNames = {"Charisma", "Strength", "Dexterity", "Wisdom", "Intelligence", "Constitution"};
+
+
+        ChooseName(continueButton);
+
+        ChooseRace(continueButton);
+
+        ChooseClass(continueButton);
+
+        CharacterSheet character = new CharacterSheet(RPGCharacterSheet.characterName, RPGCharacterSheet.race, RPGCharacterSheet.characterClass);
+
+
+
+        System.out.println(character.getName());
+        System.out.println(character.getRace());
+        System.out.println(character.getCharacterClass());
+        mainStage(primaryStage,character);
+
+
+
     }
+
+    public static void ChooseName(Button continueButton){
+        VBox pane = new VBox(5);
+        Scene scene = new Scene(pane,600,600);
+        Stage nameStage = new Stage();
+        nameStage.setScene(scene);
+        Label askName = new Label("What is your Characters name?");
+        TextArea name = new TextArea();
+        name.setWrapText(true);
+        continueButton.setOnAction(e-> {
+            RPGCharacterSheet.characterName = name.getText();
+            nameStage.close();
+        });
+
+
+        pane.getChildren().addAll(askName,name,continueButton);
+
+
+        nameStage.showAndWait();
+
+    }
+
+
+
+
+        /**
+     *  Allows user to select the race of their character though a list of possible races
+     * @return Numeric choice by user
+     */
+    public static void ChooseRace( Button continueButton){
+//   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
+
+        VBox layout = new VBox(5);
+        Scene scene = new Scene(layout,600,600);
+        Stage raceStage = new Stage();
+        raceStage.setScene(scene);
+        Label chooseRace = new Label("Choose your race.");
+        Button elf = new Button("Elf");
+        elf.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Elf");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+        Button halfElf = new Button("Half-Elf");
+        halfElf.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Half-Elf");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+        Button human = new Button("Human");
+        human.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Human");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+        Button dragonBorn = new Button("Dragonborn");
+        dragonBorn.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("DragonBorn");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+        Button dwarf = new Button("Dwarf");
+        dwarf.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Dwarf");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+        Button halfling = new Button("Halfling");
+        halfling.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Halfling" );
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            ;});
+        Button gnome = new Button("Gnome");
+        gnome.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Gnome");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+        Button halfOrc = new Button("Half-Orc");
+        halfOrc.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Half-Orc");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+        Button tiefling = new Button("Tiefling");
+        tiefling.setOnAction(e-> {
+            continueButton.setOnAction(event-> raceStage.close());
+            RPGCharacterSheet.race = ("Tiefling");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+        });
+
+        layout.getChildren().addAll(chooseRace,elf,halfElf,human,dragonBorn,dwarf,halfling,gnome,halfOrc,tiefling);
+
+        layout.setAlignment(Pos.CENTER);
+
+
+        raceStage.showAndWait();
+
+    }
+
+    /**
+     *  Allows user to select the class of their character though a list of possible races
+     * @return Numeric choice by user
+     */
+    public static void ChooseClass(Button continueButton){
+        // "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
+
+        VBox layout = new VBox(5);
+        Scene scene = new Scene(layout,600,600);
+        Stage classStage = new Stage();
+        classStage.setScene(scene);
+        continueButton.setText("Close");
+        continueButton.setOnAction(e -> classStage.close());
+        Label chooseClass = new Label("Choose your class.");
+        Button barbarian = new Button("Barbarian");
+        barbarian.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Barbarian");
+            layout.getChildren().addAll(new Label ("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button bard = new Button("Bard");
+        bard.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Bard");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button cleric = new Button("Cleric");
+        cleric.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Cleric");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button druid = new Button("Druid");
+        druid.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Druid");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button fighter = new Button("Fighter");
+        fighter.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Fighter");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button monk = new Button("Monk");
+        monk.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Monk");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button paladin = new Button("Paladin");
+        paladin.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Paladin");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button ranger = new Button("Ranger");
+        ranger.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Ranger");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button rogue = new Button("Rogue");
+        rogue.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Rogue");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button sorcerer = new Button("Sorcerer");
+        sorcerer.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Sorcerer");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button warlock = new Button("Warlock");
+        warlock.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Warlock");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+        Button wizard = new Button("Wizard");
+        wizard.setOnAction(event -> {
+            RPGCharacterSheet.characterClass = ("Wizard");
+            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+        });
+
+        layout.getChildren().addAll(chooseClass,barbarian,bard,cleric,druid,fighter,monk,paladin,ranger,rogue,sorcerer,warlock,wizard);
+
+        layout.setAlignment(Pos.CENTER);
+
+
+        classStage.showAndWait();
+
+    }
+
+    public void mainStage (Stage primaryStage, CharacterSheet character){
+        primaryStage.setTitle("Character Sheet Creation");
+        VBox layout = new VBox(5);
+        layout.setBackground(new Background(new BackgroundFill(Color.gray(.7),null,null)));
+        Label name = new Label("Name: " + character.getName());
+        Label race = new Label("Race: "+ character.getRace());
+        Label characterClass = new Label("Class: "+ character.getCharacterClass());
+        name.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" + "-fx-Text-fill: Black;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: White;");
+        race.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" + "-fx-Text-fill: black;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: white;");
+        characterClass.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" + "-fx-Text-fill: black;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: white;");
+
+
+        layout.getChildren().addAll(name,race,characterClass);
+        Scene scene = new Scene(layout, 600,600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+
+
+//    /**
+//     * launch(args) calls Application, Application calls start
+//     * @param primaryStage
+//     */
+//    @Override
+//    public void start(Stage primaryStage) {
+//        primaryStage.setTitle("Character Sheet Creation");
+//        VBox layout = new VBox(5);
+//        layout.setBackground(new Background(new BackgroundFill(Color.gray(.2),null,null)));
+//        Label name = new Label("Name: " + character.getName());
+//        Label race = new Label("Race: "+ character.getRace());
+//        Label characterClass = new Label("Class: "+ character.getCharacterClass());
+//        name.setStyle("-fx-padding: 10;" +
+//                "-fx-border-style: solid inside;" + "-fx-border-fill: white;" +
+//                "-fx-border-width: 2;" +
+//                "-fx-border-insets: 5;" +
+//                "-fx-border-radius: 5;" +
+//                "-fx-border-color: black;");
+//        race.setStyle("-fx-padding: 10;" +
+//                "-fx-border-style: solid inside;" +
+//                "-fx-border-width: 2;" +
+//                "-fx-border-insets: 5;" +
+//                "-fx-border-radius: 5;" +
+//                "-fx-border-color: black;");
+//        characterClass.setStyle("-fx-padding: 10;" +
+//                "-fx-border-style: solid inside;" +
+//                "-fx-border-width: 2;" +
+//                "-fx-border-insets: 5;" +
+//                "-fx-border-radius: 5;" +
+//                "-fx-border-color: black;");
+//
+//
+//        layout.getChildren().addAll(name,race,characterClass);
+//
+////        button = new Button("fgdgfdg");
+////        button.setOnAction(e-> System.out.println(button.getText()));   //"This" as a parameter Means that the handle method is in this class
+//
+//
+//
+//        //http://www.dreamstime.com/stock-image-lined-paper-image25755721
+//        Scene scene = new Scene(layout, 600,600);
+//        primaryStage.setScene(scene);
+////        primaryStage.show();
+//    }
+
+/**
+    @Override
+    public void handle(ActionEvent event) {
+        if (event.getSource() == button){ // This is what determines what is done for each button or source
+            System.out.println(button.getText());
+        }
+
+    }
+    **/
+}
 
 
 
