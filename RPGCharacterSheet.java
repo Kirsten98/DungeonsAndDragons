@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VerticalDirection;
@@ -702,21 +703,34 @@ public class RPGCharacterSheet extends Application{
     }
 
     public static void ChooseName(Button continueButton){
-        VBox pane = new VBox(5);
-        Scene scene = new Scene(pane,600,600);
+        GridPane pane = new GridPane();
+        pane.setGridLinesVisible(false);
+        pane.setPadding(new Insets(50,20,50,20));
+        pane.setHgap(25);
+        pane.setVgap(15);
+
+        Scene scene = new Scene(pane,400,200);
         Stage nameStage = new Stage();
         nameStage.setScene(scene);
+
         Label askName = new Label("What is your Characters name?");
+
         TextArea name = new TextArea();
+        name.setMaxSize(165,20);
         name.setWrapText(true);
+
         continueButton.setOnAction(e-> {
             RPGCharacterSheet.characterName = name.getText();
             nameStage.close();
         });
 
 
-        pane.getChildren().addAll(askName,name,continueButton);
 
+//        pane.getChildren().addAll(askName,name,continueButton);
+        pane.add(askName,0,0);
+        pane.add(name,0,1);
+        pane.add(continueButton,0,2);
+        pane.setAlignment(Pos.TOP_CENTER);
 
         nameStage.showAndWait();
 
@@ -732,72 +746,112 @@ public class RPGCharacterSheet extends Application{
     public static void ChooseRace( Button continueButton){
 //   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
 
-        VBox layout = new VBox(5);
+        // make a while loop for when a button is pressed
+        Label raceChoice = new Label("");
+        GridPane layout = new GridPane();
         Scene scene = new Scene(layout,600,600);
+        layout.setGridLinesVisible(false);
         Stage raceStage = new Stage();
+        layout.add(raceChoice,1,4);
+        layout.setVgap(60);
+        layout.setHgap(60);
         raceStage.setScene(scene);
         Label chooseRace = new Label("Choose your race.");
+        layout.add(chooseRace,1,0);
+        chooseRace.setMaxWidth(100);
         Button elf = new Button("Elf");
+        layout.add(elf,0,1);
         elf.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Elf");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
         });
+
         Button halfElf = new Button("Half-Elf");
+        layout.add(halfElf,1,1);
         halfElf.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Half-Elf");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
         });
+
+
         Button human = new Button("Human");
+        layout.add(human,2,1);
         human.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Human");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
         });
+
         Button dragonBorn = new Button("Dragonborn");
+        layout.add(dragonBorn,0,2);
         dragonBorn.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("DragonBorn");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
         });
+
+
         Button dwarf = new Button("Dwarf");
+        layout.add(dwarf,1,2);
         dwarf.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Dwarf");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
         });
+
         Button halfling = new Button("Halfling");
+        layout.add(halfling,2,2);
         halfling.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Halfling" );
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
-            ;});
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
+            });
+
         Button gnome = new Button("Gnome");
+        layout.add(gnome,0,3);
         gnome.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Gnome");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
         });
         Button halfOrc = new Button("Half-Orc");
+        layout.add(halfOrc,1,3);
         halfOrc.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Half-Orc");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
         });
         Button tiefling = new Button("Tiefling");
+        layout.add(tiefling,2,3);
         tiefling.setOnAction(e-> {
             continueButton.setOnAction(event-> raceStage.close());
             RPGCharacterSheet.race = ("Tiefling");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.race,continueButton));
+            layout.add(new Label("You have chosen "+ RPGCharacterSheet.race),1,4);
+            layout.add(continueButton,1,5);
+
         });
 
-        layout.getChildren().addAll(chooseRace,elf,halfElf,human,dragonBorn,dwarf,halfling,gnome,halfOrc,tiefling);
 
-        layout.setAlignment(Pos.CENTER);
+
+        raceChoice.setText ("You have chosen "+ RPGCharacterSheet.race);
+        layout.add(continueButton,1,5);
+
+        layout.setAlignment(Pos.TOP_CENTER);
 
 
         raceStage.showAndWait();
+
+
 
     }
 
@@ -916,6 +970,23 @@ public class RPGCharacterSheet extends Application{
         Scene scene = new Scene(layout, 600,600);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    /**
+     * When the first button has been pressed, the second button will be placed one column below the label.
+     * @param layout Layout the button / label will be added to
+     * @param button Button that is being added to the layout
+     * @param columnIndex Column index the label will be placed
+     * @param rowIndex Row index the label will be placed
+     * @param labelString String that will be added to the label
+     * @param button2 Second button that
+     */
+    public static void ButtonFormatWhenPressed(GridPane layout, Button button, int columnIndex, int rowIndex, String labelString, Button button2){
+        Label label = new Label(labelString);
+        if (button.isPressed() == true){
+            layout.add(label,columnIndex,rowIndex);
+            layout.add(button2,columnIndex,rowIndex+1);
+        }
     }
 
 
