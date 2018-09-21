@@ -851,78 +851,92 @@ public class RPGCharacterSheet extends Application{
     public static void ChooseClass(Button continueButton){
         // "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
 
-        VBox layout = new VBox(5);
+        GridPane layout = new GridPane();
         Scene scene = new Scene(layout,600,600);
         Stage classStage = new Stage();
+        layout.setHgap(60);
+        layout.setVgap(60);
         classStage.setScene(scene);
         continueButton.setText("Close");
         continueButton.setOnAction(e -> classStage.close());
         Label chooseClass = new Label("Choose your class.");
+        layout.add(chooseClass,1,0,2,1);
         Button barbarian = new Button("Barbarian");
+        layout.add(barbarian,0,1);
         barbarian.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Barbarian");
-            layout.getChildren().addAll(new Label ("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button bard = new Button("Bard");
+        layout.add(bard,1,1);
         bard.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Bard");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button cleric = new Button("Cleric");
+        layout.add(cleric,2,1);
         cleric.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Cleric");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button druid = new Button("Druid");
+        layout.add(druid,0,2);
         druid.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Druid");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button fighter = new Button("Fighter");
+        layout.add(fighter,1,2);
         fighter.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Fighter");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button monk = new Button("Monk");
+        layout.add(monk,2,2);
         monk.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Monk");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button paladin = new Button("Paladin");
+        layout.add(paladin,0,3);
         paladin.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Paladin");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button ranger = new Button("Ranger");
+        layout.add(ranger,1,3);
         ranger.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Ranger");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button rogue = new Button("Rogue");
+        layout.add(rogue,2,3);
         rogue.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Rogue");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button sorcerer = new Button("Sorcerer");
+        layout.add(sorcerer,0,4);
         sorcerer.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Sorcerer");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button warlock = new Button("Warlock");
+        layout.add(warlock,1,4);
         warlock.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Warlock");
-            layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
+            RPGCharacterSheet.label.setText("You have chosen "+ RPGCharacterSheet.characterClass);
         });
         Button wizard = new Button("Wizard");
+        layout.add(wizard,2,4);
         wizard.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Wizard");
             layout.getChildren().addAll(new Label("You have chosen "+ RPGCharacterSheet.characterClass,continueButton));
         });
 
-        layout.getChildren().addAll(chooseClass,barbarian,bard,cleric,druid,fighter,monk,paladin,ranger,rogue,sorcerer,warlock,wizard);
-
-        layout.setAlignment(Pos.CENTER);
-
+        layout.add(label,1,5,2,1);
+        layout.add(continueButton,1,6);
+        layout.setAlignment(Pos.TOP_CENTER);
 
         classStage.showAndWait();
 
