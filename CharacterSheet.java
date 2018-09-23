@@ -84,28 +84,28 @@ public class CharacterSheet {
      private String[] allSkills = {"Athletics","Acrobatics","Sleight of Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
 
 
-
-
-    public CharacterSheet(String name, String race, String characterClass){
-        this.name = name;
-        this.race = race;
-        this.characterClass = characterClass;
-
-    }
-
     public String getName() {
-        return name;
+        if (name == null){
+           return "";
+        }
+        else{ return name;}
     }
 
 
     public String getRace() {
-        return race;
+        if (race == null){
+            return "";
+        }
+        else return race;
     }
 
 
 
     public String getCharacterClass() {
-        return characterClass;
+        if (characterClass == null){
+            return "";
+        }
+       else return characterClass;
     }
 
 

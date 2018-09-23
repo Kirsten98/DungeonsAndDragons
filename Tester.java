@@ -5,12 +5,12 @@ import java.util.Vector;
 public class Tester {
 
     public static void main(String[] args) {
-        CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
-        Cleric cleric = new Cleric(character);
-
-      for (int i = 0; i <20 ; i++){
-          cleric.AddLevel();
-      }
+//        CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
+//        Cleric cleric = new Cleric(character);
+//
+//      for (int i = 0; i <20 ; i++){
+//          cleric.AddLevel();
+//      }
 
 
 //        for (int i = 0; i < character.inventory.size(); i++){
