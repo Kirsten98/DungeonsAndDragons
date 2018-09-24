@@ -941,7 +941,7 @@ public class RPGCharacterSheet extends Application{
         Button continueButton = new Button("Continue");
         primaryStage.setTitle("Character Sheet Creation");
         GridPane layout = new GridPane();
-        layout.setBackground(new Background(new BackgroundFill(Color.gray(.7),null,null)));
+        layout.setBackground(new Background(new BackgroundFill(Color.gray(1),null,null)));
         layout.setPadding(new Insets(50,50,50,50));
         layout.setVgap(30);
         layout.setHgap(10);
@@ -965,24 +965,12 @@ public class RPGCharacterSheet extends Application{
         edit3.setOnAction(e-> characterClass.setText(ChooseClass(continueButton)));
         layout.add(edit3,5,0);
 
-        name.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" + "-fx-Text-fill: Black;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: White;");
-        race.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" + "-fx-Text-fill: black;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: white;");
-        characterClass.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" + "-fx-Text-fill: black;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: white;");
+        name.setStyle( "-fx-Text-fill: Black;" );
+        race.setStyle("-fx-Text-fill: black;" );
+        characterClass.setStyle("-fx-Text-fill: black;");
+        name.setUnderline(true);
+        race.setUnderline(true);
+        characterClass.setUnderline(true);
 
         Scene scene = new Scene(layout, 1000,1000);
         primaryStage.setScene(scene);
