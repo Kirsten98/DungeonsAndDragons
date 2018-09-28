@@ -30,7 +30,7 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ChoiceBox prefWidth="150.0" />
+            <ChoiceBox prefWidth="150.0" style="-fx-border-color: Black;" />
          </children></VBox>
    </left>
 </BorderPane>

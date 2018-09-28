@@ -40,6 +40,7 @@ public class RPGCharacterSheet extends Application {
     static String characterClass;
     static String characterName;
     static Label label = new Label("");
+    static int[] d20Rolls = new int[6];
 
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
@@ -621,7 +622,7 @@ public class RPGCharacterSheet extends Application {
 
     /**
      * @param abilityScore Takes in the Ability Score
-     * @return Returns the MOdifier based on the Ability Score
+     * @return Returns the Modifier based on the Ability Score
      */
     public static int FindAbilityMod(int abilityScore) {
         Scanner scanner = new Scanner(System.in);
@@ -648,36 +649,36 @@ public class RPGCharacterSheet extends Application {
             return -1;
         }
         if (abilityScore == 10 || abilityScore == 11) {
-            return 0;
+            return +0;
         }
         if (abilityScore == 12 || abilityScore == 13) {
-            return 1;
+            return +1;
         }
         if (abilityScore == 14 || abilityScore == 15) {
-            return 2;
+            return +2;
         }
         if (abilityScore == 16 || abilityScore == 17) {
-            return 3;
+            return +3;
         }
         if (abilityScore == 18 || abilityScore == 19) {
-            return 4;
+            return +4;
         }
         if (abilityScore == 20 || abilityScore == 21) {
-            return 5;
+            return +5;
         }
         if (abilityScore == 22 || abilityScore == 23) {
-            return 6;
+            return +6;
         }
         if (abilityScore == 24 || abilityScore == 25) {
-            return 7;
+            return +7;
         }
         if (abilityScore == 26 || abilityScore == 27) {
-            return 8;
+            return +8;
         }
         if (abilityScore == 28 || abilityScore == 29) {
-            return 9;
+            return +9;
         }
-        return 10;
+        return +10;
 
     }
 
@@ -697,6 +698,76 @@ public class RPGCharacterSheet extends Application {
         mainStage(primaryStage, character);
 
 
+    }
+
+    public void mainStage(Stage primaryStage, CharacterSheet character) {
+        Button continueButton = new Button("Continue");
+        primaryStage.setTitle("Character Sheet Creation");
+        BorderPane borderPane = new BorderPane();
+        GridPane layout = new GridPane();
+        layout.setBackground(new Background(new BackgroundFill(Color.gray(1), null, null)));
+        borderPane.setTop(layout);
+        layout.setPadding(new Insets(20,10,20,10));
+        layout.setVgap(30);
+        layout.setHgap(10);
+//        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
+        Label name = new Label("Name: " + character.getName());
+        layout.add(name, 0, 0);
+        Button edit1 = new Button("Edit Name");
+        edit1.setOnAction(e -> name.setText(ChooseName(continueButton)));
+        layout.add(edit1, 1, 0);
+
+        Label race = new Label("Race: " + character.getRace());
+        Button edit2 = new Button("Edit Race");
+        edit2.setOnAction(e -> race.setText(ChooseRace(continueButton)));
+        layout.add(edit2, 3, 0);
+        layout.add(race, 2, 0);
+
+        Label characterClass = new Label("Class: " + character.getCharacterClass());
+        layout.add(characterClass, 4, 0);
+        Button edit3 = new Button("Edit Class");
+
+        edit3.setOnAction(e -> characterClass.setText(ChooseClass(continueButton)));
+        layout.add(edit3, 5, 0);
+
+        name.setStyle("-fx-Text-fill: Black;");
+        race.setStyle("-fx-Text-fill: black;");
+        characterClass.setStyle("-fx-Text-fill: black;");
+        name.setUnderline(true);
+        race.setUnderline(true);
+        characterClass.setUnderline(true);
+
+        // Sets Abilities
+
+        Button editAbilities = new Button("Edit Abilities");
+
+        VBox abilities = new VBox();
+        abilities.setStyle("-fx-border-color: black");
+        abilities.setMaxHeight(150);
+        abilities.setPadding(new Insets(10,10,10,10));
+        Label charisma = new Label("Charisma: " + character.getCharismaScore() + " / +" + character.getCharismaMod());
+        Label strength = new Label("Strength: " + character.getStrengthScore() + " / +" + character.getStrengthMod());
+        Label dexterity = new Label("Dexterity: " + character.getDexterityScore() + " / +" + character.getDexterityMod());
+        Label wisdom = new Label("Wisdom: " + character.getWisdomScore() + " / +" + character.getWisdomMod());
+        Label intelligence = new Label("Intelligence: " + character.getIntelligenceScore() + " / +" + character.getIntelligenceMod());
+        Label constitution = new Label("Constitution: " + character.getConstitutionScore() + " / +" + character.getConstitutionMod());
+
+        editAbilities.setOnAction(e-> {
+            ChooseAbilities(continueButton,character);
+            charisma.setText("Charisma: " + character.getCharismaScore() + " / +" + character.getCharismaMod());
+            strength.setText("Strength: " + character.getStrengthScore() + " / +" + character.getStrengthMod());
+            dexterity.setText("Dexterity: " + character.getDexterityScore() + " / +" + character.getDexterityMod());
+            wisdom.setText("Wisdom: " + character.getWisdomScore() + " / +" + character.getWisdomMod());
+            intelligence.setText("Intelligence: " + character.getIntelligenceScore() + " / +" + character.getIntelligenceMod());
+            constitution.setText("Constitution: " + character.getConstitutionScore() + " / +" + character.getConstitutionMod());
+
+        });
+        abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
+        borderPane.setLeft(abilities);
+
+        Scene scene = new Scene(borderPane, 1000, 1000);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static String ChooseName(Button continueButton) {
@@ -946,64 +1017,10 @@ public class RPGCharacterSheet extends Application {
 
     }
 
-    public void mainStage(Stage primaryStage, CharacterSheet character) {
-        Button continueButton = new Button("Continue");
-        primaryStage.setTitle("Character Sheet Creation");
-        BorderPane borderPane = new BorderPane();
-        GridPane layout = new GridPane();
-        layout.setBackground(new Background(new BackgroundFill(Color.gray(1), null, null)));
-        borderPane.setTop(layout);
-        layout.setPadding(new Insets(20,10,20,10));
-        layout.setVgap(30);
-        layout.setHgap(10);
-//        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
-        Label name = new Label("Name: " + character.getName());
-        layout.add(name, 0, 0);
-        Button edit1 = new Button("Edit Name");
-        edit1.setOnAction(e -> name.setText(ChooseName(continueButton)));
-        layout.add(edit1, 1, 0);
 
-        Label race = new Label("Race: " + character.getRace());
-        Button edit2 = new Button("Edit Race");
-        edit2.setOnAction(e -> race.setText(ChooseRace(continueButton)));
-        layout.add(edit2, 3, 0);
-        layout.add(race, 2, 0);
+    public void ChooseAbilities(Button continueButton, CharacterSheet characterSheet) {
 
-        Label characterClass = new Label("Class: " + character.getCharacterClass());
-        layout.add(characterClass, 4, 0);
-        Button edit3 = new Button("Edit Class");
-
-        edit3.setOnAction(e -> characterClass.setText(ChooseClass(continueButton)));
-        layout.add(edit3, 5, 0);
-
-        name.setStyle("-fx-Text-fill: Black;");
-        race.setStyle("-fx-Text-fill: black;");
-        characterClass.setStyle("-fx-Text-fill: black;");
-        name.setUnderline(true);
-        race.setUnderline(true);
-        characterClass.setUnderline(true);
-
-        // Sets Abilities
-
-        Button editAbilities = new Button("Edit Abilities");
-        editAbilities.setOnAction(e-> ChooseAbilities(continueButton,character));
-        VBox abilities = new VBox();
-        abilities.setPadding(new Insets(10,10,10,10));
-        Label charisma = new Label("Charisma: " + character.getCharismaScore() + " / +" + character.getCharismaMod());
-        Label strength = new Label("Strength: " + character.getStrengthScore() + " / +" + character.getStrengthMod());
-        Label dexterity = new Label("Dexterity: " + character.getDexterityScore() + " / +" + character.getDexterityMod());
-        Label wisdom = new Label("Wisdom: " + character.getWisdomScore() + " / +" + character.getWisdomMod());
-        Label intelligence = new Label("Intelligence: " + character.getIntelligenceScore() + " / +" + character.getIntelligenceMod());
-        Label constitution = new Label("Constitution: " + character.getConstitutionScore() + " / +" + character.getConstitutionMod());
-        abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
-        borderPane.setLeft(abilities);
-
-        Scene scene = new Scene(borderPane, 1000, 1000);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    public void ChooseAbilities(Button continueButton, CharacterSheet character) {
+        // TODO Handle NullPointerException error, doesn't break the code, but it is ugly
         Stage chooseAbilities = new Stage();
         chooseAbilities.setTitle("Choose Abilities");
         GridPane abilities = new GridPane();
@@ -1012,25 +1029,86 @@ public class RPGCharacterSheet extends Application {
         abilities.setHgap(20);
 
 //        String[] abilityNames = {"Charisma, ""Strength", "Dexterity", "Wisdom", "Intelligence", "Constitution"};
-        int[] d20Rolls = new int[6];
+
         if (d20Rolls[0] == 0){
             for (int i = 0; i < 6; i++) {
                 d20Rolls[i] = D20Roll();
             }
         }
-        Label diceRolls = new Label("D20 Rolls : " + d20Rolls[0] + " | " + d20Rolls[1] + " | " + d20Rolls[2] + " | " + d20Rolls[3] + " | " + d20Rolls[4] + " | " + d20Rolls[5] + " | " );
+        Label diceRolls = new Label("Your D20 Rolls : " + d20Rolls[0] + " | " + d20Rolls[1] + " | " + d20Rolls[2] + " | " + d20Rolls[3] + " | " + d20Rolls[4] + " | " + d20Rolls[5] + " | \nChoose your ability scores.");
         abilities.add(diceRolls,0,0);
 
-        ChoiceBox<Integer> strength = new ChoiceBox();
-        strength.setItems(FXCollections.observableArrayList(d20Rolls[0],d20Rolls[1],d20Rolls[2],d20Rolls[3],d20Rolls[4],d20Rolls[5]));
-        abilities.add(new Label("Strength "),0,1);
-        abilities.add(strength,1,1);
-        strength.setOnAction(e-> {
-            character.setStrengthScore(strength.getValue());
-            character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
-            System.out.println(character.getStrengthScore());
-            System.out.println(strength.getValue());
-        });
+        ChoiceBox<Integer> rolls = new ChoiceBox();
+        rolls.setItems(FXCollections.observableArrayList(d20Rolls[0],d20Rolls[1],d20Rolls[2],d20Rolls[3],d20Rolls[4],d20Rolls[5]));
+        abilities.add(new Label("Charisma"),0,1);
+        abilities.add(new Label("Strength"),0,2);
+        abilities.add(new Label("Dexterity"),0,3);
+        abilities.add(new Label("Wisdom"),0,4);
+        abilities.add(new Label("Intelligence"),0,5);
+        abilities.add(new Label("Constitution"),0,6);
+        abilities.add(rolls,1,1);
+        rolls.setOnAction(charisma -> {
+
+            // Charisma setup
+            characterSheet.setCharismaScore(rolls.getValue());
+            characterSheet.setCharismaMod(FindAbilityMod(characterSheet.getCharismaScore()));
+            rolls.getItems().remove(rolls.getValue());
+            abilities.add(new Label("Charisma : " + characterSheet.getCharismaScore() + "/ " + characterSheet.getCharismaMod()), 0, 1);
+
+            // Strength Set up
+            abilities.getChildren().remove(rolls);
+            abilities.add(rolls, 1, 2);
+            rolls.setOnAction(strength -> {
+                characterSheet.setStrengthScore(rolls.getValue());
+                characterSheet.setStrengthMod(FindAbilityMod(characterSheet.getStrengthScore()));
+                rolls.getItems().remove(rolls.getValue());
+                abilities.add(new Label("Strength : " + characterSheet.getStrengthScore() + "/ " + characterSheet.getStrengthMod()), 0, 2);
+
+                // Dexterity setup
+                abilities.getChildren().remove(rolls);
+                abilities.add(rolls, 1, 3);
+                rolls.setOnAction(dexterity -> {
+                    characterSheet.setDexterityScore(rolls.getValue());
+                    characterSheet.setDexterityMod(FindAbilityMod(characterSheet.getDexterityScore()));
+                    rolls.getItems().remove(rolls.getValue());
+                    abilities.add(new Label("Dexterity : " + characterSheet.getDexterityScore() + "/ " + characterSheet.getDexterityMod()), 0, 3);
+
+                    //Wisdom setup
+                    abilities.getChildren().remove(rolls);
+                    abilities.add(rolls, 1, 4);
+                    rolls.setOnAction(wisdom -> {
+                        characterSheet.setWisdomScore(rolls.getValue());
+                        characterSheet.setWisdomMod(FindAbilityMod(characterSheet.getWisdomScore()));
+                        rolls.getItems().remove(rolls.getValue());
+                        abilities.add(new Label("Wisdom : " + characterSheet.getWisdomScore() + "/ " + characterSheet.getWisdomMod()), 0, 4);
+
+                        //Intelligence setup
+                        abilities.getChildren().remove(rolls);
+                        abilities.add(rolls, 1, 5);
+                        rolls.setOnAction(intelligence -> {
+                            characterSheet.setIntelligenceScore(rolls.getValue());
+                            characterSheet.setIntelligenceMod(FindAbilityMod(characterSheet.getIntelligenceScore()));
+                            rolls.getItems().remove(rolls.getValue());
+                            abilities.add(new Label("Intelligence : " + characterSheet.getIntelligenceScore() + "/ " + characterSheet.getIntelligenceMod()), 0, 5);
+                                // Constitution setup
+                            abilities.getChildren().remove(rolls);
+                            abilities.add(rolls, 1, 6);
+                            rolls.setOnAction(constitution -> {
+                                characterSheet.setConstitutionScore(rolls.getValue());
+                                characterSheet.setConstitutionMod(FindAbilityMod(characterSheet.getConstitutionScore()));
+                                rolls.getItems().remove(rolls.getValue());
+                                abilities.add(new Label("Constitution : " + characterSheet.getConstitutionScore() + "/ " + characterSheet.getConstitutionMod()), 0, 6);
+                                abilities.add(continueButton, 1, 7);
+                                continueButton.setOnAction(close -> {
+                                    chooseAbilities.close();
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+
 
 
 
