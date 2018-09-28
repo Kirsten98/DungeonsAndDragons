@@ -7,9 +7,9 @@ import java.util.Vector;
 public class CharacterSheet {
 
 
-    private String name;
-    private String race;
-    private String characterClass;
+    private String name ="";
+    private String race = "";
+    private String characterClass = "";
     private int strengthScore;
     private int dexterityScore;
     private int charismaScore;
@@ -85,27 +85,18 @@ public class CharacterSheet {
 
 
     public String getName() {
-        if (name == null){
-           return "";
-        }
-        else{ return name;}
+         return name;
     }
 
 
     public String getRace() {
-        if (race == null){
-            return "";
-        }
-        else return race;
+        return race;
     }
 
 
 
     public String getCharacterClass() {
-        if (characterClass == null){
-            return "";
-        }
-       else return characterClass;
+        return characterClass;
     }
 
 
