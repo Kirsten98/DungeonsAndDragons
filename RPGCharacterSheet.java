@@ -754,12 +754,12 @@ public class RPGCharacterSheet extends Application {
 
         editAbilities.setOnAction(e-> {
             ChooseAbilities(continueButton,character);
-            charisma.setText("Charisma: " + character.getCharismaScore() + " / +" + character.getCharismaMod());
-            strength.setText("Strength: " + character.getStrengthScore() + " / +" + character.getStrengthMod());
-            dexterity.setText("Dexterity: " + character.getDexterityScore() + " / +" + character.getDexterityMod());
+            charisma.setText("Charisma: " + character.getCharismaScore() + " / " + character.getCharismaMod());
+            strength.setText("Strength: " + character.getStrengthScore() + " / " + character.getStrengthMod());
+            dexterity.setText("Dexterity: " + character.getDexterityScore() + " / " + character.getDexterityMod());
             wisdom.setText("Wisdom: " + character.getWisdomScore() + " / +" + character.getWisdomMod());
-            intelligence.setText("Intelligence: " + character.getIntelligenceScore() + " / +" + character.getIntelligenceMod());
-            constitution.setText("Constitution: " + character.getConstitutionScore() + " / +" + character.getConstitutionMod());
+            intelligence.setText("Intelligence: " + character.getIntelligenceScore() + " / " + character.getIntelligenceMod());
+            constitution.setText("Constitution: " + character.getConstitutionScore() + " / " + character.getConstitutionMod());
 
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
@@ -1050,64 +1050,74 @@ public class RPGCharacterSheet extends Application {
         rolls.setOnAction(charisma -> {
 
             // Charisma setup
-            characterSheet.setCharismaScore(rolls.getValue());
-            characterSheet.setCharismaMod(FindAbilityMod(characterSheet.getCharismaScore()));
-            rolls.getItems().remove(rolls.getValue());
-            abilities.add(new Label("Charisma : " + characterSheet.getCharismaScore() + "/ " + characterSheet.getCharismaMod()), 0, 1);
-
-            // Strength Set up
-            abilities.getChildren().remove(rolls);
-            abilities.add(rolls, 1, 2);
-            rolls.setOnAction(strength -> {
-                characterSheet.setStrengthScore(rolls.getValue());
-                characterSheet.setStrengthMod(FindAbilityMod(characterSheet.getStrengthScore()));
-                rolls.getItems().remove(rolls.getValue());
-                abilities.add(new Label("Strength : " + characterSheet.getStrengthScore() + "/ " + characterSheet.getStrengthMod()), 0, 2);
-
-                // Dexterity setup
-                abilities.getChildren().remove(rolls);
-                abilities.add(rolls, 1, 3);
-                rolls.setOnAction(dexterity -> {
-                    characterSheet.setDexterityScore(rolls.getValue());
-                    characterSheet.setDexterityMod(FindAbilityMod(characterSheet.getDexterityScore()));
+               try {
+                   characterSheet.setCharismaScore(rolls.getValue());
+                    characterSheet.setCharismaMod(FindAbilityMod(characterSheet.getCharismaScore()));
                     rolls.getItems().remove(rolls.getValue());
-                    abilities.add(new Label("Dexterity : " + characterSheet.getDexterityScore() + "/ " + characterSheet.getDexterityMod()), 0, 3);
+                    abilities.add(new Label("Charisma : " + characterSheet.getCharismaScore() + "/ " + characterSheet.getCharismaMod()), 0, 1);
 
-                    //Wisdom setup
+                // Strength Set up
                     abilities.getChildren().remove(rolls);
-                    abilities.add(rolls, 1, 4);
-                    rolls.setOnAction(wisdom -> {
-                        characterSheet.setWisdomScore(rolls.getValue());
-                        characterSheet.setWisdomMod(FindAbilityMod(characterSheet.getWisdomScore()));
-                        rolls.getItems().remove(rolls.getValue());
-                        abilities.add(new Label("Wisdom : " + characterSheet.getWisdomScore() + "/ " + characterSheet.getWisdomMod()), 0, 4);
-
-                        //Intelligence setup
-                        abilities.getChildren().remove(rolls);
-                        abilities.add(rolls, 1, 5);
-                        rolls.setOnAction(intelligence -> {
-                            characterSheet.setIntelligenceScore(rolls.getValue());
-                            characterSheet.setIntelligenceMod(FindAbilityMod(characterSheet.getIntelligenceScore()));
+                    abilities.add(rolls, 1, 2);
+                    rolls.setOnAction(strength -> {
+                        try {
+                            characterSheet.setStrengthScore(rolls.getValue());
+                            characterSheet.setStrengthMod(FindAbilityMod(characterSheet.getStrengthScore()));
                             rolls.getItems().remove(rolls.getValue());
-                            abilities.add(new Label("Intelligence : " + characterSheet.getIntelligenceScore() + "/ " + characterSheet.getIntelligenceMod()), 0, 5);
-                                // Constitution setup
+                            abilities.add(new Label("Strength : " + characterSheet.getStrengthScore() + "/ " + characterSheet.getStrengthMod()), 0, 2);
+
+                            // Dexterity setup
                             abilities.getChildren().remove(rolls);
-                            abilities.add(rolls, 1, 6);
-                            rolls.setOnAction(constitution -> {
-                                characterSheet.setConstitutionScore(rolls.getValue());
-                                characterSheet.setConstitutionMod(FindAbilityMod(characterSheet.getConstitutionScore()));
-                                rolls.getItems().remove(rolls.getValue());
-                                abilities.add(new Label("Constitution : " + characterSheet.getConstitutionScore() + "/ " + characterSheet.getConstitutionMod()), 0, 6);
-                                abilities.add(continueButton, 1, 7);
-                                continueButton.setOnAction(close -> {
-                                    chooseAbilities.close();
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
+                            abilities.add(rolls, 1, 3);
+                            rolls.setOnAction(dexterity -> {
+                                try {
+                                    characterSheet.setDexterityScore(rolls.getValue());
+                                    characterSheet.setDexterityMod(FindAbilityMod(characterSheet.getDexterityScore()));
+                                    rolls.getItems().remove(rolls.getValue());
+                                    abilities.add(new Label("Dexterity : " + characterSheet.getDexterityScore() + "/ " + characterSheet.getDexterityMod()), 0, 3);
+
+                                    //Wisdom setup
+                                    abilities.getChildren().remove(rolls);
+                                    abilities.add(rolls, 1, 4);
+                                    rolls.setOnAction(wisdom -> {
+                                        try {
+                                            characterSheet.setWisdomScore(rolls.getValue());
+                                            characterSheet.setWisdomMod(FindAbilityMod(characterSheet.getWisdomScore()));
+                                            rolls.getItems().remove(rolls.getValue());
+                                            abilities.add(new Label("Wisdom : " + characterSheet.getWisdomScore() + "/ " + characterSheet.getWisdomMod()), 0, 4);
+
+                                            //Intelligence setup
+                                            abilities.getChildren().remove(rolls);
+                                            abilities.add(rolls, 1, 5);
+                                            rolls.setOnAction(intelligence -> {
+                                                try {
+                                                    characterSheet.setIntelligenceScore(rolls.getValue());
+                                                    characterSheet.setIntelligenceMod(FindAbilityMod(characterSheet.getIntelligenceScore()));
+                                                    rolls.getItems().remove(rolls.getValue());
+                                                    abilities.add(new Label("Intelligence : " + characterSheet.getIntelligenceScore() + "/ " + characterSheet.getIntelligenceMod()), 0, 5);
+                                                    // Constitution setup
+                                                    abilities.getChildren().remove(rolls);
+                                                    abilities.add(rolls, 1, 6);
+                                                    rolls.setOnAction(constitution -> {
+                                                        try {
+                                                            characterSheet.setConstitutionScore(rolls.getValue());
+
+                                                            characterSheet.setConstitutionMod(FindAbilityMod(characterSheet.getConstitutionScore()));
+                                                            rolls.getItems().remove(rolls.getValue());
+                                                            abilities.add(new Label("Constitution : " + characterSheet.getConstitutionScore() + "/ " + characterSheet.getConstitutionMod()), 0, 6);
+                                                            abilities.getChildren().remove(rolls);
+                                                            abilities.add(continueButton, 1, 7);
+                                                            continueButton.setTranslateX(-115);
+                                                            continueButton.setTranslateY(30);
+                                                            continueButton.setOnAction(close -> chooseAbilities.close());
+                                                        } catch (NullPointerException Con) {
+                                                        }
+                                                    });
+                                                }catch (NullPointerException Intelligence){}});
+                                        }catch (NullPointerException Wisdom){}});
+                                }catch (NullPointerException Dexterity){}});
+                        } catch (NullPointerException Strength){}});
+            } catch ( NullPointerException Charisma){}});
 
 
 
@@ -1115,7 +1125,7 @@ public class RPGCharacterSheet extends Application {
 //            AbilityAddtion(character, i + 1, d20Rolls[choice - 1]);
 //            d20Rolls[choice - 1] = -1;
 
-        Scene scene = new Scene(abilities,300,600);
+        Scene scene = new Scene(abilities,300,300);
             chooseAbilities.setScene(scene);
             chooseAbilities.initModality(Modality.APPLICATION_MODAL);
             chooseAbilities.showAndWait();
