@@ -1,7 +1,27 @@
 package DungeonsAndDragons;
 
+
+import javafx.application.Application;
+
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.awt.*;
 import java.util.Scanner;
 import java.util.Vector;
+
+
+
+
 // TODO Change VectorPrinOut to print out Item toString
 public class Barbarian{
     CharacterSheet character;
@@ -537,47 +557,47 @@ public class Barbarian{
     /**
      * Walks user through on choosing their Armor for their Character
      */
-    public void ChooseArmor(){
-        Scanner scanner = new Scanner(System.in);
-        String endOfLine = "";
-        System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
-        System.out.println("Choose your Armor.");
-        for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
-            if(i< character.getLightArmor().length){
-                System.out.println(i+1+".)"+character.getLightArmor()[i]);
-            }
-            if (i>=character.getLightArmor().length){
-                System.out.println(i+1 +".)"+character.getMediumArmor()[i-character.getLightArmor().length]);
-            }
-
-        }
-        int choice = scanner.nextInt();
-        String endLine = scanner.nextLine();
-
-        choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
-
-        if(choice < character.getLightArmor().length){
-            System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
-            CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
-            character.setAc(character.getLightArmorAC()[choice-1]);
-        } if(choice >= character.getLightArmor().length){
-            System.out.println("You have chosen "  + character.getMediumArmor()[choice - character.getLightArmor().length - 1]);
-            CheckAndAddItemQuantity(character.armorList, new Item(character.getMediumArmor()[choice - character.getLightArmor().length - 1],character.getMediumArmorDescription()[choice - character.getLightArmor().length - 1],1,character.getMediumArmorCost()[choice - character.getLightArmor().length - 1]));
-            character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
-
-        }
-
-        System.out.println("Would you like to have a shield? 1.) Yes or 2.) No ?");
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,2);
-        if (choice==1){
-            character.setShield(true);
-            CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
-            character.setAc(character.getAc() +2);
-        }
-
-    }
+//    public void ChooseArmor(){
+//        Scanner scanner = new Scanner(System.in);
+//        String endOfLine = "";
+//        System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
+//        System.out.println("Choose your Armor.");
+//        for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
+//            if(i< character.getLightArmor().length){
+//                System.out.println(i+1+".)"+character.getLightArmor()[i]);
+//            }
+//            if (i>=character.getLightArmor().length){
+//                System.out.println(i+1 +".)"+character.getMediumArmor()[i-character.getLightArmor().length]);
+//            }
+//
+//        }
+//        int choice = scanner.nextInt();
+//        String endLine = scanner.nextLine();
+//
+//        choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
+//
+//        if(choice < character.getLightArmor().length){
+//            System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
+//            CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
+//            character.setAc(character.getLightArmorAC()[choice-1]);
+//        } if(choice >= character.getLightArmor().length){
+//            System.out.println("You have chosen "  + character.getMediumArmor()[choice - character.getLightArmor().length - 1]);
+//            CheckAndAddItemQuantity(character.armorList, new Item(character.getMediumArmor()[choice - character.getLightArmor().length - 1],character.getMediumArmorDescription()[choice - character.getLightArmor().length - 1],1,character.getMediumArmorCost()[choice - character.getLightArmor().length - 1]));
+//            character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
+//
+//        }
+//
+//        System.out.println("Would you like to have a shield? 1.) Yes or 2.) No ?");
+//        choice = scanner.nextInt();
+//        endOfLine = scanner.nextLine();
+//        choice = InputErrorCheck(choice,1,2);
+//        if (choice==1){
+//            character.setShield(true);
+//            CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+//            character.setAc(character.getAc() +2);
+//        }
+//
+//    }
 
     // Tested and verified 9/3
     /**
@@ -752,6 +772,70 @@ public class Barbarian{
         return choice;
     }
 
+    public void ChooseArmor(){
+
+        //TODO Add CheckAndAddItemQuantity in continueButton for both event handlers for Armor/Shield to add the item to the character. And find out how to open this as a window.
+
+        // TODO Finish Continue Button
+
+
+        GridPane pane = new GridPane();
+        Scene scene = new Scene(pane,600,600);
+        Stage chooseArmorStage = new Stage();
+        chooseArmorStage.setScene(scene);
+        pane.setGridLinesVisible(true);
+
+        pane.setPadding(new Insets(50,50,50,50));
+
+        Button continueButton = new Button("Continue");
+
+        pane.setHgap(25);
+        pane.setVgap(15);
+
+        Label armorLabel = new Label("You are proficient in Light Armor, Medium Armor, and Shields.\nChoose your Armor.");
+
+        ChoiceBox<String> armorChoices = new ChoiceBox(FXCollections.observableArrayList(character.getLightArmor()[0],character.getLightArmor()[1],character.getLightArmor()[2],character.getMediumArmor()[0],character.getMediumArmor()[1],character.getMediumArmor()[2],character.getMediumArmor()[3],character.getMediumArmor()[4]));
+        Label armor = new Label("Armor: ");
+        Label shield = new Label("Shield: ");
+
+        armorChoices.setOnAction(e-> {
+            character.setArmor(armorChoices.getValue());
+            armor.setText("Armor: " + armorChoices.getValue());
+        });
+
+        ChoiceBox<String> yOrN = new ChoiceBox(FXCollections.observableArrayList("Yes","No"));
+
+        yOrN.setOnAction(e-> {
+            if (yOrN.getValue().equals("Yes")){
+                shield.setText("Shield: Yes");
+                CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+                character.setAc(character.getAc() +2);
+                character.setShield(true);
+            }else {
+                shield.setText("Shield: No");
+                character.setShield(false);            }
+        });
+
+
+        while (!armor.getText().equals("Armor: ") && !shield.getText().equals("Shield: ")){
+            pane.add(continueButton,2,3);
+            continueButton.setOnAction(e->{
+                System.out.println("TADA");
+//CheckAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue(),Ints.IndexOf(character.getValue(),character.getAllArmorDescriptions()) );
+            });
+        }
+
+        pane.add(armorLabel,1,0);
+        armorLabel.setTranslateX(-50);
+
+        pane.add(armorChoices,1,1);
+        pane.add(yOrN,1,2);
+        pane.add(shield,0,2);
+        pane.add(armor,0,1);
+
+        chooseArmorStage.initModality(Modality.APPLICATION_MODAL);
+        chooseArmorStage.showAndWait();
+    }
 
 
 }

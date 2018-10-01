@@ -700,7 +700,7 @@ public class RPGCharacterSheet extends Application {
 
     }
 
-    public void mainStage(Stage primaryStage, CharacterSheet character) {
+    public void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
         Button continueButton = new Button("Continue");
         primaryStage.setTitle("Character Sheet Creation");
         BorderPane borderPane = new BorderPane();
@@ -711,23 +711,28 @@ public class RPGCharacterSheet extends Application {
         layout.setVgap(30);
         layout.setHgap(10);
 //        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
-        Label name = new Label("Name: " + character.getName());
+
+        // Set Name
+        Label name = new Label("Name: " + mainCharacter.getName());
         layout.add(name, 0, 0);
         Button edit1 = new Button("Edit Name");
-        edit1.setOnAction(e -> name.setText(ChooseName(continueButton)));
+        edit1.setOnAction(e -> name.setText(ChooseName(continueButton,  mainCharacter)));
         layout.add(edit1, 1, 0);
 
-        Label race = new Label("Race: " + character.getRace());
+        // Set Race
+        Label race = new Label("Race: " + mainCharacter.getRace());
         Button edit2 = new Button("Edit Race");
-        edit2.setOnAction(e -> race.setText(ChooseRace(continueButton)));
+        edit2.setOnAction(e -> race.setText(ChooseRace(continueButton, mainCharacter)));
         layout.add(edit2, 3, 0);
         layout.add(race, 2, 0);
 
-        Label characterClass = new Label("Class: " + character.getCharacterClass());
+        // Set Class
+        Label characterClass = new Label("Class: " + mainCharacter.getCharacterClass());
         layout.add(characterClass, 4, 0);
         Button edit3 = new Button("Edit Class");
 
-        edit3.setOnAction(e -> characterClass.setText(ChooseClass(continueButton)));
+        edit3.setOnAction(e -> characterClass.setText(ChooseClass(continueButton,mainCharacter )));
+
         layout.add(edit3, 5, 0);
 
         name.setStyle("-fx-Text-fill: Black;");
@@ -745,21 +750,21 @@ public class RPGCharacterSheet extends Application {
         abilities.setStyle("-fx-border-color: black");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
-        Label charisma = new Label("Charisma: " + character.getCharismaScore() + " / +" + character.getCharismaMod());
-        Label strength = new Label("Strength: " + character.getStrengthScore() + " / +" + character.getStrengthMod());
-        Label dexterity = new Label("Dexterity: " + character.getDexterityScore() + " / +" + character.getDexterityMod());
-        Label wisdom = new Label("Wisdom: " + character.getWisdomScore() + " / +" + character.getWisdomMod());
-        Label intelligence = new Label("Intelligence: " + character.getIntelligenceScore() + " / +" + character.getIntelligenceMod());
-        Label constitution = new Label("Constitution: " + character.getConstitutionScore() + " / +" + character.getConstitutionMod());
+        Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / +" + mainCharacter.getCharismaMod());
+        Label strength = new Label("Strength: " + mainCharacter.getStrengthScore() + " / +" + mainCharacter.getStrengthMod());
+        Label dexterity = new Label("Dexterity: " + mainCharacter.getDexterityScore() + " / +" + mainCharacter.getDexterityMod());
+        Label wisdom = new Label("Wisdom: " + mainCharacter.getWisdomScore() + " / +" + mainCharacter.getWisdomMod());
+        Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / +" + mainCharacter.getIntelligenceMod());
+        Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / +" + mainCharacter.getConstitutionMod());
 
         editAbilities.setOnAction(e-> {
-            ChooseAbilities(continueButton,character);
-            charisma.setText("Charisma: " + character.getCharismaScore() + " / " + character.getCharismaMod());
-            strength.setText("Strength: " + character.getStrengthScore() + " / " + character.getStrengthMod());
-            dexterity.setText("Dexterity: " + character.getDexterityScore() + " / " + character.getDexterityMod());
-            wisdom.setText("Wisdom: " + character.getWisdomScore() + " / +" + character.getWisdomMod());
-            intelligence.setText("Intelligence: " + character.getIntelligenceScore() + " / " + character.getIntelligenceMod());
-            constitution.setText("Constitution: " + character.getConstitutionScore() + " / " + character.getConstitutionMod());
+            ChooseAbilities(continueButton,mainCharacter);
+            charisma.setText("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
+            strength.setText("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
+            dexterity.setText("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
+            wisdom.setText("Wisdom: " + mainCharacter.getWisdomScore() + " / +" + mainCharacter.getWisdomMod());
+            intelligence.setText("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
+            constitution.setText("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
 
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
@@ -770,7 +775,7 @@ public class RPGCharacterSheet extends Application {
         primaryStage.show();
     }
 
-    public static String ChooseName(Button continueButton) {
+    public static String ChooseName(Button continueButton, CharacterSheet mainCharacter) {
         GridPane pane = new GridPane();
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(50, 20, 50, 20));
@@ -788,7 +793,7 @@ public class RPGCharacterSheet extends Application {
         name.setWrapText(true);
 
         continueButton.setOnAction(e -> {
-            RPGCharacterSheet.characterName = name.getText();
+            mainCharacter.setName(name.getText());
             nameStage.close();
         });
 
@@ -811,10 +816,10 @@ public class RPGCharacterSheet extends Application {
      *
      * @return Numeric choice by user
      */
-    public static String ChooseRace(Button continueButton) {
+    public static String ChooseRace(Button continueButton,CharacterSheet mainCharacter) {
 //   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
 
-        // make a while loop for when a button is pressed
+
         Label raceChoice = new Label("");
         GridPane layout = new GridPane();
         Scene scene = new Scene(layout, 600, 600);
@@ -832,16 +837,16 @@ public class RPGCharacterSheet extends Application {
         layout.add(elf, 0, 1);
         elf.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Elf");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Elf");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
 
         Button halfElf = new Button("Half-Elf");
         layout.add(halfElf, 1, 1);
         halfElf.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Half-Elf");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Half-Elf");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
 
 
@@ -849,16 +854,16 @@ public class RPGCharacterSheet extends Application {
         layout.add(human, 2, 1);
         human.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Human");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Human");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
 
         Button dragonBorn = new Button("Dragonborn");
         layout.add(dragonBorn, 0, 2);
         dragonBorn.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("DragonBorn");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("DragonBorn");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
 
 
@@ -866,38 +871,38 @@ public class RPGCharacterSheet extends Application {
         layout.add(dwarf, 1, 2);
         dwarf.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Dwarf");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Dwarf");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
 
         Button halfling = new Button("Halfling");
         layout.add(halfling, 2, 2);
         halfling.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Halfling");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Halfling");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
 
         Button gnome = new Button("Gnome");
         layout.add(gnome, 0, 3);
         gnome.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Gnome");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Gnome");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
         Button halfOrc = new Button("Half-Orc");
         layout.add(halfOrc, 1, 3);
         halfOrc.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Half-Orc");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Half-Orc");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
         Button tiefling = new Button("Tiefling");
         layout.add(tiefling, 2, 3);
         tiefling.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
-            RPGCharacterSheet.race = ("Tiefling");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.race);
+            mainCharacter.setRace("Tiefling");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
         });
 
         layout.add(label, 1, 4, 2, 1);
@@ -909,7 +914,7 @@ public class RPGCharacterSheet extends Application {
         raceStage.initModality(Modality.APPLICATION_MODAL);
         raceStage.showAndWait();
 
-        return "Race: " + RPGCharacterSheet.race;
+        return "Race: " + mainCharacter.getRace();
 
 
     }
@@ -919,16 +924,25 @@ public class RPGCharacterSheet extends Application {
      *
      * @return Numeric choice by user
      */
-    public static String ChooseClass(Button continueButton) {
+    public static String ChooseClass(Button continueButton,CharacterSheet mainCharacter) {
         // "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
 
+        RPGCharacterSheet.label.setText("");
         GridPane layout = new GridPane();
         Scene scene = new Scene(layout, 600, 600);
         Stage classStage = new Stage();
         layout.setHgap(60);
         layout.setVgap(60);
         classStage.setScene(scene);
-        continueButton.setOnAction(e -> classStage.close());
+
+        continueButton.setOnAction(e ->{
+            if (characterClass.equals("Barbarian")) {
+            Barbarian barbarianCharacter = new Barbarian(mainCharacter);
+            barbarianCharacter.ChooseArmor(); }
+
+            classStage.close();
+        });
+
         Label chooseClass = new Label("Choose your class.");
         chooseClass.setTranslateX(-25);
         layout.add(chooseClass, 1, 0, 2, 1);
@@ -1019,8 +1033,6 @@ public class RPGCharacterSheet extends Application {
 
 
     public void ChooseAbilities(Button continueButton, CharacterSheet characterSheet) {
-
-        // TODO Handle NullPointerException error, doesn't break the code, but it is ugly
         Stage chooseAbilities = new Stage();
         chooseAbilities.setTitle("Choose Abilities");
         GridPane abilities = new GridPane();
@@ -1129,53 +1141,21 @@ public class RPGCharacterSheet extends Application {
             chooseAbilities.setScene(scene);
             chooseAbilities.initModality(Modality.APPLICATION_MODAL);
             chooseAbilities.showAndWait();
-        }
-    }
-
-
-//    /**
-//     * launch(args) calls Application, Application calls start
-//     * @param primaryStage
-//     */
-//    @Override
-//    public void start(Stage primaryStage) {
-//        primaryStage.setTitle("Character Sheet Creation");
-//        VBox layout = new VBox(5);
-//        layout.setBackground(new Background(new BackgroundFill(Color.gray(.2),null,null)));
-//        Label name = new Label("Name: " + character.getName());
-//        Label race = new Label("Race: "+ character.getRace());
-//        Label characterClass = new Label("Class: "+ character.getCharacterClass());
-//        name.setStyle("-fx-padding: 10;" +
-//                "-fx-border-style: solid inside;" + "-fx-border-fill: white;" +
-//                "-fx-border-width: 2;" +
-//                "-fx-border-insets: 5;" +
-//                "-fx-border-radius: 5;" +
-//                "-fx-border-color: black;");
-//        race.setStyle("-fx-padding: 10;" +
-//                "-fx-border-style: solid inside;" +
-//                "-fx-border-width: 2;" +
-//                "-fx-border-insets: 5;" +
-//                "-fx-border-radius: 5;" +
-//                "-fx-border-color: black;");
-//        characterClass.setStyle("-fx-padding: 10;" +
-//                "-fx-border-style: solid inside;" +
-//                "-fx-border-width: 2;" +
-//                "-fx-border-insets: 5;" +
-//                "-fx-border-radius: 5;" +
-//                "-fx-border-color: black;");
+        }}
 //
+//        public Bard BardSetUp (Bard bardCharacter){
+//            bardCharacter.ChooseArmor();
+//            bardCharacter.ChooseWeapon();
+//            bardCharacter.ToolsProficiencies();
+//            bardCharacter.ChooseSkillProficiencies();
+////            System.out.println("What level is your Bard? ");
+////            int choice = scanner.nextInt();
+////            String endOfLine = scanner.nextLine();
+////            for (int i = 0; i < choice; i++) {
+////                bardCharacter.AddLevel();
 //
-//        layout.getChildren().addAll(name,race,characterClass);
-//
-////        button = new Button("fgdgfdg");
-////        button.setOnAction(e-> System.out.println(button.getText()));   //"This" as a parameter Means that the handle method is in this class
-//
-//
-//
-//        //http://www.dreamstime.com/stock-image-lined-paper-image25755721
-//        Scene scene = new Scene(layout, 600,600);
-//        primaryStage.setScene(scene);
-////        primaryStage.show();
+//                return bardCharacter;
+//        }
 //    }
 
 

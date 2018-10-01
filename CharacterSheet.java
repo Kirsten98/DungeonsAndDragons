@@ -7,6 +7,7 @@ import java.util.Vector;
 public class CharacterSheet {
 
 
+
     private String name ="";
     private String race = "";
     private String characterClass = "";
@@ -105,6 +106,17 @@ public class CharacterSheet {
     }
 
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
+    }
+
+    public void setCharacterClass(String characterClass) {
+        this.characterClass = characterClass;
+    }
     public int getStrengthScore() {
         return strengthScore;
     }
