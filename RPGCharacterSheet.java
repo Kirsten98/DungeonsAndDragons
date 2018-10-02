@@ -683,6 +683,14 @@ public class RPGCharacterSheet extends Application {
     }
 
 
+
+
+
+
+
+
+
+
     // JavaFX methods
 
 
@@ -769,6 +777,8 @@ public class RPGCharacterSheet extends Application {
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
         borderPane.setLeft(abilities);
+
+        // Adding Armor List
 
         Scene scene = new Scene(borderPane, 1000, 1000);
         primaryStage.setScene(scene);

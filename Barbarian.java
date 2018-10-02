@@ -774,13 +774,9 @@ public class Barbarian{
 
     public void ChooseArmor(){
 
-        //TODO Add CheckAndAddItemQuantity in continueButton for both event handlers for Armor/Shield to add the item to the character. And find out how to open this as a window.
-
-        // TODO Finish Continue Button
-
-
+        //TODO Somehow add Armorlist to Primary Stage
         GridPane pane = new GridPane();
-        Scene scene = new Scene(pane,600,600);
+        Scene scene = new Scene(pane,650,400);
         Stage chooseArmorStage = new Stage();
         chooseArmorStage.setScene(scene);
         pane.setGridLinesVisible(true);
@@ -794,39 +790,59 @@ public class Barbarian{
 
         Label armorLabel = new Label("You are proficient in Light Armor, Medium Armor, and Shields.\nChoose your Armor.");
 
+
         ChoiceBox<String> armorChoices = new ChoiceBox(FXCollections.observableArrayList(character.getLightArmor()[0],character.getLightArmor()[1],character.getLightArmor()[2],character.getMediumArmor()[0],character.getMediumArmor()[1],character.getMediumArmor()[2],character.getMediumArmor()[3],character.getMediumArmor()[4]));
+
+        ChoiceBox<String> yOrN = new ChoiceBox(FXCollections.observableArrayList("Yes","No"));
+        yOrN.setDisable(true);
+
         Label armor = new Label("Armor: ");
         Label shield = new Label("Shield: ");
 
         armorChoices.setOnAction(e-> {
             character.setArmor(armorChoices.getValue());
             armor.setText("Armor: " + armorChoices.getValue());
+            yOrN.setDisable(false);
+
+
         });
 
-        ChoiceBox<String> yOrN = new ChoiceBox(FXCollections.observableArrayList("Yes","No"));
+        armor.setMinWidth(150);
+
+
 
         yOrN.setOnAction(e-> {
             if (yOrN.getValue().equals("Yes")){
                 shield.setText("Shield: Yes");
-                CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
-                character.setAc(character.getAc() +2);
                 character.setShield(true);
             }else {
                 shield.setText("Shield: No");
                 character.setShield(false);            }
+            pane.add(continueButton,1,3);
         });
 
 
-        while (!armor.getText().equals("Armor: ") && !shield.getText().equals("Shield: ")){
-            pane.add(continueButton,2,3);
             continueButton.setOnAction(e->{
-                System.out.println("TADA");
-//CheckAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue(),Ints.IndexOf(character.getValue(),character.getAllArmorDescriptions()) );
-            });
-        }
 
-        pane.add(armorLabel,1,0);
-        armorLabel.setTranslateX(-50);
+                //finds index of Armor and Adds Armor as an item
+                for (int i=0 ;i < character.getAllArmor().length; i++){
+                    if (character.getAllArmor()[i].equals(armorChoices.getValue())){
+                        CheckAndAddItemQuantity(character.armorList,new Item(armor.getText(),character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
+                        break;
+                    }
+                }
+
+
+                if (character.isShield() == true){
+                    CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+                    character.setAc(character.getAc() +2);
+                }
+                chooseArmorStage.close();
+            });
+
+
+        pane.add(armorLabel,1,0,3,1);
+        armorLabel.setTranslateX(-100);
 
         pane.add(armorChoices,1,1);
         pane.add(yOrN,1,2);
