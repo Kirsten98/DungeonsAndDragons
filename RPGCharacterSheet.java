@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import  javafx.stage.Stage;
 import javafx.stage.Window;
 import sun.invoke.empty.Empty;
+import sun.plugin2.jvm.RemoteJVMLauncher;
 
 import static javafx.scene.layout.BackgroundPosition.CENTER;
 import static javafx.scene.layout.BackgroundPosition.DEFAULT;
@@ -718,6 +719,15 @@ public class RPGCharacterSheet extends Application {
         layout.setPadding(new Insets(20,10,20,10));
         layout.setVgap(30);
         layout.setHgap(10);
+
+        ListView armorList = new ListView();
+        armorList.setMaxSize(200,400);
+        armorList.setTranslateX(-335);
+        armorList.setTranslateY(-265);
+        armorList.setPlaceholder(new Label("---- Armor ----"));
+        borderPane.setCenter(armorList);
+
+
 //        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
 
         // Set Name
@@ -739,7 +749,9 @@ public class RPGCharacterSheet extends Application {
         layout.add(characterClass, 4, 0);
         Button edit3 = new Button("Edit Class");
 
-        edit3.setOnAction(e -> characterClass.setText(ChooseClass(continueButton,mainCharacter )));
+        edit3.setOnAction(e -> {characterClass.setText(ChooseClass(continueButton,mainCharacter ));
+            armorList.setItems(FXCollections.observableArrayList(mainCharacter.armorList.get(0).getName(),mainCharacter.armorList.get(1).getName()));
+            });
 
         layout.add(edit3, 5, 0);
 
@@ -777,8 +789,6 @@ public class RPGCharacterSheet extends Application {
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
         borderPane.setLeft(abilities);
-
-        // Adding Armor List
 
         Scene scene = new Scene(borderPane, 1000, 1000);
         primaryStage.setScene(scene);

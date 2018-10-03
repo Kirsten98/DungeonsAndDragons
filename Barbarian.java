@@ -779,7 +779,7 @@ public class Barbarian{
         Scene scene = new Scene(pane,650,400);
         Stage chooseArmorStage = new Stage();
         chooseArmorStage.setScene(scene);
-        pane.setGridLinesVisible(true);
+        pane.setGridLinesVisible(false);
 
         pane.setPadding(new Insets(50,50,50,50));
 
@@ -827,7 +827,7 @@ public class Barbarian{
                 //finds index of Armor and Adds Armor as an item
                 for (int i=0 ;i < character.getAllArmor().length; i++){
                     if (character.getAllArmor()[i].equals(armorChoices.getValue())){
-                        CheckAndAddItemQuantity(character.armorList,new Item(armor.getText(),character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
+                        CheckAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue(),character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
                         break;
                     }
                 }
