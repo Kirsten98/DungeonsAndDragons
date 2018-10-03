@@ -9,10 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
-import javafx.geometry.VerticalDirection;
+import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -22,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import  javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import sun.invoke.empty.Empty;
 import sun.plugin2.jvm.RemoteJVMLauncher;
@@ -720,6 +718,7 @@ public class RPGCharacterSheet extends Application {
         layout.setVgap(30);
         layout.setHgap(10);
 
+        // TODO Format better
         ListView armorList = new ListView();
         armorList.setMaxSize(200,400);
         armorList.setTranslateX(-335);
@@ -749,8 +748,13 @@ public class RPGCharacterSheet extends Application {
         layout.add(characterClass, 4, 0);
         Button edit3 = new Button("Edit Class");
 
-        edit3.setOnAction(e -> {characterClass.setText(ChooseClass(continueButton,mainCharacter ));
-            armorList.setItems(FXCollections.observableArrayList(mainCharacter.armorList.get(0).getName(),mainCharacter.armorList.get(1).getName()));
+        edit3.setOnAction(e -> { mainCharacter.armorList.clear();
+            armorList.setItems(FXCollections.observableArrayList(mainCharacter.armorList));
+            characterClass.setText(ChooseClass(continueButton,mainCharacter ));
+            for (int i=0 ; i < mainCharacter.armorList.size(); i++){
+                armorList.setItems(armorList.getItems(),FXCollections.observableArrayList(mainCharacter.armorList.get(i).getName()));
+            }
+            System.out.println(mainCharacter.armorList.size());
             });
 
         layout.add(edit3, 5, 0);
@@ -823,7 +827,7 @@ public class RPGCharacterSheet extends Application {
         pane.add(name, 0, 1);
         pane.add(continueButton, 0, 2);
         pane.setAlignment(Pos.TOP_CENTER);
-
+        nameStage.initStyle(StageStyle.UTILITY);
         nameStage.initModality(Modality.APPLICATION_MODAL);
         nameStage.showAndWait();
 
@@ -931,6 +935,7 @@ public class RPGCharacterSheet extends Application {
         layout.add(continueButton, 1, 5);
         layout.setAlignment(Pos.TOP_CENTER);
 
+        raceStage.initStyle(StageStyle.UTILITY);
         raceStage.initModality(Modality.APPLICATION_MODAL);
         raceStage.showAndWait();
 
@@ -1044,6 +1049,7 @@ public class RPGCharacterSheet extends Application {
         layout.add(continueButton, 1, 6);
         layout.setAlignment(Pos.TOP_CENTER);
 
+        classStage.initStyle(StageStyle.UTILITY);
         classStage.initModality(Modality.APPLICATION_MODAL);
         classStage.showAndWait();
 

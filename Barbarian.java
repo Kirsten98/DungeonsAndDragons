@@ -774,7 +774,7 @@ public class Barbarian{
 
     public void ChooseArmor(){
 
-        //TODO Somehow add Armorlist to Primary Stage
+        //
         GridPane pane = new GridPane();
         Scene scene = new Scene(pane,650,400);
         Stage chooseArmorStage = new Stage();
@@ -827,7 +827,7 @@ public class Barbarian{
                 //finds index of Armor and Adds Armor as an item
                 for (int i=0 ;i < character.getAllArmor().length; i++){
                     if (character.getAllArmor()[i].equals(armorChoices.getValue())){
-                        CheckAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue(),character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
+                        CheckAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue() +" armor",character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
                         break;
                     }
                 }
