@@ -3,15 +3,21 @@ package DungeonsAndDragons;
 import javafx.application.Application;
 
 
+import java.awt.*;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -710,6 +716,7 @@ public class RPGCharacterSheet extends Application {
     public void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
         Button continueButton = new Button("Continue");
         primaryStage.setTitle("Character Sheet Creation");
+        primaryStage.setResizable(false);
         BorderPane borderPane = new BorderPane();
         GridPane layout = new GridPane();
         layout.setBackground(new Background(new BackgroundFill(Color.gray(1), null, null)));
@@ -718,7 +725,7 @@ public class RPGCharacterSheet extends Application {
         layout.setVgap(30);
         layout.setHgap(10);
 
-        // TODO Format better
+        ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
         armorList.setMaxSize(200,400);
         armorList.setTranslateX(-335);
@@ -749,12 +756,13 @@ public class RPGCharacterSheet extends Application {
         Button edit3 = new Button("Edit Class");
 
         edit3.setOnAction(e -> { mainCharacter.armorList.clear();
-            armorList.setItems(FXCollections.observableArrayList(mainCharacter.armorList));
+            armor.clear();
             characterClass.setText(ChooseClass(continueButton,mainCharacter ));
             for (int i=0 ; i < mainCharacter.armorList.size(); i++){
-                armorList.setItems(armorList.getItems(),FXCollections.observableArrayList(mainCharacter.armorList.get(i).getName()));
+                armor.add((mainCharacter.armorList.get(i).getName()));
+
             }
-            System.out.println(mainCharacter.armorList.size());
+            armorList.setItems(armor);
             });
 
         layout.add(edit3, 5, 0);

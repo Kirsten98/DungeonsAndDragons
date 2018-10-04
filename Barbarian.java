@@ -4,6 +4,7 @@ package DungeonsAndDragons;
 import javafx.application.Application;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
@@ -557,127 +558,129 @@ public class Barbarian{
     /**
      * Walks user through on choosing their Armor for their Character
      */
-//    public void ChooseArmor(){
+////    public void ChooseArmor(){
+////        Scanner scanner = new Scanner(System.in);
+////        String endOfLine = "";
+////        System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
+////        System.out.println("Choose your Armor.");
+////        for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
+////            if(i< character.getLightArmor().length){
+////                System.out.println(i+1+".)"+character.getLightArmor()[i]);
+////            }
+////            if (i>=character.getLightArmor().length){
+////                System.out.println(i+1 +".)"+character.getMediumArmor()[i-character.getLightArmor().length]);
+////            }
+////
+////        }
+////        int choice = scanner.nextInt();
+////        String endLine = scanner.nextLine();
+////
+////        choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
+////
+////        if(choice < character.getLightArmor().length){
+////            System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
+////            CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
+////            character.setAc(character.getLightArmorAC()[choice-1]);
+////        } if(choice >= character.getLightArmor().length){
+////            System.out.println("You have chosen "  + character.getMediumArmor()[choice - character.getLightArmor().length - 1]);
+////            CheckAndAddItemQuantity(character.armorList, new Item(character.getMediumArmor()[choice - character.getLightArmor().length - 1],character.getMediumArmorDescription()[choice - character.getLightArmor().length - 1],1,character.getMediumArmorCost()[choice - character.getLightArmor().length - 1]));
+////            character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
+////
+////        }
+////
+////        System.out.println("Would you like to have a shield? 1.) Yes or 2.) No ?");
+////        choice = scanner.nextInt();
+////        endOfLine = scanner.nextLine();
+////        choice = InputErrorCheck(choice,1,2);
+////        if (choice==1){
+////            character.setShield(true);
+////            CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+////            character.setAc(character.getAc() +2);
+////        }
+////
+////    }
+
+
+//
+//    // Tested and verified 9/3
+//    /**
+//     * Walks user through on choosing their Weapons / Equipment for their Character
+//     */
+//    public void ChooseWeapon(){
 //        Scanner scanner = new Scanner(System.in);
+//        int choice = -1;
 //        String endOfLine = "";
-//        System.out.println("You are proficient in Light Armor, Medium Armor, and Shields");
-//        System.out.println("Choose your Armor.");
-//        for(int i = 0; i <(character.getLightArmor().length + character.getMediumArmor().length); i++){
-//            if(i< character.getLightArmor().length){
-//                System.out.println(i+1+".)"+character.getLightArmor()[i]);
-//            }
-//            if (i>=character.getLightArmor().length){
-//                System.out.println(i+1 +".)"+character.getMediumArmor()[i-character.getLightArmor().length]);
-//            }
 //
-//        }
-//        int choice = scanner.nextInt();
-//        String endLine = scanner.nextLine();
-//
-//        choice= InputErrorCheck(choice,1,character.getLightArmor().length + character.getMediumArmor().length);
-//
-//        if(choice < character.getLightArmor().length){
-//            System.out.println("You have chosen " + character.getLightArmor()[choice-1]);
-//            CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
-//            character.setAc(character.getLightArmorAC()[choice-1]);
-//        } if(choice >= character.getLightArmor().length){
-//            System.out.println("You have chosen "  + character.getMediumArmor()[choice - character.getLightArmor().length - 1]);
-//            CheckAndAddItemQuantity(character.armorList, new Item(character.getMediumArmor()[choice - character.getLightArmor().length - 1],character.getMediumArmorDescription()[choice - character.getLightArmor().length - 1],1,character.getMediumArmorCost()[choice - character.getLightArmor().length - 1]));
-//            character.setAc(character.getMediumArmorAC()[choice-character.getLightArmor().length - 1]);
-//
-//        }
-//
-//        System.out.println("Would you like to have a shield? 1.) Yes or 2.) No ?");
+//        System.out.println("** Equipment Choices **");
+//        System.out.println("Would you like a 1.) Greataxe or 2.) Any Martial Melee Weapon? ");
 //        choice = scanner.nextInt();
-//        endOfLine = scanner.nextLine();
-//        choice = InputErrorCheck(choice,1,2);
-//        if (choice==1){
-//            character.setShield(true);
-//            CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
-//            character.setAc(character.getAc() +2);
+//        String endLine = scanner.nextLine();
+//        choice=InputErrorCheck(choice,1,2);
+//
+//        if (choice ==1){
+//
+//            System.out.println("You have chosen a Greataxe");
+//            CheckAndAddItemQuantity(character.weapons,new Item("Greataxe","Heavy, two-handed",1,30));
 //        }
+//        if (choice==2){
+//            System.out.println("Which Martial Melee Weapon would you like ?");
+//            for (int i =0; i < character.getMartialMeleeWeapons().length; i++){
+//                System.out.println(i+1 + ".) " + character.getMartialMeleeWeapons()[i]);
+//            }
+//            choice = scanner.nextInt();
+//            endLine = scanner.nextLine();
+//            choice = InputErrorCheck(choice,1,character.getMartialMeleeWeapons().length);
+//            System.out.println("You have chosen " + character.getMartialMeleeWeapons()[choice-1]);
+//            CheckAndAddItemQuantity(character.weapons, new Item(character.getMartialMeleeWeapons()[choice-1],character.getMartialMeleeWeaponsProperties()[choice-1],1,character.getMartialMeleeWeaponCost()[choice-1]));
+//        }
+//        System.out.println("For a secondary, would you like 1.)Two Handaxes or 2.) Any Simple Martial Melee Weapon?");
+//        choice = scanner.nextInt();
+//        endLine = scanner.nextLine();
+//        choice =InputErrorCheck(choice,1,2);
+//
+//        if(choice==1){
+//            System.out.println("You have chosen 2 handaxes");
+//            CheckAndAddItemQuantity(character.weapons,new Item ("Handaxe","Light, thrown (range 20/60)",2,5));
+//
+//        }
+//        if (choice ==2 ) {
+//            System.out.println("Which Simple Melee Weapon do you choose?");
+//            for (int i = 0; i < character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length; i++) {
+//                if (i < character.getSimpleMeleeWeapons().length){
+//                    System.out.println( i+1 + ".) " + character.getSimpleMeleeWeapons()[i]);
+//                }
+//                if (i >= character.getSimpleMeleeWeapons().length){
+//                    System.out.println(i+1 + ".) " + character.getSimpleRangedWeapons()[i-character.getSimpleMeleeWeapons().length]);
+//                }
+//            }
+//            choice = scanner.nextInt();
+//            endLine = scanner.nextLine();
+//            choice=InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length );
+//
+//            if (choice <= character.getSimpleMeleeWeapons().length){
+//                System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
+//                CheckAndAddItemQuantity(character.weapons, new Item (character.getSimpleMeleeWeapons()[choice-1],character.getSimpleMeleeWeaponProperties()[choice-1],1,character.getSimpleMeleeWeaponsCost()[choice-1] ));
+//            }
+//            if (choice>character.getSimpleMeleeWeapons().length){
+//                System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
+//                CheckAndAddItemQuantity(character.weapons, new Item(character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1],character.getSimpleRangedWeaponsProperties()[choice-character.getSimpleMeleeWeapons().length -1],1,character.getSimpleRangedWeaponsCost()[choice-character.getSimpleMeleeWeapons().length -1]));
+//            }
+//
+//        }
+//
+//        pack="Explorer";
+//        CheckAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+//        CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+//        CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
+//        CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
+//        CheckAndAddItemQuantity(character.inventory,new Item("Torch","A torch burns for 1 hour providing bright light in a 20 foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
+//        CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
+//        CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+//        CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
+//        CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
+//        System.out.println("Explorers pack, and four Javelins were added to your Inventory");
 //
 //    }
-
-    // Tested and verified 9/3
-    /**
-     * Walks user through on choosing their Weapons / Equipment for their Character
-     */
-    public void ChooseWeapon(){
-        Scanner scanner = new Scanner(System.in);
-        int choice = -1;
-        String endOfLine = "";
-
-        System.out.println("** Equipment Choices **");
-        System.out.println("Would you like a 1.) Greataxe or 2.) Any Martial Melee Weapon? ");
-        choice = scanner.nextInt();
-        String endLine = scanner.nextLine();
-        choice=InputErrorCheck(choice,1,2);
-
-        if (choice ==1){
-
-            System.out.println("You have chosen a Greataxe");
-            CheckAndAddItemQuantity(character.weapons,new Item("Greataxe","Heavy, two-handed",1,30));
-        }
-        if (choice==2){
-            System.out.println("Which Martial Melee Weapon would you like ?");
-            for (int i =0; i < character.getMartialMeleeWeapons().length; i++){
-                System.out.println(i+1 + ".) " + character.getMartialMeleeWeapons()[i]);
-            }
-            choice = scanner.nextInt();
-            endLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMartialMeleeWeapons().length);
-            System.out.println("You have chosen " + character.getMartialMeleeWeapons()[choice-1]);
-            CheckAndAddItemQuantity(character.weapons, new Item(character.getMartialMeleeWeapons()[choice-1],character.getMartialMeleeWeaponsProperties()[choice-1],1,character.getMartialMeleeWeaponCost()[choice-1]));
-        }
-        System.out.println("For a secondary, would you like 1.)Two Handaxes or 2.) Any Simple Martial Melee Weapon?");
-        choice = scanner.nextInt();
-        endLine = scanner.nextLine();
-        choice =InputErrorCheck(choice,1,2);
-
-        if(choice==1){
-            System.out.println("You have chosen 2 handaxes");
-            CheckAndAddItemQuantity(character.weapons,new Item ("Handaxe","Light, thrown (range 20/60)",2,5));
-
-        }
-        if (choice ==2 ) {
-            System.out.println("Which Simple Melee Weapon do you choose?");
-            for (int i = 0; i < character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length; i++) {
-                if (i < character.getSimpleMeleeWeapons().length){
-                    System.out.println( i+1 + ".) " + character.getSimpleMeleeWeapons()[i]);
-                }
-                if (i >= character.getSimpleMeleeWeapons().length){
-                    System.out.println(i+1 + ".) " + character.getSimpleRangedWeapons()[i-character.getSimpleMeleeWeapons().length]);
-                }
-            }
-            choice = scanner.nextInt();
-            endLine = scanner.nextLine();
-            choice=InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length );
-
-            if (choice <= character.getSimpleMeleeWeapons().length){
-                System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
-                CheckAndAddItemQuantity(character.weapons, new Item (character.getSimpleMeleeWeapons()[choice-1],character.getSimpleMeleeWeaponProperties()[choice-1],1,character.getSimpleMeleeWeaponsCost()[choice-1] ));
-            }
-            if (choice>character.getSimpleMeleeWeapons().length){
-                System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
-                CheckAndAddItemQuantity(character.weapons, new Item(character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1],character.getSimpleRangedWeaponsProperties()[choice-character.getSimpleMeleeWeapons().length -1],1,character.getSimpleRangedWeaponsCost()[choice-character.getSimpleMeleeWeapons().length -1]));
-            }
-
-        }
-
-        pack="Explorer";
-        CheckAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
-        CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
-        CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
-        CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
-        CheckAndAddItemQuantity(character.inventory,new Item("Torch","A torch burns for 1 hour providing bright light in a 20 foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
-        CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
-        CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
-        CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
-        CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
-        System.out.println("Explorers pack, and four Javelins were added to your Inventory");
-
-    }
 
     // Tested and verified 9/3
     /**
@@ -774,7 +777,6 @@ public class Barbarian{
 
     public void ChooseArmor(){
 
-        //
         GridPane pane = new GridPane();
         Scene scene = new Scene(pane,650,400);
         Stage chooseArmorStage = new Stage();
@@ -854,4 +856,47 @@ public class Barbarian{
     }
 
 
+    public void ChooseWeapon(){
+
+        GridPane pane = new GridPane();
+        Scene scene = new Scene(pane,650,400);
+        Stage chooseWeaponStage = new Stage();
+        chooseWeaponStage.setScene(scene);
+        pane.setGridLinesVisible(false);
+
+        pane.setPadding(new Insets(50,50,50,50));
+
+        Button continueButton = new Button("Continue");
+
+        pane.setHgap(25);
+        pane.setVgap(15);
+
+        Label weaponLabel = new Label("** Equipment Choices **");
+
+        ObservableList simpleMartialMeleeWapons = FXCollections.observableArrayList();
+        for (int i =0 ; i<character.getMartialMeleeWeapons().length; i++){
+            simpleMartialMeleeWapons.add(character.getMartialMeleeWeapons()[i]);
+        }
+
+        simpleMartialMeleeWapons.add("Handaxe : x2");
+
+        ChoiceBox greataxeOrMMW = new ChoiceBox(FXCollections.observableArrayList(character.getMartialMeleeWeapons()[0],character.getMartialMeleeWeapons()[1],character.getMartialMeleeWeapons()[2],character.getMartialMeleeWeapons()[3],character.getMartialMeleeWeapons()[4]));
+
+        ChoiceBox handaxeOrSMW = new ChoiceBox(FXCollections.observableArrayList(simpleMartialMeleeWapons));
+
+        Label pack = new Label("Barbarian default pack : Explorer's Pack\nBackpack | Bedroll | Mess Kit | Tinderbox | Torch x10 | Rations x10 | Waterskin | Hempen Rope x50 ft. | Javelin x4");
+
+        CheckAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+        CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+        CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
+        CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
+        CheckAndAddItemQuantity(character.inventory,new Item("Torch","A torch burns for 1 hour providing bright light in a 20 foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
+        CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
+        CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+        CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
+        CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
+
+
+
+    }
 }
