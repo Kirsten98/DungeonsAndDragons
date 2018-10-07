@@ -1,40 +1,19 @@
 package DungeonsAndDragons;
 
 import javafx.application.Application;
-
-
-import java.awt.*;
-import java.util.Scanner;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
-import  javafx.stage.Stage;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
-import sun.invoke.empty.Empty;
-import sun.plugin2.jvm.RemoteJVMLauncher;
 
-import static javafx.scene.layout.BackgroundPosition.CENTER;
-import static javafx.scene.layout.BackgroundPosition.DEFAULT;
-import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
-import static javafx.scene.layout.BackgroundRepeat.REPEAT;
-import static javafx.scene.layout.BackgroundSize.AUTO;
+import java.util.Scanner;
 
 
 public class RPGCharacterSheet extends Application {
@@ -724,15 +703,29 @@ public class RPGCharacterSheet extends Application {
         layout.setPadding(new Insets(20,10,20,10));
         layout.setVgap(30);
         layout.setHgap(10);
+        HBox center = new HBox();
+
 
         ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
         armorList.setMaxSize(200,400);
-        armorList.setTranslateX(-335);
-        armorList.setTranslateY(-265);
         armorList.setPlaceholder(new Label("---- Armor ----"));
-        borderPane.setCenter(armorList);
 
+
+        ObservableList weapons = FXCollections.observableArrayList();
+        ListView weaponsList = new ListView();
+        weaponsList.setMaxSize(200,400);
+
+        weaponsList.setPlaceholder(new Label("---- Weapons ----"));
+
+        center.getChildren().addAll(armorList,weaponsList);
+        center.setSpacing(20);
+        center.setMaxHeight(400);
+        center.setTranslateY(-265);
+        armorList.setMinWidth(200);
+        weaponsList.setMinWidth(200);
+        center.setMinWidth(200);
+        borderPane.setCenter(center);
 
 //        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
 
@@ -757,13 +750,24 @@ public class RPGCharacterSheet extends Application {
 
         edit3.setOnAction(e -> { mainCharacter.armorList.clear();
             armor.clear();
+            mainCharacter.weapons.clear();
+            weapons.clear();
+
             characterClass.setText(ChooseClass(continueButton,mainCharacter ));
             for (int i=0 ; i < mainCharacter.armorList.size(); i++){
                 armor.add((mainCharacter.armorList.get(i).getName()));
 
             }
             armorList.setItems(armor);
-            });
+
+
+
+            for (int i = 0 ; i< mainCharacter.weapons.size() ; i++){
+                weapons.add(mainCharacter.weapons.get(i).getName());
+
+            }
+            weaponsList.setItems(weapons);
+        });
 
         layout.add(edit3, 5, 0);
 

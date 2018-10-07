@@ -1,22 +1,17 @@
 package DungeonsAndDragons;
 
 
-import javafx.application.Application;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.*;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -839,6 +834,7 @@ public class Barbarian{
                     CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
                     character.setAc(character.getAc() +2);
                 }
+                ChooseWeapon();
                 chooseArmorStage.close();
             });
 
@@ -863,6 +859,8 @@ public class Barbarian{
         Stage chooseWeaponStage = new Stage();
         chooseWeaponStage.setScene(scene);
         pane.setGridLinesVisible(false);
+        pane.setHgap(20);
+        pane.setVgap(15);
 
         pane.setPadding(new Insets(50,50,50,50));
 
@@ -871,20 +869,55 @@ public class Barbarian{
         pane.setHgap(25);
         pane.setVgap(15);
 
-        Label weaponLabel = new Label("** Equipment Choices **");
+        Label weaponLabel = new Label("** Equipment Choices **\n Choose between the options below.");
 
-        ObservableList simpleMartialMeleeWapons = FXCollections.observableArrayList();
-        for (int i =0 ; i<character.getMartialMeleeWeapons().length; i++){
-            simpleMartialMeleeWapons.add(character.getMartialMeleeWeapons()[i]);
+        ObservableList simpleMartialMeleeWeapons = FXCollections.observableArrayList();
+        for (int i =0 ; i<character.getSimpleMeleeWeapons().length; i++){
+            simpleMartialMeleeWeapons.add(character.getSimpleMeleeWeapons()[i]);
         }
 
-        simpleMartialMeleeWapons.add("Handaxe : x2");
-
+        Label firstWeapon = new Label("Greataxe or any Martial Melee Weapon.");
         ChoiceBox greataxeOrMMW = new ChoiceBox(FXCollections.observableArrayList(character.getMartialMeleeWeapons()[0],character.getMartialMeleeWeapons()[1],character.getMartialMeleeWeapons()[2],character.getMartialMeleeWeapons()[3],character.getMartialMeleeWeapons()[4]));
 
-        ChoiceBox handaxeOrSMW = new ChoiceBox(FXCollections.observableArrayList(simpleMartialMeleeWapons));
+        Label secondWeapon = new Label("Two handaxes or any Simple Martial Weapon.");
+        ChoiceBox handaxeOrSMW = new ChoiceBox(FXCollections.observableArrayList(simpleMartialMeleeWeapons));
 
-        Label pack = new Label("Barbarian default pack : Explorer's Pack\nBackpack | Bedroll | Mess Kit | Tinderbox | Torch x10 | Rations x10 | Waterskin | Hempen Rope x50 ft. | Javelin x4");
+        pane.add(weaponLabel,1,0);
+        pane.add(firstWeapon,0,1);
+        pane.add(greataxeOrMMW,1,1);
+        pane.add(secondWeapon,0,2);
+        pane.add(handaxeOrSMW,1,2);
+        handaxeOrSMW.setDisable(true);
+
+        greataxeOrMMW.setOnAction(e-> handaxeOrSMW.setDisable(false));
+
+        handaxeOrSMW.setOnAction(e-> pane.add(continueButton,1,6));
+
+        continueButton.setOnAction(e -> {
+            chooseWeaponStage.close();
+
+            for (int i = 0 ; i< character.getMartialMeleeWeapons().length ; i++){
+                if (character.getMartialMeleeWeapons()[i].equals(greataxeOrMMW.getValue())){
+                    CheckAndAddItemQuantity(character.weapons, new Item(character.getMartialMeleeWeapons()[i],character.getMartialMeleeWeaponsProperties()[i],1,character.getMartialMeleeWeaponCost()[i]));
+                    break;
+                }
+            }
+
+            if (handaxeOrSMW.getValue().equals("Handaxe")){
+                CheckAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[3],character.getSimpleMeleeWeaponProperties()[3],2,character.getSimpleMeleeWeaponsCost()[3]));
+            } else {
+                for (int i =0 ; i<character.getSimpleMeleeWeapons().length ; i++){
+                    if (character.getSimpleMeleeWeapons()[i].equals(handaxeOrSMW.getValue().toString())){
+                        CheckAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[i],character.getSimpleMeleeWeaponProperties()[i],2,character.getSimpleMeleeWeaponsCost()[i]));
+                    }
+                }
+            }
+        });
+
+        Label pack = new Label("Barbarian default pack : Explorer's Pack\nBackpack | Bedroll | Mess Kit | Tinderbox\nTorch x10 | Rations x10 | Waterskin | Hempen Rope x50 ft. | Javelin x4");
+
+
+        pane.add(pack,0,4,3,1);
 
         CheckAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
         CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
@@ -896,7 +929,8 @@ public class Barbarian{
         CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
         CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
 
-
+        chooseWeaponStage.initModality(Modality.APPLICATION_MODAL);
+        chooseWeaponStage.showAndWait();
 
     }
 }
