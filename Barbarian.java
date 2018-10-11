@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -770,11 +769,9 @@ public class Barbarian{
         return choice;
     }
 
-    public void ChooseArmor(){
-
+    public void ChooseArmor(Stage chooseArmorStage){
         GridPane pane = new GridPane();
         Scene scene = new Scene(pane,650,400);
-        Stage chooseArmorStage = new Stage();
         chooseArmorStage.setScene(scene);
         pane.setGridLinesVisible(false);
 
@@ -834,8 +831,7 @@ public class Barbarian{
                     CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
                     character.setAc(character.getAc() +2);
                 }
-                ChooseWeapon();
-                chooseArmorStage.close();
+                ChooseWeapon(chooseArmorStage);
             });
 
 
@@ -847,16 +843,14 @@ public class Barbarian{
         pane.add(shield,0,2);
         pane.add(armor,0,1);
 
-        chooseArmorStage.initModality(Modality.APPLICATION_MODAL);
-        chooseArmorStage.showAndWait();
+        pane.setStyle("-fx-border-color: black");
     }
 
 
-    public void ChooseWeapon(){
+    public void ChooseWeapon(Stage chooseWeaponStage){
 
         GridPane pane = new GridPane();
         Scene scene = new Scene(pane,650,400);
-        Stage chooseWeaponStage = new Stage();
         chooseWeaponStage.setScene(scene);
         pane.setGridLinesVisible(false);
         pane.setHgap(20);
@@ -929,8 +923,8 @@ public class Barbarian{
         CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
         CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
 
-        chooseWeaponStage.initModality(Modality.APPLICATION_MODAL);
-        chooseWeaponStage.showAndWait();
+        pane.setStyle("-fx-border-color: black");
+
 
     }
 }

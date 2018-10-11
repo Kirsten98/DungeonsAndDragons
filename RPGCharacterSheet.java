@@ -16,6 +16,7 @@ import javafx.stage.StageStyle;
 import java.util.Scanner;
 
 
+// TODO create a check all method for JavaFX that updates entire CS after updating any option
 public class RPGCharacterSheet extends Application {
 
     static CharacterSheet character;
@@ -63,8 +64,8 @@ public class RPGCharacterSheet extends Application {
         }
         if ((classArrayNumber + 1) == 1) {
             Barbarian barbarianCharacter = new Barbarian(character);
-            barbarianCharacter.ChooseArmor();
-            barbarianCharacter.ChooseWeapon();
+//            barbarianCharacter.ChooseArmor();
+//            barbarianCharacter.ChooseWeapon();
             System.out.println("What level is your Barbarian? ");
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
@@ -708,23 +709,25 @@ public class RPGCharacterSheet extends Application {
 
         ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
-        armorList.setMaxSize(200,400);
         armorList.setPlaceholder(new Label("---- Armor ----"));
 
+        ObservableList inventory = FXCollections.observableArrayList();
+        ListView inventoryList = new ListView();
+        inventoryList.setPlaceholder(new Label("---- Inventory ----"));
 
         ObservableList weapons = FXCollections.observableArrayList();
         ListView weaponsList = new ListView();
-        weaponsList.setMaxSize(200,400);
+
 
         weaponsList.setPlaceholder(new Label("---- Weapons ----"));
 
-        center.getChildren().addAll(armorList,weaponsList);
+        center.getChildren().addAll(armorList,weaponsList,inventoryList);
         center.setSpacing(20);
         center.setMaxHeight(400);
         center.setTranslateY(-265);
-        armorList.setMinWidth(200);
-        weaponsList.setMinWidth(200);
-        center.setMinWidth(200);
+        armorList.setPrefWidth(200);
+        weaponsList.setPrefWidth(200);
+        inventoryList.setPrefWidth(200);
         borderPane.setCenter(center);
 
 //        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
@@ -752,6 +755,8 @@ public class RPGCharacterSheet extends Application {
             armor.clear();
             mainCharacter.weapons.clear();
             weapons.clear();
+            mainCharacter.inventory.clear();
+            inventory.clear();
 
             characterClass.setText(ChooseClass(continueButton,mainCharacter ));
             for (int i=0 ; i < mainCharacter.armorList.size(); i++){
@@ -761,12 +766,16 @@ public class RPGCharacterSheet extends Application {
             armorList.setItems(armor);
 
 
-
             for (int i = 0 ; i< mainCharacter.weapons.size() ; i++){
                 weapons.add(mainCharacter.weapons.get(i).getName());
 
             }
             weaponsList.setItems(weapons);
+
+            for (int i = 0; i < mainCharacter.inventory.size(); i++){
+                inventory.add(mainCharacter.inventory.get(i).getName());
+            }
+            inventoryList.setItems(inventory);
         });
 
         layout.add(edit3, 5, 0);
@@ -972,12 +981,13 @@ public class RPGCharacterSheet extends Application {
         layout.setVgap(60);
         classStage.setScene(scene);
 
+        layout.setPadding(new Insets(20,10,10,10));
+        layout.setStyle("-fx-border-color: black");
+
         continueButton.setOnAction(e ->{
             if (characterClass.equals("Barbarian")) {
             Barbarian barbarianCharacter = new Barbarian(mainCharacter);
-            barbarianCharacter.ChooseArmor(); }
-
-            classStage.close();
+            barbarianCharacter.ChooseArmor(classStage); }
         });
 
         Label chooseClass = new Label("Choose your class.");
@@ -988,80 +998,117 @@ public class RPGCharacterSheet extends Application {
         barbarian.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Barbarian");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
+
         });
         Button bard = new Button("Bard");
         layout.add(bard, 1, 1);
         bard.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Bard");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button cleric = new Button("Cleric");
         layout.add(cleric, 2, 1);
         cleric.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Cleric");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button druid = new Button("Druid");
         layout.add(druid, 0, 2);
         druid.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Druid");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button fighter = new Button("Fighter");
         layout.add(fighter, 1, 2);
         fighter.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Fighter");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button monk = new Button("Monk");
         layout.add(monk, 2, 2);
         monk.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Monk");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button paladin = new Button("Paladin");
         layout.add(paladin, 0, 3);
         paladin.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Paladin");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button ranger = new Button("Ranger");
         layout.add(ranger, 1, 3);
         ranger.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Ranger");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button rogue = new Button("Rogue");
         layout.add(rogue, 2, 3);
         rogue.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Rogue");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button sorcerer = new Button("Sorcerer");
         layout.add(sorcerer, 0, 4);
         sorcerer.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Sorcerer");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button warlock = new Button("Warlock");
         layout.add(warlock, 1, 4);
         warlock.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Warlock");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
         Button wizard = new Button("Wizard");
         layout.add(wizard, 2, 4);
         wizard.setOnAction(event -> {
             RPGCharacterSheet.characterClass = ("Wizard");
             RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            if(!layout.getChildren().contains(continueButton)){
+                layout.add(continueButton, 1, 6);
+            }
         });
 
         layout.add(label, 1, 5, 2, 1);
         label.setTranslateX(-25);
-        layout.add(continueButton, 1, 6);
         layout.setAlignment(Pos.TOP_CENTER);
 
-        classStage.initStyle(StageStyle.UTILITY);
+        classStage.initStyle(StageStyle.TRANSPARENT);
+
         classStage.initModality(Modality.APPLICATION_MODAL);
         classStage.showAndWait();
 
