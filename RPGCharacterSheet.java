@@ -42,7 +42,7 @@ public class RPGCharacterSheet extends Application {
 //        character = new CharacterSheet(name, race[raceArrayNumber], classes[classArrayNumber]);
 
 
-        String[] alignment = {"Good", "Neutral", "Chaotic Neutral", "Chaotic"};
+        String[] alignment = {"Lawful Good", "Lawful Neutral", "Lawful Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Chaotic Good", "Chaotic Neutral","Chaotic Evil"};
         int[] d20Rolls = new int[6];
         System.out.println("Ability Score Rolls");
         for (int i = 0; i < 6; i++) {
@@ -701,11 +701,10 @@ public class RPGCharacterSheet extends Application {
         GridPane layout = new GridPane();
         layout.setBackground(new Background(new BackgroundFill(Color.gray(1), null, null)));
         borderPane.setTop(layout);
-        layout.setPadding(new Insets(20,10,20,10));
-        layout.setVgap(30);
-        layout.setHgap(10);
+        layout.setPadding(new Insets(5,10,20,10));
+        layout.setVgap(10);
+        layout.setHgap(20);
         HBox center = new HBox();
-
 
         ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
@@ -724,32 +723,46 @@ public class RPGCharacterSheet extends Application {
         center.getChildren().addAll(armorList,weaponsList,inventoryList);
         center.setSpacing(20);
         center.setMaxHeight(400);
-        center.setTranslateY(-265);
+        center.setTranslateY(-150);
         armorList.setPrefWidth(200);
         weaponsList.setPrefWidth(200);
         inventoryList.setPrefWidth(200);
         borderPane.setCenter(center);
 
+
+        Label age = new Label("Age: ");
+        Button setAge = new Button("Edit age");
+        setAge.setDisable(true);
+        age.setTooltip(new Tooltip("Missing race selection"));
 //        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
 
         // Set Name
         Label name = new Label("Name: " + mainCharacter.getName());
         layout.add(name, 0, 0);
+        name.setPrefWidth(150);
         Button edit1 = new Button("Edit Name");
-        edit1.setOnAction(e -> name.setText(ChooseName(continueButton,  mainCharacter)));
-        layout.add(edit1, 1, 0);
+        edit1.setOnAction(e -> {name.setText(ChooseName(continueButton,  mainCharacter));
+            name.setTooltip(new Tooltip(mainCharacter.getName()));});
+        layout.add(edit1, 0, 1);
 
         // Set Race
         Label race = new Label("Race: " + mainCharacter.getRace());
+        race.setPrefWidth(100);
         Button edit2 = new Button("Edit Race");
-        edit2.setOnAction(e -> race.setText(ChooseRace(continueButton, mainCharacter)));
-        layout.add(edit2, 3, 0);
-        layout.add(race, 2, 0);
+        edit2.setOnAction(e -> {race.setText(ChooseRace(continueButton, mainCharacter));
+        race.setTooltip(new Tooltip(mainCharacter.getRace()));
+        setAge.setDisable(false);
+        age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
+        });
+        layout.add(edit2, 1, 1);
+        layout.add(race, 1, 0);
 
         // Set Class
         Label characterClass = new Label("Class: " + mainCharacter.getCharacterClass());
-        layout.add(characterClass, 4, 0);
+        layout.add(characterClass, 2, 0);
+        characterClass.setPrefWidth(100);
         Button edit3 = new Button("Edit Class");
+        layout.add(edit3, 2, 1);
 
         edit3.setOnAction(e -> { mainCharacter.armorList.clear();
             armor.clear();
@@ -761,14 +774,11 @@ public class RPGCharacterSheet extends Application {
             characterClass.setText(ChooseClass(continueButton,mainCharacter ));
             for (int i=0 ; i < mainCharacter.armorList.size(); i++){
                 armor.add((mainCharacter.armorList.get(i).getName()));
-
             }
             armorList.setItems(armor);
 
-
             for (int i = 0 ; i< mainCharacter.weapons.size() ; i++){
                 weapons.add(mainCharacter.weapons.get(i).getName());
-
             }
             weaponsList.setItems(weapons);
 
@@ -778,7 +788,16 @@ public class RPGCharacterSheet extends Application {
             inventoryList.setItems(inventory);
         });
 
-        layout.add(edit3, 5, 0);
+        // Set Age
+        age.setUnderline(true);
+        age.setPrefWidth(100);
+        layout.add(age,3,0);
+        setAge.setOnAction(e->{ SetAge(mainCharacter);
+            age.setText("Age: " + mainCharacter.getAge());
+            age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
+        });
+        layout.add(setAge,3,1);
+
 
         name.setStyle("-fx-Text-fill: Black;");
         race.setStyle("-fx-Text-fill: black;");
@@ -815,7 +834,8 @@ public class RPGCharacterSheet extends Application {
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
         borderPane.setLeft(abilities);
 
-        Scene scene = new Scene(borderPane, 1000, 1000);
+
+        Scene scene = new Scene(borderPane, 1000, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -1216,33 +1236,64 @@ public class RPGCharacterSheet extends Application {
                         } catch (NullPointerException Strength){}});
             } catch ( NullPointerException Charisma){}});
 
-
-
-
-//            AbilityAddtion(character, i + 1, d20Rolls[choice - 1]);
-//            d20Rolls[choice - 1] = -1;
-
         Scene scene = new Scene(abilities,300,300);
             chooseAbilities.setScene(scene);
             chooseAbilities.initModality(Modality.APPLICATION_MODAL);
             chooseAbilities.showAndWait();
-        }}
-//
-//        public Bard BardSetUp (Bard bardCharacter){
-//            bardCharacter.ChooseArmor();
-//            bardCharacter.ChooseWeapon();
-//            bardCharacter.ToolsProficiencies();
-//            bardCharacter.ChooseSkillProficiencies();
-////            System.out.println("What level is your Bard? ");
-////            int choice = scanner.nextInt();
-////            String endOfLine = scanner.nextLine();
-////            for (int i = 0; i < choice; i++) {
-////                bardCharacter.AddLevel();
-//
-//                return bardCharacter;
-//        }
-//    }
+        }
 
+        public void SetAge (CharacterSheet mainCharacter){
 
+            Stage setAgeStage = new Stage();
+            GridPane pane = new GridPane();
+            Scene scene = new Scene(pane,525,200);
+            pane.setPadding(new Insets(20,20,20,20));
+            Label age = new Label("Set your age.");
+            pane.add(age,5,0,3,1);
+            pane.setHgap(20);
+            pane.setVgap(10);
 
+            Label ageError = new Label("Age must be under 350");
+            pane.add(ageError,5,4,4,1);
+            ageError.setTranslateX(-25);
+            ageError.setDisable(true);
+
+            Label ageValue = new Label();
+            Button backspace = new Button("Backspace");
+            backspace.setOnAction(e->{
+                Integer numValue = Integer.parseInt(ageValue.getText()) /10;
+                ageValue.setText(numValue.toString());
+            });
+            pane.add(backspace,9,1);
+
+            Button continueButton = new Button("Continue");
+            continueButton.setDisable(true);
+            continueButton.setOnAction(e->{
+                 if (Integer.parseInt(ageValue.getText()) > 350){
+                     ageError.setDisable(false);
+
+                 }else{
+                     mainCharacter.setAge(Integer.parseInt(ageValue.getText()));
+                     setAgeStage.close();
+                 }
+            });
+            pane.add(continueButton,5,3,3,1);
+
+            for (int i = 0; i<9; i++){
+                Integer number = i;
+                Button numButton = new Button(number.toString());
+                pane.add(numButton,i,1);
+                numButton.setOnAction(e->{
+                    ageValue.setText(ageValue.getText()+numButton.getText());
+                    continueButton.setDisable(false);
+                });
+            }
+            pane.add(ageValue,5,2,6,1);
+
+            setAgeStage.setScene(scene);
+            setAgeStage.showAndWait();
+
+        }
+
+}
 
