@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -706,6 +707,10 @@ public class RPGCharacterSheet extends Application {
         layout.setHgap(20);
         HBox center = new HBox();
 
+        InnerShadow shadow = new InnerShadow();
+
+        borderPane.setEffect(shadow);
+
         ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
         armorList.setPlaceholder(new Label("---- Armor ----"));
@@ -811,6 +816,7 @@ public class RPGCharacterSheet extends Application {
         Button editAbilities = new Button("Edit Abilities");
 
         VBox abilities = new VBox();
+        abilities.setTranslateY(12);
         abilities.setStyle("-fx-border-color: black");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
@@ -842,6 +848,8 @@ public class RPGCharacterSheet extends Application {
 
     public static String ChooseName(Button continueButton, CharacterSheet mainCharacter) {
         GridPane pane = new GridPane();
+        InnerShadow shadow = new InnerShadow();
+        pane.setEffect(shadow);
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(50, 20, 50, 20));
         pane.setHgap(25);
@@ -868,7 +876,8 @@ public class RPGCharacterSheet extends Application {
         pane.add(name, 0, 1);
         pane.add(continueButton, 0, 2);
         pane.setAlignment(Pos.TOP_CENTER);
-        nameStage.initStyle(StageStyle.UTILITY);
+        nameStage.initStyle(StageStyle.TRANSPARENT);
+        pane.setStyle("-fx-border-color: black");
         nameStage.initModality(Modality.APPLICATION_MODAL);
         nameStage.showAndWait();
 
@@ -883,14 +892,15 @@ public class RPGCharacterSheet extends Application {
      */
     public static String ChooseRace(Button continueButton,CharacterSheet mainCharacter) {
 //   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
-
-
-        Label raceChoice = new Label("");
+        RPGCharacterSheet.label.setText("");
+        continueButton.setDisable(true);
         GridPane layout = new GridPane();
+        InnerShadow shadow = new InnerShadow();
+        layout.setEffect(shadow);
         Scene scene = new Scene(layout, 600, 600);
         layout.setGridLinesVisible(false);
+        layout.setPadding(new Insets(20,10,10,20));
         Stage raceStage = new Stage();
-        layout.add(raceChoice, 1, 4);
         layout.setVgap(60);
         layout.setHgap(60);
         raceStage.setScene(scene);
@@ -904,6 +914,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
 
         Button halfElf = new Button("Half-Elf");
@@ -912,6 +923,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Half-Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
 
 
@@ -921,6 +933,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Human");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
 
         Button dragonBorn = new Button("Dragonborn");
@@ -929,6 +942,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("DragonBorn");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
 
 
@@ -938,6 +952,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Dwarf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
 
         Button halfling = new Button("Halfling");
@@ -946,6 +961,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Halfling");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
 
         Button gnome = new Button("Gnome");
@@ -954,6 +970,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Gnome");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
         Button halfOrc = new Button("Half-Orc");
         layout.add(halfOrc, 1, 3);
@@ -961,6 +978,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Half-Orc");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
         Button tiefling = new Button("Tiefling");
         layout.add(tiefling, 2, 3);
@@ -968,6 +986,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Tiefling");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
+            continueButton.setDisable(false);
         });
 
         layout.add(label, 1, 4, 2, 1);
@@ -975,8 +994,8 @@ public class RPGCharacterSheet extends Application {
 
         layout.add(continueButton, 1, 5);
         layout.setAlignment(Pos.TOP_CENTER);
-
-        raceStage.initStyle(StageStyle.UTILITY);
+        raceStage.initStyle(StageStyle.TRANSPARENT);
+        layout.setStyle("-fx-border-color: black");
         raceStage.initModality(Modality.APPLICATION_MODAL);
         raceStage.showAndWait();
 
@@ -995,6 +1014,8 @@ public class RPGCharacterSheet extends Application {
 
         RPGCharacterSheet.label.setText("");
         GridPane layout = new GridPane();
+        InnerShadow shadow = new InnerShadow();
+        layout.setEffect(shadow);
         Scene scene = new Scene(layout, 600, 600);
         Stage classStage = new Stage();
         layout.setHgap(60);
@@ -1246,6 +1267,8 @@ public class RPGCharacterSheet extends Application {
 
             Stage setAgeStage = new Stage();
             GridPane pane = new GridPane();
+            InnerShadow shadow = new InnerShadow();
+            pane.setEffect(shadow);
             Scene scene = new Scene(pane,525,200);
             pane.setPadding(new Insets(20,20,20,20));
             Label age = new Label("Set your age.");
@@ -1290,6 +1313,8 @@ public class RPGCharacterSheet extends Application {
             }
             pane.add(ageValue,5,2,6,1);
 
+            setAgeStage.initStyle(StageStyle.TRANSPARENT);
+            pane.setStyle("-fx-border-color: black");
             setAgeStage.setScene(scene);
             setAgeStage.showAndWait();
 
