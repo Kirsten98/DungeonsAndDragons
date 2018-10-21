@@ -713,6 +713,7 @@ public class RPGCharacterSheet extends Application {
 
         borderPane.setEffect(shadow);
 
+        //TODO add tooltip to find description / quantity for each item.
         ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
         armorList.setPlaceholder(new Label("---- Armor ----"));
@@ -741,6 +742,12 @@ public class RPGCharacterSheet extends Application {
         Button setAge = new Button("Edit age");
         setAge.setDisable(true);
         age.setTooltip(new Tooltip("Missing race selection"));
+
+        Label level = new Label("Level: ");
+        Button editLevel = new Button("Edit level");
+        editLevel.setDisable(true);
+        level.setTooltip(new Tooltip("Missing class selection"));
+
 //        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
 
         // Set Name
@@ -751,6 +758,8 @@ public class RPGCharacterSheet extends Application {
         edit1.setOnAction(e -> {name.setText(ChooseName(continueButton,  mainCharacter));
             name.setTooltip(new Tooltip(mainCharacter.getName()));});
         layout.add(edit1, 0, 1);
+        name.setStyle("-fx-Text-fill: Black;");
+        name.setUnderline(true);
 
         // Set Race
         Label race = new Label("Race: " + mainCharacter.getRace());
@@ -763,6 +772,8 @@ public class RPGCharacterSheet extends Application {
         });
         layout.add(edit2, 1, 1);
         layout.add(race, 1, 0);
+        race.setStyle("-fx-Text-fill: black;");
+        race.setUnderline(true);
 
         // Set Class
         Label characterClass = new Label("Class: " + mainCharacter.getCharacterClass());
@@ -770,6 +781,9 @@ public class RPGCharacterSheet extends Application {
         characterClass.setPrefWidth(100);
         Button edit3 = new Button("Edit Class");
         layout.add(edit3, 2, 1);
+        characterClass.setStyle("-fx-Text-fill: black;");
+        characterClass.setUnderline(true);
+
 
         edit3.setOnAction(e -> { mainCharacter.armorList.clear();
             armor.clear();
@@ -793,6 +807,9 @@ public class RPGCharacterSheet extends Application {
                 inventory.add(mainCharacter.inventory.get(i).getName());
             }
             inventoryList.setItems(inventory);
+
+            editLevel.setDisable(false);
+            level.setTooltip(null);
         });
 
         // Set Age
@@ -806,12 +823,13 @@ public class RPGCharacterSheet extends Application {
         layout.add(setAge,3,1);
 
 
-        name.setStyle("-fx-Text-fill: Black;");
-        race.setStyle("-fx-Text-fill: black;");
-        characterClass.setStyle("-fx-Text-fill: black;");
-        name.setUnderline(true);
-        race.setUnderline(true);
-        characterClass.setUnderline(true);
+        //Set Level
+        layout.add(level,4,0);
+        layout.add(editLevel,4,1);
+        editLevel.setOnAction(e->{
+            SetLevel(mainCharacter);
+            level.setText("Level: " + mainCharacter.getLevel());
+        });
 
         // Sets Abilities
 
@@ -1322,9 +1340,65 @@ public class RPGCharacterSheet extends Application {
             setAgeStage.initStyle(StageStyle.TRANSPARENT);
             pane.setStyle("-fx-border-color: black");
             setAgeStage.setScene(scene);
+            setAgeStage.initModality(Modality.APPLICATION_MODAL);
             setAgeStage.showAndWait();
 
         }
+
+        public void SetLevel(CharacterSheet mainCharacter){
+            Stage setLevelStage = new Stage();
+            GridPane pane = new GridPane();
+            InnerShadow shadow = new InnerShadow();
+            shadow.setColor(Color.gray(.5));
+            pane.setEffect(shadow);
+            Scene scene = new Scene(pane,450,250);
+
+            pane.setPadding(new Insets(10,30,10,30));
+            pane.setHgap(10);
+            pane.setVgap(20);
+
+            Label chooseLevel = new Label("Choose your level.");
+            pane.add(chooseLevel,4,0,4,1);
+
+            Label choice = new Label("Level: ");
+            pane.add(choice,4,3,2,1);
+
+            Button continueButton = new Button("Continue");
+            continueButton.setOnAction(e->{
+                if (mainCharacter.getCharacterClass().equals("Barbarian")){
+                    //TODO Create Barbarian Add Level GUI
+                    Barbarian barbarian = new Barbarian(mainCharacter);
+                    barbarian.AddLevel(setLevelStage,mainCharacter.getLevel());
+                }
+            });
+            pane.add(continueButton,4,4,2,1);
+            continueButton.setDisable(true);
+
+            for (int i =1; i < 21 ; i++){
+                Integer levelNum = new Integer(i);
+                Button numButton = new Button(levelNum.toString());
+                numButton.setOnAction(e->{
+                    choice.setText("Level: " + Integer.parseInt(numButton.getText()));
+                    mainCharacter.setLevel(Integer.parseInt(numButton.getText()));
+                    continueButton.setDisable(false);
+                });
+                if (i <=10){
+                    pane.add(numButton,i-1,1);
+                }else{
+                    pane.add(numButton,i%11,2);
+                }
+
+            }
+
+
+            setLevelStage.setScene(scene);
+            setLevelStage.initStyle(StageStyle.TRANSPARENT);
+            pane.setStyle("-fx-border-color: black");
+           setLevelStage.initModality(Modality.APPLICATION_MODAL);
+           setLevelStage.showAndWait();
+
+
+    }
 
 }
 

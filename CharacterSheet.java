@@ -1,5 +1,8 @@
 package DungeonsAndDragons;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.Vector;
 
 //TODO Format all strings the same and do \n inbetween 1,2,3 options
@@ -28,7 +31,9 @@ public class CharacterSheet {
     private int age;
     private int hitPoints;
     private int ac;
-
+    private int level;
+    private ObservableList featuresList;
+    private ObservableList proficienciesList;
     private String[] lightArmor = {"Padded", "Leather","Studded Leather"};
     private int[] lightArmorCost = {5,10,45};
     private int[] lightArmorAC={11+dexterityMod, 11+dexterityMod, 12+dexterityMod};
@@ -441,5 +446,29 @@ public class CharacterSheet {
 
     public String[] getAllArmorDescriptions() {
         return allArmorDescriptions;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public ObservableList getFeaturesList() {
+        return featuresList;
+    }
+
+    public void setFeaturesList(ObservableList featuresList) {
+        this.featuresList = featuresList;
+    }
+
+    public ObservableList getProficienciesList() {
+        return proficienciesList;
+    }
+
+    public void setProficienciesList(ObservableList proficienciesList) {
+        this.proficienciesList = proficienciesList;
     }
 }

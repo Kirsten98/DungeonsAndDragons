@@ -2,14 +2,18 @@ package DungeonsAndDragons;
 
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -194,6 +198,152 @@ public class Barbarian{
         }
     }
 
+    public void AddLevel(Stage addLevelStage, int level){
+        Label hp = new Label("Hit Points: ");
+        Label proficiency = new Label("Proficiency : +");
+        ObservableList proficienciesList = FXCollections.observableArrayList();
+        ObservableList featuresList = FXCollections.observableArrayList();
+        ListView features = new ListView(featuresList);
+        ListView proficiencies = new ListView(proficienciesList);
+        Label rages = new Label("Rages: ");
+        Label rageDamage = new Label("Rage Damage: ");
+
+        for (int i =1; i<=level; i++){
+            addLevelStage.setTitle("Level " + i);
+
+            if (i ==1){
+                BorderPane borderPane = new BorderPane();
+                GridPane pane = new GridPane();
+                InnerShadow shadow = new InnerShadow();
+                shadow.setColor(Color.gray(.5));
+                pane.setEffect(shadow);
+                pane.setPadding(new Insets(10,30,10,30));
+                pane.setVgap(20);
+                pane.setHgap(10);
+                borderPane.setCenter(pane);
+                Scene scene = new Scene(borderPane,500,500);
+                addLevelStage.setScene(scene);
+
+                Button continueButton = new Button("Continue");
+
+                character.setHitPoints(character.getConstitutionScore()+12);
+                hp.setText("Hit Points: " + character.getHitPoints());
+                this.proficiency = 2;
+                proficiency.setText("Proficiency : +" + this.proficiency);
+                featuresList.add("Rage");
+                featuresList.add("Unarmored Defense");
+                this.rages = 2;
+                rages.setText("Rages: " + this.rages);
+                this.rageDamage = 2;
+                rageDamage.setText("Rage Damage: " + this.rageDamage);
+
+                proficienciesList.addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
+
+                Label skillChoices = new Label("You have learned two new skills to be proficient in, choose your fist skill.");
+                borderPane.setTop(skillChoices);
+
+                ObservableList skills = FXCollections.observableArrayList("Animal Handling","Athletics","Intimidation", "Nature","Perception","Survival");
+                Label firstSkill = new Label("First skill choice");
+                ChoiceBox firstChoice = new ChoiceBox(skills);
+
+                Label secondSkill = new Label("Second skill choice");
+                ChoiceBox secondChoice = new ChoiceBox(skills);
+                secondChoice.setDisable(true);
+
+                firstChoice.setOnAction(e-> {
+                    proficienciesList.addAll(firstChoice.getValue());
+                    skills.remove(firstChoice.getValue());
+
+                    continueButton.setOnAction(continueEvent ->{
+                        firstChoice.setDisable(true);
+                        secondChoice.setDisable(false);
+                    } );
+                });
+
+                secondChoice.setOnAction(e ->{
+                    proficienciesList.addAll(secondChoice.getValue());
+
+//                    continueButton.setOnAction(continueEvent -> );
+                });
+
+                pane.add(firstSkill,0,0);
+                pane.add(firstChoice,1,0);
+                pane.add(secondSkill,0,1);
+                pane.add(secondChoice,1,1);
+
+                VBox left = new VBox();
+                left.getChildren().addAll(hp,proficiency,rages,rageDamage,proficiencies,features);
+                borderPane.setLeft(left);
+
+                // TODO Find out why it is not showing the stage after pressing continue button on SetLevel in RPGCharacterSheet
+                addLevelStage.showAndWait();
+
+
+
+            }
+            if (i ==2){
+
+            }
+            if (i ==3){
+
+            }
+            if (i ==4){
+
+            }
+            if (i ==5){
+
+            }
+            if (i ==6){
+
+            }
+            if (i ==7){
+
+            }
+            if (i ==8){
+
+            }
+            if (i ==9){
+
+            }
+            if (i ==10){
+
+            }
+            if (i ==11){
+
+            }
+            if (i ==12){
+
+            }
+            if (i ==13){
+
+            }
+            if (i ==14){
+
+            }
+            if (i ==15){
+
+            }
+            if (i ==16){
+
+            }
+            if (i ==17){
+
+            }
+            if (i ==18){
+
+            }
+            if (i ==19){
+
+            }
+            if (i ==20){
+
+            }
+
+            character.setFeaturesList(featuresList);
+            character.setProficienciesList(proficienciesList);
+
+        }
+    }
 
 
     // Tested and verified 9/3
