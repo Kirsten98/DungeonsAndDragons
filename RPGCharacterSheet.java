@@ -1049,7 +1049,7 @@ public class RPGCharacterSheet extends Application {
         layout.setStyle("-fx-border-color: black");
 
         continueButton.setOnAction(e ->{
-            if (characterClass.equals("Barbarian")) {
+            if (mainCharacter.getCharacterClass().equals("Barbarian")) {
             Barbarian barbarianCharacter = new Barbarian(mainCharacter);
             barbarianCharacter.ChooseArmor(classStage); }
         });
@@ -1060,8 +1060,8 @@ public class RPGCharacterSheet extends Application {
         Button barbarian = new Button("Barbarian");
         layout.add(barbarian, 0, 1);
         barbarian.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Barbarian");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Barbarian");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1070,8 +1070,8 @@ public class RPGCharacterSheet extends Application {
         Button bard = new Button("Bard");
         layout.add(bard, 1, 1);
         bard.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Bard");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Bard");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1079,8 +1079,8 @@ public class RPGCharacterSheet extends Application {
         Button cleric = new Button("Cleric");
         layout.add(cleric, 2, 1);
         cleric.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Cleric");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Cleric");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1088,8 +1088,8 @@ public class RPGCharacterSheet extends Application {
         Button druid = new Button("Druid");
         layout.add(druid, 0, 2);
         druid.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Druid");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Druid");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1097,8 +1097,8 @@ public class RPGCharacterSheet extends Application {
         Button fighter = new Button("Fighter");
         layout.add(fighter, 1, 2);
         fighter.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Fighter");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Fighter");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1106,8 +1106,8 @@ public class RPGCharacterSheet extends Application {
         Button monk = new Button("Monk");
         layout.add(monk, 2, 2);
         monk.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Monk");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Monk");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1115,8 +1115,8 @@ public class RPGCharacterSheet extends Application {
         Button paladin = new Button("Paladin");
         layout.add(paladin, 0, 3);
         paladin.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Paladin");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Paladin");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1124,8 +1124,8 @@ public class RPGCharacterSheet extends Application {
         Button ranger = new Button("Ranger");
         layout.add(ranger, 1, 3);
         ranger.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Ranger");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Ranger");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1133,8 +1133,8 @@ public class RPGCharacterSheet extends Application {
         Button rogue = new Button("Rogue");
         layout.add(rogue, 2, 3);
         rogue.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Rogue");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Rogue");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1142,8 +1142,8 @@ public class RPGCharacterSheet extends Application {
         Button sorcerer = new Button("Sorcerer");
         layout.add(sorcerer, 0, 4);
         sorcerer.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Sorcerer");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Sorcerer");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1151,8 +1151,8 @@ public class RPGCharacterSheet extends Application {
         Button warlock = new Button("Warlock");
         layout.add(warlock, 1, 4);
         warlock.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Warlock");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Warlock");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1160,8 +1160,8 @@ public class RPGCharacterSheet extends Application {
         Button wizard = new Button("Wizard");
         layout.add(wizard, 2, 4);
         wizard.setOnAction(event -> {
-            RPGCharacterSheet.characterClass = ("Wizard");
-            RPGCharacterSheet.label.setText("You have chosen " + RPGCharacterSheet.characterClass);
+            mainCharacter.setCharacterClass("Wizard");
+            RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
             if(!layout.getChildren().contains(continueButton)){
                 layout.add(continueButton, 1, 6);
             }
@@ -1176,7 +1176,7 @@ public class RPGCharacterSheet extends Application {
         classStage.initModality(Modality.APPLICATION_MODAL);
         classStage.showAndWait();
 
-        return "Class: " + RPGCharacterSheet.characterClass;
+        return "Class: " + mainCharacter.getCharacterClass();
 
     }
 
