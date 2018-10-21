@@ -8,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -771,7 +773,10 @@ public class Barbarian{
 
     public void ChooseArmor(Stage chooseArmorStage){
         GridPane pane = new GridPane();
-        Scene scene = new Scene(pane,650,400);
+        Scene scene = new Scene(pane,650,400);;
+        InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
+        pane.setEffect(shadow);
         chooseArmorStage.setScene(scene);
         pane.setGridLinesVisible(false);
 
@@ -851,6 +856,9 @@ public class Barbarian{
 
         GridPane pane = new GridPane();
         Scene scene = new Scene(pane,650,400);
+        InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
+        pane.setEffect(shadow);
         chooseWeaponStage.setScene(scene);
         pane.setGridLinesVisible(false);
         pane.setHgap(20);

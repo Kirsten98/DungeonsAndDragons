@@ -708,6 +708,8 @@ public class RPGCharacterSheet extends Application {
         HBox center = new HBox();
 
         InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.2));
+        shadow.setRadius(5);
 
         borderPane.setEffect(shadow);
 
@@ -849,6 +851,7 @@ public class RPGCharacterSheet extends Application {
     public static String ChooseName(Button continueButton, CharacterSheet mainCharacter) {
         GridPane pane = new GridPane();
         InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(50, 20, 50, 20));
@@ -896,6 +899,7 @@ public class RPGCharacterSheet extends Application {
         continueButton.setDisable(true);
         GridPane layout = new GridPane();
         InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
         layout.setEffect(shadow);
         Scene scene = new Scene(layout, 600, 600);
         layout.setGridLinesVisible(false);
@@ -1015,6 +1019,7 @@ public class RPGCharacterSheet extends Application {
         RPGCharacterSheet.label.setText("");
         GridPane layout = new GridPane();
         InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
         layout.setEffect(shadow);
         Scene scene = new Scene(layout, 600, 600);
         Stage classStage = new Stage();
@@ -1268,6 +1273,7 @@ public class RPGCharacterSheet extends Application {
             Stage setAgeStage = new Stage();
             GridPane pane = new GridPane();
             InnerShadow shadow = new InnerShadow();
+            shadow.setColor(Color.gray(.5));
             pane.setEffect(shadow);
             Scene scene = new Scene(pane,525,200);
             pane.setPadding(new Insets(20,20,20,20));
