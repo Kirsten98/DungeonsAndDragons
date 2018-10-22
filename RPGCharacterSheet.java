@@ -1368,7 +1368,7 @@ public class RPGCharacterSheet extends Application {
                 if (mainCharacter.getCharacterClass().equals("Barbarian")){
                     //TODO Create Barbarian Add Level GUI
                     Barbarian barbarian = new Barbarian(mainCharacter);
-                    barbarian.AddLevel(setLevelStage,mainCharacter.getLevel());
+                    barbarian.AddLevel(setLevelStage,mainCharacter.getLevel(),1);
                 }
             });
             pane.add(continueButton,4,4,2,1);

@@ -202,15 +202,17 @@ public class Barbarian{
         }
     }
 
-    public void AddLevel(Stage addLevelStage, int level){
-        Label hp = new Label("Hit Points: ");
-        Label proficiency = new Label("Proficiency : +");
+    public void AddLevel(Stage addLevelStage, int level, int startingLevel){
+        Label hp = new Label("Hit Points: "+ character.getHitPoints());
+        Label proficiency = new Label("Proficiency : + "+ this.proficiency);
         ObservableList proficienciesList = FXCollections.observableArrayList();
         ObservableList featuresList = FXCollections.observableArrayList();
         ListView features = new ListView(featuresList);
         ListView proficiencies = new ListView(proficienciesList);
-        Label rages = new Label("Rages: ");
-        Label rageDamage = new Label("Rage Damage: ");
+        Label rages = new Label("Rages: " + this.rages);
+        Label rageDamage = new Label("Rage Damage: " + this.rageDamage);
+        Label primalPath = new Label("Primal Path: "+ this.primalPath);
+        Label totemSpirit = new Label("Totem Spirit: " + this.totemSpirit);
 
         BorderPane borderPane = new BorderPane();
         GridPane pane = new GridPane();
@@ -226,7 +228,7 @@ public class Barbarian{
 
         Button continueButton = new Button("Continue");
 
-        for (int i =1; i<=level; i++){
+        for (int i =startingLevel; i<=level; i++){
             addLevelStage.setTitle("Level " + i);
 
             if (i ==1){
@@ -261,21 +263,23 @@ public class Barbarian{
                 firstChoice.setOnAction(e-> {
                     continueButton.setDisable(false);
                     continueButton.setOnAction(continueEvent ->{
-                        proficienciesList.addAll(firstChoice.getValue());
+                        proficienciesList.add(firstChoice.getValue());
                         skills.remove(firstChoice.getValue());
                         firstSkill.setText("First skill choice: " + firstChoice.getValue());
                         pane.getChildren().remove(firstChoice);
                         secondChoice.setDisable(false);
+                        continueButton.setDisable(true);
                     } );
                 });
 
                 secondChoice.setOnAction(e ->{
 
                     continueButton.setOnAction(continueEvent -> {
-                        proficienciesList.addAll(secondChoice.getValue());
+                        proficienciesList.add(secondChoice.getValue());
                         pane.getChildren().remove(secondChoice);
                         secondSkill.setText("Second skill choice: " + secondChoice.getValue());
                         secondChoice.setDisable(true);
+                        AddLevel(addLevelStage,level,2);
 
                     });
                 });
@@ -290,6 +294,11 @@ public class Barbarian{
 
             }
             if (i ==2){
+                // TODO need to fix Proficiencies Level 2
+
+                featuresList.add("Reckless Attack");
+                featuresList.add("Danger Sense");
+                character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
 
             }
             if (i ==3){
@@ -353,7 +362,9 @@ public class Barbarian{
         }
 
         VBox left = new VBox();
-        left.getChildren().addAll(hp,proficiency,rages,rageDamage,proficiencies,features);
+        left.setPrefWidth(150);
+        left.setPadding(new Insets(10,10,10,10));
+        left.getChildren().addAll(hp,proficiency,rages,rageDamage,primalPath,totemSpirit,proficiencies,features);
         borderPane.setLeft(left);
         borderPane.setStyle("-fx-border-color: black");
 
