@@ -1,24 +1,19 @@
 package DungeonsAndDragons;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+import java.awt.*;
 import java.util.Vector;
 
 public class Tester {
 
     public static void main(String[] args) {
-//        CharacterSheet character = new CharacterSheet("Q","Elf","Bard");
-//        Cleric cleric = new Cleric(character);
-//
-//      for (int i = 0; i <20 ; i++){
-//          cleric.AddLevel();
-//      }
+        CharacterSheet mainCharacter = new CharacterSheet();
+        mainCharacter.setCharacterClass("Barbarian");
 
 
-//        for (int i = 0; i < character.inventory.size(); i++){
-//            System.out.println(i + 1 + ".) " + character.inventory.get(i).getName());
-//        }
-//        for (int i = 0; i < character.weapons.size(); i++){
-//            System.out.println(i + 1 + ".) " + character.weapons.get(i).getName());
-//        }
 
 
     }

@@ -8,10 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -202,171 +199,298 @@ public class Barbarian{
         }
     }
 
-    public void AddLevel(Stage addLevelStage, int level, int startingLevel){
-        Label hp = new Label("Hit Points: "+ character.getHitPoints());
-        Label proficiency = new Label("Proficiency : + "+ this.proficiency);
-        ObservableList proficienciesList = FXCollections.observableArrayList();
-        ObservableList featuresList = FXCollections.observableArrayList();
-        ListView features = new ListView(featuresList);
-        ListView proficiencies = new ListView(proficienciesList);
-        Label rages = new Label("Rages: " + this.rages);
-        Label rageDamage = new Label("Rage Damage: " + this.rageDamage);
-        Label primalPath = new Label("Primal Path: "+ this.primalPath);
-        Label totemSpirit = new Label("Totem Spirit: " + this.totemSpirit);
+    public void AddLevel(Stage addLevelStage, int maxLevel, int startingLevel){
 
-        BorderPane borderPane = new BorderPane();
-        GridPane pane = new GridPane();
-        InnerShadow shadow = new InnerShadow();
-        shadow.setColor(Color.gray(.5));
-        pane.setEffect(shadow);
-        pane.setPadding(new Insets(10,30,10,30));
-        pane.setVgap(20);
-        pane.setHgap(10);
-        borderPane.setCenter(pane);
-        Scene scene = new Scene(borderPane,600,600);
-        addLevelStage.setScene(scene);
+            if (startingLevel <= maxLevel){
 
-        Button continueButton = new Button("Continue");
+                Label hp = new Label("Hit Points: "+ character.getHitPoints());
+                Label proficiency = new Label("Proficiency : + "+ this.proficiency);
+                ListView features = new ListView(character.getFeaturesList());
+                ListView proficiencies = new ListView( character.getProficienciesList());
+                Label rages = new Label("Rages: " + this.rages);
+                Label rageDamage = new Label("Rage Damage: " + this.rageDamage);
+                Label primalPath = new Label("Primal Path: "+ this.primalPath);
+                primalPath.setWrapText(true);
+                Label totemSpirit = new Label("Totem Spirit: " + this.totemSpirit);
 
-        for (int i =startingLevel; i<=level; i++){
-            addLevelStage.setTitle("Level " + i);
+                BorderPane borderPane = new BorderPane();
+                borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel ));
+                GridPane pane = new GridPane();
+                InnerShadow shadow = new InnerShadow();
+                shadow.setColor(Color.gray(.5));
+                pane.setEffect(shadow);
+                pane.setPadding(new Insets(10,30,10,30));
+                pane.setVgap(20);
+                pane.setHgap(10);
+                borderPane.setCenter(pane);
+                Scene scene = new Scene(borderPane,600,600);
+                addLevelStage.setScene(scene);
 
-            if (i ==1){
+                Button continueButton = new Button("Continue");
 
-                character.setHitPoints(character.getConstitutionScore()+12);
-                hp.setText("Hit Points: " + character.getHitPoints());
-                this.proficiency = 2;
-                proficiency.setText("Proficiency : +" + this.proficiency);
-                featuresList.add("Rage");
-                featuresList.add("Unarmored Defense");
-                this.rages = 2;
-                rages.setText("Rages: " + this.rages);
-                this.rageDamage = 2;
-                rageDamage.setText("Rage Damage: " + this.rageDamage);
+                addLevelStage.setTitle("Level " + startingLevel);
 
-                continueButton.setDisable(true);
-                pane.add(continueButton,1,4);
 
-                proficienciesList.addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
 
-                Label skillChoices = new Label("You have learned two new skills to be proficient in.\nChoose your fist skill.");
-                pane.add(skillChoices,0,0,3,2);
+                if (startingLevel ==1){
 
-                ObservableList skills = FXCollections.observableArrayList("Animal Handling","Athletics","Intimidation", "Nature","Perception","Survival");
-                Label firstSkill = new Label("First skill choice");
-                ChoiceBox firstChoice = new ChoiceBox(skills);
+                    character.setHitPoints(character.getConstitutionScore()+12);
+                    hp.setText("Hit Points: " + character.getHitPoints());
+                    this.proficiency = 2;
+                    proficiency.setText("Proficiency : +" + this.proficiency);
+                    character.getFeaturesList().add("Rage");
+                    character.getFeaturesList().add("Unarmored Defense");
+                    this.rages = 2;
+                    rages.setText("Rages: " + this.rages);
+                    this.rageDamage = 2;
+                    rageDamage.setText("Rage Damage: " + this.rageDamage);
 
-                Label secondSkill = new Label("Second skill choice");
-                ChoiceBox secondChoice = new ChoiceBox(skills);
-                secondChoice.setDisable(true);
+                    continueButton.setDisable(true);
+                    pane.add(continueButton,1,4);
 
-                firstChoice.setOnAction(e-> {
-                    continueButton.setDisable(false);
-                    continueButton.setOnAction(continueEvent ->{
-                        proficienciesList.add(firstChoice.getValue());
-                        skills.remove(firstChoice.getValue());
-                        firstSkill.setText("First skill choice: " + firstChoice.getValue());
-                        pane.getChildren().remove(firstChoice);
-                        secondChoice.setDisable(false);
-                        continueButton.setDisable(true);
-                    } );
-                });
+                    character.getProficienciesList().addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
 
-                secondChoice.setOnAction(e ->{
+                    Label skillChoices = new Label("You have learned two new skills to be proficient in.\nChoose your fist skill.");
+                    pane.add(skillChoices,0,0,3,2);
 
-                    continueButton.setOnAction(continueEvent -> {
-                        proficienciesList.add(secondChoice.getValue());
-                        pane.getChildren().remove(secondChoice);
-                        secondSkill.setText("Second skill choice: " + secondChoice.getValue());
-                        secondChoice.setDisable(true);
-                        AddLevel(addLevelStage,level,2);
+                    ObservableList skills = FXCollections.observableArrayList("Animal Handling","Athletics","Intimidation", "Nature","Perception","Survival");
+                    Label firstSkill = new Label("First skill choice");
+                    ChoiceBox firstChoice = new ChoiceBox(skills);
+
+                    Label secondSkill = new Label("Second skill choice");
+                    ChoiceBox secondChoice = new ChoiceBox(skills);
+                    secondChoice.setDisable(true);
+
+                    firstChoice.setOnAction(e-> {
+                        continueButton.setDisable(false);
+                        continueButton.setOnAction(continueEvent ->{
+                            character.getProficienciesList().add(firstChoice.getValue());
+                            skills.remove(firstChoice.getValue());
+                            firstSkill.setText("First skill choice: " + firstChoice.getValue());
+                            pane.getChildren().remove(firstChoice);
+                            secondChoice.setDisable(false);
+                            continueButton.setDisable(true);
+                        } );
+                    });
+
+                    secondChoice.setOnAction(e ->{
+                        continueButton.setDisable(false);
+                        continueButton.setOnAction(continueEvent -> {
+                            character.getProficienciesList().add(secondChoice.getValue());
+                            pane.getChildren().remove(secondChoice);
+                            secondSkill.setText("Second skill choice: " + secondChoice.getValue());
+                            secondChoice.setDisable(true);
+                            //TODO Fix continueButton to move to level 2
+                           if (startingLevel == maxLevel){
+                               addLevelStage.close();
+                           }else  AddLevel(addLevelStage,maxLevel,2);
+
+                        });
+                    });
+
+                    pane.add(firstSkill,0,2,2,1);
+                    pane.add(firstChoice,2,2);
+                    pane.add(secondSkill,0,3,2,1);
+                    pane.add(secondChoice,2,3);
+
+
+
+
+                }
+                if (startingLevel ==2){
+
+                    character.getFeaturesList().add("Reckless Attack");
+                    character.getFeaturesList().add("Danger Sense");
+                    features.setItems(character.getFeaturesList());
+                    proficiencies.setItems( character.getProficienciesList());
+
+                    Label addedFeatures = new Label("Added the following to your character.\nFeatures: Reckless Attack and Danger Sense.");
+                    pane.add(addedFeatures,0,0);
+                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    hp.setText("Hit Points: " + character.getHitPoints());
+
+                    pane.add(continueButton,0,1);
+
+                    continueButton.setOnAction(e->{
+                        if (startingLevel == maxLevel){
+                            addLevelStage.close();
+                        }else AddLevel(addLevelStage,maxLevel,3);
+                    });
+
+                }
+                if (startingLevel ==3){
+
+                    this.rages = 3;
+                    rages.setText("Rages: " + this.rages);
+                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    hp.setText("Hit Points: " + character.getHitPoints());
+
+                    Label choosePath = new Label("Choose your Primal Path");
+                    pane.add(choosePath,1,0);
+                    Label choice = new Label("Primal Path: " + this.primalPath);
+                    pane.add(choice,1,3,3,1);
+
+                    continueButton.setDisable(true);
+
+                    Button berserker = new Button("Berserker");
+                    berserker.setTooltip(new Tooltip("Path of Berserker\nFeatures: Frenzy"));
+                    pane.add(berserker,0,1);
+                    berserker.setOnAction(e-> {
+                        this.primalPath=berserker.getText();
+                       choice.setText("Primal Path: " + this.primalPath);
+                        continueButton.setDisable(false);
+                    });
+
+                    Button totemWarrior = new Button("Totem Warrior");
+                    berserker.setTooltip(new Tooltip("Path of Totem Warrior\nFeatures: Spirit Speaker\nTotem Spirit choice"));
+                    pane.add(totemWarrior,2,1);
+                    totemWarrior.setOnAction(e-> {
+                        this.primalPath=totemWarrior.getText();
+                        choice.setText("Primal Path: " + this.primalPath);
+                        continueButton.setDisable(false);
+                    });
+
+                    pane.add(continueButton,1,4);
+                    continueButton.setOnAction(e->{
+                        primalPath.setText("Primal Path: "+ this.primalPath);
+
+                        if (this.primalPath.equals("Berserker")){
+                            totemSpirit.setDisable(true);
+                            character.getFeaturesList().add("Frenzy");
+                            features.setItems(character.getFeaturesList());
+                            if (startingLevel == maxLevel){
+                                addLevelStage.close();
+                            } else AddLevel(addLevelStage,maxLevel,4);
+                        }else {
+                            character.getFeaturesList().add("Spirit Speaker");
+
+                            pane.getChildren().removeAll(berserker,totemWarrior);
+
+                            choosePath.setText("Choose your Totem Spirit");
+                            choice.setText("Totem Spirit: " + this.totemSpirit);
+
+                            Button bear = new Button("Bear");
+                            pane.add(bear,0,1);
+                            Button eagle = new Button("Eagle");
+                            pane.add(eagle,1,1);
+                            Button wolf = new Button("Wolf");
+                            pane.add(wolf,2,1);
+
+                            bear.setOnAction(bearEvent->{
+                                this.totemSpirit = "Bear";
+                                choice.setText("Totem Spirit: " + this.totemSpirit);
+                            });
+
+                            eagle.setOnAction(eagleEvent->{
+                                this.totemSpirit = "Eagle";
+                                choice.setText("Totem Spirit: " + this.totemSpirit);
+                            });
+
+                            wolf.setOnAction(wolfEvent->{
+                                this.totemSpirit = "Wolf";
+                                choice.setText("Totem Spirit: " + this.totemSpirit);
+                            });
+
+                            continueButton.setOnAction(continueButtonEvent -> {
+                                features.setItems(character.getFeaturesList());
+                                primalPath.setText("Primal Path: "+ this.primalPath);
+                                totemSpirit.setText("Totem Spirit: " + this.totemSpirit);
+                                if (startingLevel == maxLevel){
+                                    addLevelStage.close();
+                                }else AddLevel(addLevelStage,maxLevel,4);
+
+                            });
+
+                        }
 
                     });
-                });
 
-                pane.add(firstSkill,0,2,2,1);
-                pane.add(firstChoice,2,2);
-                pane.add(secondSkill,0,3,2,1);
-                pane.add(secondChoice,2,3);
+//                        System.out.println("Choose your Totem Spirit");
+//                        System.out.println("1.) Bear");
+//                        System.out.println("2.) Eagle");
+//                        System.out.println("3.) Wolf");
+//
+//                        if (choice == 1){
+//                            totemSpirit = "Bear";
+//                        }
+//                        if (choice == 2){
+//                            totemSpirit = "Eagle";
+//                        }
+//                        if (choice == 3){
+//                            totemSpirit = "Wolf";
+//                        }
+//                    }
+
+                }
+                if (startingLevel ==4){
+
+                }
+                if (startingLevel ==5){
+
+                }
+                if (startingLevel ==6){
+
+                }
+                if (startingLevel ==7){
+
+                }
+                if (startingLevel ==8){
+
+                }
+                if (startingLevel ==9){
+
+                }
+                if (startingLevel ==10){
+
+                }
+                if (startingLevel ==11){
+
+                }
+                if (startingLevel ==12){
+
+                }
+                if (startingLevel ==13){
+
+                }
+                if (startingLevel ==14){
+
+                }
+                if (startingLevel ==15){
+
+                }
+                if (startingLevel ==16){
+
+                }
+                if (startingLevel ==17){
+
+                }
+                if (startingLevel ==18){
+
+                }
+                if (startingLevel ==19){
+
+                }
+                if (startingLevel ==20){
+
+                }
+                if (startingLevel == maxLevel){
+                    character.setLevel(maxLevel);
+
+                    //TODO Add items to Character sheet here
+
+                }
 
 
 
 
+                VBox left = new VBox();
+                left.setPrefWidth(150);
+                left.setPadding(new Insets(10,10,10,10));
+                left.getChildren().addAll(hp,proficiency,rages,rageDamage,primalPath,totemSpirit,proficiencies,features);
+                borderPane.setLeft(left);
+                borderPane.setStyle("-fx-border-color: black");
             }
-            if (i ==2){
-                // TODO need to fix Proficiencies Level 2
 
-                featuresList.add("Reckless Attack");
-                featuresList.add("Danger Sense");
-                character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-
-            }
-            if (i ==3){
-
-            }
-            if (i ==4){
-
-            }
-            if (i ==5){
-
-            }
-            if (i ==6){
-
-            }
-            if (i ==7){
-
-            }
-            if (i ==8){
-
-            }
-            if (i ==9){
-
-            }
-            if (i ==10){
-
-            }
-            if (i ==11){
-
-            }
-            if (i ==12){
-
-            }
-            if (i ==13){
-
-            }
-            if (i ==14){
-
-            }
-            if (i ==15){
-
-            }
-            if (i ==16){
-
-            }
-            if (i ==17){
-
-            }
-            if (i ==18){
-
-            }
-            if (i ==19){
-
-            }
-            if (i ==20){
-
-            }
-
-            character.setFeaturesList(featuresList);
-            character.setProficienciesList(proficienciesList);
-
-        }
-
-        VBox left = new VBox();
-        left.setPrefWidth(150);
-        left.setPadding(new Insets(10,10,10,10));
-        left.getChildren().addAll(hp,proficiency,rages,rageDamage,primalPath,totemSpirit,proficiencies,features);
-        borderPane.setLeft(left);
-        borderPane.setStyle("-fx-border-color: black");
 
     }
 

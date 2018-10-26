@@ -1360,42 +1360,49 @@ public class RPGCharacterSheet extends Application {
             Label chooseLevel = new Label("Choose your level.");
             pane.add(chooseLevel,4,0,4,1);
 
-            Label choice = new Label("Level: ");
+            Label choice = new Label("Level: "+ mainCharacter.getLevel());
             pane.add(choice,4,3,2,1);
 
             Button continueButton = new Button("Continue");
-            continueButton.setOnAction(e->{
-                if (mainCharacter.getCharacterClass().equals("Barbarian")){
-                    //TODO Create Barbarian Add Level GUI
-                    Barbarian barbarian = new Barbarian(mainCharacter);
-                    barbarian.AddLevel(setLevelStage,mainCharacter.getLevel(),1);
-                }
-            });
-            pane.add(continueButton,4,4,2,1);
-            continueButton.setDisable(true);
 
+            pane.add(continueButton,4,4,2,1);
+//            continueButton.setDisable(true);
+
+            Integer levelNum;
             for (int i =1; i < 21 ; i++){
-                Integer levelNum = new Integer(i);
+
+                //TODO find out why Level one Continue button does not initiate barbarian.AddLevel()
+                levelNum =i;
                 Button numButton = new Button(levelNum.toString());
                 numButton.setOnAction(e->{
                     choice.setText("Level: " + Integer.parseInt(numButton.getText()));
-                    mainCharacter.setLevel(Integer.parseInt(numButton.getText()));
                     continueButton.setDisable(false);
+
+
                 });
+
                 if (i <=10){
                     pane.add(numButton,i-1,1);
                 }else{
                     pane.add(numButton,i%11,2);
                 }
 
+
+
             }
 
+            continueButton.setOnAction(e->{
+                if (mainCharacter.getCharacterClass().equals("Barbarian")){
+                    Barbarian barbarian = new Barbarian(mainCharacter);
+                    barbarian.AddLevel(setLevelStage,Integer.parseInt(choice.getText().split(" ")[1]),1);
+                }
+            });
 
             setLevelStage.setScene(scene);
             setLevelStage.initStyle(StageStyle.TRANSPARENT);
             pane.setStyle("-fx-border-color: black");
-           setLevelStage.initModality(Modality.APPLICATION_MODAL);
-           setLevelStage.showAndWait();
+            setLevelStage.initModality(Modality.APPLICATION_MODAL);
+            setLevelStage.showAndWait();
 
 
     }
