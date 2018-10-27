@@ -207,6 +207,8 @@ public class Barbarian{
                 Label proficiency = new Label("Proficiency : + "+ this.proficiency);
                 ListView features = new ListView(character.getFeaturesList());
                 ListView proficiencies = new ListView( character.getProficienciesList());
+                proficiencies.setTooltip(new Tooltip("Proficiencies"));
+                features.setTooltip(new Tooltip("Features"));
                 Label rages = new Label("Rages: " + this.rages);
                 Label rageDamage = new Label("Rage Damage: " + this.rageDamage);
                 Label primalPath = new Label("Primal Path: "+ this.primalPath);
@@ -280,7 +282,6 @@ public class Barbarian{
                             pane.getChildren().remove(secondChoice);
                             secondSkill.setText("Second skill choice: " + secondChoice.getValue());
                             secondChoice.setDisable(true);
-                            //TODO Fix continueButton to move to level 2
                            if (startingLevel == maxLevel){
                                addLevelStage.close();
                            }else  AddLevel(addLevelStage,maxLevel,2);
@@ -405,22 +406,6 @@ public class Barbarian{
 
                     });
 
-//                        System.out.println("Choose your Totem Spirit");
-//                        System.out.println("1.) Bear");
-//                        System.out.println("2.) Eagle");
-//                        System.out.println("3.) Wolf");
-//
-//                        if (choice == 1){
-//                            totemSpirit = "Bear";
-//                        }
-//                        if (choice == 2){
-//                            totemSpirit = "Eagle";
-//                        }
-//                        if (choice == 3){
-//                            totemSpirit = "Wolf";
-//                        }
-//                    }
-
                 }
                 if (startingLevel ==4){
 
@@ -476,7 +461,7 @@ public class Barbarian{
                 if (startingLevel == maxLevel){
                     character.setLevel(maxLevel);
 
-                    //TODO Add items to Character sheet here
+                    //TODO Add items to Character sheet here (Hit dice,pack, primal path, proficiency,rage damage, rages, totem spirit, proficiencies, and features) Returns a observableList of Misc
 
                 }
 

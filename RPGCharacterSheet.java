@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -705,7 +706,10 @@ public class RPGCharacterSheet extends Application {
         layout.setPadding(new Insets(5,10,20,10));
         layout.setVgap(10);
         layout.setHgap(20);
-        HBox center = new HBox();
+        HBox centerTop = new HBox();
+        HBox centerBottom = new HBox();
+        VBox center = new VBox();
+        center.getChildren().addAll(centerTop,centerBottom);
 
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.2));
@@ -724,26 +728,53 @@ public class RPGCharacterSheet extends Application {
 
         ObservableList weapons = FXCollections.observableArrayList();
         ListView weaponsList = new ListView();
-
-
         weaponsList.setPlaceholder(new Label("---- Weapons ----"));
 
-        center.getChildren().addAll(armorList,weaponsList,inventoryList);
-        center.setSpacing(20);
-        center.setMaxHeight(400);
-        center.setTranslateY(-150);
+        ObservableList instruments = FXCollections.observableArrayList();
+        ListView instrumentsList = new ListView();
+        instrumentsList.setPlaceholder(new Label("---- Instruments ----"));
+
+        ObservableList features = FXCollections.observableArrayList();
+        ListView featuresList = new ListView();
+        featuresList.setPlaceholder(new Label("---- Features ----"));
+
+        ObservableList proficiencies = FXCollections.observableArrayList();
+        ListView proficienciesList = new ListView();
+        proficienciesList.setPlaceholder(new Label("---- Proficiencies ----"));
+
+        ObservableList spells = FXCollections.observableArrayList();
+        ListView spellsList = new ListView();
+        spellsList.setPlaceholder(new Label("---- Spells ----"));
+
+        ObservableList skills = FXCollections.observableArrayList();
+        //TODO when getting spells, add cantrips, lvl 1 ... and fourth in between spells
+        ListView skillsList = new ListView();
+        skillsList.setPlaceholder(new Label("---- Skills ----"));
+
+
+        centerTop.getChildren().addAll(armorList,weaponsList,inventoryList,instrumentsList);
         armorList.setPrefWidth(200);
         weaponsList.setPrefWidth(200);
         inventoryList.setPrefWidth(200);
+        instrumentsList.setPrefWidth(200);
+        featuresList.setPrefWidth(200);
+        proficienciesList.setPrefWidth(200);
+        spellsList.setPrefWidth(200);
+        skillsList.setPrefWidth(200);
+
+        centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,skillsList);
+        center.setTranslateX(30);
         borderPane.setCenter(center);
 
 
-        Label age = new Label("Age: ");
+
+
+        Label age = new Label("Age: "+ mainCharacter.getAge());
         Button setAge = new Button("Edit age");
         setAge.setDisable(true);
         age.setTooltip(new Tooltip("Missing race selection"));
 
-        Label level = new Label("Level: ");
+        Label level = new Label("Level: "+ mainCharacter.getLevel());
         Button editLevel = new Button("Edit level");
         editLevel.setDisable(true);
         level.setTooltip(new Tooltip("Missing class selection"));
@@ -763,6 +794,7 @@ public class RPGCharacterSheet extends Application {
 
         // Set Race
         Label race = new Label("Race: " + mainCharacter.getRace());
+        //TODO add specific methods for Race
         race.setPrefWidth(100);
         Button edit2 = new Button("Edit Race");
         edit2.setOnAction(e -> {race.setText(ChooseRace(continueButton, mainCharacter));
@@ -831,8 +863,28 @@ public class RPGCharacterSheet extends Application {
             level.setText("Level: " + mainCharacter.getLevel());
         });
 
+        //Sets AC
+        Label ac = new Label("AC: " + mainCharacter.getAc());
+        layout.add(ac,5,0);
+
+        //Sets HP
+        Label hp = new Label("Hit Points: "+ mainCharacter.getHitPoints());
+        layout.add(hp, 5,1);
+        //Sets Speed
+        Label speed = new Label("Speed: "+ mainCharacter.getSpeed());
+        layout.add(speed, 6,0);
+        //Sets Alignment
+        ObservableList alignmentOptions = FXCollections.observableArrayList();
+        alignmentOptions.addAll("Lawful Good", "Lawful Neutral", "Lawful Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Chaotic Good", "Chaotic Neutral","Chaotic Evil");
+        ChoiceBox<String> alignmentChoiceBox = new ChoiceBox<>(alignmentOptions);
+        alignmentChoiceBox.setOnAction(e-> mainCharacter.setAlignment(alignmentChoiceBox.getValue()));
+        Label alignment = new Label("Alignment: ");
+        layout.add(alignment,6,1);
+        layout.add(alignmentChoiceBox,7,1);
+
         // Sets Abilities
 
+        VBox left = new VBox();
         Button editAbilities = new Button("Edit Abilities");
 
         VBox abilities = new VBox();
@@ -858,7 +910,26 @@ public class RPGCharacterSheet extends Application {
 
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
-        borderPane.setLeft(abilities);
+
+        // Set Languages
+        ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
+        ListView languagesList = new ListView(languages);
+        languagesList.setPlaceholder(new Label("--- Languages --- "));
+
+
+        //Set Character Specific Misc
+        ObservableList misc = FXCollections.observableArrayList();
+        ListView miscList = new ListView(misc);
+        miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
+
+        // Save Button
+
+        Button save = new Button("Save");
+        save.setPrefWidth(150);
+        //TODO add functionality to save to a DataBase
+
+        borderPane.setLeft(left);
+        left.getChildren().addAll(abilities, languagesList, miscList,save);
 
 
         Scene scene = new Scene(borderPane, 1000, 800);
@@ -1370,8 +1441,6 @@ public class RPGCharacterSheet extends Application {
 
             Integer levelNum;
             for (int i =1; i < 21 ; i++){
-
-                //TODO find out why Level one Continue button does not initiate barbarian.AddLevel()
                 levelNum =i;
                 Button numButton = new Button(levelNum.toString());
                 numButton.setOnAction(e->{
@@ -1387,10 +1456,7 @@ public class RPGCharacterSheet extends Application {
                     pane.add(numButton,i%11,2);
                 }
 
-
-
             }
-
             continueButton.setOnAction(e->{
                 if (mainCharacter.getCharacterClass().equals("Barbarian")){
                     Barbarian barbarian = new Barbarian(mainCharacter);
@@ -1406,6 +1472,7 @@ public class RPGCharacterSheet extends Application {
 
 
     }
+
 
 }
 
