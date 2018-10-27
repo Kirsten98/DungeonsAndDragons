@@ -962,6 +962,7 @@ public class RPGCharacterSheet extends Application {
         Scene scene = new Scene(pane, 400, 200);
         Stage nameStage = new Stage();
         nameStage.setScene(scene);
+        nameStage.setResizable(false);
 
         Label askName = new Label("What is your Characters name?");
 
@@ -1009,6 +1010,7 @@ public class RPGCharacterSheet extends Application {
         layout.setVgap(60);
         layout.setHgap(60);
         raceStage.setScene(scene);
+        raceStage.setResizable(false);
         Label chooseRace = new Label("Choose your race.");
         chooseRace.setTranslateX(-25);
         layout.add(chooseRace, 1, 0);
@@ -1127,6 +1129,7 @@ public class RPGCharacterSheet extends Application {
         layout.setHgap(60);
         layout.setVgap(60);
         classStage.setScene(scene);
+        classStage.setResizable(false);
 
         layout.setPadding(new Insets(20,10,10,10));
         layout.setStyle("-fx-border-color: black");
@@ -1266,6 +1269,7 @@ public class RPGCharacterSheet extends Application {
 
     public void ChooseAbilities(Button continueButton, CharacterSheet characterSheet) {
         Stage chooseAbilities = new Stage();
+        chooseAbilities.setResizable(false);
         chooseAbilities.setTitle("Choose Abilities");
         GridPane abilities = new GridPane();
         abilities.setAlignment(Pos.TOP_CENTER);
@@ -1372,6 +1376,7 @@ public class RPGCharacterSheet extends Application {
         public void SetAge (CharacterSheet mainCharacter){
 
             Stage setAgeStage = new Stage();
+            setAgeStage.setResizable(false);
             GridPane pane = new GridPane();
             InnerShadow shadow = new InnerShadow();
             shadow.setColor(Color.gray(.5));
@@ -1430,6 +1435,7 @@ public class RPGCharacterSheet extends Application {
 
         public void SetLevel(CharacterSheet mainCharacter){
             Stage setLevelStage = new Stage();
+            setLevelStage.setResizable(false);
             GridPane pane = new GridPane();
             InnerShadow shadow = new InnerShadow();
             shadow.setColor(Color.gray(.5));
