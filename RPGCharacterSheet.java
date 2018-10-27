@@ -854,24 +854,23 @@ public class RPGCharacterSheet extends Application {
         });
         layout.add(setAge,3,1);
 
-
-        //Set Level
-        layout.add(level,4,0);
-        layout.add(editLevel,4,1);
-        editLevel.setOnAction(e->{
-            SetLevel(mainCharacter);
-            level.setText("Level: " + mainCharacter.getLevel());
-        });
+        //Set Character Specific Misc
+        ObservableList misc = FXCollections.observableArrayList();
+        ListView miscList = new ListView(misc);
+        miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
 
         //Sets AC
         Label ac = new Label("AC: " + mainCharacter.getAc());
+        ac.setUnderline(true);
         layout.add(ac,5,0);
 
         //Sets HP
         Label hp = new Label("Hit Points: "+ mainCharacter.getHitPoints());
+        hp.setUnderline(true);
         layout.add(hp, 5,1);
         //Sets Speed
         Label speed = new Label("Speed: "+ mainCharacter.getSpeed());
+        speed.setUnderline(true);
         layout.add(speed, 6,0);
         //Sets Alignment
         ObservableList alignmentOptions = FXCollections.observableArrayList();
@@ -879,8 +878,24 @@ public class RPGCharacterSheet extends Application {
         ChoiceBox<String> alignmentChoiceBox = new ChoiceBox<>(alignmentOptions);
         alignmentChoiceBox.setOnAction(e-> mainCharacter.setAlignment(alignmentChoiceBox.getValue()));
         Label alignment = new Label("Alignment: ");
+        alignment.setUnderline(true);
         layout.add(alignment,6,1);
         layout.add(alignmentChoiceBox,7,1);
+
+        //Set Level
+        level.setUnderline(true);
+        layout.add(level,4,0);
+        layout.add(editLevel,4,1);
+        editLevel.setOnAction(e->{
+            SetLevel(mainCharacter);
+            level.setText("Level: " + mainCharacter.getLevel());
+            proficienciesList.setItems(mainCharacter.getProficienciesList());
+            featuresList.setItems(mainCharacter.getFeaturesList());
+            miscList.setItems(mainCharacter.getMisc());
+            ac.setText("AC: " + mainCharacter.getAc());
+            hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
+        });
+
 
         // Sets Abilities
 
@@ -916,18 +931,13 @@ public class RPGCharacterSheet extends Application {
         ListView languagesList = new ListView(languages);
         languagesList.setPlaceholder(new Label("--- Languages --- "));
 
-
-        //Set Character Specific Misc
-        ObservableList misc = FXCollections.observableArrayList();
-        ListView miscList = new ListView(misc);
-        miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
-
         // Save Button
 
         Button save = new Button("Save");
         save.setPrefWidth(150);
         //TODO add functionality to save to a DataBase
 
+        left.setMaxWidth(150);
         borderPane.setLeft(left);
         left.getChildren().addAll(abilities, languagesList, miscList,save);
 

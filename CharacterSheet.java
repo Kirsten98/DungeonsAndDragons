@@ -34,6 +34,7 @@ public class CharacterSheet {
     private int level;
     private ObservableList featuresList = FXCollections.observableArrayList();
     private ObservableList proficienciesList = FXCollections.observableArrayList();
+    private ObservableList misc = FXCollections.observableArrayList();
     private String[] lightArmor = {"Padded", "Leather","Studded Leather"};
     private int[] lightArmorCost = {5,10,45};
     private int[] lightArmorAC={11+dexterityMod, 11+dexterityMod, 12+dexterityMod};
@@ -470,5 +471,13 @@ public class CharacterSheet {
 
     public void setProficienciesList(ObservableList proficienciesList) {
         this.proficienciesList = proficienciesList;
+    }
+
+    public ObservableList getMisc() {
+        return misc;
+    }
+
+    public void setMisc(ObservableList misc) {
+        this.misc = misc;
     }
 }

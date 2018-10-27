@@ -1,6 +1,7 @@
 package DungeonsAndDragons;
 
 
+import javafx.beans.value.ObservableListValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
@@ -231,7 +232,7 @@ public class Barbarian{
                 Button continueButton = new Button("Continue");
 
                 addLevelStage.setTitle("Level " + startingLevel);
-
+                ObservableList misc = FXCollections.observableArrayList();
 
 
                 if (startingLevel ==1){
@@ -258,9 +259,11 @@ public class Barbarian{
                     ObservableList skills = FXCollections.observableArrayList("Animal Handling","Athletics","Intimidation", "Nature","Perception","Survival");
                     Label firstSkill = new Label("First skill choice");
                     ChoiceBox firstChoice = new ChoiceBox(skills);
+                    firstChoice.setPrefWidth(150);
 
                     Label secondSkill = new Label("Second skill choice");
                     ChoiceBox secondChoice = new ChoiceBox(skills);
+                    secondChoice.setPrefWidth(150);
                     secondChoice.setDisable(true);
 
                     firstChoice.setOnAction(e-> {
@@ -289,7 +292,7 @@ public class Barbarian{
                         });
                     });
 
-                    pane.add(firstSkill,0,2,2,1);
+                    pane.add(firstSkill,0,2,6,1);
                     pane.add(firstChoice,2,2);
                     pane.add(secondSkill,0,3,2,1);
                     pane.add(secondChoice,2,3);
@@ -320,14 +323,14 @@ public class Barbarian{
 
                 }
                 if (startingLevel ==3){
-
+                    // TODO why is Totem Spirit returning Null?
                     this.rages = 3;
                     rages.setText("Rages: " + this.rages);
                     character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
 
                     Label choosePath = new Label("Choose your Primal Path");
-                    pane.add(choosePath,1,0);
+                    pane.add(choosePath,1,0,6,1);
                     Label choice = new Label("Primal Path: " + this.primalPath);
                     pane.add(choice,1,3,3,1);
 
@@ -336,6 +339,7 @@ public class Barbarian{
                     Button berserker = new Button("Berserker");
                     berserker.setTooltip(new Tooltip("Path of Berserker\nFeatures: Frenzy"));
                     pane.add(berserker,0,1);
+                    berserker.setTranslateX(45);
                     berserker.setOnAction(e-> {
                         this.primalPath=berserker.getText();
                        choice.setText("Primal Path: " + this.primalPath);
@@ -368,11 +372,17 @@ public class Barbarian{
                             pane.getChildren().removeAll(berserker,totemWarrior);
 
                             choosePath.setText("Choose your Totem Spirit");
+                            pane.getChildren().remove(choosePath);
+                            pane.add(choosePath,0,0,6,1);
+                            choosePath.setTranslateX(20);
                             choice.setText("Totem Spirit: " + this.totemSpirit);
+                            choice.setTranslateX(-10);
 
                             Button bear = new Button("Bear");
+                            bear.setTranslateX(20);
                             pane.add(bear,0,1);
                             Button eagle = new Button("Eagle");
+                            eagle.setTranslateX(20);
                             pane.add(eagle,1,1);
                             Button wolf = new Button("Wolf");
                             pane.add(wolf,2,1);
@@ -460,10 +470,14 @@ public class Barbarian{
                 }
                 if (startingLevel == maxLevel){
                     character.setLevel(maxLevel);
-
-                    //TODO Add items to Character sheet here (Hit dice,pack, primal path, proficiency,rage damage, rages, totem spirit, proficiencies, and features) Returns a observableList of Misc
+                    System.out.println(this.totemSpirit);
+                    if (this.totemSpirit != null){
+                        misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath,totemSpirit);
+                    }else  misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath);
+                     character.setMisc(misc);
 
                 }
+
 
 
 
@@ -475,7 +489,6 @@ public class Barbarian{
                 borderPane.setLeft(left);
                 borderPane.setStyle("-fx-border-color: black");
             }
-
 
     }
 
