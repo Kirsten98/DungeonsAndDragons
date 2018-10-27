@@ -1370,6 +1370,8 @@ public class RPGCharacterSheet extends Application {
         Scene scene = new Scene(abilities,300,300);
             chooseAbilities.setScene(scene);
             chooseAbilities.initModality(Modality.APPLICATION_MODAL);
+            chooseAbilities.initStyle(StageStyle.TRANSPARENT);
+            abilities.setStyle("-fx-border-color: black");
             chooseAbilities.showAndWait();
         }
 
