@@ -817,7 +817,9 @@ public class RPGCharacterSheet extends Application {
         characterClass.setUnderline(true);
 
 
-        edit3.setOnAction(e -> { mainCharacter.armorList.clear();
+        edit3.setOnAction(e -> {
+            //TODO add Pop-up to warn about earasing current configurations
+            mainCharacter.armorList.clear();
             armor.clear();
             mainCharacter.weapons.clear();
             weapons.clear();

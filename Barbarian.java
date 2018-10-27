@@ -32,12 +32,12 @@ public class Barbarian{
     private int hitDice = 12;
     private int level = 0;
     private String pack;
-    private String primalPath;
+    private String primalPath = "Not selected";
     private int proficiency;
     Vector<String> proficiencies = new Vector<>();
     private int rageDamage;
     private int rages;
-    private String totemSpirit;
+    private String totemSpirit = "Not selected";
 
 
 
@@ -200,6 +200,28 @@ public class Barbarian{
         }
     }
 
+    public void AbilityScoreImprovement (Stage addLevelStage, BorderPane borderPane){
+        //TODO finish
+        ChoiceBox<String> abilities = new ChoiceBox<String>(FXCollections.observableArrayList("Charisma","Strength","Dexterity","Wisdom","Intelligence","Constitution"));
+        GridPane pane = new GridPane();
+        Label question = new Label("Would you like to increase one ability score by +2 or two ability scores by +1 ");
+        Button plus2 = new Button("One ability score by +2");
+        Button plus1 = new Button("Two ability scores by +1");
+
+        pane.add(question,0,0,6,1);
+        pane.add(plus2,1,1);
+        pane.add(plus1,1,2);
+
+        plus2.setOnAction(e->{
+            question.setText("Which Ability score would you like to increase by +2 ?");
+        });
+
+        borderPane.setCenter(pane);
+        addLevelStage.setScene(new Scene(borderPane));
+
+
+    }
+
     public void AddLevel(Stage addLevelStage, int maxLevel, int startingLevel){
 
             if (startingLevel <= maxLevel){
@@ -323,7 +345,6 @@ public class Barbarian{
 
                 }
                 if (startingLevel ==3){
-                    // TODO why is Totem Spirit returning Null?
                     this.rages = 3;
                     rages.setText("Rages: " + this.rages);
                     character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
@@ -411,14 +432,13 @@ public class Barbarian{
                                 }else AddLevel(addLevelStage,maxLevel,4);
 
                             });
-
                         }
-
                     });
 
                 }
                 if (startingLevel ==4){
-
+                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    hp.setText("Hit Points: "+ character.getHitPoints());
                 }
                 if (startingLevel ==5){
 
@@ -470,10 +490,7 @@ public class Barbarian{
                 }
                 if (startingLevel == maxLevel){
                     character.setLevel(maxLevel);
-                    System.out.println(this.totemSpirit);
-                    if (this.totemSpirit != null){
-                        misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath,totemSpirit);
-                    }else  misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath);
+                    misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath,totemSpirit);
                      character.setMisc(misc);
 
                 }
