@@ -446,7 +446,6 @@ public class Barbarian{
                                 addLevelStage.close();
                             } else AddLevel(addLevelStage,maxLevel,4);
                         }else {
-                            character.getFeaturesList().add("Spirit Speaker");
 
                             pane.getChildren().removeAll(berserker,totemWarrior);
 
@@ -458,12 +457,18 @@ public class Barbarian{
                             choice.setTranslateX(-10);
 
                             Button bear = new Button("Bear");
+                            bear.setTooltip(new Tooltip("While raging, you have resistance to all damage except psychic damage. The spirit of the bear makes you tough enough to stand up to any punishment"));
+                            bear.getTooltip().setWrapText(true);
                             bear.setTranslateX(20);
                             pane.add(bear,0,1);
                             Button eagle = new Button("Eagle");
+                            eagle.setTooltip(new Tooltip("While you are raging and aren't wearing heavy armor, other creatures have disadvantage on opportunity attack rolls against you, and you can use the Dash action as a bonus action on your turn. The spirit of the eagle makes you into a predator who can weave through the fray with ease."));
+                            eagle.getTooltip().setWrapText(true);
                             eagle.setTranslateX(20);
                             pane.add(eagle,1,1);
                             Button wolf = new Button("Wolf");
+                            wolf.setTooltip(new Tooltip("While you are raging, your friends have advantage on melee attack rolls against any creature within 5 feet of you that is hostile to you. The spirit of the wolf makes you a leader of hunters."));
+                            wolf.getTooltip().setWrapText(true);
                             pane.add(wolf,2,1);
 
                             bear.setOnAction(bearEvent->{
@@ -482,6 +487,7 @@ public class Barbarian{
                             });
 
                             continueButton.setOnAction(continueButtonEvent -> {
+                                character.getFeaturesList().add("Spirit Speaker: " + this.totemSpirit);
                                 features.setItems(character.getFeaturesList());
                                 primalPath.setText("Primal Path: "+ this.primalPath);
                                 totemSpirit.setText("Totem Spirit: " + this.totemSpirit);
@@ -510,6 +516,7 @@ public class Barbarian{
 
                     GridPane center = new GridPane();
                     center.add(new Label("Features added: Extra Attack and Fast Movement\nProficiency bonus +1\nSpeed +10"),0,0);
+                    center.add(continueButton,0,1);
                     borderPane.setCenter(center);
 
                     continueButton.setOnAction(e->{
@@ -521,6 +528,71 @@ public class Barbarian{
 
                 }
                 if (startingLevel ==6){
+                    this.rages = 4;
+                    rages.setText("Rages: " + this.rages);
+                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    hp.setText("Hit Points: " + character.getHitPoints());
+                    if (primalPath.getText().split(" ")[2].equals("Berserker")){
+                        character.getFeaturesList().add("Mindless Rage");
+                        features.setItems(character.getFeaturesList());
+                        pane.add(new Label("Features added: Mindless Rage\n Rages +1"),0,0);
+                        pane.add(continueButton,2,1);
+                        continueButton.setOnAction(e->{
+                            if (startingLevel == maxLevel){
+                                addLevelStage.close();
+                            }else AddLevel(addLevelStage,maxLevel,7);
+                        });
+                    }else {
+                        Label choosePath = new Label("Choose your Totem Spirit");;
+                        pane.add(choosePath,0,0,6,1);
+                        choosePath.setTranslateX(20);
+                        Label choice = new Label("Totem Spirit: Not Selected");
+                        pane.add(choice,1,2,3,1);
+                        choice.setTranslateX(-10);
+
+                        Button bear = new Button("Bear");
+                        bear.setTooltip(new Tooltip("You gain the might of a bear. Your carrying capacity (including maximum load and maximum lift) is doubled, and you have advantage on Strength checks made to push, pull, lift, or break objects."));
+                        bear.getTooltip().setWrapText(true);
+                        bear.setTranslateX(20);
+                        pane.add(bear,0,1);
+                        Button eagle = new Button("Eagle");
+                        eagle.setTooltip(new Tooltip("You gain eyesight of an eagle. You can see up to 1 mile away with no difficulty, able to discern even fine details as though looking at something no more than 100 feet away from you. Additionally, dim light doesn't impose disadvantage on your Wisdom (Perception) checks"));
+                        eagle.getTooltip().setWrapText(true);
+                        eagle.setTranslateX(20);
+                        pane.add(eagle,1,1);
+                        Button wolf = new Button("Wolf");
+                        wolf.setTooltip(new Tooltip("You gain the hunting sensibilities of a wolf. You can track other creatures while travelling at a fast pace, and you can move stealthily while travelling at a normal pace."));
+                        wolf.getTooltip().setWrapText(true);
+                        pane.add(wolf,2,1);
+
+                        pane.add(continueButton,1,3);
+
+                        bear.setOnAction(bearEvent->{
+                            this.totemSpirit = "Bear";
+                            choice.setText("Totem Spirit: " + this.totemSpirit);
+                        });
+
+                        eagle.setOnAction(eagleEvent->{
+                            this.totemSpirit = "Eagle";
+                            choice.setText("Totem Spirit: " + this.totemSpirit);
+                        });
+
+                        wolf.setOnAction(wolfEvent->{
+                            this.totemSpirit = "Wolf";
+                            choice.setText("Totem Spirit: " + this.totemSpirit);
+                        });
+
+                        continueButton.setOnAction(continueButtonEvent -> {
+                            character.getFeaturesList().add("Aspect of the Beast: " + this.totemSpirit);
+                            features.setItems(character.getFeaturesList());
+                            primalPath.setText("Primal Path: "+ this.primalPath);
+                            totemSpirit.setText("Totem Spirit: " + this.totemSpirit);
+                            if (startingLevel == maxLevel){
+                                addLevelStage.close();
+                            }else AddLevel(addLevelStage,maxLevel,7);
+
+                        });
+                    }
 
                 }
                 if (startingLevel ==7){
@@ -567,7 +639,7 @@ public class Barbarian{
                 }
                 if (startingLevel == maxLevel){
                     character.setLevel(maxLevel);
-                    misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath,totemSpirit);
+                    misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath);
                      character.setMisc(misc);
 
                 }

@@ -818,7 +818,7 @@ public class RPGCharacterSheet extends Application {
 
 
         edit3.setOnAction(e -> {
-            //TODO add Pop-up to warn about earasing current configurations
+            //TODO add Pop-up to warn about erasing current configurations
             mainCharacter.armorList.clear();
             armor.clear();
             mainCharacter.weapons.clear();
@@ -896,7 +896,7 @@ public class RPGCharacterSheet extends Application {
             miscList.setItems(mainCharacter.getMisc());
             ac.setText("AC: " + mainCharacter.getAc());
             hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
-            speed.setText("Speed: " + character.getSpeed());
+            speed.setText("Speed: " + mainCharacter.getSpeed());
         });
 
 
