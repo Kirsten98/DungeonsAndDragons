@@ -266,7 +266,7 @@ public class RPGCharacterSheet extends Application {
     public static void Dwarf(CharacterSheet character, Scanner scanner) {
         character.languages.add("Dwarvish");
         AbilityAddtion(character, 3, 2);
-        character.setSpeed(30);
+        character.setSpeed(character.getSpeed()+ 30);
         character.skills.add("Darkvision");
         character.skills.add("Dwarven Resilience");
         character.skills.add("Dwarven Combat Training");
@@ -303,7 +303,7 @@ public class RPGCharacterSheet extends Application {
      */
     public static void Elf(CharacterSheet character, Scanner scanner) {
         AbilityAddtion(character, 3, 2);
-        character.setSpeed(30);
+        character.setSpeed(character.getSpeed()+30);
         character.languages.add("Elven");
         character.skills.add("Darkvision");
         character.skills.add("Keen Senses");
@@ -363,7 +363,7 @@ public class RPGCharacterSheet extends Application {
         System.out.println("You can add +1 to one other ability");
         choice = AbilityChoice();
         AbilityAddtion(character, choice, 1);
-        character.setSpeed(30);
+        character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darkvision");
         character.skills.add("Fey Ancestory");
         character.skills.add("Skill Versatility");
@@ -385,7 +385,7 @@ public class RPGCharacterSheet extends Application {
     public static void HalfOrc(CharacterSheet character, Scanner scanner) {
         AbilityAddtion(character, 2, 2); // Adds Strength
         AbilityAddtion(character, 6, 1); // Adds constitution
-        character.setSpeed(30);
+        character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darkvision");
         character.skills.add("Menacing");
         character.skills.add("Relentless Endurance");
@@ -406,7 +406,7 @@ public class RPGCharacterSheet extends Application {
         for (int i = 1; i <= 6; i++) {
             AbilityAddtion(character, i, 1);
         }
-        character.setSpeed(30);
+        character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
         System.out.println("You have learned Common, and your choice at one other language! What is your second Language?");
         String language = scanner.nextLine();
@@ -423,7 +423,7 @@ public class RPGCharacterSheet extends Application {
     public static void DragonBorn(CharacterSheet character, Scanner scanner) {
         AbilityAddtion(character, 2, 2);
         AbilityAddtion(character, 1, 1);
-        character.setSpeed(30);
+        character.setSpeed(character.getSpeed()+30);
         String[] draconicAncestryColor = {"Black", "Blue", "Brass", "Bronze ", "Copper", "Gold", "Green", "Red", "Silver", "White"};
         String[] draconicAncestryElement = {"Acid", "Lightning", "Fire", "Lightning", "Acid", "Fire", "Poison", "Fire", "Cold", "Cold"};
         System.out.println("Choose your Draconic Ancestry");
@@ -444,7 +444,7 @@ public class RPGCharacterSheet extends Application {
      */
     public static void Halfling(CharacterSheet character, Scanner scanner) {
         AbilityAddtion(character, 3, 2);
-        character.setSpeed(25);
+        character.setSpeed(character.getSpeed()+25);
         character.skills.add("Lucky");
         character.skills.add("Brave");
         character.skills.add("Halfling Nimbleness");
@@ -479,7 +479,7 @@ public class RPGCharacterSheet extends Application {
      */
     public static void Gnome(CharacterSheet character, Scanner scanner) {
         AbilityAddtion(character, 5, 2);
-        character.setSpeed(25);
+        character.setSpeed(character.getSpeed()+25);
         character.skills.add("Darkvision");
         character.skills.add("Gnome Cunning");
         System.out.println("Darkvision and Gnome Cunning added to skills!");
@@ -515,7 +515,7 @@ public class RPGCharacterSheet extends Application {
      */
     public static void Tiefling(CharacterSheet character, Scanner scanner) {
         AbilityAddtion(character, 5, 1);
-        character.setSpeed(30);
+        character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darvision");
         character.skills.add("Hellish Resistance");
         character.skills.add("Infernal Legacy");
@@ -896,6 +896,7 @@ public class RPGCharacterSheet extends Application {
             miscList.setItems(mainCharacter.getMisc());
             ac.setText("AC: " + mainCharacter.getAc());
             hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
+            speed.setText("Speed: " + character.getSpeed());
         });
 
 
@@ -909,12 +910,12 @@ public class RPGCharacterSheet extends Application {
         abilities.setStyle("-fx-border-color: black");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
-        Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / +" + mainCharacter.getCharismaMod());
-        Label strength = new Label("Strength: " + mainCharacter.getStrengthScore() + " / +" + mainCharacter.getStrengthMod());
-        Label dexterity = new Label("Dexterity: " + mainCharacter.getDexterityScore() + " / +" + mainCharacter.getDexterityMod());
-        Label wisdom = new Label("Wisdom: " + mainCharacter.getWisdomScore() + " / +" + mainCharacter.getWisdomMod());
-        Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / +" + mainCharacter.getIntelligenceMod());
-        Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / +" + mainCharacter.getConstitutionMod());
+        Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
+        Label strength = new Label("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
+        Label dexterity = new Label("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
+        Label wisdom = new Label("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
+        Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
+        Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
 
         editAbilities.setOnAction(e-> {
             ChooseAbilities(continueButton,mainCharacter);
@@ -1299,7 +1300,7 @@ public class RPGCharacterSheet extends Application {
 
             // Charisma setup
                try {
-                   characterSheet.setCharismaScore(rolls.getValue());
+                   characterSheet.setCharismaScore(rolls.getValue() + characterSheet.getCharismaScore());
                     characterSheet.setCharismaMod(FindAbilityMod(characterSheet.getCharismaScore()));
                     rolls.getItems().remove(rolls.getValue());
                     abilities.add(new Label("Charisma : " + characterSheet.getCharismaScore() + "/ " + characterSheet.getCharismaMod()), 0, 1);
@@ -1309,7 +1310,7 @@ public class RPGCharacterSheet extends Application {
                     abilities.add(rolls, 1, 2);
                     rolls.setOnAction(strength -> {
                         try {
-                            characterSheet.setStrengthScore(rolls.getValue());
+                            characterSheet.setStrengthScore(rolls.getValue() + characterSheet.getStrengthScore());
                             characterSheet.setStrengthMod(FindAbilityMod(characterSheet.getStrengthScore()));
                             rolls.getItems().remove(rolls.getValue());
                             abilities.add(new Label("Strength : " + characterSheet.getStrengthScore() + "/ " + characterSheet.getStrengthMod()), 0, 2);
@@ -1319,7 +1320,7 @@ public class RPGCharacterSheet extends Application {
                             abilities.add(rolls, 1, 3);
                             rolls.setOnAction(dexterity -> {
                                 try {
-                                    characterSheet.setDexterityScore(rolls.getValue());
+                                    characterSheet.setDexterityScore(rolls.getValue() + characterSheet.getDexterityScore());
                                     characterSheet.setDexterityMod(FindAbilityMod(characterSheet.getDexterityScore()));
                                     rolls.getItems().remove(rolls.getValue());
                                     abilities.add(new Label("Dexterity : " + characterSheet.getDexterityScore() + "/ " + characterSheet.getDexterityMod()), 0, 3);
@@ -1329,7 +1330,7 @@ public class RPGCharacterSheet extends Application {
                                     abilities.add(rolls, 1, 4);
                                     rolls.setOnAction(wisdom -> {
                                         try {
-                                            characterSheet.setWisdomScore(rolls.getValue());
+                                            characterSheet.setWisdomScore(rolls.getValue() + characterSheet.getWisdomScore());
                                             characterSheet.setWisdomMod(FindAbilityMod(characterSheet.getWisdomScore()));
                                             rolls.getItems().remove(rolls.getValue());
                                             abilities.add(new Label("Wisdom : " + characterSheet.getWisdomScore() + "/ " + characterSheet.getWisdomMod()), 0, 4);
@@ -1339,7 +1340,7 @@ public class RPGCharacterSheet extends Application {
                                             abilities.add(rolls, 1, 5);
                                             rolls.setOnAction(intelligence -> {
                                                 try {
-                                                    characterSheet.setIntelligenceScore(rolls.getValue());
+                                                    characterSheet.setIntelligenceScore(rolls.getValue() + characterSheet.getIntelligenceScore());
                                                     characterSheet.setIntelligenceMod(FindAbilityMod(characterSheet.getIntelligenceScore()));
                                                     rolls.getItems().remove(rolls.getValue());
                                                     abilities.add(new Label("Intelligence : " + characterSheet.getIntelligenceScore() + "/ " + characterSheet.getIntelligenceMod()), 0, 5);
@@ -1348,7 +1349,7 @@ public class RPGCharacterSheet extends Application {
                                                     abilities.add(rolls, 1, 6);
                                                     rolls.setOnAction(constitution -> {
                                                         try {
-                                                            characterSheet.setConstitutionScore(rolls.getValue());
+                                                            characterSheet.setConstitutionScore(rolls.getValue()+ characterSheet.getConstitutionScore());
 
                                                             characterSheet.setConstitutionMod(FindAbilityMod(characterSheet.getConstitutionScore()));
                                                             rolls.getItems().remove(rolls.getValue());

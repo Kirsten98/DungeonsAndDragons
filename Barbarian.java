@@ -500,6 +500,24 @@ public class Barbarian{
                     borderPane.setCenter(AbilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==5){
+                    this.proficiency = 3;
+                    proficiency.setText("Proficiency : + "+ this.proficiency);
+                    character.getFeaturesList().addAll("Extra Attack","Fast Movement");
+                    features.setItems(character.getFeaturesList());
+                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    hp.setText("Hit Points: " + character.getHitPoints());
+                    character.setSpeed(character.getSpeed() + 10);
+
+                    GridPane center = new GridPane();
+                    center.add(new Label("Features added: Extra Attack and Fast Movement\nProficiency bonus +1\nSpeed +10"),0,0);
+                    borderPane.setCenter(center);
+
+                    continueButton.setOnAction(e->{
+                        if (startingLevel == maxLevel){
+                            addLevelStage.close();
+                        }else AddLevel(addLevelStage,maxLevel,6);
+                    });
+
 
                 }
                 if (startingLevel ==6){
