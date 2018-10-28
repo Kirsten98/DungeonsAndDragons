@@ -72,7 +72,7 @@ public class RPGCharacterSheet extends Application {
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
             for (int i = 0; i < choice; i++) {
-                barbarianCharacter.AddLevel();
+//                barbarianCharacter.AddLevel();
             }
 
         }
@@ -1492,6 +1492,8 @@ public class RPGCharacterSheet extends Application {
 
 
     }
+
+    // TODO make duplicateStage to refresh everything
 
 
 }

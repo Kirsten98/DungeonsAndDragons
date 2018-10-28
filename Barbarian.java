@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jdk.internal.dynalink.support.BottomGuardingDynamicLinker;
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -52,98 +53,41 @@ public class Barbarian{
      * @param AbilityChoice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public void AbilityAddition(CharacterSheet character, int AbilityChoice, int modifierAddtion){
+    public void AbilityAddition(CharacterSheet character, String AbilityChoice, int modifierAddtion){
         int choice = 0;
         Scanner scanner = new Scanner(System.in);
-        if (AbilityChoice == 1){
-            if(character.getCharismaScore() >= 20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
-            }else {
+        if (AbilityChoice.equals("Charisma")){
                 character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
                 System.out.println("Charisma +" + modifierAddtion);
                 character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
-            }
 
         }
-        if (AbilityChoice == 2){
-            if(character.getStrengthScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
-            }else {
+        if (AbilityChoice.equals("Strength")){
                 character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
                 System.out.println("Strength +" + modifierAddtion);
                 character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
-            }
 
         }
-        if (AbilityChoice == 3){
-            if(character.getDexterityScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
-            } else {
+        if (AbilityChoice.equals("Dexterity")){
                 character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
                 System.out.println("Dexterity +" + modifierAddtion);
                 character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
-            }
 
         }
-        if (AbilityChoice == 4){
-            if(character.getWisdomScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
-            } else{
+        if (AbilityChoice.equals("Wisdom")){
                 character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
                 System.out.println("Wisdom +" + modifierAddtion);
                 character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
-            }
-
         }
-        if (AbilityChoice == 5){
-            if(character.getIntelligenceScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
-            } else {
+        if (AbilityChoice.equals("Intelligence")){
                 character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
                 System.out.println("Intelligence +" + modifierAddtion);
                 character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
-            }
-
         }
-        if (AbilityChoice == 6){
-            if(character.getConstitutionScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
-            }else {
+        if (AbilityChoice.equals("Constitution")){
                 character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
                 System.out.println("Constitution +" + modifierAddtion);
                 character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
-            }
-
 
         }
     }
@@ -162,47 +106,54 @@ public class Barbarian{
 
     }
 
-    // Tested and Verified 9/3
-    /**
-     *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
-     * @param character CharacterSheet that the ability improvement is happening to
-     */
-    public void AbilityScoreImprovement(CharacterSheet character){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
-        int choice = scanner.nextInt();
-        String endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,2);
-        if (choice==1){
-            System.out.println("Which Ability score would you like to increase by +2 ?");
-            AbilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddition(character, choice, 2 );
-            choice = 0;
-        }
-        if (choice==2){
-            System.out.println("Choose your first ability");
-            AbilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddition(character, choice, 1 );
-            System.out.println("What is your second ability?");
-            AbilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddition(character, choice, 1 );
+//    // Tested and Verified 9/3
+//    /**
+//     *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
+//     * @param character CharacterSheet that the ability improvement is happening to
+//     */
+//    public void AbilityScoreImprovement(CharacterSheet character){
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
+//        int choice = scanner.nextInt();
+//        String endOfLine = scanner.nextLine();
+//        choice = InputErrorCheck(choice,1,2);
+//        if (choice==1){
+//            System.out.println("Which Ability score would you like to increase by +2 ?");
+//            AbilityChoicePrintout();
+//            choice = scanner.nextInt();
+//            endOfLine = scanner.nextLine();
+//            choice = InputErrorCheck(choice,1,6);
+//            AbilityAddition(character, choice, 2 );
+//            choice = 0;
+//        }
+//        if (choice==2){
+//            System.out.println("Choose your first ability");
+//            AbilityChoicePrintout();
+//            choice = scanner.nextInt();
+//            endOfLine = scanner.nextLine();
+//            choice = InputErrorCheck(choice,1,6);
+//            AbilityAddition(character, choice, 1 );
+//            System.out.println("What is your second ability?");
+//            AbilityChoicePrintout();
+//            choice = scanner.nextInt();
+//            endOfLine = scanner.nextLine();
+//            choice = InputErrorCheck(choice,1,6);
+//            AbilityAddition(character, choice, 1 );
+//
+//
+//        }
+//    }
 
+    public GridPane AbilityScoreImprovement (Stage addLevelStage, int maxLevel,int startinglevel){
+        Button continueButton = new Button("Continue");
+        Label choice = new Label();
+        Button charisma = new Button("Charisma");
+        Button strength = new Button("Strength");
+        Button dexterity = new Button("Dexterity");
+        Button wisdom = new Button("Wisdom");
+        Button intelligence = new Button("Intelligence");
+        Button constitution = new Button("Constitution");
 
-        }
-    }
-
-    public void AbilityScoreImprovement (Stage addLevelStage, BorderPane borderPane){
-        //TODO finish
-        ChoiceBox<String> abilities = new ChoiceBox<String>(FXCollections.observableArrayList("Charisma","Strength","Dexterity","Wisdom","Intelligence","Constitution"));
         GridPane pane = new GridPane();
         Label question = new Label("Would you like to increase one ability score by +2 or two ability scores by +1 ");
         Button plus2 = new Button("One ability score by +2");
@@ -211,15 +162,122 @@ public class Barbarian{
         pane.add(question,0,0,6,1);
         pane.add(plus2,1,1);
         pane.add(plus1,1,2);
+        pane.setVgap(20);
+        pane.setHgap(20);
 
-        plus2.setOnAction(e->{
-            question.setText("Which Ability score would you like to increase by +2 ?");
+        charisma.setOnAction(charismaEvent->{
+            if (character.getCharismaScore() >= 20){
+                choice.setText("Charisma ability score is greater than 20. Please choose a different option.");
+                continueButton.setDisable(true);
+            }else {
+                choice.setText("Charisma");
+                continueButton.setDisable(false);
+            }
         });
 
-        borderPane.setCenter(pane);
-        addLevelStage.setScene(new Scene(borderPane));
+        strength.setOnAction(strengthEvent->{
+            if (character.getStrengthScore() >= 20){
+                choice.setText("Strength ability score is greater than 20. Please choose a different option.");
+                continueButton.setDisable(true);
+            }else {
+                choice.setText("Strength");
+                continueButton.setDisable(false);
+            }
+        });
+        dexterity.setOnAction(dexterityEvent->{
+            if (character.getDexterityScore() >= 20){
+                choice.setText("Dexterity ability score is greater than 20. Please choose a different option.");
+                continueButton.setDisable(true);
+            }else {
+                choice.setText("Dexterity");
+                continueButton.setDisable(false);
+            }
+        });
+        wisdom.setOnAction(wisdomEvent->{
+            if (character.getWisdomScore() >= 20){
+                choice.setText("Wisdom ability score is greater than 20. Please choose a different option.");
+                continueButton.setDisable(true);
+            }else {
+                choice.setText("Wisdom");
+                continueButton.setDisable(false);
+            }
+        });
+        intelligence.setOnAction(intelligenceEvent->{
+            if (character.getIntelligenceScore() >= 20){
+                choice.setText("Intelligence ability score is greater than 20. Please choose a different option.");
+                continueButton.setDisable(true);
+            }else {
+                choice.setText("Intelligence");
+                continueButton.setDisable(false);
+            }
+        });
+        constitution.setOnAction(constitutionEvent->{
+            if (character.getConstitutionScore() >= 20){
+                choice.setText("Constitution ability score is greater than 20. Please choose a different option.");
+                continueButton.setDisable(true);
+            }else {
+                choice.setText("Constitution");
+                continueButton.setDisable(false);
+            }
+        });
 
 
+        plus2.setOnAction(e->{
+            pane.getChildren().remove(plus1);
+            pane.getChildren().remove(plus2);
+            pane.add(charisma,0,1);
+            pane.add(strength,1,1);
+            pane.add(dexterity,2,1);
+            pane.add(wisdom,0,2);
+            pane.add(intelligence,1,2);
+            pane.add(constitution,2,2);
+            pane.add(choice,1,3);
+            pane.add(continueButton,1,4);
+            question.setText("Which Ability score would you like to increase by +2 ?");
+
+            continueButton.setOnAction(continueEvent->{
+                AbilityAddition(character,choice.getText(),2);
+                if (startinglevel == maxLevel){
+                    addLevelStage.close();
+                }else AddLevel(addLevelStage,maxLevel,startinglevel+1);
+            });
+
+        });
+
+        plus1.setOnAction(e->{
+            String[] intChoice = new String[2];
+            pane.getChildren().remove(plus1);
+            pane.getChildren().remove(plus2);
+            pane.add(charisma,0,1);
+            pane.add(strength,1,1);
+            pane.add(dexterity,2,1);
+            pane.add(wisdom,0,2);
+            pane.add(intelligence,1,2);
+            pane.add(constitution,2,2);
+            pane.add(choice,1,3);
+            pane.add(continueButton,1,4);
+            continueButton.setDisable(true);
+            question.setText("Choose your first ability to increase by +1.");
+
+            continueButton.setOnAction(continueEvent->{
+                intChoice[0] = choice.getText();
+                question.setText("Choose your second ability to increase by +1.");
+                continueButton.setDisable(true);
+                choice.setText("");
+
+                continueButton.setOnAction(continueEvent2 ->{
+                    intChoice[1] = choice.getText();
+                    for (int i = 0 ; i <2; i++){
+                        AbilityAddition(character,intChoice[i],1);
+                        if (startinglevel == maxLevel){
+                            addLevelStage.close();
+                        }else AddLevel(addLevelStage,maxLevel,startinglevel+1);
+                    }
+                });
+            });
+
+        });
+        return pane;
     }
 
     public void AddLevel(Stage addLevelStage, int maxLevel, int startingLevel){
@@ -439,6 +497,7 @@ public class Barbarian{
                 if (startingLevel ==4){
                     character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
+                    borderPane.setCenter(AbilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==5){
 
@@ -510,321 +569,321 @@ public class Barbarian{
     }
 
 
-    // Tested and verified 9/3
-    /**
-     * Adds Levels and related information to the character.
-     */
-    public void AddLevel(){
-        Scanner scanner = new Scanner(System.in);
-        level++;
-        if (level == 1){
-            System.out.println("Level 1");
-            character.setHitPoints(character.getConstitutionScore()+12);
-            this.proficiency = 2;
-            this.features.add("Rage");
-            this.features.add("Unarmored Defense");
-            this.rages = 2;
-            this.rageDamage = 2;
-            System.out.println("Proficiency : +2\n Features added : Rage / Unarmored Defense \n Rages : 2 \n Rage Damage : +2");
-            System.out.println("You have learned two new skills to be proficient in, what skills will you choose? 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
-            int choice = scanner.nextInt();
-            String endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            if(choice == 1 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Animal Handling");
-            }if(choice == 2 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Athletics");
-            }if(choice == 3 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Intimidation");
-            }if(choice == 4 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Nature");
-            }if(choice == 5 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Perception");
-            }if(choice == 6 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Survival");
-            }
-            System.out.println("And what is your second skill? 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
-            int choice2 = scanner.nextInt();
-            choice2 = InputErrorCheck(choice2,1,6);
-            while(choice == choice2){
-                System.out.println("You already have this skill, please choose another. 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
-                choice2 = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-                choice2 = InputErrorCheck(choice2,1,6);
-            }
-            if(choice == 1 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Animal Handling");
-            }if(choice == 2 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Athletics");
-            }if(choice == 3 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Intimidation");
-            }if(choice == 4 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Nature");
-            }if(choice == 5 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Perception");
-            }if(choice == 6 ){
-                CheckVectorAndAdd(proficiencies,"proficiencies","Survival");
-            }
-
-            CheckVectorAndAdd(proficiencies,"proficiencies","Strength");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Constitution");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Light Armor");
-            CheckVectorAndAdd(proficiencies, "proficiencies","Medium Armor");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Shields");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Simple Weapons");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Martial Weapons");
-        }
-        if(level == 2){
-            System.out.println("Level 2");
-            features.add("Reckless Attack");
-            features.add("Danger Sense");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Reckless Attack / Danger Sense");
-        }
-        if(level == 3){
-            System.out.println("Level 3");
-            rages = 3;
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Choose your Primal Path 1.) Path of Berserker or 2.) Path of the Totem Warrior");
-            int choice = scanner.nextInt();
-            String endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,2);
-
-            if (choice==1){
-                primalPath = "Path of Berserker";
-                features.add("Primal Path: Frenzy");
-                System.out.println("Features Added : Primal Path - Frenzy\n Rages = 3");
-            }
-            if (choice==2){
-             primalPath = "Path of the Totem Warrior";
-                features.add("Primal Path: Spirit Speaker");
-                System.out.println("Features Added : Primal Path - Spirit Speaker\n Rages = 3");
-                System.out.println("Choose your Totem Spirit");
-                System.out.println("1.) Bear");
-                System.out.println("2.) Eagle");
-                System.out.println("3.) Wolf");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,3);
-
-                if (choice == 1){
-                    totemSpirit = "Bear";
-                }
-                if (choice == 2){
-                    totemSpirit = "Eagle";
-                }
-                if (choice == 3){
-                    totemSpirit = "Wolf";
-                }
-            }
-
-        }
-        if(level == 4){
-            System.out.println("Level 4");
-            features.add("Ability Score Improvement");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Ability Score Improvement ");
-            AbilityScoreImprovement(character);
-        }
-        if (level == 5) {
-            System.out.println("Level 5");
-            proficiency = 3;
-            features.add("Extra Attack");
-            features.add("Fast Movement");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Extra Attack / Fast Movement \n Proficiency = 3");
-            character.setSpeed(character.getSpeed() + 10);
-            System.out.println("Speed changed to " + character.getSpeed());
-        }
-        if (level == 6){
-            System.out.println("Level 6");
-            rages = 4;
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            if(primalPath.equals("Path of Berserker")){
-                features.add("Primal Path: Mindless Rage");
-                System.out.println("Features Added : Path Feature - Mindless Rage \n Rages = 4");
-            }
-            if (primalPath.equals("Path of the Totem Warrior")){
-                features.add("Primal Path : Aspect of the Beast");
-                System.out.println("Choose your Totem Spirit");
-                System.out.println("1.) Bear");
-                System.out.println("2.) Eagle");
-                System.out.println("3.) Wolf");
-                int choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,3);
-
-                if (choice == 1){
-                    totemSpirit = "Bear";
-                }
-                if (choice == 2){
-                    totemSpirit = "Eagle";
-                }
-                if (choice == 3){
-                    totemSpirit = "Wolf";
-                }
-                System.out.println("Features Added : Path Feature - Aspect of the Beast \n Rages = 4");
-            }
-
-        }
-        if (level == 7){
-            System.out.println("Level 7");
-            features.add("Feral Instinct");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Feral Instinct");
-
-        }
-        if (level == 8){
-            System.out.println("Level 8");
-            features.add("Ability Score Improvement");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Ability Score Improvement");
-            AbilityScoreImprovement(character);
-        }
-        if (level == 9){
-            System.out.println("Level 9");
-            proficiency = 4;
-            features.add("Brutal Critical (1 Die)");
-            rageDamage = 3;
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Brutal Critical (1 Die) \n Proficiency = 4 \n Rage Damage = 3");
-        }
-        if (level == 10){
-            System.out.println("Level 10");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            if(primalPath.equals("Path of Berserker")){
-                features.add("Path Features : Intimidating Presence");
-                System.out.println("Features Added : Path Features - Intimidating Presence");
-
-            }if (primalPath.equals("Path of the Totem Warrior")){
-                features.add("Path Features : Spirit Walker");
-                System.out.println("Features Added : Path Features - Spirit Walker");
-
-            }
-
-        }
-        if (level == 11){
-            System.out.println("Level 11");
-            features.add("Relentless Rage");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Relentless Rage");
-        }
-        if (level == 12) {
-            System.out.println("Level 12");
-            features.add("Ability Score Improvement");
-            rages = 5;
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Ability Score Improvement");
-            AbilityScoreImprovement(character);
-        }
-        if (level == 13){
-            System.out.println("Level 13");
-            proficiency=5;
-            features.remove("Brutal Critical (1 Die)");
-            features.add("Brutal Critical (2 Dice)");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Brutal Critical (2 Dice) \n Proficiency = 5");
-        }
-        if (level ==14){
-            System.out.println("Level 14");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            if(primalPath.equals("Path of Berserker")){
-                features.add("Path Feature : Retaliation");
-                System.out.println("Features Added : Path Feature - Retaliation");
-            }if (primalPath.equals("Path of the Totem Warrior")){
-                features.add("Path Feature : Totemic Attunement");
-                System.out.println("Features Added : Path Feature - Totemic Attunement");
-                System.out.println("Choose your Totem Spirit");
-                System.out.println("1.) Bear");
-                System.out.println("2.) Eagle");
-                System.out.println("3.) Wolf");
-                int choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,3);
-
-                if (choice == 1){
-                    totemSpirit = "Bear";
-                }
-                if (choice == 2){
-                    totemSpirit = "Eagle";
-                }
-                if (choice == 3){
-                    totemSpirit = "Wolf";
-                }
-
-            }
-        }
-        if (level==15){
-            System.out.println("Level 15");
-            features.add("Persistent Rage");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Persistent Rage");
-        }
-        if (level == 16){
-            System.out.println("Level 16");
-            features.add("Ability Score Improvement");
-            rageDamage = 4;
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Ability Score Improvement \n Rage Damage = 4");
-            AbilityScoreImprovement(character);
-        }
-        if (level == 17){
-            System.out.println("Level 17");
-            proficiency = 6;
-            features.remove("Brutal Critical (2 Dice");
-            features.add("Brutal Critical  (3 Dice)");
-            rages = 6;
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Brutal Critical (3 Dice) \n Proficiency = 6 \n Rages = 6");
-        }
-        if (level == 18){
-            System.out.println("Level 18");
-            features.add("Indomitable Might");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Indomitable Might");
-        }
-        if (level == 19){
-            System.out.println("Level 19");
-            features.add("Ability score improvement");
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Ability Score Improvement");
-            AbilityScoreImprovement(character);
-        }
-        if (level == 20){
-            System.out.println("Level 20");
-            features.add("Primal Champion");
-            rages = 999999999;
-            character.setStrengthScore(character.getStrengthScore()+ 4);
-            character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
-            character.setConstitutionScore(character.getConstitutionScore() + 4);
-            character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
-            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
-            System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            System.out.println("Features Added : Primal Champion \n Rages = Unlimited");
-        }
-
-
-
-
-    }
+//    // Tested and verified 9/3
+//    /**
+//     * Adds Levels and related information to the character.
+//     */
+//    public void AddLevel(){
+//        Scanner scanner = new Scanner(System.in);
+//        level++;
+//        if (level == 1){
+//            System.out.println("Level 1");
+//            character.setHitPoints(character.getConstitutionScore()+12);
+//            this.proficiency = 2;
+//            this.features.add("Rage");
+//            this.features.add("Unarmored Defense");
+//            this.rages = 2;
+//            this.rageDamage = 2;
+//            System.out.println("Proficiency : +2\n Features added : Rage / Unarmored Defense \n Rages : 2 \n Rage Damage : +2");
+//            System.out.println("You have learned two new skills to be proficient in, what skills will you choose? 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
+//            int choice = scanner.nextInt();
+//            String endOfLine = scanner.nextLine();
+//            choice = InputErrorCheck(choice,1,6);
+//            if(choice == 1 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Animal Handling");
+//            }if(choice == 2 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Athletics");
+//            }if(choice == 3 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Intimidation");
+//            }if(choice == 4 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Nature");
+//            }if(choice == 5 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Perception");
+//            }if(choice == 6 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Survival");
+//            }
+//            System.out.println("And what is your second skill? 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
+//            int choice2 = scanner.nextInt();
+//            choice2 = InputErrorCheck(choice2,1,6);
+//            while(choice == choice2){
+//                System.out.println("You already have this skill, please choose another. 1.) Animal Handling 2.) Athletics 3.) Intimidation 4.)Nature 5.) Perception 6.) Survival");
+//                choice2 = scanner.nextInt();
+//                endOfLine = scanner.nextLine();
+//                choice2 = InputErrorCheck(choice2,1,6);
+//            }
+//            if(choice == 1 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Animal Handling");
+//            }if(choice == 2 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Athletics");
+//            }if(choice == 3 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Intimidation");
+//            }if(choice == 4 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Nature");
+//            }if(choice == 5 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Perception");
+//            }if(choice == 6 ){
+//                CheckVectorAndAdd(proficiencies,"proficiencies","Survival");
+//            }
+//
+//            CheckVectorAndAdd(proficiencies,"proficiencies","Strength");
+//            CheckVectorAndAdd(proficiencies,"proficiencies","Constitution");
+//            CheckVectorAndAdd(proficiencies,"proficiencies","Light Armor");
+//            CheckVectorAndAdd(proficiencies, "proficiencies","Medium Armor");
+//            CheckVectorAndAdd(proficiencies,"proficiencies","Shields");
+//            CheckVectorAndAdd(proficiencies,"proficiencies","Simple Weapons");
+//            CheckVectorAndAdd(proficiencies,"proficiencies","Martial Weapons");
+//        }
+//        if(level == 2){
+//            System.out.println("Level 2");
+//            features.add("Reckless Attack");
+//            features.add("Danger Sense");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Reckless Attack / Danger Sense");
+//        }
+//        if(level == 3){
+//            System.out.println("Level 3");
+//            rages = 3;
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Choose your Primal Path 1.) Path of Berserker or 2.) Path of the Totem Warrior");
+//            int choice = scanner.nextInt();
+//            String endOfLine = scanner.nextLine();
+//            choice = InputErrorCheck(choice,1,2);
+//
+//            if (choice==1){
+//                primalPath = "Path of Berserker";
+//                features.add("Primal Path: Frenzy");
+//                System.out.println("Features Added : Primal Path - Frenzy\n Rages = 3");
+//            }
+//            if (choice==2){
+//             primalPath = "Path of the Totem Warrior";
+//                features.add("Primal Path: Spirit Speaker");
+//                System.out.println("Features Added : Primal Path - Spirit Speaker\n Rages = 3");
+//                System.out.println("Choose your Totem Spirit");
+//                System.out.println("1.) Bear");
+//                System.out.println("2.) Eagle");
+//                System.out.println("3.) Wolf");
+//                choice = scanner.nextInt();
+//                endOfLine = scanner.nextLine();
+//                choice = InputErrorCheck(choice,1,3);
+//
+//                if (choice == 1){
+//                    totemSpirit = "Bear";
+//                }
+//                if (choice == 2){
+//                    totemSpirit = "Eagle";
+//                }
+//                if (choice == 3){
+//                    totemSpirit = "Wolf";
+//                }
+//            }
+//
+//        }
+//        if(level == 4){
+//            System.out.println("Level 4");
+//            features.add("Ability Score Improvement");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Ability Score Improvement ");
+//            AbilityScoreImprovement(character);
+//        }
+//        if (level == 5) {
+//            System.out.println("Level 5");
+//            proficiency = 3;
+//            features.add("Extra Attack");
+//            features.add("Fast Movement");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Extra Attack / Fast Movement \n Proficiency = 3");
+//            character.setSpeed(character.getSpeed() + 10);
+//            System.out.println("Speed changed to " + character.getSpeed());
+//        }
+//        if (level == 6){
+//            System.out.println("Level 6");
+//            rages = 4;
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            if(primalPath.equals("Path of Berserker")){
+//                features.add("Primal Path: Mindless Rage");
+//                System.out.println("Features Added : Path Feature - Mindless Rage \n Rages = 4");
+//            }
+//            if (primalPath.equals("Path of the Totem Warrior")){
+//                features.add("Primal Path : Aspect of the Beast");
+//                System.out.println("Choose your Totem Spirit");
+//                System.out.println("1.) Bear");
+//                System.out.println("2.) Eagle");
+//                System.out.println("3.) Wolf");
+//                int choice = scanner.nextInt();
+//                String endOfLine = scanner.nextLine();
+//                choice = InputErrorCheck(choice,1,3);
+//
+//                if (choice == 1){
+//                    totemSpirit = "Bear";
+//                }
+//                if (choice == 2){
+//                    totemSpirit = "Eagle";
+//                }
+//                if (choice == 3){
+//                    totemSpirit = "Wolf";
+//                }
+//                System.out.println("Features Added : Path Feature - Aspect of the Beast \n Rages = 4");
+//            }
+//
+//        }
+//        if (level == 7){
+//            System.out.println("Level 7");
+//            features.add("Feral Instinct");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Feral Instinct");
+//
+//        }
+//        if (level == 8){
+//            System.out.println("Level 8");
+//            features.add("Ability Score Improvement");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Ability Score Improvement");
+//            AbilityScoreImprovement(character);
+//        }
+//        if (level == 9){
+//            System.out.println("Level 9");
+//            proficiency = 4;
+//            features.add("Brutal Critical (1 Die)");
+//            rageDamage = 3;
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Brutal Critical (1 Die) \n Proficiency = 4 \n Rage Damage = 3");
+//        }
+//        if (level == 10){
+//            System.out.println("Level 10");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            if(primalPath.equals("Path of Berserker")){
+//                features.add("Path Features : Intimidating Presence");
+//                System.out.println("Features Added : Path Features - Intimidating Presence");
+//
+//            }if (primalPath.equals("Path of the Totem Warrior")){
+//                features.add("Path Features : Spirit Walker");
+//                System.out.println("Features Added : Path Features - Spirit Walker");
+//
+//            }
+//
+//        }
+//        if (level == 11){
+//            System.out.println("Level 11");
+//            features.add("Relentless Rage");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Relentless Rage");
+//        }
+//        if (level == 12) {
+//            System.out.println("Level 12");
+//            features.add("Ability Score Improvement");
+//            rages = 5;
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Ability Score Improvement");
+//            AbilityScoreImprovement(character);
+//        }
+//        if (level == 13){
+//            System.out.println("Level 13");
+//            proficiency=5;
+//            features.remove("Brutal Critical (1 Die)");
+//            features.add("Brutal Critical (2 Dice)");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Brutal Critical (2 Dice) \n Proficiency = 5");
+//        }
+//        if (level ==14){
+//            System.out.println("Level 14");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            if(primalPath.equals("Path of Berserker")){
+//                features.add("Path Feature : Retaliation");
+//                System.out.println("Features Added : Path Feature - Retaliation");
+//            }if (primalPath.equals("Path of the Totem Warrior")){
+//                features.add("Path Feature : Totemic Attunement");
+//                System.out.println("Features Added : Path Feature - Totemic Attunement");
+//                System.out.println("Choose your Totem Spirit");
+//                System.out.println("1.) Bear");
+//                System.out.println("2.) Eagle");
+//                System.out.println("3.) Wolf");
+//                int choice = scanner.nextInt();
+//                String endOfLine = scanner.nextLine();
+//                choice = InputErrorCheck(choice,1,3);
+//
+//                if (choice == 1){
+//                    totemSpirit = "Bear";
+//                }
+//                if (choice == 2){
+//                    totemSpirit = "Eagle";
+//                }
+//                if (choice == 3){
+//                    totemSpirit = "Wolf";
+//                }
+//
+//            }
+//        }
+//        if (level==15){
+//            System.out.println("Level 15");
+//            features.add("Persistent Rage");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Persistent Rage");
+//        }
+//        if (level == 16){
+//            System.out.println("Level 16");
+//            features.add("Ability Score Improvement");
+//            rageDamage = 4;
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Ability Score Improvement \n Rage Damage = 4");
+//            AbilityScoreImprovement(character);
+//        }
+//        if (level == 17){
+//            System.out.println("Level 17");
+//            proficiency = 6;
+//            features.remove("Brutal Critical (2 Dice");
+//            features.add("Brutal Critical  (3 Dice)");
+//            rages = 6;
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Brutal Critical (3 Dice) \n Proficiency = 6 \n Rages = 6");
+//        }
+//        if (level == 18){
+//            System.out.println("Level 18");
+//            features.add("Indomitable Might");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Indomitable Might");
+//        }
+//        if (level == 19){
+//            System.out.println("Level 19");
+//            features.add("Ability score improvement");
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Ability Score Improvement");
+//            AbilityScoreImprovement(character);
+//        }
+//        if (level == 20){
+//            System.out.println("Level 20");
+//            features.add("Primal Champion");
+//            rages = 999999999;
+//            character.setStrengthScore(character.getStrengthScore()+ 4);
+//            character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
+//            character.setConstitutionScore(character.getConstitutionScore() + 4);
+//            character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
+//            character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+//            System.out.println("Your current Hit Points is : " + character.getHitPoints());
+//            System.out.println("Features Added : Primal Champion \n Rages = Unlimited");
+//        }
+//
+//
+//
+//
+//    }
 
     /**
      *
