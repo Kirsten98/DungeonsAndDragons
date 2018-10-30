@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 
 import java.util.Vector;
 
-//TODO Format all strings the same and do \n inbetween 1,2,3 options
-
 public class CharacterSheet {
 
 

@@ -696,7 +696,7 @@ public class RPGCharacterSheet extends Application {
     }
 
     public void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
-        Button continueButton = new Button("Continue");
+       //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
         BorderPane borderPane = new BorderPane();
@@ -710,13 +710,21 @@ public class RPGCharacterSheet extends Application {
         HBox centerBottom = new HBox();
         VBox center = new VBox();
         center.getChildren().addAll(centerTop,centerBottom);
-
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.2));
         shadow.setRadius(5);
-
         borderPane.setEffect(shadow);
 
+        //Buttons
+        Button continueButton = new Button("Continue");
+        Button setAge = new Button("Edit age");
+        Button editLevel = new Button("Edit level");
+        Button editName = new Button("Edit Name");
+        Button editRace = new Button("Edit Race");
+        Button editClass = new Button("Edit Class");
+        Button editAbilities = new Button("Edit Abilities");
+
+        //ListViews
         //TODO add tooltip to find description / quantity for each item.
         ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
@@ -752,6 +760,7 @@ public class RPGCharacterSheet extends Application {
         skillsList.setPlaceholder(new Label("---- Skills ----"));
 
 
+        //ListView SetUp
         centerTop.getChildren().addAll(armorList,weaponsList,inventoryList,instrumentsList);
         armorList.setPrefWidth(200);
         weaponsList.setPrefWidth(200);
@@ -761,63 +770,53 @@ public class RPGCharacterSheet extends Application {
         proficienciesList.setPrefWidth(200);
         spellsList.setPrefWidth(200);
         skillsList.setPrefWidth(200);
-
         centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,skillsList);
         center.setTranslateX(30);
         borderPane.setCenter(center);
 
-
-
-
+        //Labels
         Label age = new Label("Age: "+ mainCharacter.getAge());
-        Button setAge = new Button("Edit age");
-        setAge.setDisable(true);
-        age.setTooltip(new Tooltip("Missing race selection"));
-
+        Label name = new Label("Name: " + mainCharacter.getName());
+        Label race = new Label("Race: " + mainCharacter.getRace());
+        Label characterClass = new Label("Class: " + mainCharacter.getCharacterClass());
+        Label ac = new Label("AC: " + mainCharacter.getAc());
+        Label hp = new Label("Hit Points: "+ mainCharacter.getHitPoints());
+        Label speed = new Label("Speed: "+ mainCharacter.getSpeed());
+        Label alignment = new Label("Alignment: ");
         Label level = new Label("Level: "+ mainCharacter.getLevel());
-        Button editLevel = new Button("Edit level");
-        editLevel.setDisable(true);
-        level.setTooltip(new Tooltip("Missing class selection"));
 
-//        Image editIcon = new Image(getClass().getResourceAsStream("EditGraphic.png"),30,30,false,false);
 
         // Set Name
-        Label name = new Label("Name: " + mainCharacter.getName());
         layout.add(name, 0, 0);
         name.setPrefWidth(150);
-        Button edit1 = new Button("Edit Name");
-        edit1.setOnAction(e -> {name.setText(ChooseName(continueButton,  mainCharacter));
+
+        editName.setOnAction(e -> {name.setText(ChooseName(continueButton,  mainCharacter));
             name.setTooltip(new Tooltip(mainCharacter.getName()));});
-        layout.add(edit1, 0, 1);
+        layout.add(editName, 0, 1);
         name.setStyle("-fx-Text-fill: Black;");
         name.setUnderline(true);
 
         // Set Race
-        Label race = new Label("Race: " + mainCharacter.getRace());
         //TODO add specific methods for Race
         race.setPrefWidth(100);
-        Button edit2 = new Button("Edit Race");
-        edit2.setOnAction(e -> {race.setText(ChooseRace(continueButton, mainCharacter));
+        editRace.setOnAction(e -> {race.setText(ChooseRace(continueButton, mainCharacter));
         race.setTooltip(new Tooltip(mainCharacter.getRace()));
         setAge.setDisable(false);
         age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
         });
-        layout.add(edit2, 1, 1);
+        layout.add(editRace, 1, 1);
         layout.add(race, 1, 0);
         race.setStyle("-fx-Text-fill: black;");
         race.setUnderline(true);
 
         // Set Class
-        Label characterClass = new Label("Class: " + mainCharacter.getCharacterClass());
         layout.add(characterClass, 2, 0);
         characterClass.setPrefWidth(100);
-        Button edit3 = new Button("Edit Class");
-        layout.add(edit3, 2, 1);
+        layout.add(editClass, 2, 1);
         characterClass.setStyle("-fx-Text-fill: black;");
         characterClass.setUnderline(true);
 
-
-        edit3.setOnAction(e -> {
+        editClass.setOnAction(e -> {
             //TODO add Pop-up to warn about erasing current configurations
             mainCharacter.armorList.clear();
             armor.clear();
@@ -841,15 +840,15 @@ public class RPGCharacterSheet extends Application {
                 inventory.add(mainCharacter.inventory.get(i).getName());
             }
             inventoryList.setItems(inventory);
-
-            editLevel.setDisable(false);
-            level.setTooltip(null);
+            editAbilities.setDisable(false);
         });
 
         // Set Age
         age.setUnderline(true);
         age.setPrefWidth(100);
         layout.add(age,3,0);
+        setAge.setDisable(true);
+        age.setTooltip(new Tooltip("Missing race selection"));
         setAge.setOnAction(e->{ SetAge(mainCharacter);
             age.setText("Age: " + mainCharacter.getAge());
             age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
@@ -862,49 +861,28 @@ public class RPGCharacterSheet extends Application {
         miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
 
         //Sets AC
-        Label ac = new Label("AC: " + mainCharacter.getAc());
         ac.setUnderline(true);
         layout.add(ac,5,0);
 
         //Sets HP
-        Label hp = new Label("Hit Points: "+ mainCharacter.getHitPoints());
         hp.setUnderline(true);
         layout.add(hp, 5,1);
+
         //Sets Speed
-        Label speed = new Label("Speed: "+ mainCharacter.getSpeed());
         speed.setUnderline(true);
         layout.add(speed, 6,0);
+
         //Sets Alignment
         ObservableList alignmentOptions = FXCollections.observableArrayList();
         alignmentOptions.addAll("Lawful Good", "Lawful Neutral", "Lawful Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Chaotic Good", "Chaotic Neutral","Chaotic Evil");
         ChoiceBox<String> alignmentChoiceBox = new ChoiceBox<>(alignmentOptions);
         alignmentChoiceBox.setOnAction(e-> mainCharacter.setAlignment(alignmentChoiceBox.getValue()));
-        Label alignment = new Label("Alignment: ");
         alignment.setUnderline(true);
         layout.add(alignment,6,1);
         layout.add(alignmentChoiceBox,7,1);
 
-        //Set Level
-        level.setUnderline(true);
-        layout.add(level,4,0);
-        layout.add(editLevel,4,1);
-        editLevel.setOnAction(e->{
-            SetLevel(mainCharacter);
-            level.setText("Level: " + mainCharacter.getLevel());
-            proficienciesList.setItems(mainCharacter.getProficienciesList());
-            featuresList.setItems(mainCharacter.getFeaturesList());
-            miscList.setItems(mainCharacter.getMisc());
-            ac.setText("AC: " + mainCharacter.getAc());
-            hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
-            speed.setText("Speed: " + mainCharacter.getSpeed());
-        });
-
-
         // Sets Abilities
-
         VBox left = new VBox();
-        Button editAbilities = new Button("Edit Abilities");
-
         VBox abilities = new VBox();
         abilities.setTranslateY(12);
         abilities.setStyle("-fx-border-color: black");
@@ -917,17 +895,43 @@ public class RPGCharacterSheet extends Application {
         Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
         Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
 
+        editAbilities.setDisable(true);
         editAbilities.setOnAction(e-> {
             ChooseAbilities(continueButton,mainCharacter);
             charisma.setText("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
             strength.setText("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
             dexterity.setText("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
-            wisdom.setText("Wisdom: " + mainCharacter.getWisdomScore() + " / +" + mainCharacter.getWisdomMod());
+            wisdom.setText("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
             intelligence.setText("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
             constitution.setText("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
 
+            editLevel.setDisable(false);
+            level.setTooltip(null);
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
+
+        //Set Level
+        editLevel.setDisable(true);
+        level.setTooltip(new Tooltip("Missing class selection"));
+        level.setUnderline(true);
+        layout.add(level,4,0);
+        layout.add(editLevel,4,1);
+        editLevel.setOnAction(e->{
+            SetLevel(mainCharacter);
+            level.setText("Level: " + mainCharacter.getLevel());
+            proficienciesList.setItems(mainCharacter.getProficienciesList());
+            featuresList.setItems(mainCharacter.getFeaturesList());
+            miscList.setItems(mainCharacter.getMisc());
+            ac.setText("AC: " + mainCharacter.getAc());
+            hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
+            speed.setText("Speed: " + mainCharacter.getSpeed());
+            charisma.setText("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
+            strength.setText("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
+            dexterity.setText("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
+            wisdom.setText("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
+            intelligence.setText("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
+            constitution.setText("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
+        });
 
         // Set Languages
         ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
@@ -935,7 +939,6 @@ public class RPGCharacterSheet extends Application {
         languagesList.setPlaceholder(new Label("--- Languages --- "));
 
         // Save Button
-
         Button save = new Button("Save");
         save.setPrefWidth(150);
         //TODO add functionality to save to a DataBase
@@ -943,7 +946,6 @@ public class RPGCharacterSheet extends Application {
         left.setMaxWidth(150);
         borderPane.setLeft(left);
         left.getChildren().addAll(abilities, languagesList, miscList,save);
-
 
         Scene scene = new Scene(borderPane, 1000, 800);
         primaryStage.setScene(scene);
@@ -1493,6 +1495,8 @@ public class RPGCharacterSheet extends Application {
 
 
     }
+
+
 
     // TODO make duplicateStage to refresh everything
 
