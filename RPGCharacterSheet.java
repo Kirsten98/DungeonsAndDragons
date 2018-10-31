@@ -1,24 +1,19 @@
 package DungeonsAndDragons;
 
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -821,31 +816,32 @@ public class RPGCharacterSheet extends Application {
         characterClass.setUnderline(true);
 
         editClass.setOnAction(e -> {
-            //TODO add Pop-up to warn about erasing current configurations
-            mainCharacter.armorList.clear();
-            armor.clear();
-            mainCharacter.weapons.clear();
-            weapons.clear();
-            mainCharacter.inventory.clear();
-            inventory.clear();
+           if (ConfirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+               mainCharacter.armorList.clear();
+               armor.clear();
+               mainCharacter.weapons.clear();
+               weapons.clear();
+               mainCharacter.inventory.clear();
+               inventory.clear();
 
-            characterClass.setText(ChooseClass(continueButton,mainCharacter ));
-            for (int i=0 ; i < mainCharacter.armorList.size(); i++){
-                armor.add((mainCharacter.armorList.get(i).getName()));
-            }
-            armorList.setItems(armor);
+               characterClass.setText(ChooseClass(continueButton,mainCharacter ));
+               for (int i=0 ; i < mainCharacter.armorList.size(); i++){
+                   armor.add((mainCharacter.armorList.get(i).getName()));
+               }
+               armorList.setItems(armor);
 
-            for (int i = 0 ; i< mainCharacter.weapons.size() ; i++){
-                weapons.add(mainCharacter.weapons.get(i).getName());
-            }
-            weaponsList.setItems(weapons);
+               for (int i = 0 ; i< mainCharacter.weapons.size() ; i++){
+                   weapons.add(mainCharacter.weapons.get(i).getName());
+               }
+               weaponsList.setItems(weapons);
 
-            for (int i = 0; i < mainCharacter.inventory.size(); i++){
-                inventory.add(mainCharacter.inventory.get(i).getName());
-            }
-            inventoryList.setItems(inventory);
-            editAbilities.setDisable(false);
-        });
+               for (int i = 0; i < mainCharacter.inventory.size(); i++){
+                   inventory.add(mainCharacter.inventory.get(i).getName());
+               }
+               inventoryList.setItems(inventory);
+               editAbilities.setDisable(false);
+           }
+           });
 
         // Set Age
         age.setUnderline(true);
@@ -1463,6 +1459,47 @@ public class RPGCharacterSheet extends Application {
 
     }
 
+    public boolean ConfirmingPopUp(String message){
+        VBox pane = new VBox(50);
+        Scene scene = new Scene(pane,300,200);
+        Stage popUpStage= new Stage();
+        popUpStage.setScene(scene);
+        InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
+        pane.setEffect(shadow);
+        popUpStage.initStyle(StageStyle.TRANSPARENT);
+        pane.setStyle("-fx-border-color: black");
+        popUpStage.initModality(Modality.APPLICATION_MODAL);
+
+        Label popUpMessage = new Label(message);
+        Button continueButton = new Button("Continue");
+        Button close = new Button("Close");
+        ButtonBar buttonBar = new ButtonBar();
+        buttonBar.getButtons().addAll(continueButton,close);
+        buttonBar.setTranslateX(-50);
+        Label choice = new Label(" ");
+
+
+        continueButton.setOnAction(e-> {
+            choice.setText("Continue");
+            popUpStage.close();
+        });
+        close.setOnAction(e-> {
+            choice.setText("Close");
+            popUpStage.close();
+        });
+
+        pane.setAlignment(Pos.CENTER);
+        pane.setPadding(new Insets(20,20,20,20));
+        pane.getChildren().addAll(popUpMessage,buttonBar);
+        popUpStage.showAndWait();
+
+        if(choice.getText().equals("Continue")){
+            return true;
+        }else {
+            return false;
+        }
+        }
 
 
     // TODO make duplicateStage to refresh everything
