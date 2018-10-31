@@ -96,7 +96,7 @@ public class Barbarian{
         pane.setHgap(20);
 
         charisma.setOnAction(charismaEvent->{
-            if (character.getCharismaScore() +1 > 20){
+            if (character.getCharismaScore() +1 > 20 ||character.getCharismaScore() +2 > 20  ){
                 choice.setText("Charisma ability score is greater than 20.\nPlease choose a different option.");
                 continueButton.setDisable(true);
             }else {
@@ -106,7 +106,7 @@ public class Barbarian{
         });
 
         strength.setOnAction(strengthEvent->{
-            if (character.getStrengthScore()+1 > 20){
+            if (character.getStrengthScore()+1 > 20 ||character.getStrengthScore() +2 > 20){
                 choice.setText("Strength ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
             }else {
@@ -115,7 +115,7 @@ public class Barbarian{
             }
         });
         dexterity.setOnAction(dexterityEvent->{
-            if (character.getDexterityScore()+1 > 20){
+            if (character.getDexterityScore()+1 > 20 ||character.getDexterityScore() +2 > 20){
                 choice.setText("Dexterity ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
             }else {
@@ -124,7 +124,7 @@ public class Barbarian{
             }
         });
         wisdom.setOnAction(wisdomEvent->{
-            if (character.getWisdomScore()+1 > 20){
+            if (character.getWisdomScore()+1 > 20||character.getWisdomScore() +2 > 20){
                 choice.setText("Wisdom ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
             }else {
@@ -133,7 +133,7 @@ public class Barbarian{
             }
         });
         intelligence.setOnAction(intelligenceEvent->{
-            if (character.getIntelligenceScore()+1 > 20){
+            if (character.getIntelligenceScore()+1 > 20 ||character.getIntelligenceScore() +2 > 20){
                 choice.setText("Intelligence ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
             }else {
@@ -142,7 +142,7 @@ public class Barbarian{
             }
         });
         constitution.setOnAction(constitutionEvent->{
-            if (character.getConstitutionScore()+1 > 20){
+            if (character.getConstitutionScore()+1 > 20||character.getConstitutionScore() +2 > 20){
                 choice.setText("Constitution ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
             }else {
@@ -161,7 +161,7 @@ public class Barbarian{
             pane.add(wisdom,0,2);
             pane.add(intelligence,1,2);
             pane.add(constitution,2,2);
-            pane.add(choice,1,3,4,1);
+            pane.add(choice,1,3,6,1);
             pane.add(continueButton,1,5);
             question.setText("Which Ability score would you like to increase by +2 ?");
 
@@ -223,7 +223,6 @@ public class Barbarian{
                 Label rageDamage = new Label("Rage Damage: " + this.rageDamage);
                 Label primalPath = new Label("Primal Path: "+ this.primalPath);
                 primalPath.setWrapText(true);
-                Label totemSpirit = new Label("Totem Spirit: " + this.totemSpirit);
 
                 BorderPane borderPane = new BorderPane();
                 borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel ));
@@ -248,7 +247,7 @@ public class Barbarian{
                 });
 
                 if (startingLevel ==1){
-
+                    character.setHitPoints(0);
                     character.setHitPoints(character.getConstitutionScore()+12);
                     hp.setText("Hit Points: " + character.getHitPoints());
                     this.proficiency = 2;
@@ -366,7 +365,6 @@ public class Barbarian{
                         primalPath.setText("Primal Path: "+ this.primalPath);
 
                         if (this.primalPath.equals("Berserker")){
-                            totemSpirit.setDisable(true);
                             character.getFeaturesList().add("Frenzy");
                             features.setItems(character.getFeaturesList());
                             if (startingLevel == maxLevel){
@@ -417,7 +415,6 @@ public class Barbarian{
                                 character.getFeaturesList().add("Spirit Speaker: " + this.totemSpirit);
                                 features.setItems(character.getFeaturesList());
                                 primalPath.setText("Primal Path: "+ this.primalPath);
-                                totemSpirit.setText("Totem Spirit: " + this.totemSpirit);
                                 if (startingLevel == maxLevel){
                                     addLevelStage.close();
                                 }else AddLevel(addLevelStage,maxLevel,4);
@@ -500,7 +497,6 @@ public class Barbarian{
                             character.getFeaturesList().add("Aspect of the Beast: " + this.totemSpirit);
                             features.setItems(character.getFeaturesList());
                             primalPath.setText("Primal Path: "+ this.primalPath);
-                            totemSpirit.setText("Totem Spirit: " + this.totemSpirit);
                             if (startingLevel == maxLevel){
                                 addLevelStage.close();
                             }else AddLevel(addLevelStage,maxLevel,7);
@@ -629,7 +625,6 @@ public class Barbarian{
                             character.getFeaturesList().add("Totemic Attunement");
                             features.setItems(character.getFeaturesList());
                             primalPath.setText("Primal Path: "+ this.primalPath);
-                            totemSpirit.setText("Totem Spirit: " + this.totemSpirit);
                             if (startingLevel == maxLevel){
                                 addLevelStage.close();
                             }else AddLevel(addLevelStage,maxLevel,startingLevel+1);
@@ -706,7 +701,7 @@ public class Barbarian{
                 VBox left = new VBox();
                 left.setPrefWidth(150);
                 left.setPadding(new Insets(10,10,10,10));
-                left.getChildren().addAll(hp,proficiency,rages,rageDamage,primalPath,totemSpirit,proficiencies,features);
+                left.getChildren().addAll(hp,proficiency,rages,rageDamage,primalPath,proficiencies,features);
                 borderPane.setLeft(left);
                 borderPane.setStyle("-fx-border-color: black");
             }

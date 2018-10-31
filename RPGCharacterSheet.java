@@ -1,15 +1,19 @@
 package DungeonsAndDragons;
 
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -953,14 +957,12 @@ public class RPGCharacterSheet extends Application {
     }
 
     public static String ChooseName(Button continueButton, CharacterSheet mainCharacter) {
-        GridPane pane = new GridPane();
+        VBox pane = new VBox(15);
+
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
-        pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(50, 20, 50, 20));
-        pane.setHgap(25);
-        pane.setVgap(15);
 
         Scene scene = new Scene(pane, 400, 200);
         Stage nameStage = new Stage();
@@ -978,11 +980,7 @@ public class RPGCharacterSheet extends Application {
             nameStage.close();
         });
 
-
-//        pane.getChildren().addAll(askName,name,continueButton);
-        pane.add(askName, 0, 0);
-        pane.add(name, 0, 1);
-        pane.add(continueButton, 0, 2);
+        pane.getChildren().addAll(askName,name,continueButton);
         pane.setAlignment(Pos.TOP_CENTER);
         nameStage.initStyle(StageStyle.TRANSPARENT);
         pane.setStyle("-fx-border-color: black");
@@ -1002,24 +1000,19 @@ public class RPGCharacterSheet extends Application {
 //   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
         RPGCharacterSheet.label.setText("");
         continueButton.setDisable(true);
-        GridPane layout = new GridPane();
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(30,30,30,30));
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
-        layout.setEffect(shadow);
-        Scene scene = new Scene(layout, 600, 600);
-        layout.setGridLinesVisible(false);
-        layout.setPadding(new Insets(20,10,10,20));
+        pane.setEffect(shadow);
+        Scene scene = new Scene(pane, 400, 300);
+        pane.setPadding(new Insets(20,10,10,20));
         Stage raceStage = new Stage();
-        layout.setVgap(60);
-        layout.setHgap(60);
         raceStage.setScene(scene);
         raceStage.setResizable(false);
         Label chooseRace = new Label("Choose your race.");
-        chooseRace.setTranslateX(-25);
-        layout.add(chooseRace, 1, 0);
         chooseRace.setMaxWidth(100);
         Button elf = new Button("Elf");
-        layout.add(elf, 0, 1);
         elf.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Elf");
@@ -1028,7 +1021,6 @@ public class RPGCharacterSheet extends Application {
         });
 
         Button halfElf = new Button("Half-Elf");
-        layout.add(halfElf, 1, 1);
         halfElf.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Half-Elf");
@@ -1038,7 +1030,6 @@ public class RPGCharacterSheet extends Application {
 
 
         Button human = new Button("Human");
-        layout.add(human, 2, 1);
         human.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Human");
@@ -1047,7 +1038,6 @@ public class RPGCharacterSheet extends Application {
         });
 
         Button dragonBorn = new Button("Dragonborn");
-        layout.add(dragonBorn, 0, 2);
         dragonBorn.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("DragonBorn");
@@ -1057,7 +1047,6 @@ public class RPGCharacterSheet extends Application {
 
 
         Button dwarf = new Button("Dwarf");
-        layout.add(dwarf, 1, 2);
         dwarf.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Dwarf");
@@ -1066,7 +1055,6 @@ public class RPGCharacterSheet extends Application {
         });
 
         Button halfling = new Button("Halfling");
-        layout.add(halfling, 2, 2);
         halfling.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Halfling");
@@ -1075,7 +1063,6 @@ public class RPGCharacterSheet extends Application {
         });
 
         Button gnome = new Button("Gnome");
-        layout.add(gnome, 0, 3);
         gnome.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Gnome");
@@ -1083,7 +1070,6 @@ public class RPGCharacterSheet extends Application {
             continueButton.setDisable(false);
         });
         Button halfOrc = new Button("Half-Orc");
-        layout.add(halfOrc, 1, 3);
         halfOrc.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Half-Orc");
@@ -1091,7 +1077,6 @@ public class RPGCharacterSheet extends Application {
             continueButton.setDisable(false);
         });
         Button tiefling = new Button("Tiefling");
-        layout.add(tiefling, 2, 3);
         tiefling.setOnAction(e -> {
             continueButton.setOnAction(event -> raceStage.close());
             mainCharacter.setRace("Tiefling");
@@ -1099,13 +1084,23 @@ public class RPGCharacterSheet extends Application {
             continueButton.setDisable(false);
         });
 
-        layout.add(label, 1, 4, 2, 1);
-        label.setTranslateX(-25);
+        ButtonBar row1 = new ButtonBar();
+        row1.getButtons().addAll(elf,halfElf,human);
+        row1.setTranslateX(-60);
 
-        layout.add(continueButton, 1, 5);
-        layout.setAlignment(Pos.TOP_CENTER);
+        ButtonBar row2 = new ButtonBar();
+        row2.getButtons().addAll(dragonBorn,dwarf,halfling);
+        row2.setTranslateX(-50);
+
+        ButtonBar row3 = new ButtonBar();
+        row3.getButtons().addAll(gnome,halfOrc,tiefling);
+        row3.setTranslateX(-60);
+
+        pane.getChildren().addAll(chooseRace,row1,row2,row3,label,continueButton);
+
+        pane.setAlignment(Pos.TOP_CENTER);
         raceStage.initStyle(StageStyle.TRANSPARENT);
-        layout.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black");
         raceStage.initModality(Modality.APPLICATION_MODAL);
         raceStage.showAndWait();
 
@@ -1123,18 +1118,16 @@ public class RPGCharacterSheet extends Application {
         // "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
 
         RPGCharacterSheet.label.setText("");
-        GridPane layout = new GridPane();
+
+        VBox layout=new VBox(20);
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
         layout.setEffect(shadow);
-        Scene scene = new Scene(layout, 600, 600);
+        Scene scene = new Scene(layout, 400, 375);
         Stage classStage = new Stage();
-        layout.setHgap(60);
-        layout.setVgap(60);
         classStage.setScene(scene);
         classStage.setResizable(false);
 
-        layout.setPadding(new Insets(20,10,10,10));
         layout.setStyle("-fx-border-color: black");
 
         continueButton.setOnAction(e ->{
@@ -1142,126 +1135,103 @@ public class RPGCharacterSheet extends Application {
             Barbarian barbarianCharacter = new Barbarian(mainCharacter);
             barbarianCharacter.ChooseArmor(classStage); }
         });
+        continueButton.setDisable(true);
 
         Label chooseClass = new Label("Choose your class.");
-        chooseClass.setTranslateX(-25);
-        layout.add(chooseClass, 1, 0, 2, 1);
         Button barbarian = new Button("Barbarian");
-        layout.add(barbarian, 0, 1);
         barbarian.setOnAction(event -> {
             mainCharacter.setCharacterClass("Barbarian");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
 
         });
         Button bard = new Button("Bard");
-        layout.add(bard, 1, 1);
         bard.setOnAction(event -> {
             mainCharacter.setCharacterClass("Bard");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button cleric = new Button("Cleric");
-        layout.add(cleric, 2, 1);
         cleric.setOnAction(event -> {
             mainCharacter.setCharacterClass("Cleric");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button druid = new Button("Druid");
-        layout.add(druid, 0, 2);
         druid.setOnAction(event -> {
             mainCharacter.setCharacterClass("Druid");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button fighter = new Button("Fighter");
-        layout.add(fighter, 1, 2);
         fighter.setOnAction(event -> {
             mainCharacter.setCharacterClass("Fighter");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button monk = new Button("Monk");
-        layout.add(monk, 2, 2);
         monk.setOnAction(event -> {
             mainCharacter.setCharacterClass("Monk");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button paladin = new Button("Paladin");
-        layout.add(paladin, 0, 3);
         paladin.setOnAction(event -> {
             mainCharacter.setCharacterClass("Paladin");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button ranger = new Button("Ranger");
-        layout.add(ranger, 1, 3);
         ranger.setOnAction(event -> {
             mainCharacter.setCharacterClass("Ranger");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button rogue = new Button("Rogue");
-        layout.add(rogue, 2, 3);
         rogue.setOnAction(event -> {
             mainCharacter.setCharacterClass("Rogue");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button sorcerer = new Button("Sorcerer");
-        layout.add(sorcerer, 0, 4);
         sorcerer.setOnAction(event -> {
             mainCharacter.setCharacterClass("Sorcerer");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button warlock = new Button("Warlock");
-        layout.add(warlock, 1, 4);
         warlock.setOnAction(event -> {
             mainCharacter.setCharacterClass("Warlock");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
         Button wizard = new Button("Wizard");
-        layout.add(wizard, 2, 4);
         wizard.setOnAction(event -> {
             mainCharacter.setCharacterClass("Wizard");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getCharacterClass());
-            if(!layout.getChildren().contains(continueButton)){
-                layout.add(continueButton, 1, 6);
-            }
+            continueButton.setDisable(false);
         });
 
-        layout.add(label, 1, 5, 2, 1);
-        label.setTranslateX(-25);
-        layout.setAlignment(Pos.TOP_CENTER);
+        ButtonBar row1 = new ButtonBar();
+        row1.getButtons().addAll(barbarian,bard,cleric);
+        row1.setTranslateX(-75);
 
+        ButtonBar row2 = new ButtonBar();
+        row2.getButtons().addAll(druid,fighter,monk);
+        row2.setTranslateX(-75);
+
+        ButtonBar row3 = new ButtonBar();
+        row3.getButtons().addAll(paladin,ranger,rogue);
+        row3.setTranslateX(-75);
+
+        ButtonBar row4 = new ButtonBar();
+        row4.getButtons().addAll(sorcerer,warlock,wizard);
+        row4.setTranslateX(-75);
+
+        layout.getChildren().addAll(chooseClass,row1,row2,row3,row4,label,continueButton);
+
+        layout.setAlignment(Pos.CENTER);
         classStage.initStyle(StageStyle.TRANSPARENT);
-
         classStage.initModality(Modality.APPLICATION_MODAL);
         classStage.showAndWait();
 
