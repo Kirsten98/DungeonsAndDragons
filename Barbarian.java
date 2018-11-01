@@ -3,11 +3,13 @@ package DungeonsAndDragons;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -824,20 +826,16 @@ public class Barbarian{
     }
 
     public void ChooseArmor(Stage chooseArmorStage){
-        GridPane pane = new GridPane();
-        Scene scene = new Scene(pane,650,400);;
+        VBox pane = new VBox(10);
+        Scene scene = new Scene(pane,450,200);;
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
         chooseArmorStage.setScene(scene);
-        pane.setGridLinesVisible(false);
 
-        pane.setPadding(new Insets(50,50,50,50));
+        pane.setPadding(new Insets(30,30,20,30));
 
         Button continueButton = new Button("Continue");
-
-        pane.setHgap(25);
-        pane.setVgap(15);
 
         Label armorLabel = new Label("You are proficient in Light Armor, Medium Armor, and Shields.\nChoose your Armor.");
 
@@ -853,6 +851,8 @@ public class Barbarian{
         armorChoices.setOnAction(e-> {
             character.setArmor(armorChoices.getValue());
             armor.setText("Armor: " + armorChoices.getValue());
+            armorChoices.setDisable(true);
+            armorChoices.hide();
             yOrN.setDisable(false);
 
 
@@ -867,9 +867,12 @@ public class Barbarian{
                 shield.setText("Shield: Yes");
                 character.setShield(true);
             }else {
-                shield.setText("Shield: No");
-                character.setShield(false);            }
-            pane.add(continueButton,1,3);
+                shield.setText("Shield: No ");
+                character.setShield(false);
+            }
+            yOrN.setDisable(true);
+            yOrN.setTranslateX(93);
+            pane.getChildren().add(continueButton);
         });
 
 
@@ -891,39 +894,28 @@ public class Barbarian{
                 ChooseWeapon(chooseArmorStage);
             });
 
+        pane.getChildren().addAll(armorLabel,new HBox(armor,armorChoices), new HBox(shield,yOrN));
 
-        pane.add(armorLabel,1,0,3,1);
-        armorLabel.setTranslateX(-100);
-
-        pane.add(armorChoices,1,1);
-        pane.add(yOrN,1,2);
-        pane.add(shield,0,2);
-        pane.add(armor,0,1);
-
+        yOrN.setTranslateX(112);
         pane.setStyle("-fx-border-color: black");
     }
 
 
     public void ChooseWeapon(Stage chooseWeaponStage){
 
-        GridPane pane = new GridPane();
-        Scene scene = new Scene(pane,650,400);
+        VBox pane = new VBox(10);
+        pane.setAlignment(Pos.TOP_LEFT);
+        Scene scene = new Scene(pane,500,300);
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
         chooseWeaponStage.setScene(scene);
-        pane.setGridLinesVisible(false);
-        pane.setHgap(20);
-        pane.setVgap(15);
 
-        pane.setPadding(new Insets(50,50,50,50));
+        pane.setPadding(new Insets(30,30,30,30));
 
         Button continueButton = new Button("Continue");
 
-        pane.setHgap(25);
-        pane.setVgap(15);
-
-        Label weaponLabel = new Label("** Equipment Choices **\n Choose between the options below.");
+        Label weaponLabel = new Label("Choose between the options below.");
 
         ObservableList simpleMartialMeleeWeapons = FXCollections.observableArrayList();
         for (int i =0 ; i<character.getSimpleMeleeWeapons().length; i++){
@@ -936,16 +928,13 @@ public class Barbarian{
         Label secondWeapon = new Label("Two handaxes or any Simple Martial Weapon.");
         ChoiceBox handaxeOrSMW = new ChoiceBox(FXCollections.observableArrayList(simpleMartialMeleeWeapons));
 
-        pane.add(weaponLabel,1,0);
-        pane.add(firstWeapon,0,1);
-        pane.add(greataxeOrMMW,1,1);
-        pane.add(secondWeapon,0,2);
-        pane.add(handaxeOrSMW,1,2);
         handaxeOrSMW.setDisable(true);
 
-        greataxeOrMMW.setOnAction(e-> handaxeOrSMW.setDisable(false));
+        greataxeOrMMW.setOnAction(e-> {handaxeOrSMW.setDisable(false);
+        greataxeOrMMW.setDisable(true);});
 
-        handaxeOrSMW.setOnAction(e-> pane.add(continueButton,1,6));
+        handaxeOrSMW.setOnAction(e-> {pane.getChildren().add(continueButton);
+        handaxeOrSMW.setDisable(true);});
 
         continueButton.setOnAction(e -> {
             chooseWeaponStage.close();
@@ -970,8 +959,7 @@ public class Barbarian{
 
         Label pack = new Label("Barbarian default pack : Explorer's Pack\nBackpack | Bedroll | Mess Kit | Tinderbox\nTorch x10 | Rations x10 | Waterskin | Hempen Rope x50 ft. | Javelin x4");
 
-
-        pane.add(pack,0,4,3,1);
+        pane.getChildren().addAll(weaponLabel,new HBox(42,firstWeapon,greataxeOrMMW), new HBox(10,secondWeapon,handaxeOrSMW),pack);
 
         CheckAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
         CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
