@@ -20,229 +20,15 @@ import java.util.Scanner;
 // TODO create a check all method for JavaFX that updates entire CS after updating any option
 public class RPGCharacterSheet extends Application {
 
-    static CharacterSheet character;
-
-    static String race;
-    static String characterClass;
-    static String characterName;
+    static ObservableList availableLanguages = new CharacterSheet().getAllLanguages();
     static Label label = new Label("");
     static int[] d20Rolls = new int[6];
 
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("What is your Characters name?");
-        String name = scanner.nextLine();
-        String[] abilityNames = {"Charisma", "Strength", "Dexterity", "Wisdom", "Intelligence", "Constitution"};
-        String[] race = {"Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling"};
-        String[] classes = {"Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"};
-        int raceArrayNumber = ChooseRace(race);
-        int classArrayNumber = ChooseClass(classes);
-        //TODO Uncomment if needed
-//        character = new CharacterSheet(name, race[raceArrayNumber], classes[classArrayNumber]);
-
-
-        String[] alignment = {"Lawful Good", "Lawful Neutral", "Lawful Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Chaotic Good", "Chaotic Neutral","Chaotic Evil"};
-        int[] d20Rolls = new int[6];
-        System.out.println("Ability Score Rolls");
-        for (int i = 0; i < 6; i++) {
-            d20Rolls[i] = D20Roll();
-            System.out.println(i + 1 + ".)" + d20Rolls[i]);
-        }
-        for (int i = 0; i < 6; i++) {
-            System.out.println("Choose your score for " + abilityNames[i]);
-            int choice = scanner.nextInt();
-            String endOfLine = scanner.nextLine();
-            while (choice < 1 || choice > 6 || d20Rolls[choice - 1] == -1) {
-                System.out.println("Incorrect choice. Please select a different option");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-            }
-            AbilityAddtion(character, i + 1, d20Rolls[choice - 1]);
-            d20Rolls[choice - 1] = -1;
-
-        }
-        if ((classArrayNumber + 1) == 1) {
-            Barbarian barbarianCharacter = new Barbarian(character);
-//            barbarianCharacter.ChooseArmor();
-//            barbarianCharacter.ChooseWeapon();
-            System.out.println("What level is your Barbarian? ");
-            int choice = scanner.nextInt();
-            String endOfLine = scanner.nextLine();
-            for (int i = 0; i < choice; i++) {
-//                barbarianCharacter.AddLevel();
-            }
-
-        }
-        if ((classArrayNumber + 1) == 2) {
-            Bard bardCharacter = new Bard(character);
-            bardCharacter.ChooseArmor();
-            bardCharacter.ChooseWeapon();
-            bardCharacter.ToolsProficiencies();
-            bardCharacter.ChooseSkillProficiencies();
-            System.out.println("What level is your Bard? ");
-            int choice = scanner.nextInt();
-            String endOfLine = scanner.nextLine();
-            for (int i = 0; i < choice; i++) {
-                bardCharacter.AddLevel();
-            }
-
-
-        }
-        if ((classArrayNumber + 1) == 3) {
-            Cleric clericCharacter = new Cleric(character);
-            clericCharacter.ChooseArmor();
-            clericCharacter.ChooseWeapon();
-            clericCharacter.ChooseSkillProficiencies();
-            System.out.println("What level is your Cleric? ");
-            int choice = scanner.nextInt();
-            String endOfLine = scanner.nextLine();
-            for (int i = 0; i < choice; i++) {
-                clericCharacter.AddLevel();
-            }
-
-        }
-        if ((classArrayNumber + 1) == 4) {
-
-        }
-        if ((classArrayNumber + 1) == 5) {
-
-        }
-        if ((classArrayNumber + 1) == 6) {
-
-        }
-        if ((classArrayNumber + 1) == 7) {
-
-        }
-        if ((classArrayNumber + 1) == 8) {
-
-        }
-        if ((classArrayNumber + 1) == 9) {
-
-        }
-        if ((classArrayNumber + 1) == 10) {
-
-        }
-//-------------------------------------------------------//
-
-        if ((raceArrayNumber + 1) == 1) {
-            Elf(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 2) {
-            HalfElf(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 3) {
-            Human(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 4) {
-            DragonBorn(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 5) {
-            Dwarf(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 6) {
-            Halfling(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 7) {
-            Gnome(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 8) {
-            HalfOrc(character, scanner);
-
-        }
-        if ((raceArrayNumber + 1) == 9) {
-            Tiefling(character, scanner);
-        }
-
-
-        System.out.println("How old is your Character?");
-        character.setAge(scanner.nextInt());
-        String endOfLine = scanner.nextLine();
-
-        System.out.println("Choose your alignment");
-        for (int i = 0; i < alignment.length; i++) {
-            System.out.println(i + 1 + ".) " + alignment[i]);
-        }
-        int choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        while (choice < 1 || choice > alignment.length) {
-            System.out.println("Incorrect choice, please choose a different option");
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-        }
-        character.setAlignment(alignment[choice - 1]);
-        System.out.println("Alignment : " + alignment[choice - 1]);
-
-
     }
 
-    /**
-     * Allows user to select the race of their character though a list of possible races
-     *
-     * @param race String array of the possible Races the user can choose from
-     * @return Numeric choice by user
-     */
-    public static int ChooseRace(String[] race) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose a race number.");
-        for (int i = 0; i < race.length; i++) {
-            System.out.println((i + 1) + ".) " + race[i]);
-        }
-        int raceArrayNumber = scanner.nextInt() - 1;
-        if (raceArrayNumber > race.length - 1 || raceArrayNumber < 0) {
-            System.out.println("Incorrect Choice");
-            raceArrayNumber = ChooseRace(race);
-        }
-        return raceArrayNumber;
-    }
-
-    /**
-     * Allows user to select the class of their character though a list of possible races
-     *
-     * @param classes String array of the possible classes the user can choose from
-     * @return Numeric choice by user
-     */
-    public static int ChooseClass(String[] classes) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose a class number");
-        for (int i = 0; i < classes.length; i++) {
-            System.out.println((i + 1) + ".) " + classes[i]);
-        }
-        int classArrayNumber = scanner.nextInt() - 1;
-        if (classArrayNumber > classes.length - 1 || classArrayNumber < 0) {
-            System.out.println("Incorrect Choice");
-            classArrayNumber = ChooseClass(classes);
-        }
-        return classArrayNumber;
-    }
-
-    /**
-     * Sets the Alignment for the Character
-     *
-     * @param alignment String array of possible choices for their Alignment
-     * @return Numeric choice made by user
-     */
-    public static int SetAlignment(String[] alignment) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose your alignment number");
-        for (int i = 0; i < alignment.length; i++) {
-            System.out.println((i + 1) + ".) " + alignment[i]);
-        }
-        int alignmentNumber = scanner.nextInt();
-        if (alignmentNumber > alignment.length - 1 || alignmentNumber < 0) {
-            System.out.println("Incorrect Choice");
-            alignmentNumber = SetAlignment(alignment);
-        }
-        return alignmentNumber;
-    }
 
     /**
      * Randomly generates a number between 1 and 20. Simulates a D20
@@ -298,53 +84,84 @@ public class RPGCharacterSheet extends Application {
      * To Set up a Elf Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void Elf(CharacterSheet character, Scanner scanner) {
+    public static void Elf(CharacterSheet character) {
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setPadding(new Insets(25,25,25,25));
+        Scene scene = new Scene(pane,400,400);
+        Stage elfStage = new Stage();
+        elfStage.setScene(scene);
+
+
         AbilityAddtion(character, 3, 2);
         character.setSpeed(character.getSpeed()+30);
-        character.languages.add("Elven");
+        character.languages.add("Elvish");
+        RPGCharacterSheet.availableLanguages.remove("Elvish");
         character.skills.add("Darkvision");
         character.skills.add("Keen Senses");
         character.skills.add("Fey Ancestry");
         character.skills.add("Trance");
-        System.out.println("Skills added : Darkvision, Keen Senses, Fey Ancestry, and Trance");
-        System.out.println("Is your Elf a 1.) High Elf , 2.) Wood Elf, or 3.) Dark Elf ?");
-        int choice = scanner.nextInt();
-        while (choice != 1 && choice != 2 && choice != 3) {
-            System.out.println("Incorrect Choice. Is your Elf a 1.) High Elf , 2.) Wood Elf, or 3.) Dark Elf ?");
-            choice = scanner.nextInt();
+       RPGCharacterSheet.label.setText("Skills added : Darkvision, Keen Senses, Fey Ancestry, and Trance\nChoose your Elf type");
+       Button highElf = new Button("High Elf");
+       highElf.setTooltip(new Tooltip("+ Elf Weapon Training\n+1 Language"));
 
-        }
-        String endOfLine = scanner.nextLine();
-        if (choice == 1) {
+       Button woodElf = new Button("Wood Elf");
+       woodElf.setTooltip(new Tooltip("+ Elf Weapon Training\n+ Mask of the Wild\n+35 Speed"));
+
+       Button darkElf = new Button("Dark Elf");
+       darkElf.setTooltip(new Tooltip("+ Superior Darkvision\n+ Sunlight Sensitivity\n+Drow Magic\n+Drow Weapon Training"));
+
+       ButtonBar elves = new ButtonBar();
+       elves.getButtons().addAll(highElf,woodElf,darkElf);
+       elves.setTranslateX(-50);
+
+       Label choice = new Label();
+
+       Button continueButton = new Button("Continue");
+
+       pane.getChildren().addAll(RPGCharacterSheet.label,elves,choice);
+        highElf.setOnAction(e->   {
             AbilityAddtion(character, 5, 1);
             character.skills.add("Elf Weapon Training");
-            System.out.println("Elf Weapon Training added to skills");
-            System.out.println("You learned a new language! What language would you like to add?");
-            String language = scanner.nextLine();
-            character.languages.add(language);
-            System.out.println("You have learned " + language + "!");
-        }
-        if (choice == 2) {
-            AbilityAddtion(character, 4, 1);
-            character.skills.add("Elf Weapon Training");
-            character.setSpeed(35);
-            character.skills.add("Mask of the Wild");
-            System.out.println("Skills added : Elf Weapon Training and Mask of the Wild");
-            System.out.println("Speed changed to 35");
+            ComboBox<String> languages = new ComboBox<>(availableLanguages);
+            Label chooseLanguage = new Label("Choose an additional language");
+            continueButton.setDisable(true);
+//            languages.setStyle("-fx-pref-height: 100");
+            languages.setOnAction(languageEvent->continueButton.setDisable(false));
+            continueButton.setOnAction(continueEvent->{
+                character.languages.add(languages.getValue());
+                elfStage.close();
+            });
+            pane.getChildren().addAll(chooseLanguage,languages,continueButton);
 
-        }
-        if (choice == 3) {
+        });
+       woodElf.setOnAction(e->{
+           AbilityAddtion(character, 4, 1);
+           character.skills.add("Elf Weapon Training");
+           character.setSpeed(character.getSpeed()+35);
+           character.skills.add("Mask of the Wild");
+           elfStage.close();
+
+
+       });
+        darkElf.setOnAction(e->{
             AbilityAddtion(character, 1, 1);
             character.skills.add("Superior Darkvision");
             character.skills.add("Sunlight Sensitivity");
             character.skills.add("Drow Magic");
             character.skills.add("Drow Weapon Training");
-            System.out.println("Skills added : Superior Darkvision, Sunlight Sensitivity, Drow Magic, and Drow Weapon Training  ");
+            elfStage.close();
 
+        });
 
-        }
+        elfStage.initStyle(StageStyle.TRANSPARENT);
+        elfStage.initModality(Modality.APPLICATION_MODAL);
+        pane.setStyle("-fx-border-color: black");
+        elfStage.showAndWait();
 
     }
 
@@ -612,13 +429,6 @@ public class RPGCharacterSheet extends Application {
      */
     public static int FindAbilityMod(int abilityScore) {
         Scanner scanner = new Scanner(System.in);
-        String endOfLine;
-        while (abilityScore < 1 || abilityScore > 30) {
-            System.out.println("Incorrect Ability Score, please enter correct score between 1 and 30");
-            int choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-        }
-
         if (abilityScore == 1) {
             return -5;
         }
@@ -681,9 +491,9 @@ public class RPGCharacterSheet extends Application {
 
 
     /**
-     * launch(args) calls Application, Application calls start
+     * launch(args) calls Application, Application calls start. Calls Ma
      *
-     * @param primaryStage
+     * @param primaryStage Main stage for application
      */
     @Override
     public void start(Stage primaryStage) {
@@ -694,6 +504,11 @@ public class RPGCharacterSheet extends Application {
 
     }
 
+    /** Creates the main Character Sheet stage where all the information is stored.
+     *
+     * @param primaryStage Primary stage of the application
+     * @param mainCharacter Character sheet object to hold character information
+     */
     public void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
@@ -758,6 +573,10 @@ public class RPGCharacterSheet extends Application {
         ListView skillsList = new ListView();
         skillsList.setPlaceholder(new Label("---- Skills ----"));
 
+        ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
+        ListView languagesList = new ListView(languages);
+        languagesList.setPlaceholder(new Label("--- Languages --- "));
+
 
         //ListView SetUp
         centerTop.getChildren().addAll(armorList,weaponsList,inventoryList,instrumentsList);
@@ -798,11 +617,23 @@ public class RPGCharacterSheet extends Application {
         // Set Race
         //TODO add specific methods for Race
         race.setPrefWidth(100);
-        editRace.setOnAction(e -> {race.setText(ChooseRace(continueButton, mainCharacter));
-        race.setTooltip(new Tooltip(mainCharacter.getRace()));
-        setAge.setDisable(false);
-        age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
-        });
+//        editRace.setDisable(true);
+        editRace.setOnAction(e -> {
+            if (ConfirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+                skills.clear();
+                mainCharacter.skills.clear();
+                languages.clear();
+                mainCharacter.languages.clear();
+                race.setText(ChooseRace(continueButton, mainCharacter));
+                race.setTooltip(new Tooltip(mainCharacter.getRace()));
+                setAge.setDisable(false);
+                age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
+                languages.setAll(mainCharacter.languages);
+                skills.setAll(mainCharacter.skills);
+                skillsList.setItems(skills);
+            }
+            });
+
         layout.add(editRace, 1, 1);
         layout.add(race, 1, 0);
         race.setStyle("-fx-Text-fill: black;");
@@ -907,6 +738,7 @@ public class RPGCharacterSheet extends Application {
 
             editLevel.setDisable(false);
             level.setTooltip(null);
+            editRace.setDisable(false);
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
@@ -933,10 +765,6 @@ public class RPGCharacterSheet extends Application {
             constitution.setText("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
         });
 
-        // Set Languages
-        ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
-        ListView languagesList = new ListView(languages);
-        languagesList.setPlaceholder(new Label("--- Languages --- "));
 
         // Save Button
         Button save = new Button("Save");
@@ -1014,6 +842,10 @@ public class RPGCharacterSheet extends Application {
             mainCharacter.setRace("Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
+            continueButton.setOnAction(continueEvent->{
+                Elf(mainCharacter);
+                raceStage.close();
+            });
         });
 
         Button halfElf = new Button("Half-Elf");
