@@ -905,7 +905,7 @@ public class Barbarian{
 
         VBox pane = new VBox(10);
         pane.setAlignment(Pos.TOP_LEFT);
-        Scene scene = new Scene(pane,500,300);
+        Scene scene = new Scene(pane,475,250);
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
