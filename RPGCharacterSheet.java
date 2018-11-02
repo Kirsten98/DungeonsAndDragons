@@ -206,7 +206,10 @@ public class RPGCharacterSheet extends Application {
                 });
            });
        });
-        halfElfStage.showAndWait();
+
+       halfElfStage.initModality(Modality.APPLICATION_MODAL);
+       halfElfStage.initStyle(StageStyle.TRANSPARENT);
+       halfElfStage.showAndWait();
 
     }
 
@@ -234,18 +237,38 @@ public class RPGCharacterSheet extends Application {
      * To Set up a Human Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void Human(CharacterSheet character, Scanner scanner) {
+    public static void Human(CharacterSheet character) {
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(50,50,50,50));
+        pane.setAlignment(Pos.TOP_CENTER);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setStyle("-fx-border-color: black");
+        Scene scene = new Scene(pane,400,300);
+        Stage humanStage= new Stage();
+        humanStage.setScene(scene);
+
         for (int i = 1; i <= 6; i++) {
             AbilityAddtion(character, i, 1);
         }
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
-        System.out.println("You have learned Common, and your choice at one other language! What is your second Language?");
-        String language = scanner.nextLine();
-        character.languages.add(language);
-        System.out.println("You have learned " + language + "!");
+
+        RPGCharacterSheet.label.setText("You have learned Common, and one other language!\nWhat is your second language?");
+        RPGCharacterSheet.label.setWrapText(true);
+        Button continueButton = new Button("Continue");
+        ComboBox<String> languages = new ComboBox<>(availableLanguages);
+        pane.getChildren().addAll(RPGCharacterSheet.label,languages,continueButton);
+        continueButton.setOnAction(continueEvent->{
+            character.languages.add(languages.getValue());
+            humanStage.close();
+        });
+
+        humanStage.initModality(Modality.APPLICATION_MODAL);
+        humanStage.initStyle(StageStyle.TRANSPARENT);
+        humanStage.showAndWait();
     }
 
     /**
@@ -695,6 +718,7 @@ public class RPGCharacterSheet extends Application {
 
         // Set Race
         //TODO add specific methods for Race
+        // TODO create undo / anti races for when the user changed race
         race.setPrefWidth(100);
 //        editRace.setDisable(true);
         editRace.setOnAction(e -> {
@@ -750,6 +774,7 @@ public class RPGCharacterSheet extends Application {
                }
                inventoryList.setItems(inventory);
                editAbilities.setDisable(false);
+//               primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
            }
            });
 
@@ -818,6 +843,9 @@ public class RPGCharacterSheet extends Application {
             editLevel.setDisable(false);
             level.setTooltip(null);
             editRace.setDisable(false);
+            editAbilities.setDisable(true);
+
+//            primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
@@ -928,18 +956,22 @@ public class RPGCharacterSheet extends Application {
 
         Button halfElf = new Button("Half-Elf");
         halfElf.setOnAction(e -> {
-            continueButton.setOnAction(event -> {HalfElf(mainCharacter);
-                raceStage.close();});
             mainCharacter.setRace("Half-Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
+            continueButton.setOnAction(event -> {
+                HalfElf(mainCharacter);
+                raceStage.close();});
 
         });
 
 
         Button human = new Button("Human");
         human.setOnAction(e -> {
-            continueButton.setOnAction(event -> raceStage.close());
+            continueButton.setOnAction(event -> {
+                Human(mainCharacter);
+                raceStage.close();
+               });
             mainCharacter.setRace("Human");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
@@ -1414,7 +1446,9 @@ public class RPGCharacterSheet extends Application {
         }
 
 
-    // TODO make duplicateStage to refresh everything
+//    public Scene refreshStage (Stage primaryStage, CharacterSheet mainCharacter){
+//
+//    }
 
 
 }
