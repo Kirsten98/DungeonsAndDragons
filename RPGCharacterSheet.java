@@ -255,7 +255,7 @@ public class RPGCharacterSheet extends Application {
         }
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
-
+        availableLanguages.remove("Common");
         RPGCharacterSheet.label.setText("You have learned Common, and one other language!\nWhat is your second language?");
         RPGCharacterSheet.label.setWrapText(true);
         Button continueButton = new Button("Continue");
