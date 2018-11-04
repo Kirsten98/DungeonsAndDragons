@@ -52,7 +52,7 @@ public class Barbarian{
 
         }
         if (AbilityChoice.equals("Dexterity")){
-                character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
+                character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
                 System.out.println("Dexterity +" + modifierAddtion);
                 character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
 
@@ -186,7 +186,7 @@ public class Barbarian{
             pane.add(wisdom,0,2);
             pane.add(intelligence,1,2);
             pane.add(constitution,2,2);
-            pane.add(choice,1,3);
+            pane.add(choice,1,3,6,1);
             pane.add(continueButton,1,4);
             continueButton.setDisable(true);
             question.setText("Choose your first ability to increase by +1.");
@@ -249,8 +249,7 @@ public class Barbarian{
                 });
 
                 if (startingLevel ==1){
-                    character.setHitPoints(0);
-                    character.setHitPoints(character.getConstitutionScore()+12);
+                    character.setHitPoints(character.getHitPoints()+ character.getConstitutionScore()+12);
                     hp.setText("Hit Points: " + character.getHitPoints());
                     this.proficiency = 2;
                     proficiency.setText("Proficiency : +" + this.proficiency);
@@ -678,10 +677,9 @@ public class Barbarian{
                 }
                 if (startingLevel ==20){
                     continueButton.setText("Close");
-                    character.setStrengthScore(character.getStrengthScore()+ 4);
-                    character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
-                    character.setConstitutionScore(character.getConstitutionScore() + 4);
-                    character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
+                    AbilityAddition(character,"Strength",4);
+                    AbilityAddition(character,"Constitution",4);
+
                     character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     character.getFeaturesList().add("Primal Champion");

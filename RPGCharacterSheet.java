@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sun.misc.InnocuousThread;
 
 import java.util.Scanner;
 
@@ -51,7 +50,7 @@ public class RPGCharacterSheet extends Application {
      */
     public static void Dwarf(CharacterSheet character, Scanner scanner) {
         character.languages.add("Dwarvish");
-        AbilityAddtion(character, 3, 2);
+        AbilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+ 30);
         character.skills.add("Darkvision");
         character.skills.add("Dwarven Resilience");
@@ -69,12 +68,12 @@ public class RPGCharacterSheet extends Application {
         }
         String endOfLine = scanner.nextLine();
         if (choice == 1) {
-            AbilityAddtion(character, 4, 2);
+            AbilityAddition(character, 4, 2);
             character.setHitPoints(character.getHitPoints() + 1);
             System.out.println("Hit Points +1");
         }
         if (choice == 2) {
-            AbilityAddtion(character, 2, 2);
+            AbilityAddition(character, 2, 2);
             character.skills.add("Dwarven Armor Training");
             System.out.println("Dwarven Armor Training added to skills");
         }
@@ -98,7 +97,7 @@ public class RPGCharacterSheet extends Application {
         elfStage.setScene(scene);
 
 
-        AbilityAddtion(character, 3, 2);
+        AbilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Elvish");
         RPGCharacterSheet.availableLanguages.remove("Elvish");
@@ -126,7 +125,7 @@ public class RPGCharacterSheet extends Application {
 
        pane.getChildren().addAll(RPGCharacterSheet.label,elves,choice);
         highElf.setOnAction(e->   {
-            AbilityAddtion(character, 5, 1);
+            AbilityAddition(character, 5, 1);
             character.skills.add("Elf Weapon Training");
             ComboBox<String> languages = new ComboBox<>(availableLanguages);
             Label chooseLanguage = new Label("Choose an additional language");
@@ -141,7 +140,7 @@ public class RPGCharacterSheet extends Application {
 
         });
        woodElf.setOnAction(e->{
-           AbilityAddtion(character, 4, 1);
+           AbilityAddition(character, 4, 1);
            character.skills.add("Elf Weapon Training");
            character.setSpeed(character.getSpeed()+35);
            character.skills.add("Mask of the Wild");
@@ -150,7 +149,7 @@ public class RPGCharacterSheet extends Application {
 
        });
         darkElf.setOnAction(e->{
-            AbilityAddtion(character, 1, 1);
+            AbilityAddition(character, 1, 1);
             character.skills.add("Superior Darkvision");
             character.skills.add("Sunlight Sensitivity");
             character.skills.add("Drow Magic");
@@ -190,7 +189,7 @@ public class RPGCharacterSheet extends Application {
         Label skillsAdded = new Label("Skills added: Darkvision , Fey Ancestory, and Skill Versatility");
         character.languages.add("Elvish");
 
-        AbilityAddtion(character, 1, 2);
+        AbilityAddition(character, 1, 2);
         RPGCharacterSheet.label.setText("You can add +1 to two other abilities");
         pane.getChildren().addAll(skillsAdded,RPGCharacterSheet.label,AbilityPrintout(character,1),continueButton);
        continueButton.setOnAction(e->{
@@ -221,8 +220,8 @@ public class RPGCharacterSheet extends Application {
      * @param scanner   Scanner used to get inout from user
      */
     public static void HalfOrc(CharacterSheet character, Scanner scanner) {
-        AbilityAddtion(character, 2, 2); // Adds Strength
-        AbilityAddtion(character, 6, 1); // Adds constitution
+        AbilityAddition(character, 2, 2); // Adds Strength
+        AbilityAddition(character, 6, 1); // Adds constitution
         character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darkvision");
         character.skills.add("Menacing");
@@ -252,7 +251,7 @@ public class RPGCharacterSheet extends Application {
         humanStage.setScene(scene);
 
         for (int i = 1; i <= 6; i++) {
-            AbilityAddtion(character, i, 1);
+            AbilityAddition(character, i, 1);
         }
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
@@ -288,8 +287,8 @@ public class RPGCharacterSheet extends Application {
         Stage dragonbornStage = new Stage();
         dragonbornStage.setScene(scene);
 
-        AbilityAddtion(character, 2, 2);
-        AbilityAddtion(character, 1, 1);
+        AbilityAddition(character, 2, 2);
+        AbilityAddition(character, 1, 1);
         character.setSpeed(character.getSpeed()+30);
         String[] draconicAncestryColor = {"Black", "Blue", "Brass", "Bronze ", "Copper", "Gold", "Green", "Red", "Silver", "White"};
         String[] draconicAncestryElement = {"Acid", "Lightning", "Fire", "Lightning", "Acid", "Fire", "Poison", "Fire", "Cold", "Cold"};
@@ -326,7 +325,7 @@ public class RPGCharacterSheet extends Application {
      * @param scanner   Scanner used to get inout from user
      */
     public static void Halfling(CharacterSheet character, Scanner scanner) {
-        AbilityAddtion(character, 3, 2);
+        AbilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+25);
         character.skills.add("Lucky");
         character.skills.add("Brave");
@@ -341,13 +340,13 @@ public class RPGCharacterSheet extends Application {
             choice = scanner.nextInt();
         }
         if (choice == 1) {
-            AbilityAddtion(character, 1, 1);
+            AbilityAddition(character, 1, 1);
             character.skills.add("Naturally Stealthy");
             System.out.println("Naturally Stealthy added to skills");
 
         }
         if (choice == 2) {
-            AbilityAddtion(character, 6, 1);
+            AbilityAddition(character, 6, 1);
             character.skills.add("Stout Resilience");
             System.out.println("Stout Resilience added to skills");
         }
@@ -361,7 +360,7 @@ public class RPGCharacterSheet extends Application {
      * @param scanner   Scanner used to get inout from user
      */
     public static void Gnome(CharacterSheet character, Scanner scanner) {
-        AbilityAddtion(character, 5, 2);
+        AbilityAddition(character, 5, 2);
         character.setSpeed(character.getSpeed()+25);
         character.skills.add("Darkvision");
         character.skills.add("Gnome Cunning");
@@ -376,14 +375,14 @@ public class RPGCharacterSheet extends Application {
             choice = scanner.nextInt();
         }
         if (choice == 1) {
-            AbilityAddtion(character, 3, 1);
+            AbilityAddition(character, 3, 1);
             character.skills.add("Natural Illusionist");
             character.skills.add("Speak with Small Beasts");
             System.out.println("Natural Illusionist and Speak with Small Beasts were added to your skills!");
 
         }
         if (choice == 2) {
-            AbilityAddtion(character, 6, 1);
+            AbilityAddition(character, 6, 1);
             character.skills.add("Artificer's Lore");
             character.skills.add("Tinker");
         }
@@ -397,7 +396,7 @@ public class RPGCharacterSheet extends Application {
      * @param scanner   Scanner used to get inout from user
      */
     public static void Tiefling(CharacterSheet character, Scanner scanner) {
-        AbilityAddtion(character, 5, 1);
+        AbilityAddition(character, 5, 1);
         character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darvision");
         character.skills.add("Hellish Resistance");
@@ -435,7 +434,7 @@ public class RPGCharacterSheet extends Application {
      * @param choice          Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public static void AbilityAddtion(CharacterSheet character, int choice, int modifierAddtion) {
+    public static void AbilityAddition(CharacterSheet character, int choice, int modifierAddtion) {
         if (choice == 1) {
             character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
             System.out.println("Charisma +" + modifierAddtion);
@@ -513,30 +512,31 @@ public class RPGCharacterSheet extends Application {
         row2.getButtons().addAll(wisdom,intelligence,constitution);
 
         charisma.setOnAction(e->{
-            AbilityAddtion(character,1,modifierAddition);
+            AbilityAddition(character,1,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
-        strength.setOnAction(e-> {AbilityAddtion(character,2,modifierAddition);
+        strength.setOnAction(e-> {
+            AbilityAddition(character,2,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);});
         dexterity.setOnAction(e->{
-            AbilityAddtion(character,3,modifierAddition);
+            AbilityAddition(character,3,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         wisdom.setOnAction(e-> {
-            AbilityAddtion(character,4,modifierAddition);
+            AbilityAddition(character,4,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         intelligence.setOnAction(e-> {
-            AbilityAddtion(character,5,modifierAddition);
+            AbilityAddition(character,5,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         constitution.setOnAction(e->{
-            AbilityAddtion(character,6,modifierAddition);
+            AbilityAddition(character,6,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         } );
@@ -750,7 +750,7 @@ public class RPGCharacterSheet extends Application {
         // TODO create undo / anti races for when the user changed race
         race.setPrefWidth(100);
         race.setWrapText(true);
-//        editRace.setDisable(true);
+        editRace.setDisable(true);
         editRace.setOnAction(e -> {
             if (ConfirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
                 skills.clear();
@@ -765,6 +765,7 @@ public class RPGCharacterSheet extends Application {
                 skills.setAll(mainCharacter.skills);
                 skillsList.setItems(skills);
                 UpdateAbilities(abilities,mainCharacter);
+                speed.setText("Speed: " + mainCharacter.getSpeed());
             }
             });
 
@@ -807,6 +808,7 @@ public class RPGCharacterSheet extends Application {
                editAbilities.setDisable(false);
                ac.setText("AC: " + mainCharacter.getAc());
                UpdateAbilities(abilities,mainCharacter);
+               speed.setText("Speed: " + mainCharacter.getSpeed());
 //               primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
            }
            });
@@ -874,6 +876,7 @@ public class RPGCharacterSheet extends Application {
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
+        //TODO find out why it adds additional modifiers after level 20 for Barbarian
         //Set Level
         editLevel.setDisable(true);
         level.setTooltip(new Tooltip("Missing class selection"));
@@ -888,13 +891,8 @@ public class RPGCharacterSheet extends Application {
             miscList.setItems(mainCharacter.getMisc());
             ac.setText("AC: " + mainCharacter.getAc());
             hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
+            UpdateAbilities(abilities,mainCharacter);
             speed.setText("Speed: " + mainCharacter.getSpeed());
-            charisma.setText("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
-            strength.setText("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
-            dexterity.setText("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
-            wisdom.setText("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
-            intelligence.setText("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
-            constitution.setText("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
         });
 
 
@@ -1209,7 +1207,6 @@ public class RPGCharacterSheet extends Application {
         Stage chooseAbilities = new Stage();
         chooseAbilities.setResizable(false);
         chooseAbilities.setTitle("Choose Abilities");
-//        GridPane abilities = new GridPane();
         VBox abilities = new VBox(20);
         abilities.setPadding(new Insets(10,10,10,10));
         abilities.setAlignment(Pos.TOP_CENTER);
