@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sun.misc.InnocuousThread;
 
 import java.util.Scanner;
 
@@ -275,22 +276,47 @@ public class RPGCharacterSheet extends Application {
      * To Set up a Dragonborn Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void DragonBorn(CharacterSheet character, Scanner scanner) {
+    public static void DragonBorn(CharacterSheet character) {
+        VBox pane = new VBox(20);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.setPadding(new Insets(50,30,50,30));
+        Scene scene = new Scene(pane,450,300);
+        Stage dragonbornStage = new Stage();
+        dragonbornStage.setScene(scene);
+
         AbilityAddtion(character, 2, 2);
         AbilityAddtion(character, 1, 1);
         character.setSpeed(character.getSpeed()+30);
         String[] draconicAncestryColor = {"Black", "Blue", "Brass", "Bronze ", "Copper", "Gold", "Green", "Red", "Silver", "White"};
         String[] draconicAncestryElement = {"Acid", "Lightning", "Fire", "Lightning", "Acid", "Fire", "Poison", "Fire", "Cold", "Cold"};
-        System.out.println("Choose your Draconic Ancestry");
+        RPGCharacterSheet.label.setText("Choose your Draconic Ancestry");
+        ButtonBar row1 = new ButtonBar();
+        row1.setTranslateX(-10);
+        ButtonBar row2 = new ButtonBar();
+        row2.setTranslateX(-10);
+        Button continueButton = new Button("Continue");
+        continueButton.setDisable(true);
         for (int i = 0; i < draconicAncestryColor.length; i++) {
-            System.out.println(i + 1 + ".) " + draconicAncestryColor[i] + " : " + draconicAncestryElement[i]);
+            Button ancestryColor = new Button(draconicAncestryColor[i]);
+            ancestryColor.setTooltip(new Tooltip(draconicAncestryElement[i]));
+            ancestryColor.setOnAction(e->{ continueButton.setOnAction(continueButtonEvent ->{character.skills.add("Damage resistance: " + ancestryColor.getTooltip().getText());
+                character.setRace("Dragonborn ("+ancestryColor.getText() +")");
+                dragonbornStage.close();});
+            continueButton.setDisable(false);
+            });
+           if (i<5){
+               row1.getButtons().add(ancestryColor);
+           }else row2.getButtons().add(ancestryColor);
         }
-        int choice = scanner.nextInt();
-        character.skills.add("Damage resistance to " + draconicAncestryElement[choice - 1]);
-        System.out.println("You have added " + draconicAncestryElement[choice - 1] + " damage resistance to your skills");
-
+        pane.getChildren().addAll(RPGCharacterSheet.label,row1,row2,continueButton);
+        pane.setStyle("-fx-border-color: black");
+        dragonbornStage.initStyle(StageStyle.TRANSPARENT);
+        dragonbornStage.initModality(Modality.APPLICATION_MODAL);
+        dragonbornStage.showAndWait();
     }
 
     /**
@@ -720,6 +746,7 @@ public class RPGCharacterSheet extends Application {
         //TODO add specific methods for Race
         // TODO create undo / anti races for when the user changed race
         race.setPrefWidth(100);
+        race.setWrapText(true);
 //        editRace.setDisable(true);
         editRace.setOnAction(e -> {
             if (ConfirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
@@ -956,7 +983,6 @@ public class RPGCharacterSheet extends Application {
 
         Button halfElf = new Button("Half-Elf");
         halfElf.setOnAction(e -> {
-            mainCharacter.setRace("Half-Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
             continueButton.setOnAction(event -> {
@@ -979,7 +1005,8 @@ public class RPGCharacterSheet extends Application {
 
         Button dragonBorn = new Button("Dragonborn");
         dragonBorn.setOnAction(e -> {
-            continueButton.setOnAction(event -> raceStage.close());
+            continueButton.setOnAction(event ->{ DragonBorn(mainCharacter);
+                raceStage.close();});
             mainCharacter.setRace("DragonBorn");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
