@@ -882,6 +882,7 @@ public class Barbarian{
                 for (int i=0 ;i < character.getAllArmor().length; i++){
                     if (character.getAllArmor()[i].equals(armorChoices.getValue())){
                         CheckAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue() +" armor",character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
+                        character.setAc(character.getAc()+character.getAllArmorAC()[i]);
                         break;
                     }
                 }

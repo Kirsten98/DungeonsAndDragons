@@ -784,7 +784,7 @@ public class RPGCharacterSheet extends Application {
                weapons.clear();
                mainCharacter.inventory.clear();
                inventory.clear();
-
+               mainCharacter.setAc(0);
                characterClass.setText(ChooseClass(continueButton,mainCharacter ));
                for (int i=0 ; i < mainCharacter.armorList.size(); i++){
                    armor.add((mainCharacter.armorList.get(i).getName()));
@@ -801,6 +801,7 @@ public class RPGCharacterSheet extends Application {
                }
                inventoryList.setItems(inventory);
                editAbilities.setDisable(false);
+               ac.setText("AC: " + mainCharacter.getAc());
 //               primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
            }
            });
