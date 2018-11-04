@@ -449,7 +449,7 @@ public class RPGCharacterSheet extends Application {
             System.out.println("Strength Modifier " + character.getStrengthMod());
         }
         if (choice == 3) {
-            character.setDexterityScore(character.getDexterityMod() + modifierAddtion);
+            character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
             System.out.println("Dexterity +" + modifierAddtion);
             character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
             System.out.println("Dexterity Modifier " + character.getDexterityMod());
@@ -731,6 +731,9 @@ public class RPGCharacterSheet extends Application {
         Label alignment = new Label("Alignment: ");
         Label level = new Label("Level: "+ mainCharacter.getLevel());
 
+        //Sets BorderPane left
+        VBox left = new VBox();
+        VBox abilities = new VBox();
 
         // Set Name
         layout.add(name, 0, 0);
@@ -761,6 +764,7 @@ public class RPGCharacterSheet extends Application {
                 languages.setAll(mainCharacter.languages);
                 skills.setAll(mainCharacter.skills);
                 skillsList.setItems(skills);
+                UpdateAbilities(abilities,mainCharacter);
             }
             });
 
@@ -802,6 +806,7 @@ public class RPGCharacterSheet extends Application {
                inventoryList.setItems(inventory);
                editAbilities.setDisable(false);
                ac.setText("AC: " + mainCharacter.getAc());
+               UpdateAbilities(abilities,mainCharacter);
 //               primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
            }
            });
@@ -845,8 +850,6 @@ public class RPGCharacterSheet extends Application {
         layout.add(alignmentChoiceBox,7,1);
 
         // Sets Abilities
-        VBox left = new VBox();
-        VBox abilities = new VBox();
         abilities.setTranslateY(12);
         abilities.setStyle("-fx-border-color: black");
         abilities.setMaxHeight(150);
@@ -861,13 +864,7 @@ public class RPGCharacterSheet extends Application {
         editAbilities.setDisable(true);
         editAbilities.setOnAction(e-> {
             ChooseAbilities(continueButton,mainCharacter);
-            charisma.setText("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
-            strength.setText("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
-            dexterity.setText("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
-            wisdom.setText("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
-            intelligence.setText("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
-            constitution.setText("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
-
+            UpdateAbilities(abilities,mainCharacter);
             editLevel.setDisable(false);
             level.setTooltip(null);
             editRace.setDisable(false);
@@ -1473,6 +1470,25 @@ public class RPGCharacterSheet extends Application {
         }
         }
 
+        public void UpdateAbilities(VBox abilities, CharacterSheet mainCharacter){
+            abilities.setTranslateY(12);
+            abilities.setStyle("-fx-border-color: black");
+            abilities.setMaxHeight(150);
+            abilities.setPadding(new Insets(10,10,10,10));
+            Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
+            Label strength = new Label("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
+            Label dexterity = new Label("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
+            Label wisdom = new Label("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
+            Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
+            Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
+            abilities.getChildren().set(1,charisma);
+            abilities.getChildren().set(2,strength);
+            abilities.getChildren().set(3,dexterity);
+            abilities.getChildren().set(4,wisdom);
+            abilities.getChildren().set(5,intelligence);
+            abilities.getChildren().set(6,constitution);
+
+        }
 
 //    public Scene refreshStage (Stage primaryStage, CharacterSheet mainCharacter){
 //
