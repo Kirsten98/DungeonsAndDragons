@@ -46,10 +46,22 @@ public class RPGCharacterSheet extends Application {
      * To Set up a Dwarf Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void Dwarf(CharacterSheet character, Scanner scanner) {
+    public static void Dwarf(CharacterSheet character) {
+        VBox pane = new VBox(20);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setStyle("-fx-border-color: black");
+        pane.setPadding(new Insets(50,10,10,50));
+        Scene scene = new Scene(pane,500,300);
+        Stage dwarfStage = new Stage();
+        dwarfStage.setScene(scene);
+        dwarfStage.initModality(Modality.APPLICATION_MODAL);
+        dwarfStage.initStyle(StageStyle.TRANSPARENT);
+
         character.languages.add("Dwarvish");
+        RPGCharacterSheet.availableLanguages.remove("Dwarvish");
         AbilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+ 30);
         character.skills.add("Darkvision");
@@ -57,28 +69,43 @@ public class RPGCharacterSheet extends Application {
         character.skills.add("Dwarven Combat Training");
         character.skills.add("Tool Proficiency");
         character.skills.add("Stonecunning");
-        System.out.println("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training, Tool Proficiency, and Stonecunning");
-        System.out.println("You have learned Dwarvish");
+        RPGCharacterSheet.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\nAre you a Hill Dwarf or Mountain Dwarf?");
 
-        System.out.println("Are you a 1.)Hill Dwarf or 2.)Mountain Dwarf?");
-        int choice = scanner.nextInt();
-        while (choice != 1 && choice != 2) {
-            System.out.println("Incorrect choice.Are you a 1.)Hill Dwarf or 2.)Mountain Dwarf? ");
-            choice = scanner.nextInt();
-        }
-        String endOfLine = scanner.nextLine();
-        if (choice == 1) {
-            AbilityAddition(character, 4, 2);
-            character.setHitPoints(character.getHitPoints() + 1);
-            System.out.println("Hit Points +1");
-        }
-        if (choice == 2) {
-            AbilityAddition(character, 2, 2);
-            character.skills.add("Dwarven Armor Training");
-            System.out.println("Dwarven Armor Training added to skills");
+        Button hillDwarf = new Button("Hill Dwarf");
+        Button mountainDwarf = new Button("Mountain Dwarf");
+        Button continueButton = new Button("Continue");
+        continueButton.setDisable(true);
+        ButtonBar row1 = new ButtonBar();
+        row1.getButtons().addAll(hillDwarf,mountainDwarf);
+        row1.setTranslateX(-120);
+
+        mountainDwarf.setOnAction(e->{
+            continueButton.setDisable(false);
+            continueButton.setOnAction(continueButtonEvent ->{
+                AbilityAddition(character, 4, 2);
+                character.setHitPoints(character.getHitPoints() + 1);
+                character.setRace("Dwarf (Mountain)");
+                dwarfStage.close();
+
+            });
+        });
+        hillDwarf.setOnAction(e->{
+            continueButton.setDisable(false);
+            continueButton.setOnAction(continueButtonEvent ->{
+                AbilityAddition(character, 2, 2);
+                character.skills.add("Dwarven Armor Training");
+                character.setRace("Dwarf (Hill)");
+                dwarfStage.close();
+
+            });
+        });
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.getChildren().addAll(RPGCharacterSheet.label,row1,continueButton);
+
+        dwarfStage.showAndWait();
+
         }
 
-    }
 
     /**
      * To Set up a Elf Character if that was the race they chose
@@ -130,7 +157,6 @@ public class RPGCharacterSheet extends Application {
             ComboBox<String> languages = new ComboBox<>(availableLanguages);
             Label chooseLanguage = new Label("Choose an additional language");
             continueButton.setDisable(true);
-//            languages.setStyle("-fx-pref-height: 100");
             languages.setOnAction(languageEvent->continueButton.setDisable(false));
             continueButton.setOnAction(continueEvent->{
                 character.languages.add(languages.getValue());
@@ -188,6 +214,7 @@ public class RPGCharacterSheet extends Application {
         character.skills.add("Skill Versatility");
         Label skillsAdded = new Label("Skills added: Darkvision , Fey Ancestory, and Skill Versatility");
         character.languages.add("Elvish");
+        RPGCharacterSheet.availableLanguages.remove("Elvish");
 
         AbilityAddition(character, 1, 2);
         RPGCharacterSheet.label.setText("You can add +1 to two other abilities");
@@ -290,6 +317,9 @@ public class RPGCharacterSheet extends Application {
         AbilityAddition(character, 2, 2);
         AbilityAddition(character, 1, 1);
         character.setSpeed(character.getSpeed()+30);
+        character.languages.add("Common");
+        character.languages.add("Draconic");
+        RPGCharacterSheet.availableLanguages.removeAll("Common","Draconic");
         String[] draconicAncestryColor = {"Black", "Blue", "Brass", "Bronze ", "Copper", "Gold", "Green", "Red", "Silver", "White"};
         String[] draconicAncestryElement = {"Acid", "Lightning", "Fire", "Lightning", "Acid", "Fire", "Poison", "Fire", "Cold", "Cold"};
         RPGCharacterSheet.label.setText("Choose your Draconic Ancestry");
@@ -750,7 +780,7 @@ public class RPGCharacterSheet extends Application {
         // TODO create undo / anti races for when the user changed race
         race.setPrefWidth(100);
         race.setWrapText(true);
-        editRace.setDisable(true);
+//        editRace.setDisable(true);
         editRace.setOnAction(e -> {
             if (ConfirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
                 skills.clear();
@@ -766,6 +796,7 @@ public class RPGCharacterSheet extends Application {
                 skillsList.setItems(skills);
                 UpdateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
+                hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
             }
             });
 
@@ -876,7 +907,6 @@ public class RPGCharacterSheet extends Application {
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
-        //TODO find out why it adds additional modifiers after level 20 for Barbarian
         //Set Level
         editLevel.setDisable(true);
         level.setTooltip(new Tooltip("Missing class selection"));
@@ -1011,7 +1041,10 @@ public class RPGCharacterSheet extends Application {
 
         Button dwarf = new Button("Dwarf");
         dwarf.setOnAction(e -> {
-            continueButton.setOnAction(event -> raceStage.close());
+            continueButton.setOnAction(event -> {
+                Dwarf(mainCharacter);
+                raceStage.close();
+            });
             mainCharacter.setRace("Dwarf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
