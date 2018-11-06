@@ -352,9 +352,18 @@ public class RPGCharacterSheet extends Application {
      * To Set up a Halfling Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void Halfling(CharacterSheet character, Scanner scanner) {
+    public static void Halfling(CharacterSheet character, Stage halflingStage) {
+        VBox pane = new VBox(20);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setStyle("-fx-border-color: black");
+        pane.setPadding(new Insets(10,10,10,10));
+        pane.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(pane,350,150);
+        halflingStage.setScene(scene);
+
         AbilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+25);
         character.skills.add("Lucky");
@@ -362,25 +371,42 @@ public class RPGCharacterSheet extends Application {
         character.skills.add("Halfling Nimbleness");
         character.languages.add("Common");
         character.languages.add("Halfling");
-        System.out.println("You have learned Common and Halfling!");
-        System.out.println("What type of Halfling are you 1.)Lightfoot or 2.)Stout");
-        int choice = scanner.nextInt();
-        while (choice != 1 && choice != 2) {
-            System.out.println("Incorrect option. What type of Halfling are you 1.)Lightfoot or 2.)Stout");
-            choice = scanner.nextInt();
-        }
-        if (choice == 1) {
-            AbilityAddition(character, 1, 1);
-            character.skills.add("Naturally Stealthy");
-            System.out.println("Naturally Stealthy added to skills");
+        availableLanguages.removeAll("Common","Halfling");
 
-        }
-        if (choice == 2) {
-            AbilityAddition(character, 6, 1);
-            character.skills.add("Stout Resilience");
-            System.out.println("Stout Resilience added to skills");
-        }
+        RPGCharacterSheet.label.setText("Skills added: Lucky, Brave, Halfling Nimbleness\nWhat type of Halfling are you Lightfoot or Stout");
 
+        ButtonBar row1 = new ButtonBar();
+        Button lightfoot = new Button("Lightfoot");
+        Button stout = new Button("Stout");
+        Button continueButton = new Button("Continue");
+        continueButton.setDisable(true);
+        row1.getButtons().addAll(lightfoot,stout);
+        row1.setTranslateX(-90);
+
+        lightfoot.setOnAction(e->{
+            continueButton.setDisable(false);
+            continueButton.setOnAction(continueButtonEvent ->{
+                AbilityAddition(character, 1, 1);
+                character.skills.add("Naturally Stealthy");
+                character.setRace("Halfling (Lightfoot)");
+                halflingStage.close();
+
+            });
+        });
+
+        stout.setOnAction(e->{
+            continueButton.setDisable(false);
+            continueButton.setOnAction(continueButtonEvent ->{
+                AbilityAddition(character, 6, 1);
+                character.skills.add("Stout Resilience");
+                character.setRace("Halfling (Stout)");
+                halflingStage.close();
+
+            });
+        });
+
+        pane.getChildren().addAll(RPGCharacterSheet.label,row1,continueButton);
+//        halflingStage.showAndWait();
     }
 
     /**
@@ -1052,7 +1078,8 @@ public class RPGCharacterSheet extends Application {
 
         Button halfling = new Button("Halfling");
         halfling.setOnAction(e -> {
-            continueButton.setOnAction(event -> raceStage.close());
+            continueButton.setOnAction(event -> { Halfling(mainCharacter,raceStage);
+            });
             mainCharacter.setRace("Halfling");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
