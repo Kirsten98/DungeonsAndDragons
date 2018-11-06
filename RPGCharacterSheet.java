@@ -47,18 +47,16 @@ public class RPGCharacterSheet extends Application {
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void Dwarf(CharacterSheet character) {
+    public static void Dwarf(CharacterSheet character, Stage dwarfStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
         pane.setStyle("-fx-border-color: black");
-        pane.setPadding(new Insets(50,10,10,50));
-        Scene scene = new Scene(pane,500,300);
-        Stage dwarfStage = new Stage();
+        pane.setPadding(new Insets(10,10,10,10));
+        Scene scene = new Scene(pane,500,200);
         dwarfStage.setScene(scene);
-        dwarfStage.initModality(Modality.APPLICATION_MODAL);
-        dwarfStage.initStyle(StageStyle.TRANSPARENT);
+        dwarfStage.setTitle("Dwarf");
 
         character.languages.add("Dwarvish");
         RPGCharacterSheet.availableLanguages.remove("Dwarvish");
@@ -69,7 +67,7 @@ public class RPGCharacterSheet extends Application {
         character.skills.add("Dwarven Combat Training");
         character.skills.add("Tool Proficiency");
         character.skills.add("Stonecunning");
-        RPGCharacterSheet.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\nAre you a Hill Dwarf or Mountain Dwarf?");
+        RPGCharacterSheet.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\n\n                             Are you a Hill Dwarf or Mountain Dwarf?");
 
         Button hillDwarf = new Button("Hill Dwarf");
         Button mountainDwarf = new Button("Mountain Dwarf");
@@ -102,8 +100,6 @@ public class RPGCharacterSheet extends Application {
         pane.setAlignment(Pos.TOP_CENTER);
         pane.getChildren().addAll(RPGCharacterSheet.label,row1,continueButton);
 
-        dwarfStage.showAndWait();
-
         }
 
 
@@ -112,7 +108,7 @@ public class RPGCharacterSheet extends Application {
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void Elf(CharacterSheet character) {
+    public static void Elf(CharacterSheet character, Stage elfStage) {
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         InnerShadow innerShadow = new InnerShadow();
@@ -120,9 +116,9 @@ public class RPGCharacterSheet extends Application {
         pane.setEffect(innerShadow);
         pane.setPadding(new Insets(25,25,25,25));
         Scene scene = new Scene(pane,400,400);
-        Stage elfStage = new Stage();
         elfStage.setScene(scene);
-
+        elfStage.setHeight(200);
+        elfStage.setTitle("Elf");
 
         AbilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+30);
@@ -152,6 +148,7 @@ public class RPGCharacterSheet extends Application {
 
        pane.getChildren().addAll(RPGCharacterSheet.label,elves,choice);
         highElf.setOnAction(e->   {
+            elfStage.setHeight(400);
             AbilityAddition(character, 5, 1);
             character.skills.add("Elf Weapon Training");
             ComboBox<String> languages = new ComboBox<>(availableLanguages);
@@ -184,10 +181,7 @@ public class RPGCharacterSheet extends Application {
 
         });
 
-        elfStage.initStyle(StageStyle.TRANSPARENT);
-        elfStage.initModality(Modality.APPLICATION_MODAL);
         pane.setStyle("-fx-border-color: black");
-        elfStage.showAndWait();
 
     }
 
@@ -196,16 +190,18 @@ public class RPGCharacterSheet extends Application {
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void HalfElf(CharacterSheet character) {
+    public static void HalfElf(CharacterSheet character, Stage halfElfStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
         pane.setAlignment(Pos.TOP_CENTER);
         pane.setStyle("-fx-border-color: black");
+        pane.setPadding(new Insets(10,10,10,10));
         Scene scene = new Scene(pane,400,300);
-        Stage halfElfStage = new Stage();
         halfElfStage.setScene(scene);
+        halfElfStage.setTitle("Half-Elf");
+        halfElfStage.setHeight(250);
 
         Button continueButton = new Button("Continue");
         character.setSpeed(character.getSpeed()+30);
@@ -223,6 +219,7 @@ public class RPGCharacterSheet extends Application {
            RPGCharacterSheet.label.setText("You can add +1 to one other ability");
            pane.getChildren().set(2,AbilityPrintout(character,1));
            continueButton.setOnAction(event -> {
+               halfElfStage.setHeight(300);
                pane.getChildren().remove(continueButton);
                ComboBox<String> languages = new ComboBox<>(availableLanguages);
                Label chooseLanguage = new Label("Choose an additional language");
@@ -234,9 +231,6 @@ public class RPGCharacterSheet extends Application {
            });
        });
 
-       halfElfStage.initModality(Modality.APPLICATION_MODAL);
-       halfElfStage.initStyle(StageStyle.TRANSPARENT);
-       halfElfStage.showAndWait();
 
     }
 
@@ -265,17 +259,17 @@ public class RPGCharacterSheet extends Application {
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void Human(CharacterSheet character) {
+    public static void Human(CharacterSheet character, Stage humanStage) {
         VBox pane = new VBox(20);
-        pane.setPadding(new Insets(50,50,50,50));
+        pane.setPadding(new Insets(10,10,10,10));
         pane.setAlignment(Pos.TOP_CENTER);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
         pane.setStyle("-fx-border-color: black");
-        Scene scene = new Scene(pane,400,300);
-        Stage humanStage= new Stage();
+        Scene scene = new Scene(pane,350,175);
         humanStage.setScene(scene);
+        humanStage.setTitle("Human");
 
         for (int i = 1; i <= 6; i++) {
             AbilityAddition(character, i, 1);
@@ -293,9 +287,6 @@ public class RPGCharacterSheet extends Application {
             humanStage.close();
         });
 
-        humanStage.initModality(Modality.APPLICATION_MODAL);
-        humanStage.initStyle(StageStyle.TRANSPARENT);
-        humanStage.showAndWait();
     }
 
     /**
@@ -303,16 +294,16 @@ public class RPGCharacterSheet extends Application {
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void DragonBorn(CharacterSheet character) {
+    public static void DragonBorn(CharacterSheet character,Stage dragonbornStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
         pane.setAlignment(Pos.TOP_CENTER);
         pane.setPadding(new Insets(50,30,50,30));
-        Scene scene = new Scene(pane,450,300);
-        Stage dragonbornStage = new Stage();
+        Scene scene = new Scene(pane,450,250);
         dragonbornStage.setScene(scene);
+        dragonbornStage.setTitle("Dragonborn");
 
         AbilityAddition(character, 2, 2);
         AbilityAddition(character, 1, 1);
@@ -343,9 +334,6 @@ public class RPGCharacterSheet extends Application {
         }
         pane.getChildren().addAll(RPGCharacterSheet.label,row1,row2,continueButton);
         pane.setStyle("-fx-border-color: black");
-        dragonbornStage.initStyle(StageStyle.TRANSPARENT);
-        dragonbornStage.initModality(Modality.APPLICATION_MODAL);
-        dragonbornStage.showAndWait();
     }
 
     /**
@@ -363,6 +351,7 @@ public class RPGCharacterSheet extends Application {
         pane.setAlignment(Pos.TOP_CENTER);
         Scene scene = new Scene(pane,350,150);
         halflingStage.setScene(scene);
+        halflingStage.setTitle("Halfling");
 
         AbilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+25);
@@ -1027,29 +1016,25 @@ public class RPGCharacterSheet extends Application {
             mainCharacter.setRace("Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
-            continueButton.setOnAction(continueEvent->{
-                Elf(mainCharacter);
-                raceStage.close();
-            });
+            continueButton.setOnAction(continueEvent->
+                Elf(mainCharacter,raceStage));
         });
 
         Button halfElf = new Button("Half-Elf");
         halfElf.setOnAction(e -> {
+            mainCharacter.setRace("Half-Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
-            continueButton.setOnAction(event -> {
-                HalfElf(mainCharacter);
-                raceStage.close();});
+            continueButton.setOnAction(event ->
+                HalfElf(mainCharacter,raceStage));
 
         });
 
 
         Button human = new Button("Human");
         human.setOnAction(e -> {
-            continueButton.setOnAction(event -> {
-                Human(mainCharacter);
-                raceStage.close();
-               });
+            continueButton.setOnAction(event ->
+                Human(mainCharacter,raceStage));
             mainCharacter.setRace("Human");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
@@ -1057,8 +1042,7 @@ public class RPGCharacterSheet extends Application {
 
         Button dragonBorn = new Button("Dragonborn");
         dragonBorn.setOnAction(e -> {
-            continueButton.setOnAction(event ->{ DragonBorn(mainCharacter);
-                raceStage.close();});
+            continueButton.setOnAction(event -> DragonBorn(mainCharacter,raceStage));
             mainCharacter.setRace("DragonBorn");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
@@ -1067,10 +1051,8 @@ public class RPGCharacterSheet extends Application {
 
         Button dwarf = new Button("Dwarf");
         dwarf.setOnAction(e -> {
-            continueButton.setOnAction(event -> {
-                Dwarf(mainCharacter);
-                raceStage.close();
-            });
+            continueButton.setOnAction(event ->
+                Dwarf(mainCharacter,raceStage));
             mainCharacter.setRace("Dwarf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
@@ -1078,8 +1060,8 @@ public class RPGCharacterSheet extends Application {
 
         Button halfling = new Button("Halfling");
         halfling.setOnAction(e -> {
-            continueButton.setOnAction(event -> { Halfling(mainCharacter,raceStage);
-            });
+            continueButton.setOnAction(event -> Halfling(mainCharacter,raceStage)
+            );
             mainCharacter.setRace("Halfling");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
