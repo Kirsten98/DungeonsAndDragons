@@ -466,19 +466,35 @@ public class RPGCharacterSheet extends Application {
      * To Set up a tiefling Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void tiefling(CharacterSheet character, Scanner scanner) {
+    public static void tiefling(CharacterSheet character, Stage tieflingStage) {
+        VBox pane = new VBox(20);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setStyle("-fx-border-color: black");
+        pane.setPadding(new Insets(10, 10, 10, 10));
+        pane.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(pane, 400, 130);
+        tieflingStage.setScene(scene);
+        tieflingStage.setTitle("Tiefling");
+
         abilityAddition(character, 5, 1);
-        character.setSpeed(character.getSpeed()+30);
-        character.skills.add("Darvision");
+        character.setSpeed(character.getSpeed() + 30);
+        character.skills.add("Darkvision");
         character.skills.add("Hellish Resistance");
         character.skills.add("Infernal Legacy");
-        System.out.println("Skills added : Darkvision , Hellish Resistance, and Infernal Legacy");
         character.languages.add("Common");
         character.languages.add("Infernal");
-        System.out.println("You have learned Common and Infernal!");
+        label.setText("Skills added : Darkvision , Hellish Resistance, and Infernal Legacy\n\nLanguages learned: Common and Infernal");
+
+        Button continueButton = new Button("Continue");
+        continueButton.setOnAction(e-> tieflingStage.close());
+        pane.getChildren().addAll(label,continueButton);
+
+
     }
+
 
     /**
      * To choose their ability
@@ -1112,7 +1128,7 @@ public class RPGCharacterSheet extends Application {
         });
         Button tiefling = new Button("Tiefling");
         tiefling.setOnAction(e -> {
-//            continueButton.setOnAction(event -> );
+            continueButton.setOnAction(event -> tiefling(mainCharacter,raceStage));
             mainCharacter.setRace("Tiefling");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
