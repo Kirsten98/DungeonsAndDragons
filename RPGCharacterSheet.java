@@ -14,6 +14,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Vector;
+
 
 // TODO create a check all method for JavaFX that updates entire CS after updating any option
 public class RPGCharacterSheet extends Application {
@@ -63,10 +65,10 @@ public class RPGCharacterSheet extends Application {
         character.skills.add("Dwarven Combat Training");
         character.skills.add("Tool Proficiency");
         character.skills.add("Stonecunning");
-        RPGCharacterSheet.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\n\n                             Are you a Hill dwarf or Mountain dwarf?");
+        RPGCharacterSheet.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\n\n                             Are you a Hill Dwarf or Mountain Dwarf?");
 
-        Button hillDwarf = new Button("Hill dwarf");
-        Button mountainDwarf = new Button("Mountain dwarf");
+        Button hillDwarf = new Button("Hill Dwarf");
+        Button mountainDwarf = new Button("Mountain Dwarf");
         Button continueButton = new Button("Continue");
         continueButton.setDisable(true);
         ButtonBar row1 = new ButtonBar();
@@ -78,7 +80,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(continueButtonEvent ->{
                 abilityAddition(character, 4, 2);
                 character.setHitPoints(character.getHitPoints() + 1);
-                character.setRace("dwarf (Mountain)");
+                character.setRace("Dwarf (Mountain)");
                 dwarfStage.close();
 
             });
@@ -88,7 +90,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(continueButtonEvent ->{
                 abilityAddition(character, 2, 2);
                 character.skills.add("Dwarven Armor Training");
-                character.setRace("dwarf (Hill)");
+                character.setRace("Dwarf (Hill)");
                 dwarfStage.close();
 
             });
@@ -795,7 +797,6 @@ public class RPGCharacterSheet extends Application {
         name.setUnderline(true);
 
         // Set Race
-        //TODO add specific methods for Race
         // TODO create undo / anti races for when the user changed race
         race.setPrefWidth(100);
         race.setWrapText(true);
@@ -1005,6 +1006,51 @@ public class RPGCharacterSheet extends Application {
      */
     private static String chooseRace(Button continueButton, CharacterSheet mainCharacter) {
 //   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
+        if (!mainCharacter.getRace().equals("")){
+            if (mainCharacter.getRace().equals("Elf")){
+
+            }
+            if (mainCharacter.getRace().equals("Elf")){
+
+            }
+            if (mainCharacter.getRace().equals("Elf")){
+
+            }
+            if (mainCharacter.getRace().equals("Half - Elf")){
+
+            }
+            if (mainCharacter.getRace().equals("Human")){
+
+            }
+            if (mainCharacter.getRace().equals("Dragonborn")){
+
+            }
+            if (mainCharacter.getRace().equals("Dwarf (Mountain)")){
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+                mainCharacter.setWisdomScore(mainCharacter.getWisdomScore()-2);
+                mainCharacter.setWisdomMod(findAbilityMod(mainCharacter.getWisdomScore()));
+            }
+            if (mainCharacter.getRace().equals("Dwarf (Hill)")){
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+                mainCharacter.setStrengthScore(mainCharacter.getStrengthScore()-2);
+                mainCharacter.setStrengthMod(findAbilityMod(mainCharacter.getStrengthScore()));
+            }
+            if (mainCharacter.getRace().equals("Halfling")){
+
+            }
+            if (mainCharacter.getRace().equals("Gnome")){
+
+            }
+            if (mainCharacter.getRace().equals("Half-Orc")){
+
+            }if (mainCharacter.getRace().equals("Tiefling")){
+
+            }
+        }
         RPGCharacterSheet.label.setText("");
         continueButton.setDisable(true);
         VBox pane = new VBox(20);
@@ -1061,7 +1107,7 @@ public class RPGCharacterSheet extends Application {
         dwarf.setOnAction(e -> {
             continueButton.setOnAction(event ->
                 dwarf(mainCharacter,raceStage));
-            mainCharacter.setRace("dwarf");
+            mainCharacter.setRace("Dwarf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
         });
