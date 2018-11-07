@@ -238,9 +238,19 @@ public class RPGCharacterSheet extends Application {
      * To Set up a Half Orc Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void halfOrc(CharacterSheet character, Scanner scanner) {
+    public static void halfOrc(CharacterSheet character, Stage halfOrcStage) {
+        VBox pane = new VBox(20);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setStyle("-fx-border-color: black");
+        pane.setPadding(new Insets(10,10,10,10));
+        pane.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(pane,450,130);
+        halfOrcStage.setScene(scene);
+        halfOrcStage.setTitle("Half-Orc");
+
         abilityAddition(character, 2, 2); // Adds Strength
         abilityAddition(character, 6, 1); // Adds constitution
         character.setSpeed(character.getSpeed()+30);
@@ -248,10 +258,14 @@ public class RPGCharacterSheet extends Application {
         character.skills.add("Menacing");
         character.skills.add("Relentless Endurance");
         character.skills.add("Savage Attacks");
-        System.out.println("Skills added : Darkvision, Menacing, Relentless Endurance, and Savage Attack ");
+        label.setText("Skills added: Darkvision, Menacing, Relentless Endurance, and Savage Attack\n\n Languages learned: Common and Orc");
         character.languages.add("Common");
         character.languages.add("Orc");
-        System.out.println("You have learned Common and Orc languages!");
+
+        Button continueButton = new Button("Continue");
+        continueButton.setOnAction(e-> halfOrcStage.close());
+        pane.getChildren().addAll(label,continueButton);
+
     }
 
     /**
@@ -1091,7 +1105,7 @@ public class RPGCharacterSheet extends Application {
         });
         Button halfOrc = new Button("Half-Orc");
         halfOrc.setOnAction(e -> {
-//            continueButton.setOnAction(event -> );
+            continueButton.setOnAction(event -> halfOrc(mainCharacter,raceStage));
             mainCharacter.setRace("Half-Orc");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
