@@ -14,15 +14,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.Scanner;
-
 
 // TODO create a check all method for JavaFX that updates entire CS after updating any option
 public class RPGCharacterSheet extends Application {
 
-    static ObservableList availableLanguages = new CharacterSheet().getAllLanguages();
-    static Label label = new Label("");
-    static int[] d20Rolls = new int[6];
+    private static ObservableList availableLanguages = new CharacterSheet().getAllLanguages();
+    private static Label label = new Label("");
+    private static int[] d20Rolls = new int[6];
 
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
@@ -32,10 +30,9 @@ public class RPGCharacterSheet extends Application {
 
     /**
      * Randomly generates a number between 1 and 20. Simulates a D20
-     *
      * @return Random number between 1 and 20
      */
-    public static int d20Roll() {
+    private static int d20Roll() {
         double randomDouble = (Math.random() * 20) + 1;
         Double randomDouble2 = randomDouble;
         int roll = randomDouble2.intValue();
@@ -43,11 +40,10 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a dwarf Character if that was the race they chose
-     *
+     * To Set up a dwarf race based Character if that was the race they chose
      * @param character Character the race attributes are being applied to
      */
-    public static void dwarf(CharacterSheet character, Stage dwarfStage) {
+    private static void dwarf(CharacterSheet character, Stage dwarfStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -104,11 +100,10 @@ public class RPGCharacterSheet extends Application {
 
 
     /**
-     * To Set up a elf Character if that was the race they chose
-     *
+     * To Set up an Elf raced based Character if that was the race they chose
      * @param character Character the race attributes are being applied to
      */
-    public static void elf(CharacterSheet character, Stage elfStage) {
+    private static void elf(CharacterSheet character, Stage elfStage) {
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         InnerShadow innerShadow = new InnerShadow();
@@ -186,11 +181,10 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a Half elf Character if that was the race they chose
-     *
+     * To Set up a Half elf raced based Character if that was the race they chose
      * @param character Character the race attributes are being applied to
      */
-    public static void halfElf(CharacterSheet character, Stage halfElfStage) {
+    private static void halfElf(CharacterSheet character, Stage halfElfStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -214,10 +208,10 @@ public class RPGCharacterSheet extends Application {
 
         abilityAddition(character, 1, 2);
         RPGCharacterSheet.label.setText("You can add +1 to two other abilities");
-        pane.getChildren().addAll(skillsAdded,RPGCharacterSheet.label, abilityPrintout(character,1),continueButton);
+        pane.getChildren().addAll(skillsAdded,RPGCharacterSheet.label, abilityPrintoutAndAdd(character,1),continueButton);
        continueButton.setOnAction(e->{
            RPGCharacterSheet.label.setText("You can add +1 to one other ability");
-           pane.getChildren().set(2, abilityPrintout(character,1));
+           pane.getChildren().set(2, abilityPrintoutAndAdd(character,1));
            continueButton.setOnAction(event -> {
                halfElfStage.setHeight(300);
                pane.getChildren().remove(continueButton);
@@ -235,11 +229,10 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a Half Orc Character if that was the race they chose
-     *
+     * To Set up a Half Orc raced based Character if that was the race they chose
      * @param character Character the race attributes are being applied to
      */
-    public static void halfOrc(CharacterSheet character, Stage halfOrcStage) {
+    private static void halfOrc(CharacterSheet character, Stage halfOrcStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -269,11 +262,10 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a human Character if that was the race they chose
-     *
+     * To Set up a human raced based Character if that was the race they chose
      * @param character Character the race attributes are being applied to
      */
-    public static void human(CharacterSheet character, Stage humanStage) {
+    private static void human(CharacterSheet character, Stage humanStage) {
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(10,10,10,10));
         pane.setAlignment(Pos.TOP_CENTER);
@@ -304,11 +296,10 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a Dragonborn Character if that was the race they chose
-     *
+     * To Set up a Dragonborn raced based Character if that was the race they chose
      * @param character Character the race attributes are being applied to
      */
-    public static void dragonBorn(CharacterSheet character, Stage dragonbornStage) {
+    private static void dragonBorn(CharacterSheet character, Stage dragonbornStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -351,8 +342,7 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a halfling Character if that was the race they chose
-     *
+     * To Set up a halfling raced based Character if that was the race they chose
      * @param character Character the race attributes are being applied to
      */
     public static void halfling(CharacterSheet character, Stage halflingStage) {
@@ -412,11 +402,11 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a gnome Character if that was the race they chose
+     * To Set up a gnome raced based Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void gnome(CharacterSheet character, Stage gnomeStage) {
+    private static void gnome(CharacterSheet character, Stage gnomeStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -463,11 +453,11 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a tiefling Character if that was the race they chose
+     * To Set up a tiefling raced based Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void tiefling(CharacterSheet character, Stage tieflingStage) {
+    private static void tiefling(CharacterSheet character, Stage tieflingStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -495,35 +485,12 @@ public class RPGCharacterSheet extends Application {
 
     }
 
-
     /**
-     * To choose their ability
-     *
-     * @return The numeric choice on which ability they would like
-     */
-    public static int abilityChoice() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("1.) Charisma");
-        System.out.println("2.) Strength");
-        System.out.println("3.) Dexterity");
-        System.out.println("4.) Wisdom");
-        System.out.println("5.) Intelligence");
-        System.out.println("6.) Constitution");
-        System.out.println("Choose your Ability");
-        int choice = scanner.nextInt();
-        if (choice > 6 || choice < 1) {
-            System.out.println("Incorrect option");
-            abilityChoice();
-        }
-        return choice;
-    }
-
-    /**
-     * @param character       CharacterSheet that needs the Ability Modifier added to
-     * @param choice          Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
+     * @param character CharacterSheet that needs the Ability Modifier added to
+     * @param choice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public static void abilityAddition(CharacterSheet character, int choice, int modifierAddtion) {
+    private static void abilityAddition(CharacterSheet character, int choice, int modifierAddtion) {
         if (choice == 1) {
             character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
             System.out.println("Charisma +" + modifierAddtion);
@@ -565,10 +532,9 @@ public class RPGCharacterSheet extends Application {
 
     /**
      * Adds scores to a VBox, and on action they will call abilityAddition
-     *
      * @param character Character that the code is pulling the abilities / scores from
      */
-    public static VBox abilityPrintout(CharacterSheet character, int modifierAddition) {
+    private static VBox abilityPrintoutAndAdd(CharacterSheet character, int modifierAddition) {
         VBox abilities = new VBox(20);
         abilities.setAlignment(Pos.CENTER);
 
@@ -641,11 +607,11 @@ public class RPGCharacterSheet extends Application {
 
 
     /**
+     * Takes in the Ability Score, and finds the appropriate modifier and returns that modifier
      * @param abilityScore Takes in the Ability Score
      * @return Returns the Modifier based on the Ability Score
      */
-    public static int findAbilityMod(int abilityScore) {
-        Scanner scanner = new Scanner(System.in);
+    private static int findAbilityMod(int abilityScore) {
         if (abilityScore == 1) {
             return -5;
         }
@@ -699,17 +665,11 @@ public class RPGCharacterSheet extends Application {
 
 
 
-
-
-
-
-
     // JavaFX methods
 
 
     /**
      * launch(args) calls Application, Application calls start. Calls Ma
-     *
      * @param primaryStage Main stage for application
      */
     @Override
@@ -726,7 +686,7 @@ public class RPGCharacterSheet extends Application {
      * @param primaryStage Primary stage of the application
      * @param mainCharacter Character sheet object to hold character information
      */
-    public void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
+    private void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
@@ -962,7 +922,6 @@ public class RPGCharacterSheet extends Application {
             editRace.setDisable(false);
             editAbilities.setDisable(true);
 
-//            primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
@@ -999,7 +958,13 @@ public class RPGCharacterSheet extends Application {
         primaryStage.show();
     }
 
-    public static String chooseName(Button continueButton, CharacterSheet mainCharacter) {
+    /**
+     * Opens new Stage for user to change their name
+     * @param continueButton Button that will allow the continuation
+     * @param mainCharacter Character that they are changing the name to.
+     * @return Name of Character
+     */
+    private static String chooseName(Button continueButton, CharacterSheet mainCharacter) {
         VBox pane = new VBox(15);
 
         InnerShadow shadow = new InnerShadow();
@@ -1036,11 +1001,10 @@ public class RPGCharacterSheet extends Application {
 
     /**
      * Allows user to select the race of their character though a list of possible races
-     *
-     * @return Numeric choice by user
+     * @return String of the race the user chose
      */
-    public static String chooseRace(Button continueButton, CharacterSheet mainCharacter) {
-//   "elf", "Half - elf", "human", "Dragonborn", "dwarf", "halfling", "gnome","Half-Orc", "tiefling"
+    private static String chooseRace(Button continueButton, CharacterSheet mainCharacter) {
+//   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
         RPGCharacterSheet.label.setText("");
         continueButton.setDisable(true);
         VBox pane = new VBox(20);
@@ -1160,11 +1124,10 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * Allows user to select the class of their character though a list of possible races
-     *
-     * @return Numeric choice by user
+     * Allows user to select the class of their character though a list of possible Classes
+     * @return String of the Race the user chose
      */
-    public static String chooseClass(Button continueButton, CharacterSheet mainCharacter) {
+    private static String chooseClass(Button continueButton, CharacterSheet mainCharacter) {
         // "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
 
         RPGCharacterSheet.label.setText("");
@@ -1289,8 +1252,12 @@ public class RPGCharacterSheet extends Application {
 
     }
 
-
-    public void chooseAbilities(Button continueButton, CharacterSheet characterSheet) {
+    /**
+     * Creates new Stage for user to add their ability scores from a pre-generated list of random D20 rolls
+     * @param continueButton Button that will allow continuation on next steps
+     * @param characterSheet Character that they are changing the Ability scores to.
+     */
+    private void chooseAbilities(Button continueButton, CharacterSheet characterSheet) {
         Stage chooseAbilities = new Stage();
         chooseAbilities.setResizable(false);
         chooseAbilities.setTitle("Choose Abilities");
@@ -1394,7 +1361,11 @@ public class RPGCharacterSheet extends Application {
             chooseAbilities.showAndWait();
         }
 
-        public void setAge(CharacterSheet mainCharacter){
+    /**
+     * Creates new Stage for the user to set the age for their Character from 0-350 Maximum
+     * @param mainCharacter Character that they are setting the Age for
+     */
+    private void setAge(CharacterSheet mainCharacter){
 
             Stage setAgeStage = new Stage();
             setAgeStage.setResizable(false);
@@ -1454,7 +1425,11 @@ public class RPGCharacterSheet extends Application {
 
         }
 
-        public void setLevel(CharacterSheet mainCharacter){
+    /**
+     * Creates Stage for the user to set the stage that their character will be. It then calls the respected class that the user has chosen previously for the chosen amount of levels.
+     * @param mainCharacter Character that they are setting the level for
+     */
+    private void setLevel(CharacterSheet mainCharacter){
             Stage setLevelStage = new Stage();
             setLevelStage.setResizable(false);
             GridPane pane = new GridPane();
@@ -1476,7 +1451,7 @@ public class RPGCharacterSheet extends Application {
             Button continueButton = new Button("Continue");
 
             pane.add(continueButton,4,4,2,1);
-//            continueButton.setDisable(true);
+            continueButton.setDisable(true);
 
             Integer levelNum;
             for (int i =1; i < 21 ; i++){
@@ -1485,8 +1460,6 @@ public class RPGCharacterSheet extends Application {
                 numButton.setOnAction(e->{
                     choice.setText("Level: " + Integer.parseInt(numButton.getText()));
                     continueButton.setDisable(false);
-
-
                 });
 
                 if (i <=10){
@@ -1512,7 +1485,12 @@ public class RPGCharacterSheet extends Application {
 
     }
 
-    public boolean confirmingPopUp(String message){
+    /**
+     * Pop up message that will either let the user continue or close.
+     * @param message Message that the Pop up will display
+     * @return Returns True if the user wants to continue, false otherwise
+     */
+    private boolean confirmingPopUp(String message){
         VBox pane = new VBox(50);
         Scene scene = new Scene(pane,300,200);
         Stage popUpStage= new Stage();
@@ -1549,12 +1527,16 @@ public class RPGCharacterSheet extends Application {
 
         if(choice.getText().equals("Continue")){
             return true;
-        }else {
+        }else
             return false;
         }
-        }
 
-        public void updateAbilities(VBox abilities, CharacterSheet mainCharacter){
+    /**
+     * Updates the abilities scores and their respected modifiers
+     * @param abilities VBox that the list of Abilities is stored in
+     * @param mainCharacter Character that has the Ability Score and Modifier information
+     */
+    private void updateAbilities(VBox abilities, CharacterSheet mainCharacter){
             abilities.setTranslateY(12);
             abilities.setStyle("-fx-border-color: black");
             abilities.setMaxHeight(150);
@@ -1573,10 +1555,6 @@ public class RPGCharacterSheet extends Application {
             abilities.getChildren().set(6,constitution);
 
         }
-
-//    public Scene refreshStage (Stage primaryStage, CharacterSheet mainCharacter){
-//
-//    }
 
 
 }
