@@ -20,27 +20,27 @@ public class Bard {
     private Vector<String> spells = new Vector<>();
     private int spellSaveDC;
 
-    Vector<String> cantripList = Spells.BardSpellSetUp(10);
-    Vector<String> firstLevelSpells = Spells.BardSpellSetUp(1);
-    Vector<String> secondLevelSpells = Spells.BardSpellSetUp(2);
-    Vector<String> thirdLevelSpells = Spells.BardSpellSetUp(3);
-    Vector<String> fourthLevelSpells = Spells.BardSpellSetUp(4);
-    Vector<String> fifthLevelSpells = Spells.BardSpellSetUp(5);
-    Vector<String> sixthLevelSpells = Spells.BardSpellSetUp(6);
-    Vector<String> seventhLevelSpells = Spells.BardSpellSetUp(7);
-    Vector<String> eighthLevelSpells = Spells.BardSpellSetUp(8);
-    Vector<String> ninthLevelSpells = Spells.BardSpellSetUp(9);
+    Vector<String> cantripList = Spells.bardSpellSetUp(10);
+    Vector<String> firstLevelSpells = Spells.bardSpellSetUp(1);
+    Vector<String> secondLevelSpells = Spells.bardSpellSetUp(2);
+    Vector<String> thirdLevelSpells = Spells.bardSpellSetUp(3);
+    Vector<String> fourthLevelSpells = Spells.bardSpellSetUp(4);
+    Vector<String> fifthLevelSpells = Spells.bardSpellSetUp(5);
+    Vector<String> sixthLevelSpells = Spells.bardSpellSetUp(6);
+    Vector<String> seventhLevelSpells = Spells.bardSpellSetUp(7);
+    Vector<String> eighthLevelSpells = Spells.bardSpellSetUp(8);
+    Vector<String> ninthLevelSpells = Spells.bardSpellSetUp(9);
 
-    Vector<String> allCantrips = Spells.AllClassSpellSetUp(10);
-    Vector<String> allFirstLevelSpells = Spells.AllClassSpellSetUp(1);
-    Vector<String> allSecondLevelSpells = Spells.AllClassSpellSetUp(2);
-    Vector<String> allThirdLevelSpells = Spells.AllClassSpellSetUp(3);
-    Vector<String> allFourthLevelSpells = Spells.AllClassSpellSetUp(4);
-    Vector<String> allFifthLevelSpells = Spells.AllClassSpellSetUp(5);
-    Vector<String> allSixthLevelSpells = Spells.AllClassSpellSetUp(6);
-    Vector<String> allSeventhLevelSpells = Spells.AllClassSpellSetUp(7);
-    Vector<String> allEighthLevelSpells= Spells.AllClassSpellSetUp(8);
-    Vector<String> allNinthLevelSpells = Spells.AllClassSpellSetUp(9);
+    Vector<String> allCantrips = Spells.allClassSpellSetUp(10);
+    Vector<String> allFirstLevelSpells = Spells.allClassSpellSetUp(1);
+    Vector<String> allSecondLevelSpells = Spells.allClassSpellSetUp(2);
+    Vector<String> allThirdLevelSpells = Spells.allClassSpellSetUp(3);
+    Vector<String> allFourthLevelSpells = Spells.allClassSpellSetUp(4);
+    Vector<String> allFifthLevelSpells = Spells.allClassSpellSetUp(5);
+    Vector<String> allSixthLevelSpells = Spells.allClassSpellSetUp(6);
+    Vector<String> allSeventhLevelSpells = Spells.allClassSpellSetUp(7);
+    Vector<String> allEighthLevelSpells= Spells.allClassSpellSetUp(8);
+    Vector<String> allNinthLevelSpells = Spells.allClassSpellSetUp(9);
 
     Vector<String> proficiencies = new Vector<>();
 
@@ -55,96 +55,96 @@ public class Bard {
      * @param AbilityChoice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public void AbilityAddition(CharacterSheet character, int AbilityChoice, int modifierAddtion){
+    public void abilityAddition(CharacterSheet character, int AbilityChoice, int modifierAddtion){
         int choice = 0;
         Scanner scanner = new Scanner(System.in);
         if (AbilityChoice == 1){
             if(character.getCharismaScore() >= 20){
                 System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
+                abilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
+                choice = inputErrorCheck(choice,1,6);
+                abilityAddition(character, choice, modifierAddtion);
             }else {
                 character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
                 System.out.println("Charisma +" + modifierAddtion);
-                character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
+                character.setCharismaMod(findAbilityMod(character.getCharismaScore()));
             }
 
         }
         if (AbilityChoice == 2){
             if(character.getStrengthScore() >=20){
                 System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
+                abilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
+                choice = inputErrorCheck(choice,1,6);
+                abilityAddition(character, choice, modifierAddtion);
             }else {
                 character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
                 System.out.println("Strength +" + modifierAddtion);
-                character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
+                character.setStrengthMod(findAbilityMod(character.getStrengthScore()));
             }
 
         }
         if (AbilityChoice == 3){
             if(character.getDexterityScore() >=20){
                 System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
+                abilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
+                choice = inputErrorCheck(choice,1,6);
+                abilityAddition(character, choice, modifierAddtion);
             } else {
                 character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
                 System.out.println("Dexterity +" + modifierAddtion);
-                character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
+                character.setDexterityMod(findAbilityMod(character.getDexterityScore()));
             }
 
         }
         if (AbilityChoice == 4){
             if(character.getWisdomScore() >=20){
                 System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
+                abilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
+                choice = inputErrorCheck(choice,1,6);
+                abilityAddition(character, choice, modifierAddtion);
             } else{
                 character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
                 System.out.println("Wisdom +" + modifierAddtion);
-                character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
+                character.setWisdomMod(findAbilityMod(character.getWisdomScore()));
             }
 
         }
         if (AbilityChoice == 5){
             if(character.getIntelligenceScore() >=20){
                 System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
+                abilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
+                choice = inputErrorCheck(choice,1,6);
+                abilityAddition(character, choice, modifierAddtion);
             } else {
                 character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
                 System.out.println("Intelligence +" + modifierAddtion);
-                character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
+                character.setIntelligenceMod(findAbilityMod(character.getIntelligenceScore()));
             }
 
         }
         if (AbilityChoice == 6){
             if(character.getConstitutionScore() >=20){
                 System.out.println("Ability score is greater than 20. Please choose a different option.");
-                AbilityChoicePrintout();
+                abilityChoicePrintout();
                 choice = scanner.nextInt();
                 String endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice,1,6);
-                AbilityAddition(character, choice, modifierAddtion);
+                choice = inputErrorCheck(choice,1,6);
+                abilityAddition(character, choice, modifierAddtion);
             }else {
                 character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
                 System.out.println("Constitution +" + modifierAddtion);
-                character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
+                character.setConstitutionMod(findAbilityMod(character.getConstitutionScore()));
             }
 
 
@@ -154,7 +154,7 @@ public class Bard {
     /**
      * Prints out the Ability Choices
      */
-    public static void AbilityChoicePrintout(){
+    public static void abilityChoicePrintout(){
         System.out.println("1.) Charisma");
         System.out.println("2.) Strength");
         System.out.println("3.) Dexterity");
@@ -170,34 +170,34 @@ public class Bard {
      *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
      * @param character CharacterSheet that the ability improvement is happening to
      */
-    public void AbilityScoreImprovement(CharacterSheet character){
+    public void abilityScoreImprovement(CharacterSheet character){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
         int choice = scanner.nextInt();
         String endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,2);
+        choice = inputErrorCheck(choice,1,2);
         if (choice==1){
             System.out.println("Which Ability score would you like to increase by +2 ?");
-            AbilityChoicePrintout();
+            abilityChoicePrintout();
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddition(character, choice, 2 );
+            choice = inputErrorCheck(choice,1,6);
+            abilityAddition(character, choice, 2 );
             choice = 0;
         }
         if (choice==2){
             System.out.println("Choose your first ability");
-            AbilityChoicePrintout();
+            abilityChoicePrintout();
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddition(character, choice, 1 );
+            choice = inputErrorCheck(choice,1,6);
+            abilityAddition(character, choice, 1 );
             System.out.println("What is your second ability?");
-            AbilityChoicePrintout();
+            abilityChoicePrintout();
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,6);
-            AbilityAddition(character, choice, 1 );
+            choice = inputErrorCheck(choice,1,6);
+            abilityAddition(character, choice, 1 );
 
 
         }
@@ -209,7 +209,7 @@ public class Bard {
     /**
      * Adds Levels and related information to the character.
      */
-    public void AddLevel(){
+    public void addLevel(){
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         String endOfLine = "";
@@ -229,45 +229,45 @@ public class Bard {
             features.add("Bardic Inspiration (d6)");
             System.out.println("Spellcasting and Bardic Inspiration (d6) added to features");
             System.out.println("You have learned 2 Cantrips and 4 First level spells. Please choose your first Cantrip");
-            VectorPrintOut(cantripList);
+            vectorPrintOut(cantripList);
             choice=scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,cantripList.size());
+            choice = inputErrorCheck(choice,1,cantripList.size());
             System.out.println("You have added " + cantripList.get(choice-1) + " to your cantrips.");
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
             System.out.println("Please choose your second cantrip");
-            VectorPrintOut(cantripList);
+            vectorPrintOut(cantripList);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,cantripList.size());
+            choice = inputErrorCheck(choice,1,cantripList.size());
             System.out.println("You have added " + cantripList.get(choice-1) + " to your cantrips.");
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
             System.out.println("Please choose your first First Level Spell");
-            VectorPrintOut(firstLevelSpells);
+            vectorPrintOut(firstLevelSpells);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,firstLevelSpells.size());
+            choice = inputErrorCheck(choice,1,firstLevelSpells.size());
             System.out.println("You have added " + firstLevelSpells.get(choice -1 )+" to your spells.");
             spells.add(firstLevelSpells.get(choice-1));
             firstLevelSpells.remove(choice -1);
             System.out.println("Please choose your second First Level Spell");
-            VectorPrintOut(firstLevelSpells);
+            vectorPrintOut(firstLevelSpells);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,firstLevelSpells.size());
+            choice = inputErrorCheck(choice,1,firstLevelSpells.size());
             System.out.println("You have added " + firstLevelSpells.get(choice -1 )+ " to your spells.");
             spells.add(firstLevelSpells.get(choice-1));
             firstLevelSpells.remove(choice -1);
 
-            CheckVectorAndAdd(proficiencies,"proficiencies","Dexterity");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Charisma");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Simple Weapons");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Hand Crossbows");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Longswords");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Rapiers");
-            CheckVectorAndAdd(proficiencies,"proficiencies","Shortswords");
+            checkVectorAndAdd(proficiencies,"proficiencies","Dexterity");
+            checkVectorAndAdd(proficiencies,"proficiencies","Charisma");
+            checkVectorAndAdd(proficiencies,"proficiencies","Simple Weapons");
+            checkVectorAndAdd(proficiencies,"proficiencies","Hand Crossbows");
+            checkVectorAndAdd(proficiencies,"proficiencies","Longswords");
+            checkVectorAndAdd(proficiencies,"proficiencies","Rapiers");
+            checkVectorAndAdd(proficiencies,"proficiencies","Shortswords");
 
 
 
@@ -275,9 +275,9 @@ public class Bard {
         if(level == 2){
             System.out.println("Level 2");
             spells.setSize(5);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            ChooseYourSpell(1);
+            chooseYourSpell(1);
             features.add("Jack of All Trades");
             features.add("Song of Rest (d6)");
             System.out.println("Jack of All Trades and Song of Rest(d6) added to features");
@@ -286,17 +286,17 @@ public class Bard {
         if(level == 3){
             System.out.println("Level 3");
             spells.setSize(6);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             features.add("Expertise");
-            ChooseYourSpell(1);
+            chooseYourSpell(1);
             for (int i = 0 ; i <2 ; i++){
-                ChooseYourSpell(2);
+                chooseYourSpell(2);
             }
             System.out.println("Choose your Bard College 1.) College of Lore or 2.) College of Valor . ");
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,2);
+            choice = inputErrorCheck(choice,1,2);
             if (choice ==1){
                 features.add("Bard College : College of Lore");
                 college = "College of Lore";
@@ -311,20 +311,20 @@ public class Bard {
             System.out.println("Level 4");
             spells.setSize(7);
             cantrips.setSize(4);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             System.out.println("You learned a new Cantrip, please choose your new cantrip");
-            VectorPrintOut(cantripList);
+            vectorPrintOut(cantripList);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,cantripList.size());
+            choice = inputErrorCheck(choice,1,cantripList.size());
             System.out.println("You added " + cantripList.get(choice-1));
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
 
-            ChooseYourSpell(2);
+            chooseYourSpell(2);
 
-            AbilityScoreImprovement(character);
+            abilityScoreImprovement(character);
 
         }
         if(level == 5){
@@ -332,10 +332,10 @@ public class Bard {
             proficiency++;
             System.out.println("Proficiency : +" + proficiency);
             spells.setSize(8);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             for (int i = 0 ; i<2 ; i++){
-                ChooseYourSpell(3);
+                chooseYourSpell(3);
             }
 
             features.remove("Bardic Inspiration (d6)");
@@ -347,15 +347,15 @@ public class Bard {
         if(level == 6){
             System.out.println("Level 6");
             spells.setSize(9);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            ChooseYourSpell(3);
+            chooseYourSpell(3);
             features.add("Countercharm");
             if (college.equals("College of Lore")){
                 features.add("Additional Magical Secrets");
                 System.out.println("Countercharm and Additional Magical Secrets added to features");
                 for (int i = 0 ; i<2 ; i++){
-                    MagicalSecrects(3);
+                    magicalSecrects(3);
                 }
 
             }
@@ -368,40 +368,40 @@ public class Bard {
         if(level == 7){
             System.out.println("Level 7");
             spells.setSize(10);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            ChooseYourSpell(4);
+            chooseYourSpell(4);
 
         }
         if(level == 8){
             System.out.println("Level 8");
             spells.setSize(11);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            ChooseYourSpell(4);
+            chooseYourSpell(4);
 
-            AbilityScoreImprovement(character);
+            abilityScoreImprovement(character);
 
         }
         if(level == 9){
             System.out.println("Level 9");
             proficiency++;
             System.out.println("Proficiency : +" + proficiency);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             spells.setSize(12);
             features.remove("Song of Rest (d6)");
             features.add("Song of Rest (d8)");
             System.out.println("You have added Song of Rest (d8) to your features");
-            ChooseYourSpell(4);
-            ChooseYourSpell(5);
+            chooseYourSpell(4);
+            chooseYourSpell(5);
 
         }
         if(level == 10){
             System.out.println("Level 10");
             spells.setSize(14);
             cantrips.setSize(4);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             features.remove("Bardic Inspiration (d8)");
             features.add("Bardic Inspiration (d10)");
@@ -409,17 +409,17 @@ public class Bard {
             features.add("Magical Secrets");
             System.out.println("You have added Bardic Inspiration (d10), Expertise, Magical Secrets to your features");
             for (int i = 0; i < 2 ; i++){
-                MagicalSecrects(5);
+                magicalSecrects(5);
             }
             System.out.println("You have learned a new Cantrip");
-            VectorPrintOut(cantripList);
+            vectorPrintOut(cantripList);
             choice=scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,cantripList.size());
+            choice = inputErrorCheck(choice,1,cantripList.size());
             System.out.println("You have added " + cantripList.get(choice-1));
             cantrips.add(cantripList.get(choice-1));
             cantripList.remove(choice-1);
-            ChooseYourSpell(5);
+            chooseYourSpell(5);
 
 
 
@@ -427,39 +427,39 @@ public class Bard {
         if(level == 11){
             System.out.println("Level 11");
             spells.setSize(15);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            ChooseYourSpell(6);
+            chooseYourSpell(6);
         }
         if(level == 12){
             System.out.println("Level 12");
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            AbilityScoreImprovement(character);
+            abilityScoreImprovement(character);
 
         }
         if(level == 13){
             System.out.println("Level 13");
             proficiency++;
             System.out.println("Proficiency : +" + proficiency);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             features.remove("Song of Rest (d8)");
             features.add("Song of Rest (d10)");
             System.out.println("You added Song of Rest (d10) to features");
-            ChooseYourSpell(7);
+            chooseYourSpell(7);
 
 
         }
         if(level == 14){
             System.out.println("Level 14");
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             if (college.equals("College of Lore")){
                 features.add("Peerless Skills");
                 System.out.println("You have added Peerless Skills and Magical Secrets to features");
                 for (int i =0; i < 2; i++){
-                    MagicalSecrects(7);
+                    magicalSecrects(7);
                 }
 
             }
@@ -471,18 +471,18 @@ public class Bard {
 
         if(level == 15){
             System.out.println("Level 15");
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             features.remove("Bardic Inspiration (d10)");
             features.add("Bardic Inspiration (d12)");
-            ChooseYourSpell(8);
+            chooseYourSpell(8);
 
         }
         if(level == 16){
             System.out.println("Level 16");
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            AbilityScoreImprovement(character);
+            abilityScoreImprovement(character);
 
 
         }
@@ -490,35 +490,36 @@ public class Bard {
             System.out.println("Level 17");
             proficiency++;
             System.out.println("Proficiency : +" + proficiency);
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             features.remove("Song of Rest (d10");
             features.add("Song of Rest (d12)");
 
-            ChooseYourSpell(9);
+            chooseYourSpell(9);
 
         }
         if(level == 18){
             System.out.println("Level 18");
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
             for (int i = 0; i < 2 ; i++){
-                MagicalSecrects(9);
-            }ChooseYourSpell(5);
+                magicalSecrects(9);
+            }
+            chooseYourSpell(5);
         }
         if(level == 19){
             System.out.println("Level 19");
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            AbilityScoreImprovement(character);
-            ChooseYourSpell(6);
+            abilityScoreImprovement(character);
+            chooseYourSpell(6);
 
         }
         if(level == 20){
             System.out.println("Level 20");
-            character.setHitPoints(character.getHitPoints() + ( D8Roll() + character.getConstitutionMod()));
+            character.setHitPoints(character.getHitPoints() + ( d8Roll() + character.getConstitutionMod()));
             System.out.println("Your current Hit Points is : " + character.getHitPoints());
-            ChooseYourSpell(7);
+            chooseYourSpell(7);
             features.add("Superior Inspiration");
             System.out.println("You have added Superior Inspiration to your features");
 
@@ -532,12 +533,12 @@ public class Bard {
      * @param inventory Vector of items
      * @param item item you are adding in vector, or adding quantity to already existing item
      */
-    public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
+    public void checkAndAddItemQuantity(Vector<Item> inventory, Item item){
         int counter =0;
         int i;
         for ( i =0; i< inventory.size();i++){
             if (inventory.get(i).getName().equals(item.getName())){
-                inventory.get(i).Addition(item);
+                inventory.get(i).addition(item);
                 counter++;
                 System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
             }
@@ -555,7 +556,7 @@ public class Bard {
      * @param contents String that you are checking/ adding in the vector
      * @param vectorName Name of the vector you are adding the item to
      */
-    public void CheckVectorAndAdd(Vector vector,String vectorName, String contents){
+    public void checkVectorAndAdd(Vector vector, String vectorName, String contents){
         if (!vector.contains(contents)){
             vector.add(contents);
             System.out.println(contents+" added to " + vectorName);
@@ -565,7 +566,7 @@ public class Bard {
 
 
     // Tested and verified 9/5
-    public void ChooseArmor(){
+    public void chooseArmor(){
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
         String endOfLine = "";
@@ -575,8 +576,8 @@ public class Bard {
         }
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getLightArmor().length);
-        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
+        choice = inputErrorCheck(choice,1,character.getLightArmor().length);
+        checkAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
         character.setAc(character.getLightArmorAC()[choice-1]);
 
     }
@@ -585,7 +586,7 @@ public class Bard {
     /**
      * Allows user to add the skills they want to be proficient in.
      */
-    public void ChooseSkillProficiencies(){
+    public void chooseSkillProficiencies(){
         Scanner scanner = new Scanner(System.in);
         int choice =-1;
         String endOfLine = "";
@@ -602,15 +603,15 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine =scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+            choice = inputErrorCheck(choice,1,character.getAllSkills().length);
             while (proficiencies.contains(character.getAllSkills()[choice-1])){
                 System.out.println("You are already proficient in this skill, please choose a different skill.");
                 choice = scanner.nextInt();
                 endOfLine =scanner.nextLine();
-                choice = InputErrorCheck(choice,1,character.getAllSkills().length);
+                choice = inputErrorCheck(choice,1,character.getAllSkills().length);
 
             }
-            CheckVectorAndAdd(proficiencies, "proficiencies",character.getAllSkills()[choice-1]);
+            checkVectorAndAdd(proficiencies, "proficiencies",character.getAllSkills()[choice-1]);
 
         }
 
@@ -620,7 +621,7 @@ public class Bard {
     /**
      * Walks user through on adding their Weapons / Equipment ot the character
      */
-    public void ChooseWeapon(){
+    public void chooseWeapon(){
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         String endOfLine = "";
@@ -630,7 +631,7 @@ public class Bard {
         System.out.println("Choose your equipment 1.)Rapier 2.)Longsword or 3.)any simple weapon?");
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice, 1,3);
+        choice = inputErrorCheck(choice, 1,3);
         if(choice==1){
             character.weapons.add(new Item("Rapier",character.getMartialMeleeWeaponsProperties()[11],1,character.getMartialMeleeWeaponCost()[11]));
             System.out.println("Rapier added to Weapons");
@@ -649,7 +650,7 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
+            choice = inputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
             if (choice < character.getSimpleMeleeWeapons().length){
                 character.weapons.add(new Item(character.getSimpleMeleeWeapons()[choice-1],character.getSimpleMeleeWeaponProperties()[choice-1],1,character.getSimpleMeleeWeaponsCost()[choice-1]));
                 System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
@@ -663,32 +664,32 @@ public class Bard {
         System.out.println("Do you want 1.)Diplomat's pack or 2.)Entertainer's pack");
         choice=scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,2);
+        choice = inputErrorCheck(choice,1,2);
         if(choice == 1){
             pack = "Diplomat";
 
-            CheckAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
-            CheckAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
-            CheckAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
+            checkAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
+            checkAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
+            checkAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
+            checkAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
+            checkAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
+            checkAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
+            checkAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
+            checkAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
+            checkAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
+            checkAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
+            checkAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
             System.out.println("Diplomat Pack added to inventory.");
 
         }if (choice ==2){
             pack = "Entertainer";
-            CheckAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
-            CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
-            CheckAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
-            CheckAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
-            CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
-            CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
-            CheckAndAddItemQuantity(character.inventory, new Item("Disguise kit","This pouch of cosmetics, hair dye,and small props let you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",1,25));
+            checkAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+            checkAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+            checkAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
+            checkAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
+            checkAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
+            checkAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+            checkAndAddItemQuantity(character.inventory, new Item("Disguise kit","This pouch of cosmetics, hair dye,and small props let you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",1,25));
 
             System.out.println("Entertainer pack added to inventory.");
 
@@ -697,7 +698,7 @@ public class Bard {
         System.out.println("Do you want 1.)Lute or 2.) any other musical instrument");
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice ,1,2);
+        choice = inputErrorCheck(choice ,1,2);
         if (choice == 1){
             character.instruments.add("Lute");
             System.out.println("Lute added to instruments");
@@ -709,13 +710,13 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
             character.instruments.add(character.getMusicalInstruments()[choice-1]);
             System.out.println(character.getMusicalInstruments()[choice-1] + " added to your instruments");
         }
 
 //        character.armorList.add("Leather");
-        CheckAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
+        checkAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
 //        character.weapons.add("Dagger");
         System.out.println("Dagger has been added to your inventory");
     }
@@ -726,7 +727,7 @@ public class Bard {
      * Randomly Generates a number between 1 and 8. Simulating a D8
      * @return Random Number between 1 and 8
      */
-    public int D8Roll(){
+    public int d8Roll(){
         double randomDouble = Math.random()*8 +1;
         Double randomDouble2 = randomDouble;
         int roll = randomDouble2.intValue();
@@ -738,7 +739,7 @@ public class Bard {
      * @param abilityScore Takes in the Ability Score
      * @return Returns the Modifier based on the Ability Score
      */
-    public static int FindAbilityMod(int abilityScore) {
+    public static int findAbilityMod(int abilityScore) {
         Scanner scanner = new Scanner(System.in);
         Scanner endOfLine = new Scanner(System.in);
         while(abilityScore<0 || abilityScore>30){
@@ -803,7 +804,7 @@ public class Bard {
      * @param higherCheck The upper bound
      * @return Returns choice once it is a valid option
      */
-    public int InputErrorCheck(int choice, int lowerCheck, int higherCheck){
+    public int inputErrorCheck(int choice, int lowerCheck, int higherCheck){
         Scanner scanner = new Scanner(System.in);
         while (choice < lowerCheck || choice > higherCheck){
             System.out.println("Incorrect option, please choose a different option");
@@ -819,7 +820,7 @@ public class Bard {
      * Code needed to complete the Magical Secrets Feature
      * @param maxlevel Max Level that the Spells can be
      */
-    public void MagicalSecrects(int maxlevel){
+    public void magicalSecrects(int maxlevel){
         Scanner scanner = new Scanner(System.in);
         int level;
         int choice ;
@@ -828,18 +829,18 @@ public class Bard {
         System.out.println("\nMagical Secretes:\nWhat level of Spells would you like to learn from all spells?\n0.) Cantrips , 1, 2, 3, 4, 5, 6, 7, 8, or 9? Your Max Level is :" + maxlevel);
         level = scanner.nextInt();
         endOdLine = scanner.nextLine();
-        level = InputErrorCheck(level, 0, maxlevel);
+        level = inputErrorCheck(level, 0, maxlevel);
         if(level==0){
             System.out.println("All Cantrips");
-            VectorPrintOut(allCantrips);
+            vectorPrintOut(allCantrips);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allCantrips.size());
+            choice = inputErrorCheck(choice,1,allCantrips.size());
             if (spells.contains(allCantrips.get(choice-1))){
                 while(spells.contains(allCantrips.get(choice-1))){
                     allCantrips.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
 
                 }
                 choice = -1;
@@ -856,15 +857,15 @@ public class Bard {
 
         if(level==1){
             System.out.println("All First Level Spells");
-            VectorPrintOut(allFirstLevelSpells);
+            vectorPrintOut(allFirstLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allFirstLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allFirstLevelSpells.size());
             if (spells.contains(allFirstLevelSpells.get(choice-1))){
                 while(spells.contains(allFirstLevelSpells.get(choice-1))){
                     allFirstLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }
@@ -880,15 +881,15 @@ public class Bard {
 
         if(level==2){
             System.out.println("All Second Level Spells");
-            VectorPrintOut(allSecondLevelSpells);
+            vectorPrintOut(allSecondLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allSecondLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allSecondLevelSpells.size());
             if (spells.contains(allSecondLevelSpells.get(choice-1))){
                 while(spells.contains(allSecondLevelSpells.get(choice-1))) {
                     allSecondLevelSpells.remove(choice - 1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
 
                 }
                 choice = -1;
@@ -904,15 +905,15 @@ public class Bard {
 
         if(level==3){
             System.out.println("All Third Level Spells");
-            VectorPrintOut(allThirdLevelSpells);
+            vectorPrintOut(allThirdLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allThirdLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allThirdLevelSpells.size());
             if (spells.contains(allThirdLevelSpells.get(choice-1))){
                 while(spells.contains(allThirdLevelSpells.get(choice-1))){
                     allThirdLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }else {
@@ -928,15 +929,15 @@ public class Bard {
 
         if(level==4){
             System.out.println("All Fourth Level Spells");
-            VectorPrintOut(allFourthLevelSpells);
+            vectorPrintOut(allFourthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allFourthLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allFourthLevelSpells.size());
             if (spells.contains(allFourthLevelSpells.get(choice-1))){
                 while(spells.contains(allFourthLevelSpells.get(choice-1))){
                     allFourthLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }else {
@@ -951,15 +952,15 @@ public class Bard {
 
         if(level==5){
             System.out.println("All Fifth Level Spells");
-            VectorPrintOut(allFifthLevelSpells);
+            vectorPrintOut(allFifthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allFifthLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allFifthLevelSpells.size());
             if (spells.contains(allFifthLevelSpells.get(choice-1))){
                 while(spells.contains(allFifthLevelSpells.get(choice-1))){
                     allFifthLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }else {
@@ -973,15 +974,15 @@ public class Bard {
 
         if(level==6){
             System.out.println("All Sixth Level Spells");
-            VectorPrintOut(allSixthLevelSpells);
+            vectorPrintOut(allSixthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allSixthLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allSixthLevelSpells.size());
             if (spells.contains(allSixthLevelSpells.get(choice-1))){
                 while(spells.contains(allSixthLevelSpells.get(choice-1))){
                     allSixthLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }else {
@@ -995,15 +996,15 @@ public class Bard {
 
         if(level==7){
             System.out.println("All Seventh Level Spells");
-            VectorPrintOut(allSeventhLevelSpells);
+            vectorPrintOut(allSeventhLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allSeventhLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allSeventhLevelSpells.size());
             if (spells.contains(allSeventhLevelSpells.get(choice-1))){
                 while(spells.contains(allSeventhLevelSpells.get(choice-1))){
                     allSeventhLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }else {
@@ -1017,15 +1018,15 @@ public class Bard {
 
         if(level==8){
             System.out.println("All Eighth Level Spells");
-            VectorPrintOut(allEighthLevelSpells);
+            vectorPrintOut(allEighthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allEighthLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allEighthLevelSpells.size());
             if (spells.contains(allEighthLevelSpells.get(choice-1))){
                 while(spells.contains(allEighthLevelSpells.get(choice-1))){
                     allEighthLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }else {
@@ -1040,15 +1041,15 @@ public class Bard {
 
         if(level==9){
             System.out.println("All Ninth Level Spells");
-            VectorPrintOut(allNinthLevelSpells);
+            vectorPrintOut(allNinthLevelSpells);
             choice = scanner.nextInt();
             endOdLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,allNinthLevelSpells.size());
+            choice = inputErrorCheck(choice,1,allNinthLevelSpells.size());
             if (spells.contains(allNinthLevelSpells.get(choice-1))){
                 while(spells.contains(allNinthLevelSpells.get(choice-1))){
                     allNinthLevelSpells.remove(choice-1);
                     System.out.println("You already have this spell, please choose a different spell");
-                    MagicalSecrects(maxlevel);
+                    magicalSecrects(maxlevel);
                 }
                 choice = -1;
             }else {
@@ -1071,7 +1072,7 @@ public class Bard {
     /**
      * Walks user through choosing the tools they want to be proficient in
      */
-    public void ToolsProficiencies(){
+    public void toolsProficiencies(){
         Scanner scanner = new Scanner(System.in);
         int choice;
         String endOfLine="";
@@ -1081,7 +1082,7 @@ public class Bard {
         }
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
         while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
             System.out.println("You are already proficient in this item, please choose a different option");
             for (int i = 0; i < character.getMusicalInstruments().length; i++){
@@ -1089,9 +1090,9 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
         }
-        CheckVectorAndAdd(proficiencies,"proficiencies", character.getMusicalInstruments()[choice-1]);
+        checkVectorAndAdd(proficiencies,"proficiencies", character.getMusicalInstruments()[choice-1]);
 
         System.out.println("Choose your second instrument.");
         for (int i = 0; i < character.getMusicalInstruments().length; i++){
@@ -1099,7 +1100,7 @@ public class Bard {
         }
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
         while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
             System.out.println("You are already proficient in this item, please choose a different option");
             for (int i = 0; i < character.getMusicalInstruments().length; i++){
@@ -1107,9 +1108,9 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
         }
-        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
+        checkVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
 
         System.out.println("Choose your third instrument");
         for (int i = 0; i < character.getMusicalInstruments().length; i++){
@@ -1117,7 +1118,7 @@ public class Bard {
         }
         choice = scanner.nextInt();
         endOfLine = scanner.nextLine();
-        choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+        choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
         while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
             System.out.println("You are already proficient in this item, please choose a different option");
             for (int i = 0; i < character.getMusicalInstruments().length; i++){
@@ -1125,9 +1126,9 @@ public class Bard {
             }
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice,1,character.getMusicalInstruments().length);
+            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
         }
-        CheckVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
+        checkVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
 
     }
 
@@ -1136,7 +1137,7 @@ public class Bard {
      * Prints out a vector
      * @param vector Vector that is needing to be printed out
      */
-    public static void VectorPrintOut (Vector vector){
+    public static void vectorPrintOut(Vector vector){
         for (int i = 0; i < vector.size(); i++){
             System.out.println(i + 1 + ".) " + vector.get(i));
         }
@@ -1148,7 +1149,7 @@ public class Bard {
      * To choose the a spell from a specific level
      * @param spellLevel The Level of the spells that they are choosing from
      */
-    public void ChooseYourSpell (int spellLevel){
+    public void chooseYourSpell(int spellLevel){
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         String endOfLine = "";
@@ -1157,10 +1158,10 @@ public class Bard {
         if (spellLevel == 1){
             System.out.println("You learned a new spell! Spell Level: " + spellLevel);
             System.out.println("Choose your spell.");
-            VectorPrintOut(firstLevelSpells);
+            vectorPrintOut(firstLevelSpells);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice, 1, firstLevelSpells.size());
+            choice = inputErrorCheck(choice, 1, firstLevelSpells.size());
             System.out.println("You added " + firstLevelSpells.get(choice - 1)+ " to your spells.");
             spells.add(firstLevelSpells.get(choice - 1));
             firstLevelSpells.remove(choice - 1);
@@ -1170,10 +1171,10 @@ public class Bard {
             System.out.println("You learned a new spell! Spell Level: " + spellLevel);
 
             System.out.println("Choose your spell.");
-            VectorPrintOut(secondLevelSpells);
+            vectorPrintOut(secondLevelSpells);
             choice = scanner.nextInt();
             endOfLine = scanner.nextLine();
-            choice = InputErrorCheck(choice, 1, secondLevelSpells.size());
+            choice = inputErrorCheck(choice, 1, secondLevelSpells.size());
             System.out.println("You added " + secondLevelSpells.get(choice - 1) + " to your spells.");
             spells.add(secondLevelSpells.get(choice - 1));
             secondLevelSpells.remove(choice - 1);
@@ -1183,10 +1184,10 @@ public class Bard {
             if (spellLevel == 3){
                 System.out.println("You learned a new spell! Spell Level: " + spellLevel);
                 System.out.println("Choose your spell.");
-                VectorPrintOut(thirdLevelSpells);
+                vectorPrintOut(thirdLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice, 1, thirdLevelSpells.size());
+                choice = inputErrorCheck(choice, 1, thirdLevelSpells.size());
                 System.out.println("You added " + thirdLevelSpells.get(choice - 1) + " to your spells.");
                 spells.add(thirdLevelSpells.get(choice - 1));
                 thirdLevelSpells.remove(choice - 1);
@@ -1196,10 +1197,10 @@ public class Bard {
                 System.out.println("You learned a new spell! Spell Level: " + spellLevel);
 
                 System.out.println("Choose your spell.");
-                VectorPrintOut(fourthLevelSpells);
+                vectorPrintOut(fourthLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice, 1, fourthLevelSpells.size());
+                choice = inputErrorCheck(choice, 1, fourthLevelSpells.size());
                 System.out.println("You added " + fourthLevelSpells.get(choice - 1)  + " to your spells.");
                 spells.add(fourthLevelSpells.get(choice - 1));
                 fourthLevelSpells.remove(choice - 1);
@@ -1208,10 +1209,10 @@ public class Bard {
             if (spellLevel == 5){
                 System.out.println("You learned a new spell! Spell Level: " + spellLevel);
                 System.out.println("Choose your spell.");
-                VectorPrintOut(fifthLevelSpells);
+                vectorPrintOut(fifthLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice, 1, fifthLevelSpells.size());
+                choice = inputErrorCheck(choice, 1, fifthLevelSpells.size());
                 System.out.println("You added " + fifthLevelSpells.get(choice - 1) + " to your spells.");
                 spells.add(fifthLevelSpells.get(choice - 1));
                 fifthLevelSpells.remove(choice - 1);
@@ -1221,10 +1222,10 @@ public class Bard {
             if (spellLevel == 6){
                 System.out.println("You learned a new spell! Spell Level: " + spellLevel);
                 System.out.println("Choose your spell.");
-                VectorPrintOut(sixthLevelSpells);
+                vectorPrintOut(sixthLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice, 1, sixthLevelSpells.size());
+                choice = inputErrorCheck(choice, 1, sixthLevelSpells.size());
                 System.out.println("You added " + sixthLevelSpells.get(choice - 1) + " to your spells.");
                 spells.add(sixthLevelSpells.get(choice - 1));
                 sixthLevelSpells.remove(choice - 1);
@@ -1233,10 +1234,10 @@ public class Bard {
             if (spellLevel == 7){
                 System.out.println("You learned a new spell! Spell Level: " + spellLevel);
                 System.out.println("Choose your spell.");
-                VectorPrintOut(seventhLevelSpells);
+                vectorPrintOut(seventhLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice, 1, seventhLevelSpells.size());
+                choice = inputErrorCheck(choice, 1, seventhLevelSpells.size());
                 System.out.println("You added " + seventhLevelSpells.get(choice - 1)  + " to your spells.");
                 spells.add(seventhLevelSpells.get(choice - 1));
                 seventhLevelSpells.remove(choice - 1);
@@ -1246,10 +1247,10 @@ public class Bard {
             if (spellLevel == 8){
                 System.out.println("You learned a new spell! Spell Level: " + spellLevel);
                 System.out.println("Choose your spell.");
-                VectorPrintOut(eighthLevelSpells);
+                vectorPrintOut(eighthLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice, 1, eighthLevelSpells.size());
+                choice = inputErrorCheck(choice, 1, eighthLevelSpells.size());
                 System.out.println("You added " + eighthLevelSpells.get(choice - 1) + " to your spells.");
                 spells.add(eighthLevelSpells.get(choice - 1));
                 eighthLevelSpells.remove(choice - 1);
@@ -1260,10 +1261,10 @@ public class Bard {
             if (spellLevel == 9){
                 System.out.println("You learned a new spell! Spell Level: " + spellLevel);
                 System.out.println("Choose your spell.");
-                VectorPrintOut(ninthLevelSpells);
+                vectorPrintOut(ninthLevelSpells);
                 choice = scanner.nextInt();
                 endOfLine = scanner.nextLine();
-                choice = InputErrorCheck(choice, 1, ninthLevelSpells.size());
+                choice = inputErrorCheck(choice, 1, ninthLevelSpells.size());
                 System.out.println("You added " + ninthLevelSpells.get(choice - 1)  + " to your spells.");
                 spells.add(ninthLevelSpells.get(choice - 1));
                 ninthLevelSpells.remove(choice - 1);

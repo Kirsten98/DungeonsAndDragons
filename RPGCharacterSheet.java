@@ -35,7 +35,7 @@ public class RPGCharacterSheet extends Application {
      *
      * @return Random number between 1 and 20
      */
-    public static int D20Roll() {
+    public static int d20Roll() {
         double randomDouble = (Math.random() * 20) + 1;
         Double randomDouble2 = randomDouble;
         int roll = randomDouble2.intValue();
@@ -43,11 +43,11 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a Dwarf Character if that was the race they chose
+     * To Set up a dwarf Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void Dwarf(CharacterSheet character, Stage dwarfStage) {
+    public static void dwarf(CharacterSheet character, Stage dwarfStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -60,17 +60,17 @@ public class RPGCharacterSheet extends Application {
 
         character.languages.add("Dwarvish");
         RPGCharacterSheet.availableLanguages.remove("Dwarvish");
-        AbilityAddition(character, 3, 2);
+        abilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+ 30);
         character.skills.add("Darkvision");
         character.skills.add("Dwarven Resilience");
         character.skills.add("Dwarven Combat Training");
         character.skills.add("Tool Proficiency");
         character.skills.add("Stonecunning");
-        RPGCharacterSheet.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\n\n                             Are you a Hill Dwarf or Mountain Dwarf?");
+        RPGCharacterSheet.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\n\n                             Are you a Hill dwarf or Mountain dwarf?");
 
-        Button hillDwarf = new Button("Hill Dwarf");
-        Button mountainDwarf = new Button("Mountain Dwarf");
+        Button hillDwarf = new Button("Hill dwarf");
+        Button mountainDwarf = new Button("Mountain dwarf");
         Button continueButton = new Button("Continue");
         continueButton.setDisable(true);
         ButtonBar row1 = new ButtonBar();
@@ -80,9 +80,9 @@ public class RPGCharacterSheet extends Application {
         mountainDwarf.setOnAction(e->{
             continueButton.setDisable(false);
             continueButton.setOnAction(continueButtonEvent ->{
-                AbilityAddition(character, 4, 2);
+                abilityAddition(character, 4, 2);
                 character.setHitPoints(character.getHitPoints() + 1);
-                character.setRace("Dwarf (Mountain)");
+                character.setRace("dwarf (Mountain)");
                 dwarfStage.close();
 
             });
@@ -90,9 +90,9 @@ public class RPGCharacterSheet extends Application {
         hillDwarf.setOnAction(e->{
             continueButton.setDisable(false);
             continueButton.setOnAction(continueButtonEvent ->{
-                AbilityAddition(character, 2, 2);
+                abilityAddition(character, 2, 2);
                 character.skills.add("Dwarven Armor Training");
-                character.setRace("Dwarf (Hill)");
+                character.setRace("dwarf (Hill)");
                 dwarfStage.close();
 
             });
@@ -104,11 +104,11 @@ public class RPGCharacterSheet extends Application {
 
 
     /**
-     * To Set up a Elf Character if that was the race they chose
+     * To Set up a elf Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void Elf(CharacterSheet character, Stage elfStage) {
+    public static void elf(CharacterSheet character, Stage elfStage) {
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         InnerShadow innerShadow = new InnerShadow();
@@ -120,7 +120,7 @@ public class RPGCharacterSheet extends Application {
         elfStage.setHeight(200);
         elfStage.setTitle("Elf");
 
-        AbilityAddition(character, 3, 2);
+        abilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Elvish");
         RPGCharacterSheet.availableLanguages.remove("Elvish");
@@ -128,7 +128,7 @@ public class RPGCharacterSheet extends Application {
         character.skills.add("Keen Senses");
         character.skills.add("Fey Ancestry");
         character.skills.add("Trance");
-       RPGCharacterSheet.label.setText("Skills added : Darkvision, Keen Senses, Fey Ancestry, and Trance\nChoose your Elf type");
+       RPGCharacterSheet.label.setText("Skills added : Darkvision, Keen Senses, Fey Ancestry, and Trance\nChoose your elf type");
        Button highElf = new Button("High Elf");
        highElf.setTooltip(new Tooltip("+ Elf Weapon Training\n+1 Language"));
 
@@ -149,7 +149,7 @@ public class RPGCharacterSheet extends Application {
        pane.getChildren().addAll(RPGCharacterSheet.label,elves,choice);
         highElf.setOnAction(e->   {
             elfStage.setHeight(400);
-            AbilityAddition(character, 5, 1);
+            abilityAddition(character, 5, 1);
             character.skills.add("Elf Weapon Training");
             ComboBox<String> languages = new ComboBox<>(availableLanguages);
             Label chooseLanguage = new Label("Choose an additional language");
@@ -163,7 +163,7 @@ public class RPGCharacterSheet extends Application {
 
         });
        woodElf.setOnAction(e->{
-           AbilityAddition(character, 4, 1);
+           abilityAddition(character, 4, 1);
            character.skills.add("Elf Weapon Training");
            character.setSpeed(character.getSpeed()+35);
            character.skills.add("Mask of the Wild");
@@ -172,7 +172,7 @@ public class RPGCharacterSheet extends Application {
 
        });
         darkElf.setOnAction(e->{
-            AbilityAddition(character, 1, 1);
+            abilityAddition(character, 1, 1);
             character.skills.add("Superior Darkvision");
             character.skills.add("Sunlight Sensitivity");
             character.skills.add("Drow Magic");
@@ -186,11 +186,11 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a Half Elf Character if that was the race they chose
+     * To Set up a Half elf Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void HalfElf(CharacterSheet character, Stage halfElfStage) {
+    public static void halfElf(CharacterSheet character, Stage halfElfStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -212,12 +212,12 @@ public class RPGCharacterSheet extends Application {
         character.languages.add("Elvish");
         RPGCharacterSheet.availableLanguages.remove("Elvish");
 
-        AbilityAddition(character, 1, 2);
+        abilityAddition(character, 1, 2);
         RPGCharacterSheet.label.setText("You can add +1 to two other abilities");
-        pane.getChildren().addAll(skillsAdded,RPGCharacterSheet.label,AbilityPrintout(character,1),continueButton);
+        pane.getChildren().addAll(skillsAdded,RPGCharacterSheet.label, abilityPrintout(character,1),continueButton);
        continueButton.setOnAction(e->{
            RPGCharacterSheet.label.setText("You can add +1 to one other ability");
-           pane.getChildren().set(2,AbilityPrintout(character,1));
+           pane.getChildren().set(2, abilityPrintout(character,1));
            continueButton.setOnAction(event -> {
                halfElfStage.setHeight(300);
                pane.getChildren().remove(continueButton);
@@ -240,9 +240,9 @@ public class RPGCharacterSheet extends Application {
      * @param character Character the race attributes are being applied to
      * @param scanner   Scanner used to get inout from user
      */
-    public static void HalfOrc(CharacterSheet character, Scanner scanner) {
-        AbilityAddition(character, 2, 2); // Adds Strength
-        AbilityAddition(character, 6, 1); // Adds constitution
+    public static void halfOrc(CharacterSheet character, Scanner scanner) {
+        abilityAddition(character, 2, 2); // Adds Strength
+        abilityAddition(character, 6, 1); // Adds constitution
         character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darkvision");
         character.skills.add("Menacing");
@@ -255,11 +255,11 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a Human Character if that was the race they chose
+     * To Set up a human Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void Human(CharacterSheet character, Stage humanStage) {
+    public static void human(CharacterSheet character, Stage humanStage) {
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(10,10,10,10));
         pane.setAlignment(Pos.TOP_CENTER);
@@ -272,7 +272,7 @@ public class RPGCharacterSheet extends Application {
         humanStage.setTitle("Human");
 
         for (int i = 1; i <= 6; i++) {
-            AbilityAddition(character, i, 1);
+            abilityAddition(character, i, 1);
         }
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
@@ -294,7 +294,7 @@ public class RPGCharacterSheet extends Application {
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void DragonBorn(CharacterSheet character,Stage dragonbornStage) {
+    public static void dragonBorn(CharacterSheet character, Stage dragonbornStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -305,8 +305,8 @@ public class RPGCharacterSheet extends Application {
         dragonbornStage.setScene(scene);
         dragonbornStage.setTitle("Dragonborn");
 
-        AbilityAddition(character, 2, 2);
-        AbilityAddition(character, 1, 1);
+        abilityAddition(character, 2, 2);
+        abilityAddition(character, 1, 1);
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
         character.languages.add("Draconic");
@@ -337,11 +337,11 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     * To Set up a Halfling Character if that was the race they chose
+     * To Set up a halfling Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      */
-    public static void Halfling(CharacterSheet character, Stage halflingStage) {
+    public static void halfling(CharacterSheet character, Stage halflingStage) {
         VBox pane = new VBox(20);
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
@@ -353,7 +353,7 @@ public class RPGCharacterSheet extends Application {
         halflingStage.setScene(scene);
         halflingStage.setTitle("Halfling");
 
-        AbilityAddition(character, 3, 2);
+        abilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+25);
         character.skills.add("Lucky");
         character.skills.add("Brave");
@@ -375,7 +375,7 @@ public class RPGCharacterSheet extends Application {
         lightfoot.setOnAction(e->{
             continueButton.setDisable(false);
             continueButton.setOnAction(continueButtonEvent ->{
-                AbilityAddition(character, 1, 1);
+                abilityAddition(character, 1, 1);
                 character.skills.add("Naturally Stealthy");
                 character.setRace("Halfling (Lightfoot)");
                 halflingStage.close();
@@ -386,7 +386,7 @@ public class RPGCharacterSheet extends Application {
         stout.setOnAction(e->{
             continueButton.setDisable(false);
             continueButton.setOnAction(continueButtonEvent ->{
-                AbilityAddition(character, 6, 1);
+                abilityAddition(character, 6, 1);
                 character.skills.add("Stout Resilience");
                 character.setRace("Halfling (Stout)");
                 halflingStage.close();
@@ -395,53 +395,67 @@ public class RPGCharacterSheet extends Application {
         });
 
         pane.getChildren().addAll(RPGCharacterSheet.label,row1,continueButton);
-//        halflingStage.showAndWait();
     }
 
     /**
-     * To Set up a Gnome Character if that was the race they chose
+     * To Set up a gnome Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
-     * @param scanner   Scanner used to get inout from user
      */
-    public static void Gnome(CharacterSheet character, Scanner scanner) {
-        AbilityAddition(character, 5, 2);
+    public static void gnome(CharacterSheet character, Stage gnomeStage) {
+        VBox pane = new VBox(20);
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setColor(Color.gray(.5));
+        pane.setEffect(innerShadow);
+        pane.setStyle("-fx-border-color: black");
+        pane.setPadding(new Insets(10,10,10,10));
+        pane.setAlignment(Pos.TOP_CENTER);
+        Scene scene = new Scene(pane,375,150);
+        gnomeStage.setScene(scene);
+        gnomeStage.setTitle("Gnome");
+
+        abilityAddition(character, 5, 2);
         character.setSpeed(character.getSpeed()+25);
         character.skills.add("Darkvision");
         character.skills.add("Gnome Cunning");
-        System.out.println("Darkvision and Gnome Cunning added to skills!");
         character.languages.add("Common");
         character.languages.add("Gnomish");
-        System.out.println("You have learned Common and Gnomish!");
-        System.out.println("Which type of Gnome are you? 1.)Forest Gnome or 2.)Rock Gnome");
-        int choice = scanner.nextInt();
-        while (choice != 1 && choice != 2) {
-            System.out.println("Incorrect choice. Which type of Gnome are you? 1.)Forest Gnome or 2.)Rock Gnome");
-            choice = scanner.nextInt();
-        }
-        if (choice == 1) {
-            AbilityAddition(character, 3, 1);
+
+
+        label.setText("Skills Added: Darkvision and gnome Cunning added to skills\nLanguages learned: Common and Gnomish!\n\nWhich type of gnome are you, a Forest Gnome or Rock Gnome?");
+        ButtonBar row1 = new ButtonBar();
+        Button forestGnome = new Button("Forest Gnome");
+        Button rockGnome = new Button("Rock Gnome");
+
+        row1.getButtons().addAll(forestGnome,rockGnome);
+        row1.setTranslateX(-75);
+
+        forestGnome.setOnAction(e->{
+            abilityAddition(character, 3, 1);
             character.skills.add("Natural Illusionist");
             character.skills.add("Speak with Small Beasts");
-            System.out.println("Natural Illusionist and Speak with Small Beasts were added to your skills!");
+            gnomeStage.close();
 
-        }
-        if (choice == 2) {
-            AbilityAddition(character, 6, 1);
+        });
+        rockGnome.setOnAction(e->{
+            abilityAddition(character, 6, 1);
             character.skills.add("Artificer's Lore");
             character.skills.add("Tinker");
-        }
+            gnomeStage.close();
+        });
+
+        pane.getChildren().addAll(label,row1);
 
     }
 
     /**
-     * To Set up a Tiefling Character if that was the race they chose
+     * To Set up a tiefling Character if that was the race they chose
      *
      * @param character Character the race attributes are being applied to
      * @param scanner   Scanner used to get inout from user
      */
-    public static void Tiefling(CharacterSheet character, Scanner scanner) {
-        AbilityAddition(character, 5, 1);
+    public static void tiefling(CharacterSheet character, Scanner scanner) {
+        abilityAddition(character, 5, 1);
         character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darvision");
         character.skills.add("Hellish Resistance");
@@ -457,7 +471,7 @@ public class RPGCharacterSheet extends Application {
      *
      * @return The numeric choice on which ability they would like
      */
-    public static int AbilityChoice() {
+    public static int abilityChoice() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1.) Charisma");
         System.out.println("2.) Strength");
@@ -469,7 +483,7 @@ public class RPGCharacterSheet extends Application {
         int choice = scanner.nextInt();
         if (choice > 6 || choice < 1) {
             System.out.println("Incorrect option");
-            AbilityChoice();
+            abilityChoice();
         }
         return choice;
     }
@@ -479,52 +493,52 @@ public class RPGCharacterSheet extends Application {
      * @param choice          Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public static void AbilityAddition(CharacterSheet character, int choice, int modifierAddtion) {
+    public static void abilityAddition(CharacterSheet character, int choice, int modifierAddtion) {
         if (choice == 1) {
             character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
             System.out.println("Charisma +" + modifierAddtion);
-            character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
+            character.setCharismaMod(findAbilityMod(character.getCharismaScore()));
             System.out.println("Charisma Modifier " + character.getCharismaMod());
         }
         if (choice == 2) {
             character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
             System.out.println("Strength +" + modifierAddtion);
-            character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
+            character.setStrengthMod(findAbilityMod(character.getStrengthScore()));
             System.out.println("Strength Modifier " + character.getStrengthMod());
         }
         if (choice == 3) {
             character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
             System.out.println("Dexterity +" + modifierAddtion);
-            character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
+            character.setDexterityMod(findAbilityMod(character.getDexterityScore()));
             System.out.println("Dexterity Modifier " + character.getDexterityMod());
         }
         if (choice == 4) {
             character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
             System.out.println("Wisdom +" + modifierAddtion);
-            character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
+            character.setWisdomMod(findAbilityMod(character.getWisdomScore()));
             System.out.println("Wisdom Modifier " + character.getWisdomMod());
         }
         if (choice == 5) {
             character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
             System.out.println("Intelligence +" + modifierAddtion);
-            character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
+            character.setIntelligenceMod(findAbilityMod(character.getIntelligenceScore()));
             System.out.println("Intelligence Modifier " + character.getIntelligenceMod());
         }
         if (choice == 6) {
             character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
             System.out.println("Constitution +" + modifierAddtion);
-            character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
+            character.setConstitutionMod(findAbilityMod(character.getConstitutionScore()));
             System.out.println("Constitution Modifier " + character.getConstitutionMod());
 
         }
     }
 
     /**
-     * Adds scores to a VBox, and on action they will call AbilityAddition
+     * Adds scores to a VBox, and on action they will call abilityAddition
      *
      * @param character Character that the code is pulling the abilities / scores from
      */
-    public static VBox AbilityPrintout(CharacterSheet character, int modifierAddition) {
+    public static VBox abilityPrintout(CharacterSheet character, int modifierAddition) {
         VBox abilities = new VBox(20);
         abilities.setAlignment(Pos.CENTER);
 
@@ -557,31 +571,31 @@ public class RPGCharacterSheet extends Application {
         row2.getButtons().addAll(wisdom,intelligence,constitution);
 
         charisma.setOnAction(e->{
-            AbilityAddition(character,1,modifierAddition);
+            abilityAddition(character,1,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         strength.setOnAction(e-> {
-            AbilityAddition(character,2,modifierAddition);
+            abilityAddition(character,2,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);});
         dexterity.setOnAction(e->{
-            AbilityAddition(character,3,modifierAddition);
+            abilityAddition(character,3,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         wisdom.setOnAction(e-> {
-            AbilityAddition(character,4,modifierAddition);
+            abilityAddition(character,4,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         intelligence.setOnAction(e-> {
-            AbilityAddition(character,5,modifierAddition);
+            abilityAddition(character,5,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         constitution.setOnAction(e->{
-            AbilityAddition(character,6,modifierAddition);
+            abilityAddition(character,6,modifierAddition);
             row1.setDisable(true);
             row2.setDisable(true);
         } );
@@ -600,7 +614,7 @@ public class RPGCharacterSheet extends Application {
      * @param abilityScore Takes in the Ability Score
      * @return Returns the Modifier based on the Ability Score
      */
-    public static int FindAbilityMod(int abilityScore) {
+    public static int findAbilityMod(int abilityScore) {
         Scanner scanner = new Scanner(System.in);
         if (abilityScore == 1) {
             return -5;
@@ -784,7 +798,7 @@ public class RPGCharacterSheet extends Application {
         layout.add(name, 0, 0);
         name.setPrefWidth(150);
 
-        editName.setOnAction(e -> {name.setText(ChooseName(continueButton,  mainCharacter));
+        editName.setOnAction(e -> {name.setText(chooseName(continueButton,  mainCharacter));
             name.setTooltip(new Tooltip(mainCharacter.getName()));});
         layout.add(editName, 0, 1);
         name.setStyle("-fx-Text-fill: Black;");
@@ -797,19 +811,19 @@ public class RPGCharacterSheet extends Application {
         race.setWrapText(true);
 //        editRace.setDisable(true);
         editRace.setOnAction(e -> {
-            if (ConfirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+            if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
                 skills.clear();
                 mainCharacter.skills.clear();
                 languages.clear();
                 mainCharacter.languages.clear();
-                race.setText(ChooseRace(continueButton, mainCharacter));
+                race.setText(chooseRace(continueButton, mainCharacter));
                 race.setTooltip(new Tooltip(mainCharacter.getRace()));
                 setAge.setDisable(false);
                 age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
                 languages.setAll(mainCharacter.languages);
                 skills.setAll(mainCharacter.skills);
                 skillsList.setItems(skills);
-                UpdateAbilities(abilities,mainCharacter);
+                updateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
                 hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
             }
@@ -828,7 +842,7 @@ public class RPGCharacterSheet extends Application {
         characterClass.setUnderline(true);
 
         editClass.setOnAction(e -> {
-           if (ConfirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+           if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
                mainCharacter.armorList.clear();
                armor.clear();
                mainCharacter.weapons.clear();
@@ -836,7 +850,7 @@ public class RPGCharacterSheet extends Application {
                mainCharacter.inventory.clear();
                inventory.clear();
                mainCharacter.setAc(0);
-               characterClass.setText(ChooseClass(continueButton,mainCharacter ));
+               characterClass.setText(chooseClass(continueButton,mainCharacter ));
                for (int i=0 ; i < mainCharacter.armorList.size(); i++){
                    armor.add((mainCharacter.armorList.get(i).getName()));
                }
@@ -853,7 +867,7 @@ public class RPGCharacterSheet extends Application {
                inventoryList.setItems(inventory);
                editAbilities.setDisable(false);
                ac.setText("AC: " + mainCharacter.getAc());
-               UpdateAbilities(abilities,mainCharacter);
+               updateAbilities(abilities,mainCharacter);
                speed.setText("Speed: " + mainCharacter.getSpeed());
 //               primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
            }
@@ -865,7 +879,7 @@ public class RPGCharacterSheet extends Application {
         layout.add(age,3,0);
         setAge.setDisable(true);
         age.setTooltip(new Tooltip("Missing race selection"));
-        setAge.setOnAction(e->{ SetAge(mainCharacter);
+        setAge.setOnAction(e->{ setAge(mainCharacter);
             age.setText("Age: " + mainCharacter.getAge());
             age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
         });
@@ -911,8 +925,8 @@ public class RPGCharacterSheet extends Application {
 
         editAbilities.setDisable(true);
         editAbilities.setOnAction(e-> {
-            ChooseAbilities(continueButton,mainCharacter);
-            UpdateAbilities(abilities,mainCharacter);
+            chooseAbilities(continueButton,mainCharacter);
+            updateAbilities(abilities,mainCharacter);
             editLevel.setDisable(false);
             level.setTooltip(null);
             editRace.setDisable(false);
@@ -929,14 +943,14 @@ public class RPGCharacterSheet extends Application {
         layout.add(level,4,0);
         layout.add(editLevel,4,1);
         editLevel.setOnAction(e->{
-            SetLevel(mainCharacter);
+            setLevel(mainCharacter);
             level.setText("Level: " + mainCharacter.getLevel());
             proficienciesList.setItems(mainCharacter.getProficienciesList());
             featuresList.setItems(mainCharacter.getFeaturesList());
             miscList.setItems(mainCharacter.getMisc());
             ac.setText("AC: " + mainCharacter.getAc());
             hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
-            UpdateAbilities(abilities,mainCharacter);
+            updateAbilities(abilities,mainCharacter);
             speed.setText("Speed: " + mainCharacter.getSpeed());
         });
 
@@ -955,7 +969,7 @@ public class RPGCharacterSheet extends Application {
         primaryStage.show();
     }
 
-    public static String ChooseName(Button continueButton, CharacterSheet mainCharacter) {
+    public static String chooseName(Button continueButton, CharacterSheet mainCharacter) {
         VBox pane = new VBox(15);
 
         InnerShadow shadow = new InnerShadow();
@@ -995,8 +1009,8 @@ public class RPGCharacterSheet extends Application {
      *
      * @return Numeric choice by user
      */
-    public static String ChooseRace(Button continueButton,CharacterSheet mainCharacter) {
-//   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
+    public static String chooseRace(Button continueButton, CharacterSheet mainCharacter) {
+//   "elf", "Half - elf", "human", "Dragonborn", "dwarf", "halfling", "gnome","Half-Orc", "tiefling"
         RPGCharacterSheet.label.setText("");
         continueButton.setDisable(true);
         VBox pane = new VBox(20);
@@ -1017,16 +1031,16 @@ public class RPGCharacterSheet extends Application {
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
             continueButton.setOnAction(continueEvent->
-                Elf(mainCharacter,raceStage));
+                elf(mainCharacter,raceStage));
         });
 
-        Button halfElf = new Button("Half-Elf");
+        Button halfElf = new Button("Half-elf");
         halfElf.setOnAction(e -> {
-            mainCharacter.setRace("Half-Elf");
+            mainCharacter.setRace("Half-elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
             continueButton.setOnAction(event ->
-                HalfElf(mainCharacter,raceStage));
+                halfElf(mainCharacter,raceStage));
 
         });
 
@@ -1034,7 +1048,7 @@ public class RPGCharacterSheet extends Application {
         Button human = new Button("Human");
         human.setOnAction(e -> {
             continueButton.setOnAction(event ->
-                Human(mainCharacter,raceStage));
+                human(mainCharacter,raceStage));
             mainCharacter.setRace("Human");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
@@ -1042,8 +1056,8 @@ public class RPGCharacterSheet extends Application {
 
         Button dragonBorn = new Button("Dragonborn");
         dragonBorn.setOnAction(e -> {
-            continueButton.setOnAction(event -> DragonBorn(mainCharacter,raceStage));
-            mainCharacter.setRace("DragonBorn");
+            continueButton.setOnAction(event -> dragonBorn(mainCharacter,raceStage));
+            mainCharacter.setRace("Dragonborn");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
         });
@@ -1052,15 +1066,15 @@ public class RPGCharacterSheet extends Application {
         Button dwarf = new Button("Dwarf");
         dwarf.setOnAction(e -> {
             continueButton.setOnAction(event ->
-                Dwarf(mainCharacter,raceStage));
-            mainCharacter.setRace("Dwarf");
+                dwarf(mainCharacter,raceStage));
+            mainCharacter.setRace("dwarf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
         });
 
         Button halfling = new Button("Halfling");
         halfling.setOnAction(e -> {
-            continueButton.setOnAction(event -> Halfling(mainCharacter,raceStage)
+            continueButton.setOnAction(event -> halfling(mainCharacter,raceStage)
             );
             mainCharacter.setRace("Halfling");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
@@ -1069,21 +1083,22 @@ public class RPGCharacterSheet extends Application {
 
         Button gnome = new Button("Gnome");
         gnome.setOnAction(e -> {
-            continueButton.setOnAction(event -> raceStage.close());
+            continueButton.setOnAction(event ->
+                gnome(mainCharacter,raceStage));
             mainCharacter.setRace("Gnome");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
         });
         Button halfOrc = new Button("Half-Orc");
         halfOrc.setOnAction(e -> {
-            continueButton.setOnAction(event -> raceStage.close());
+//            continueButton.setOnAction(event -> );
             mainCharacter.setRace("Half-Orc");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
         });
         Button tiefling = new Button("Tiefling");
         tiefling.setOnAction(e -> {
-            continueButton.setOnAction(event -> raceStage.close());
+//            continueButton.setOnAction(event -> );
             mainCharacter.setRace("Tiefling");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
@@ -1119,7 +1134,7 @@ public class RPGCharacterSheet extends Application {
      *
      * @return Numeric choice by user
      */
-    public static String ChooseClass(Button continueButton,CharacterSheet mainCharacter) {
+    public static String chooseClass(Button continueButton, CharacterSheet mainCharacter) {
         // "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
 
         RPGCharacterSheet.label.setText("");
@@ -1138,7 +1153,7 @@ public class RPGCharacterSheet extends Application {
         continueButton.setOnAction(e ->{
             if (mainCharacter.getCharacterClass().equals("Barbarian")) {
             Barbarian barbarianCharacter = new Barbarian(mainCharacter);
-            barbarianCharacter.ChooseArmor(classStage); }
+            barbarianCharacter.chooseArmor(classStage); }
         });
         continueButton.setDisable(true);
 
@@ -1245,7 +1260,7 @@ public class RPGCharacterSheet extends Application {
     }
 
 
-    public void ChooseAbilities(Button continueButton, CharacterSheet characterSheet) {
+    public void chooseAbilities(Button continueButton, CharacterSheet characterSheet) {
         Stage chooseAbilities = new Stage();
         chooseAbilities.setResizable(false);
         chooseAbilities.setTitle("Choose Abilities");
@@ -1265,7 +1280,7 @@ public class RPGCharacterSheet extends Application {
 //        String[] abilityNames = {"Charisma, ""Strength", "Dexterity", "Wisdom", "Intelligence", "Constitution"};
         if (d20Rolls[0] == 0){
             for (int i = 0; i < 6; i++) {
-                d20Rolls[i] = D20Roll();
+                d20Rolls[i] = d20Roll();
             }
         }
         Label diceRolls = new Label("Your D20 Rolls : " + d20Rolls[0] + " | " + d20Rolls[1] + " | " + d20Rolls[2] + " | " + d20Rolls[3] + " | " + d20Rolls[4] + " | " + d20Rolls[5] + " | \nChoose your ability scores.");
@@ -1284,7 +1299,7 @@ public class RPGCharacterSheet extends Application {
             // Charisma setup
                try {
                    characterSheet.setCharismaScore(rolls.getValue() + characterSheet.getCharismaScore());
-                    characterSheet.setCharismaMod(FindAbilityMod(characterSheet.getCharismaScore()));
+                    characterSheet.setCharismaMod(findAbilityMod(characterSheet.getCharismaScore()));
                     rolls.getItems().remove(rolls.getValue());
                     abilities.getChildren().set(1,new Label("Charisma : " + characterSheet.getCharismaScore() + "/ " + characterSheet.getCharismaMod()));
 
@@ -1293,7 +1308,7 @@ public class RPGCharacterSheet extends Application {
                     rolls.setOnAction(strength -> {
                         try {
                             characterSheet.setStrengthScore(rolls.getValue() + characterSheet.getStrengthScore());
-                            characterSheet.setStrengthMod(FindAbilityMod(characterSheet.getStrengthScore()));
+                            characterSheet.setStrengthMod(findAbilityMod(characterSheet.getStrengthScore()));
                             rolls.getItems().remove(rolls.getValue());
                             abilities.getChildren().set(2,new Label("Strength : " + characterSheet.getStrengthScore() + "/ " + characterSheet.getStrengthMod()));
 
@@ -1301,7 +1316,7 @@ public class RPGCharacterSheet extends Application {
                             rolls.setOnAction(dexterity -> {
                                 try {
                                     characterSheet.setDexterityScore(rolls.getValue() + characterSheet.getDexterityScore());
-                                    characterSheet.setDexterityMod(FindAbilityMod(characterSheet.getDexterityScore()));
+                                    characterSheet.setDexterityMod(findAbilityMod(characterSheet.getDexterityScore()));
                                     rolls.getItems().remove(rolls.getValue());
                                     abilities.getChildren().set(3,new Label("Dexterity : " + characterSheet.getDexterityScore() + "/ " + characterSheet.getDexterityMod()));
 
@@ -1309,7 +1324,7 @@ public class RPGCharacterSheet extends Application {
                                     rolls.setOnAction(wisdom -> {
                                         try {
                                             characterSheet.setWisdomScore(rolls.getValue() + characterSheet.getWisdomScore());
-                                            characterSheet.setWisdomMod(FindAbilityMod(characterSheet.getWisdomScore()));
+                                            characterSheet.setWisdomMod(findAbilityMod(characterSheet.getWisdomScore()));
                                             rolls.getItems().remove(rolls.getValue());
                                             abilities.getChildren().set(4,new Label("Wisdom : " + characterSheet.getWisdomScore() + "/ " + characterSheet.getWisdomMod()));
 
@@ -1317,7 +1332,7 @@ public class RPGCharacterSheet extends Application {
                                             rolls.setOnAction(intelligence -> {
                                                 try {
                                                     characterSheet.setIntelligenceScore(rolls.getValue() + characterSheet.getIntelligenceScore());
-                                                    characterSheet.setIntelligenceMod(FindAbilityMod(characterSheet.getIntelligenceScore()));
+                                                    characterSheet.setIntelligenceMod(findAbilityMod(characterSheet.getIntelligenceScore()));
                                                     rolls.getItems().remove(rolls.getValue());
                                                     abilities.getChildren().set(5,new Label("Intelligence : " + characterSheet.getIntelligenceScore() + "/ " + characterSheet.getIntelligenceMod()));
                                                     // Constitution setup
@@ -1325,7 +1340,7 @@ public class RPGCharacterSheet extends Application {
                                                         try {
                                                             characterSheet.setConstitutionScore(rolls.getValue()+ characterSheet.getConstitutionScore());
 
-                                                            characterSheet.setConstitutionMod(FindAbilityMod(characterSheet.getConstitutionScore()));
+                                                            characterSheet.setConstitutionMod(findAbilityMod(characterSheet.getConstitutionScore()));
                                                             rolls.getItems().remove(rolls.getValue());
                                                             abilities.getChildren().set(6,new Label("Constitution : " + characterSheet.getConstitutionScore() + "/ " + characterSheet.getConstitutionMod()));
                                                             abilities.getChildren().add(continueButton);
@@ -1349,7 +1364,7 @@ public class RPGCharacterSheet extends Application {
             chooseAbilities.showAndWait();
         }
 
-        public void SetAge (CharacterSheet mainCharacter){
+        public void setAge(CharacterSheet mainCharacter){
 
             Stage setAgeStage = new Stage();
             setAgeStage.setResizable(false);
@@ -1409,7 +1424,7 @@ public class RPGCharacterSheet extends Application {
 
         }
 
-        public void SetLevel(CharacterSheet mainCharacter){
+        public void setLevel(CharacterSheet mainCharacter){
             Stage setLevelStage = new Stage();
             setLevelStage.setResizable(false);
             GridPane pane = new GridPane();
@@ -1454,7 +1469,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setOnAction(e->{
                 if (mainCharacter.getCharacterClass().equals("Barbarian")){
                     Barbarian barbarian = new Barbarian(mainCharacter);
-                    barbarian.AddLevel(setLevelStage,Integer.parseInt(choice.getText().split(" ")[1]),1);
+                    barbarian.addLevel(setLevelStage,Integer.parseInt(choice.getText().split(" ")[1]),1);
                 }
             });
 
@@ -1467,7 +1482,7 @@ public class RPGCharacterSheet extends Application {
 
     }
 
-    public boolean ConfirmingPopUp(String message){
+    public boolean confirmingPopUp(String message){
         VBox pane = new VBox(50);
         Scene scene = new Scene(pane,300,200);
         Stage popUpStage= new Stage();
@@ -1509,7 +1524,7 @@ public class RPGCharacterSheet extends Application {
         }
         }
 
-        public void UpdateAbilities(VBox abilities, CharacterSheet mainCharacter){
+        public void updateAbilities(VBox abilities, CharacterSheet mainCharacter){
             abilities.setTranslateY(12);
             abilities.setStyle("-fx-border-color: black");
             abilities.setMaxHeight(150);

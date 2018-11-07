@@ -38,44 +38,44 @@ public class Barbarian{
      * @param AbilityChoice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public void AbilityAddition(CharacterSheet character, String AbilityChoice, int modifierAddtion){
+    public void abilityAddition(CharacterSheet character, String AbilityChoice, int modifierAddtion){
         if (AbilityChoice.equals("Charisma")){
                 character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
                 System.out.println("Charisma +" + modifierAddtion);
-                character.setCharismaMod(FindAbilityMod(character.getCharismaScore()));
+                character.setCharismaMod(findAbilityMod(character.getCharismaScore()));
 
         }
         if (AbilityChoice.equals("Strength")){
                 character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
                 System.out.println("Strength +" + modifierAddtion);
-                character.setStrengthMod(FindAbilityMod(character.getStrengthScore()));
+                character.setStrengthMod(findAbilityMod(character.getStrengthScore()));
 
         }
         if (AbilityChoice.equals("Dexterity")){
                 character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
                 System.out.println("Dexterity +" + modifierAddtion);
-                character.setDexterityMod(FindAbilityMod(character.getDexterityScore()));
+                character.setDexterityMod(findAbilityMod(character.getDexterityScore()));
 
         }
         if (AbilityChoice.equals("Wisdom")){
                 character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
                 System.out.println("Wisdom +" + modifierAddtion);
-                character.setWisdomMod(FindAbilityMod(character.getWisdomScore()));
+                character.setWisdomMod(findAbilityMod(character.getWisdomScore()));
         }
         if (AbilityChoice.equals("Intelligence")){
                 character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
                 System.out.println("Intelligence +" + modifierAddtion);
-                character.setIntelligenceMod(FindAbilityMod(character.getIntelligenceScore()));
+                character.setIntelligenceMod(findAbilityMod(character.getIntelligenceScore()));
         }
         if (AbilityChoice.equals("Constitution")){
                 character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
                 System.out.println("Constitution +" + modifierAddtion);
-                character.setConstitutionMod(FindAbilityMod(character.getConstitutionScore()));
+                character.setConstitutionMod(findAbilityMod(character.getConstitutionScore()));
 
         }
     }
 
-    public GridPane AbilityScoreImprovement (Stage addLevelStage, int maxLevel,int startinglevel){
+    public GridPane abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel){
         Button continueButton = new Button("Continue");
         Label choice = new Label();
         choice.setWrapText(true);
@@ -168,10 +168,10 @@ public class Barbarian{
             question.setText("Which Ability score would you like to increase by +2 ?");
 
             continueButton.setOnAction(continueEvent->{
-                AbilityAddition(character,choice.getText(),2);
+                abilityAddition(character,choice.getText(),2);
                 if (startinglevel == maxLevel){
                     addLevelStage.close();
-                }else AddLevel(addLevelStage,maxLevel,startinglevel+1);
+                }else addLevel(addLevelStage,maxLevel,startinglevel+1);
             });
 
         });
@@ -200,10 +200,10 @@ public class Barbarian{
                 continueButton.setOnAction(continueEvent2 ->{
                     intChoice[1] = choice.getText();
                     for (int i = 0 ; i <2; i++){
-                        AbilityAddition(character,intChoice[i],1);
+                        abilityAddition(character,intChoice[i],1);
                         if (startinglevel == maxLevel){
                             addLevelStage.close();
-                        }else AddLevel(addLevelStage,maxLevel,startinglevel+1);
+                        }else addLevel(addLevelStage,maxLevel,startinglevel+1);
                     }
                 });
             });
@@ -212,7 +212,7 @@ public class Barbarian{
         return pane;
     }
 
-    public void AddLevel(Stage addLevelStage, int maxLevel, int startingLevel){
+    public void addLevel(Stage addLevelStage, int maxLevel, int startingLevel){
 
             if (startingLevel <= maxLevel){
                 Label hp = new Label("Hit Points: "+ character.getHitPoints());
@@ -245,7 +245,7 @@ public class Barbarian{
                 continueButton.setOnAction(e->{
                     if (startingLevel == maxLevel){
                         addLevelStage.close();
-                    }else  AddLevel(addLevelStage,maxLevel,startingLevel+1);
+                    }else  addLevel(addLevelStage,maxLevel,startingLevel+1);
                 });
 
                 if (startingLevel ==1){
@@ -299,7 +299,7 @@ public class Barbarian{
                             secondChoice.setDisable(true);
                            if (startingLevel == maxLevel){
                                addLevelStage.close();
-                           }else  AddLevel(addLevelStage,maxLevel,2);
+                           }else  addLevel(addLevelStage,maxLevel,2);
 
                         });
                     });
@@ -322,7 +322,7 @@ public class Barbarian{
 
                      changes.setText("Added the following to your character.\nFeatures: Reckless Attack and Danger Sense.");
                     pane.add(changes,0,0);
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
 
                     pane.add(continueButton,0,1);
@@ -332,7 +332,7 @@ public class Barbarian{
                 if (startingLevel ==3){
                     this.rages = 3;
                     rages.setText("Rages: " + this.rages);
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
 
                     Label choosePath = new Label("Choose your Primal Path");
@@ -370,7 +370,7 @@ public class Barbarian{
                             features.setItems(character.getFeaturesList());
                             if (startingLevel == maxLevel){
                                 addLevelStage.close();
-                            } else AddLevel(addLevelStage,maxLevel,4);
+                            } else addLevel(addLevelStage,maxLevel,4);
                         }else {
 
                             pane.getChildren().removeAll(berserker,totemWarrior);
@@ -418,7 +418,7 @@ public class Barbarian{
                                 primalPath.setText("Primal Path: "+ this.primalPath);
                                 if (startingLevel == maxLevel){
                                     addLevelStage.close();
-                                }else AddLevel(addLevelStage,maxLevel,4);
+                                }else addLevel(addLevelStage,maxLevel,4);
 
                             });
                         }
@@ -426,16 +426,16 @@ public class Barbarian{
 
                 }
                 if (startingLevel ==4){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
-                    borderPane.setCenter(AbilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==5){
                     this.proficiency = 3;
                     proficiency.setText("Proficiency : + "+ this.proficiency);
                     character.getFeaturesList().addAll("Extra Attack","Fast Movement");
                     features.setItems(character.getFeaturesList());
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
                     character.setSpeed(character.getSpeed() + 10);
 
@@ -446,7 +446,7 @@ public class Barbarian{
                 if (startingLevel ==6){
                     this.rages = 4;
                     rages.setText("Rages: " + this.rages);
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
                     if (primalPath.getText().split(" ")[2].equals("Berserker")){
                         character.getFeaturesList().add("Mindless Rage");
@@ -500,7 +500,7 @@ public class Barbarian{
                             primalPath.setText("Primal Path: "+ this.primalPath);
                             if (startingLevel == maxLevel){
                                 addLevelStage.close();
-                            }else AddLevel(addLevelStage,maxLevel,7);
+                            }else addLevel(addLevelStage,maxLevel,7);
 
                         });
                     }
@@ -508,7 +508,7 @@ public class Barbarian{
                 if (startingLevel ==7){
                     character.getFeaturesList().add("Feral Instinct");
                     features.setItems(character.getFeaturesList());
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
 
                      changes.setText("Features Added: Feral Instinct");
@@ -516,16 +516,16 @@ public class Barbarian{
                     pane.add(continueButton,0,1);
                 }
                 if (startingLevel ==8){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
-                    borderPane.setCenter(AbilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==9){
                     this.proficiency = 4;
                     character.getFeaturesList().add("Brutal Critical (1 Die)");
                     features.setItems(character.getFeaturesList());
                     this.rageDamage = 3;
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     proficiency.setText("Proficiency : + "+ this.proficiency);
                     rageDamage.setText("Rage Damage: " + this.rageDamage);
@@ -534,7 +534,7 @@ public class Barbarian{
                     pane.add(continueButton,0,1);
                 }
                 if (startingLevel ==10){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     if (this.primalPath.equals("Berserker")){
                         character.getFeaturesList().add("Intimidating Presence");
@@ -547,7 +547,7 @@ public class Barbarian{
                     pane.add(continueButton,0,1);
                 }
                 if (startingLevel ==11){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     character.getFeaturesList().add("Relentless Rage");
                     features.setItems(character.getFeaturesList());
@@ -557,13 +557,13 @@ public class Barbarian{
 
                 }
                 if (startingLevel ==12){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     this.rages = 5;
-                    borderPane.setCenter(AbilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==13){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     this.proficiency=5;
                     character.getFeaturesList().remove("Brutal Critical (1 Die)");
@@ -573,7 +573,7 @@ public class Barbarian{
                     pane.add(continueButton,0,1);
                 }
                 if (startingLevel ==14){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
 
                     if (this.primalPath.equals("Berserker")){
@@ -628,13 +628,13 @@ public class Barbarian{
                             primalPath.setText("Primal Path: "+ this.primalPath);
                             if (startingLevel == maxLevel){
                                 addLevelStage.close();
-                            }else AddLevel(addLevelStage,maxLevel,startingLevel+1);
+                            }else addLevel(addLevelStage,maxLevel,startingLevel+1);
 
                         });
                     }
                 }
                 if (startingLevel ==15){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     character.getFeaturesList().add("Persistent Rage");
                     features.setItems(character.getFeaturesList());
@@ -643,14 +643,14 @@ public class Barbarian{
                     pane.add(continueButton,0,1);
                 }
                 if (startingLevel ==16){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     this.rageDamage = 4;
                     rageDamage.setText("Rage Damage: 4");
-                    borderPane.setCenter(AbilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==17){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     this.proficiency = 6;
                     proficiency.setText("Proficiency: " + this.proficiency);
@@ -662,7 +662,7 @@ public class Barbarian{
                     pane.add(continueButton,0,1);
                 }
                 if (startingLevel ==18){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     character.getFeaturesList().add("Indomitable Might");
                     features.setItems(character.getFeaturesList());
@@ -671,16 +671,16 @@ public class Barbarian{
                     pane.add(continueButton,0,1);
                 }
                 if (startingLevel ==19){
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
-                    borderPane.setCenter(AbilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==20){
                     continueButton.setText("Close");
-                    AbilityAddition(character,"Strength",4);
-                    AbilityAddition(character,"Constitution",4);
+                    abilityAddition(character,"Strength",4);
+                    abilityAddition(character,"Constitution",4);
 
-                    character.setHitPoints(character.getHitPoints() + (D12Roll() + character.getConstitutionMod()));
+                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     character.getFeaturesList().add("Primal Champion");
                     features.setItems(character.getFeaturesList());
@@ -713,12 +713,12 @@ public class Barbarian{
      * @param inventory Vector of items
      * @param item item you are adding in vector, or adding quantity to already existing item
      */
-    public void CheckAndAddItemQuantity(Vector<Item> inventory,Item item){
+    public void checkAndAddItemQuantity(Vector<Item> inventory, Item item){
         int counter =0;
         int i;
         for ( i =0; i< inventory.size();i++){
             if (inventory.get(i).getName().equals(item.getName())){
-                inventory.get(i).Addition(item);
+                inventory.get(i).addition(item);
                 counter++;
                 System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
             }
@@ -735,7 +735,7 @@ public class Barbarian{
      * Randomly Generates a number between 1 and 12. Simulating a D12
      * @return Random number between 1 and 12
      */
-    public int D12Roll(){
+    public int d12Roll(){
         double randomDouble = Math.random()*12 +1;
         Double randomDouble2 = randomDouble;
         int roll = randomDouble2.intValue();
@@ -748,7 +748,7 @@ public class Barbarian{
      * @param abilityScore Takes in the Ability Score
      * @return Returns the MOdifier based on the Ability Score
      */
-    public static int FindAbilityMod(int abilityScore) {
+    public static int findAbilityMod(int abilityScore) {
         Scanner scanner = new Scanner(System.in);
         Scanner endOfLine = new Scanner(System.in);
         while(abilityScore<0 || abilityScore>30){
@@ -806,24 +806,8 @@ public class Barbarian{
 
     }
 
-    /**
-     * Checks to make sure that the choice from the user does not exceed the lower or upper bounds
-     * @param choice Numberic Choice made by user
-     * @param lowerCheck The lower bound
-     * @param higherCheck The upper bound
-     * @return Returns choice once it is a valid option
-     */
-    public int InputErrorCheck(int choice, int lowerCheck, int higherCheck){
-        Scanner scanner = new Scanner(System.in);
-        while (choice < lowerCheck || choice > higherCheck){
-            System.out.println("Incorrect option, please choose a different option");
-            choice = scanner.nextInt();
-            String endofLine = scanner.nextLine();
-        }
-        return choice;
-    }
 
-    public void ChooseArmor(Stage chooseArmorStage){
+    public void chooseArmor(Stage chooseArmorStage){
         VBox pane = new VBox(10);
         Scene scene = new Scene(pane,450,200);;
         InnerShadow shadow = new InnerShadow();
@@ -879,7 +863,7 @@ public class Barbarian{
                 //finds index of Armor and Adds Armor as an item
                 for (int i=0 ;i < character.getAllArmor().length; i++){
                     if (character.getAllArmor()[i].equals(armorChoices.getValue())){
-                        CheckAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue() +" armor",character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
+                        checkAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue() +" armor",character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
                         character.setAc(character.getAc()+character.getAllArmorAC()[i]);
                         break;
                     }
@@ -887,10 +871,10 @@ public class Barbarian{
 
 
                 if (character.isShield() == true){
-                    CheckAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+                    checkAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
                     character.setAc(character.getAc() +2);
                 }
-                ChooseWeapon(chooseArmorStage);
+                chooseWeapon(chooseArmorStage);
             });
 
         pane.getChildren().addAll(armorLabel,new HBox(armor,armorChoices), new HBox(shield,yOrN));
@@ -900,7 +884,7 @@ public class Barbarian{
     }
 
 
-    public void ChooseWeapon(Stage chooseWeaponStage){
+    public void chooseWeapon(Stage chooseWeaponStage){
 
         VBox pane = new VBox(10);
         pane.setAlignment(Pos.TOP_LEFT);
@@ -940,17 +924,17 @@ public class Barbarian{
 
             for (int i = 0 ; i< character.getMartialMeleeWeapons().length ; i++){
                 if (character.getMartialMeleeWeapons()[i].equals(greataxeOrMMW.getValue())){
-                    CheckAndAddItemQuantity(character.weapons, new Item(character.getMartialMeleeWeapons()[i],character.getMartialMeleeWeaponsProperties()[i],1,character.getMartialMeleeWeaponCost()[i]));
+                    checkAndAddItemQuantity(character.weapons, new Item(character.getMartialMeleeWeapons()[i],character.getMartialMeleeWeaponsProperties()[i],1,character.getMartialMeleeWeaponCost()[i]));
                     break;
                 }
             }
 
             if (handaxeOrSMW.getValue().equals("Handaxe")){
-                CheckAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[3],character.getSimpleMeleeWeaponProperties()[3],2,character.getSimpleMeleeWeaponsCost()[3]));
+                checkAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[3],character.getSimpleMeleeWeaponProperties()[3],2,character.getSimpleMeleeWeaponsCost()[3]));
             } else {
                 for (int i =0 ; i<character.getSimpleMeleeWeapons().length ; i++){
                     if (character.getSimpleMeleeWeapons()[i].equals(handaxeOrSMW.getValue().toString())){
-                        CheckAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[i],character.getSimpleMeleeWeaponProperties()[i],2,character.getSimpleMeleeWeaponsCost()[i]));
+                        checkAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[i],character.getSimpleMeleeWeaponProperties()[i],2,character.getSimpleMeleeWeaponsCost()[i]));
                     }
                 }
             }
@@ -960,15 +944,15 @@ public class Barbarian{
 
         pane.getChildren().addAll(weaponLabel,new HBox(42,firstWeapon,greataxeOrMMW), new HBox(10,secondWeapon,handaxeOrSMW),pack);
 
-        CheckAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
-        CheckAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
-        CheckAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
-        CheckAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
-        CheckAndAddItemQuantity(character.inventory,new Item("Torch","A torch burns for 1 hour providing bright light in a 20 foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
-        CheckAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
-        CheckAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
-        CheckAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
-        CheckAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
+        checkAndAddItemQuantity(character.inventory,new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+        checkAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+        checkAndAddItemQuantity(character.inventory, new Item("Mess Kit","This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or a shallow bowl.",1,2));
+        checkAndAddItemQuantity(character.inventory, new Item("Tinderbox","This small contained hold flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it ot light a torch - or anything else with abundant,exposed fuel - takes action. Lighting any other fire takes one minute.",1,5));
+        checkAndAddItemQuantity(character.inventory,new Item("Torch","A torch burns for 1 hour providing bright light in a 20 foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",10,1));
+        checkAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
+        checkAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+        checkAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
+        checkAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
 
         pane.setStyle("-fx-border-color: black");
 

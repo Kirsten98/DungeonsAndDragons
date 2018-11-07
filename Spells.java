@@ -10,7 +10,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> BardSpellSetUp(int level){
+    public static Vector<String> bardSpellSetUp(int level){
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
         Vector<String> thirdLevelSpells = new Vector<>();
@@ -188,7 +188,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> ClericSpellSetUp(int level){
+    public static Vector<String> clericSpellSetUp(int level){
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
         Vector<String> thirdLevelSpells = new Vector<>();
@@ -353,7 +353,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> DruidSpellSetUp(int level){
+    public static Vector<String> druidSpellSetUp(int level){
 
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
@@ -523,7 +523,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> PaladinSpellSetUp(int level){
+    public static Vector<String> paladinSpellSetUp(int level){
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
         Vector<String> thirdLevelSpells = new Vector<>();
@@ -585,7 +585,7 @@ public class Spells {
            System.out.println("Incorrect Level, please choose a different option");
            int choice = scanner.nextInt();
            String endOfLine = scanner.nextLine();
-           PaladinSpellSetUp(choice);
+           paladinSpellSetUp(choice);
        }
         if (level==1){
             return firstLevelSpells;
@@ -606,7 +606,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> RangerSpellSetUp(int level){
+    public static Vector<String> rangerSpellSetUp(int level){
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
         Vector<String> thirdLevelSpells = new Vector<>();
@@ -669,7 +669,7 @@ public class Spells {
             System.out.println("Incorrect Level, please choose a different option");
             int choice = scanner.nextInt();
             String endOfLine = scanner.nextLine();
-            PaladinSpellSetUp(choice);
+            paladinSpellSetUp(choice);
         }
         if (level==1){
             return firstLevelSpells;
@@ -690,7 +690,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> SorcererSpellSetUp(int level){
+    public static Vector<String> sorcererSpellSetUp(int level){
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
         Vector<String> thirdLevelSpells = new Vector<>();
@@ -881,7 +881,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> WarlockSpellSetUp(int level){
+    public static Vector<String> warlockSpellSetUp(int level){
 
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
@@ -1015,7 +1015,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> WizardSpellSetUp (int level){
+    public static Vector<String> wizardSpellSetUp(int level){
 
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();
@@ -1288,7 +1288,7 @@ public class Spells {
      * @param level Enter level for the spell you needed returned (1-9). Any integer that is not 1-9 will return the Cantrips.
      * @return Vector of spells for the level provided.
      */
-    public static Vector<String> AllClassSpellSetUp(int level){
+    public static Vector<String> allClassSpellSetUp(int level){
 
         Vector<String> firstLevelSpells = new Vector<>();
         Vector<String> secondLevelSpells = new Vector<>();

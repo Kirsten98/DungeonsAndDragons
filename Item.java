@@ -43,7 +43,7 @@ public class Item {
      * Adds item quantities together
      * @param item2  second item you would add the quantity to.
      */
-    public void Addition(Item item2){
+    public void addition(Item item2){
         this.quantity = this.quantity+item2.quantity;
     }
 
