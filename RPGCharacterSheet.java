@@ -23,6 +23,7 @@ public class RPGCharacterSheet extends Application {
     private static ObservableList availableLanguages = new CharacterSheet().getAllLanguages();
     private static Label label = new Label("");
     private static int[] d20Rolls = new int[6];
+    private static Vector<Integer> raceAbilityChoices = new Vector<>();
 
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
@@ -144,8 +145,8 @@ public class RPGCharacterSheet extends Application {
        Button continueButton = new Button("Continue");
 
        pane.getChildren().addAll(RPGCharacterSheet.label,elves,choice);
-        highElf.setOnAction(e->   {
-            elfStage.setHeight(400);
+        highElf.setOnAction(e->{
+            elfStage.setHeight(325);
             abilityAddition(character, 5, 1);
             character.skills.add("Elf Weapon Training");
             ComboBox<String> languages = new ComboBox<>(availableLanguages);
@@ -153,6 +154,7 @@ public class RPGCharacterSheet extends Application {
             continueButton.setDisable(true);
             languages.setOnAction(languageEvent->continueButton.setDisable(false));
             continueButton.setOnAction(continueEvent->{
+                character.setRace("High Elf");
                 character.languages.add(languages.getValue());
                 elfStage.close();
             });
@@ -161,6 +163,7 @@ public class RPGCharacterSheet extends Application {
         });
        woodElf.setOnAction(e->{
            abilityAddition(character, 4, 1);
+           character.setRace("Wood Elf");
            character.skills.add("Elf Weapon Training");
            character.setSpeed(character.getSpeed()+35);
            character.skills.add("Mask of the Wild");
@@ -170,6 +173,7 @@ public class RPGCharacterSheet extends Application {
        });
         darkElf.setOnAction(e->{
             abilityAddition(character, 1, 1);
+            character.setRace("Dark Elf");
             character.skills.add("Superior Darkvision");
             character.skills.add("Sunlight Sensitivity");
             character.skills.add("Drow Magic");
@@ -199,6 +203,7 @@ public class RPGCharacterSheet extends Application {
         halfElfStage.setTitle("Half-Elf");
         halfElfStage.setHeight(250);
 
+        raceAbilityChoices.clear();
         Button continueButton = new Button("Continue");
         character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darkvision");
@@ -437,6 +442,7 @@ public class RPGCharacterSheet extends Application {
         row1.setTranslateX(-75);
 
         forestGnome.setOnAction(e->{
+            character.setRace("Gnome (Forest)");
             abilityAddition(character, 3, 1);
             character.skills.add("Natural Illusionist");
             character.skills.add("Speak with Small Beasts");
@@ -444,6 +450,7 @@ public class RPGCharacterSheet extends Application {
 
         });
         rockGnome.setOnAction(e->{
+            character.setRace("Gnome (Rock)");
             abilityAddition(character, 6, 1);
             character.skills.add("Artificer's Lore");
             character.skills.add("Tinker");
@@ -570,30 +577,36 @@ public class RPGCharacterSheet extends Application {
 
         charisma.setOnAction(e->{
             abilityAddition(character,1,modifierAddition);
+            raceAbilityChoices.add(1);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         strength.setOnAction(e-> {
             abilityAddition(character,2,modifierAddition);
+            raceAbilityChoices.add(2);
             row1.setDisable(true);
             row2.setDisable(true);});
         dexterity.setOnAction(e->{
             abilityAddition(character,3,modifierAddition);
+            raceAbilityChoices.add(3);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         wisdom.setOnAction(e-> {
             abilityAddition(character,4,modifierAddition);
+            raceAbilityChoices.add(4);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         intelligence.setOnAction(e-> {
             abilityAddition(character,5,modifierAddition);
+            raceAbilityChoices.add(5);
             row1.setDisable(true);
             row2.setDisable(true);
         });
         constitution.setOnAction(e->{
             abilityAddition(character,6,modifierAddition);
+            raceAbilityChoices.add(6);
             row1.setDisable(true);
             row2.setDisable(true);
         } );
@@ -614,6 +627,9 @@ public class RPGCharacterSheet extends Application {
      * @return Returns the Modifier based on the Ability Score
      */
     private static int findAbilityMod(int abilityScore) {
+        if (abilityScore < 1) {
+            return 0;
+        }
         if (abilityScore == 1) {
             return -5;
         }
@@ -803,6 +819,10 @@ public class RPGCharacterSheet extends Application {
 //        editRace.setDisable(true);
         editRace.setOnAction(e -> {
             if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+                if (!mainCharacter.getRace().equals("")){
+                    resetPreviousRaceOptions(mainCharacter);
+                    updateAbilities(abilities,mainCharacter);
+                }
                 skills.clear();
                 mainCharacter.skills.clear();
                 languages.clear();
@@ -1006,51 +1026,7 @@ public class RPGCharacterSheet extends Application {
      */
     private static String chooseRace(Button continueButton, CharacterSheet mainCharacter) {
 //   "Elf", "Half - Elf", "Human", "Dragonborn", "Dwarf", "Halfling", "Gnome","Half-Orc", "Tiefling"
-        if (!mainCharacter.getRace().equals("")){
-            if (mainCharacter.getRace().equals("Elf")){
 
-            }
-            if (mainCharacter.getRace().equals("Elf")){
-
-            }
-            if (mainCharacter.getRace().equals("Elf")){
-
-            }
-            if (mainCharacter.getRace().equals("Half - Elf")){
-
-            }
-            if (mainCharacter.getRace().equals("Human")){
-
-            }
-            if (mainCharacter.getRace().equals("Dragonborn")){
-
-            }
-            if (mainCharacter.getRace().equals("Dwarf (Mountain)")){
-                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
-                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
-
-                mainCharacter.setWisdomScore(mainCharacter.getWisdomScore()-2);
-                mainCharacter.setWisdomMod(findAbilityMod(mainCharacter.getWisdomScore()));
-            }
-            if (mainCharacter.getRace().equals("Dwarf (Hill)")){
-                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
-                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
-
-                mainCharacter.setStrengthScore(mainCharacter.getStrengthScore()-2);
-                mainCharacter.setStrengthMod(findAbilityMod(mainCharacter.getStrengthScore()));
-            }
-            if (mainCharacter.getRace().equals("Halfling")){
-
-            }
-            if (mainCharacter.getRace().equals("Gnome")){
-
-            }
-            if (mainCharacter.getRace().equals("Half-Orc")){
-
-            }if (mainCharacter.getRace().equals("Tiefling")){
-
-            }
-        }
         RPGCharacterSheet.label.setText("");
         continueButton.setDisable(true);
         VBox pane = new VBox(20);
@@ -1074,9 +1050,9 @@ public class RPGCharacterSheet extends Application {
                 elf(mainCharacter,raceStage));
         });
 
-        Button halfElf = new Button("Half-elf");
+        Button halfElf = new Button("Half-Elf");
         halfElf.setOnAction(e -> {
-            mainCharacter.setRace("Half-elf");
+            mainCharacter.setRace("Half-Elf");
             RPGCharacterSheet.label.setText("You have chosen " + mainCharacter.getRace());
             continueButton.setDisable(false);
             continueButton.setOnAction(event ->
@@ -1537,8 +1513,8 @@ public class RPGCharacterSheet extends Application {
      * @return Returns True if the user wants to continue, false otherwise
      */
     private boolean confirmingPopUp(String message){
-        VBox pane = new VBox(50);
-        Scene scene = new Scene(pane,300,200);
+        VBox pane = new VBox(30);
+        Scene scene = new Scene(pane,300,150);
         Stage popUpStage= new Stage();
         popUpStage.setScene(scene);
         InnerShadow shadow = new InnerShadow();
@@ -1582,7 +1558,7 @@ public class RPGCharacterSheet extends Application {
      * @param abilities VBox that the list of Abilities is stored in
      * @param mainCharacter Character that has the Ability Score and Modifier information
      */
-    private void updateAbilities(VBox abilities, CharacterSheet mainCharacter){
+    private static void updateAbilities(VBox abilities, CharacterSheet mainCharacter){
             abilities.setTranslateY(12);
             abilities.setStyle("-fx-border-color: black");
             abilities.setMaxHeight(150);
@@ -1600,7 +1576,193 @@ public class RPGCharacterSheet extends Application {
             abilities.getChildren().set(5,intelligence);
             abilities.getChildren().set(6,constitution);
 
-        }
+    }
+
+    /**
+     * Removes old presets from previous race choices
+     * @param mainCharacter Character that you are removing the previous race choices for
+     */
+    private static void resetPreviousRaceOptions(CharacterSheet mainCharacter){
+
+            if (mainCharacter.getRace().equals("High Elf")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore() - 2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+                System.out.println("Dex -2");
+                mainCharacter.setIntelligenceScore(mainCharacter.getIntelligenceScore()-1);
+                mainCharacter.setIntelligenceMod(findAbilityMod(mainCharacter.getIntelligenceScore()));
+                System.out.println("Int -1");
+
+            }
+            if (mainCharacter.getRace().equals("Wood Elf")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore() - 2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+                System.out.println("Dex -2");
+                mainCharacter.setWisdomScore(mainCharacter.getWisdomScore()-1);
+                mainCharacter.setWisdomMod(findAbilityMod(mainCharacter.getWisdomScore()));
+                System.out.println("Wis -1");
+                mainCharacter.setSpeed(mainCharacter.getSpeed() - 35);
+
+            }
+            if (mainCharacter.getRace().equals("Dark Elf")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore() - 2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+                System.out.println("Dex -2");
+                mainCharacter.setCharismaScore(mainCharacter.getCharismaScore()-1);
+                mainCharacter.setCharismaMod(findAbilityMod(mainCharacter.getCharismaScore()));
+                System.out.println("Char -1");
+
+            }
+            if (mainCharacter.getRace().equals("Half-Elf")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+
+                mainCharacter.setCharismaScore(mainCharacter.getCharismaScore()-2);
+                mainCharacter.setCharismaMod(findAbilityMod(mainCharacter.getCharismaScore()));
+
+                for (int i =0 ; i<2; i++){
+                    if (raceAbilityChoices.get(i)==1){
+                        mainCharacter.setCharismaScore(mainCharacter.getCharismaScore()-1);
+                        mainCharacter.setCharismaMod(findAbilityMod(mainCharacter.getCharismaScore()));
+                    }
+                    if (raceAbilityChoices.get(i)==2){
+                        mainCharacter.setStrengthScore(mainCharacter.getStrengthScore()-1);
+                        mainCharacter.setStrengthMod(mainCharacter.getStrengthScore());
+                    }
+                    if (raceAbilityChoices.get(i)==3){
+                        mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-1);
+                        mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+                    }
+                    if (raceAbilityChoices.get(i)==4){
+                        mainCharacter.setWisdomScore(mainCharacter.getWisdomScore()-1);
+                        mainCharacter.setWisdomMod(findAbilityMod(mainCharacter.getWisdomScore()));
+                    }
+                    if (raceAbilityChoices.get(i)==5){
+                        mainCharacter.setIntelligenceScore(mainCharacter.getIntelligenceScore()-1);
+                        mainCharacter.setIntelligenceMod(findAbilityMod(mainCharacter.getIntelligenceScore()));
+                    }
+                    if (raceAbilityChoices.get(i)==6){
+                        mainCharacter.setConstitutionScore(mainCharacter.getConstitutionScore()-1);
+                        mainCharacter.setConstitutionMod(findAbilityMod(mainCharacter.getConstitutionMod()));
+
+                    }
+                }
+
+            }
+            if (mainCharacter.getRace().equals("Human")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+                mainCharacter.setCharismaScore(mainCharacter.getCharismaScore()-1);
+                mainCharacter.setCharismaMod(findAbilityMod(mainCharacter.getCharismaScore()));
+
+                mainCharacter.setStrengthScore(mainCharacter.getStrengthScore()-1);
+                mainCharacter.setStrengthMod(mainCharacter.getStrengthScore());
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-1);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+                mainCharacter.setWisdomScore(mainCharacter.getWisdomScore()-1);
+                mainCharacter.setWisdomMod(findAbilityMod(mainCharacter.getWisdomScore()));
+
+                mainCharacter.setIntelligenceScore(mainCharacter.getIntelligenceScore()-1);
+                mainCharacter.setIntelligenceMod(findAbilityMod(mainCharacter.getIntelligenceScore()));
+
+                mainCharacter.setConstitutionScore(mainCharacter.getConstitutionScore()-1);
+                mainCharacter.setConstitutionMod(findAbilityMod(mainCharacter.getConstitutionMod()));
+
+            }
+            if (mainCharacter.getRace().contains("Dragonborn")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+
+                mainCharacter.setStrengthScore(mainCharacter.getStrengthScore()-2);
+                mainCharacter.setStrengthMod(findAbilityMod(mainCharacter.getStrengthScore()));
+
+                mainCharacter.setCharismaScore(mainCharacter.getCharismaScore()-1);
+                mainCharacter.setCharismaMod(findAbilityMod(mainCharacter.getCharismaScore()));
+
+            }
+            if (mainCharacter.getRace().equals("Dwarf (Mountain)")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+                mainCharacter.setWisdomScore(mainCharacter.getWisdomScore()-2);
+                mainCharacter.setWisdomMod(findAbilityMod(mainCharacter.getWisdomScore()));
+            }
+            if (mainCharacter.getRace().equals("Dwarf (Hill)")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+                mainCharacter.setStrengthScore(mainCharacter.getStrengthScore()-2);
+                mainCharacter.setStrengthMod(findAbilityMod(mainCharacter.getStrengthScore()));
+            }
+            if (mainCharacter.getRace().equals("Halfling (Lightfoot)")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-25);
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+                mainCharacter.setCharismaScore(mainCharacter.getCharismaScore()-1);
+                mainCharacter.setCharismaMod(findAbilityMod(mainCharacter.getCharismaScore()));
+
+            }
+            if (mainCharacter.getRace().equals("Halfling (Stout)")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-25);
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-2);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+                mainCharacter.setConstitutionScore(mainCharacter.getConstitutionScore()-1);
+                mainCharacter.setConstitutionMod(findAbilityMod(mainCharacter.getConstitutionMod()));
+
+            }
+            if (mainCharacter.getRace().equals("Gnome (Forest)")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-25);
+
+                mainCharacter.setIntelligenceScore(mainCharacter.getIntelligenceScore()-2);
+                mainCharacter.setIntelligenceMod(findAbilityMod(mainCharacter.getIntelligenceScore()));
+
+                mainCharacter.setDexterityScore(mainCharacter.getDexterityScore()-1);
+                mainCharacter.setDexterityMod(findAbilityMod(mainCharacter.getDexterityScore()));
+
+            }
+            if (mainCharacter.getRace().equals("Gnome (Rock)")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-25);
+
+                mainCharacter.setIntelligenceScore(mainCharacter.getIntelligenceScore()-2);
+                mainCharacter.setIntelligenceMod(findAbilityMod(mainCharacter.getIntelligenceScore()));
+
+                mainCharacter.setConstitutionScore(mainCharacter.getConstitutionScore()-1);
+                mainCharacter.setConstitutionMod(findAbilityMod(mainCharacter.getConstitutionMod()));
+
+            }
+            if (mainCharacter.getRace().equals("Half-Orc")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed()-30);
+
+                mainCharacter.setStrengthScore(mainCharacter.getStrengthScore()-2);
+                mainCharacter.setStrengthMod(findAbilityMod(mainCharacter.getStrengthScore()));
+
+                mainCharacter.setConstitutionScore(mainCharacter.getConstitutionScore()-1);
+                mainCharacter.setConstitutionMod(findAbilityMod(mainCharacter.getConstitutionMod()));
+
+
+            }if (mainCharacter.getRace().equals("Tiefling")){
+                mainCharacter.setSpeed(mainCharacter.getSpeed() -30);
+
+                mainCharacter.setIntelligenceScore(mainCharacter.getIntelligenceScore()-1);
+                mainCharacter.setIntelligenceMod(findAbilityMod(mainCharacter.getIntelligenceScore()));
+
+            }
+
+
+    }
+
+
 
 
 }
