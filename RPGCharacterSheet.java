@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.sql.*;
 import java.util.Vector;
 
 
@@ -24,8 +25,26 @@ public class RPGCharacterSheet extends Application {
     private static Label label = new Label("");
     private static int[] d20Rolls = new int[6];
     private static Vector<Integer> raceAbilityChoices = new Vector<>();
+    private static String url = "jdbc:mysql://localhost:3306/charactersheet_database";
+//    private static String userName = "root";
+//    private static String password = "password";
 
     public static void main(String[] args) {
+        //Connects to SQL DataBase
+//        try {
+//            Connection myconn = DriverManager.getConnection(url,userName,password);
+//            Statement myStmt = myconn.createStatement();
+//            String sql = "select id from charactersheet_database.characterinfo WHERE username = 'test1'";
+//            ResultSet resultSet = myStmt.executeQuery(sql);
+//
+//            while (resultSet.next()){
+//                System.out.println(resultSet.getString(1));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+
         launch(args); // Sets up program as javaFX application
 
     }
@@ -693,10 +712,85 @@ public class RPGCharacterSheet extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        // Login page
+        login("");
+        while (!label.getText().equals("true")){
+          login("Invalid credentials. Please try again");
+        }
         CharacterSheet character = new CharacterSheet();
         mainStage(primaryStage, character);
 
+    }
 
+    public void login (String errorMessage){
+        label.setText("");
+        VBox pane = new VBox(20);
+        Scene scene = new Scene(pane,325,300);
+        Label error = new Label(errorMessage);
+        Stage loginStage = new Stage();
+
+        TextField userName = new TextField();
+        PasswordField password = new PasswordField();
+        Button newUser = new Button("New User? Set up account here");
+        Button login = new Button("Login");
+
+        login.setOnAction(e->{
+            try {
+                Connection con = DriverManager.getConnection(url,"root","password");
+                PreparedStatement usernameQuery = con.prepareStatement("SELECT id FROM characterinfo WHERE username = ?");
+                usernameQuery.setString(1,userName.getText());
+                ResultSet usernameResultSet = usernameQuery.executeQuery();
+                PreparedStatement passwordQuery = con.prepareStatement("SELECT password FROM characterinfo WHERE username = ?");
+                passwordQuery.setString(1,userName.getText());
+                ResultSet passwordResultSet = passwordQuery.executeQuery();
+
+                if (usernameResultSet.next() && passwordResultSet.next()){
+                    int primaryKey = usernameResultSet.getInt(1);
+                    if (passwordResultSet.getString(1).equals(password.getText())){
+                        System.out.println("Login successful");
+                        label.setText("true");
+                        con.close();
+                        loginStage.close();
+                    }else{
+                        System.out.println("Login failed");
+                        label.setText("false");
+                        con.close();
+                        loginStage.close();
+                    }
+                }
+                else{
+                    System.out.println("Login failed");
+                    label.setText("false");
+                    con.close();
+                    loginStage.close();
+                }
+
+
+            } catch (SQLException q) {
+                q.printStackTrace();
+
+
+            }
+
+
+            // Check Username / Password if correct close stage (probably return usersID for the rest of the code), if incorrect call login() and add Incorrect credentials message
+
+        });
+
+        newUser.setOnAction(e->newUserSetUp(loginStage));
+
+
+        pane.getChildren().addAll(error,new HBox(new Label("Username: "),userName),new HBox(new Label("Password:  "),password),login,newUser);
+
+        pane.setPadding(new Insets(50,50,50,50));
+        pane.setAlignment(Pos.TOP_CENTER);
+
+        loginStage.setTitle("Login");
+        loginStage.setScene(scene);
+        loginStage.showAndWait();
+    }
+    public void newUserSetUp (Stage newUserStage){
+        // Advise not to use a password that is used for anything secure
     }
 
     /** Creates the main Character Sheet stage where all the information is stored.
@@ -705,6 +799,8 @@ public class RPGCharacterSheet extends Application {
      * @param mainCharacter Character sheet object to hold character information
      */
     private void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
+        // find cause of crash
+
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
@@ -816,7 +912,7 @@ public class RPGCharacterSheet extends Application {
         // TODO create undo / anti races for when the user changed race
         race.setPrefWidth(100);
         race.setWrapText(true);
-//        editRace.setDisable(true);
+        editRace.setDisable(true);
         editRace.setOnAction(e -> {
             if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
                 if (!mainCharacter.getRace().equals("")){
