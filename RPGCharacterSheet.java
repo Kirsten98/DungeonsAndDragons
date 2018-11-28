@@ -867,7 +867,7 @@ public class RPGCharacterSheet extends Application {
         });
         pane.getChildren().addAll(error,new HBox(new Label("Username: "),userName),new HBox(new Label("Password:  "),password),new HBox(new Label("Confirm Password: "),confirmPassword),createAccount, new Label("Requirements:\n1.) Username/Password length must exceed 5 characters\n2.) Username/Password cannot contain special characters.\n3.) Username must be unique."));
 
-        userName.setLayoutX(50);
+        userName.setTranslateX(50);
         password.setTranslateX(50);
         confirmPassword.setTranslateX(8);
 
