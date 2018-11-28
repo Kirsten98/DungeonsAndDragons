@@ -10,12 +10,15 @@ import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.sql.*;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 // TODO create a check all method for JavaFX that updates entire CS after updating any option
@@ -30,21 +33,6 @@ public class RPGCharacterSheet extends Application {
 //    private static String password = "password";
 
     public static void main(String[] args) {
-        //Connects to SQL DataBase
-//        try {
-//            Connection myconn = DriverManager.getConnection(url,userName,password);
-//            Statement myStmt = myconn.createStatement();
-//            String sql = "select id from charactersheet_database.characterinfo WHERE username = 'test1'";
-//            ResultSet resultSet = myStmt.executeQuery(sql);
-//
-//            while (resultSet.next()){
-//                System.out.println(resultSet.getString(1));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-
         launch(args); // Sets up program as javaFX application
 
     }
@@ -713,30 +701,48 @@ public class RPGCharacterSheet extends Application {
     public void start(Stage primaryStage) {
 
         // Login page
-        login("");
+//        Stage loginStage = new Stage();
+//        loginStage.initStyle(StageStyle.TRANSPARENT);
+        login("", new Stage());
         while (!label.getText().equals("true")){
-          login("Invalid credentials. Please try again");
+            if (label.getText().equals("close")){
+                break;
+            }else if (label.getText().equals("User created")){
+                login("",new Stage());
+            }else login("Invalid credentials. Please try again", new Stage());
         }
-        CharacterSheet character = new CharacterSheet();
-        mainStage(primaryStage, character);
+
+        if (label.getText().equals("true")){
+            CharacterSheet character = new CharacterSheet();
+            mainStage(primaryStage, character);
+        }
 
     }
 
-    public void login (String errorMessage){
+    /**
+     * Prompts the user to login with username and password prior to opening charactersheet.
+     * @param errorMessage String of an error message that would be displayed above the username and password fields.
+     */
+    public void login (String errorMessage, Stage loginStage){
         label.setText("");
         VBox pane = new VBox(20);
-        Scene scene = new Scene(pane,325,300);
+        Scene scene = new Scene(pane,325,275);
         Label error = new Label(errorMessage);
-        Stage loginStage = new Stage();
 
         TextField userName = new TextField();
         PasswordField password = new PasswordField();
         Button newUser = new Button("New User? Set up account here");
         Button login = new Button("Login");
+        Button close = new Button("Close");
+
+        close.setOnAction(e->{
+            label.setText("close");
+            loginStage.close();
+        });
 
         login.setOnAction(e->{
             try {
-                Connection con = DriverManager.getConnection(url,"root","password");
+                Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
                 PreparedStatement usernameQuery = con.prepareStatement("SELECT id FROM characterinfo WHERE username = ?");
                 usernameQuery.setString(1,userName.getText());
                 ResultSet usernameResultSet = usernameQuery.executeQuery();
@@ -745,7 +751,6 @@ public class RPGCharacterSheet extends Application {
                 ResultSet passwordResultSet = passwordQuery.executeQuery();
 
                 if (usernameResultSet.next() && passwordResultSet.next()){
-                    int primaryKey = usernameResultSet.getInt(1);
                     if (passwordResultSet.getString(1).equals(password.getText())){
                         System.out.println("Login successful");
                         label.setText("true");
@@ -771,26 +776,106 @@ public class RPGCharacterSheet extends Application {
 
 
             }
-
-
-            // Check Username / Password if correct close stage (probably return usersID for the rest of the code), if incorrect call login() and add Incorrect credentials message
-
         });
 
-        newUser.setOnAction(e->newUserSetUp(loginStage));
+        newUser.setOnAction(e->{
+            newUserSetUp("", loginStage);
+        });
 
+        ButtonBar loginAndClose = new ButtonBar();
+        loginAndClose.getButtons().addAll(login,close);
+        loginAndClose.setTranslateX(-30);
+        newUser.setTranslateX(13);
 
-        pane.getChildren().addAll(error,new HBox(new Label("Username: "),userName),new HBox(new Label("Password:  "),password),login,newUser);
-
-        pane.setPadding(new Insets(50,50,50,50));
+        pane.getChildren().addAll(error,new HBox(new Label("Username: "),userName),new HBox(new Label("Password:  "),password),loginAndClose,newUser);
         pane.setAlignment(Pos.TOP_CENTER);
+        pane.setPadding(new Insets(30,40,50,40));
 
         loginStage.setTitle("Login");
+        loginStage.initStyle(StageStyle.TRANSPARENT);
+        pane.setStyle("fx-border-color: black");
         loginStage.setScene(scene);
         loginStage.showAndWait();
     }
-    public void newUserSetUp (Stage newUserStage){
+    public void newUserSetUp (String errorMessage, Stage newUserStage){
         // Advise not to use a password that is used for anything secure
+        VBox pane = new VBox(20);
+        Scene scene;
+        if (!errorMessage.equals("")){
+            scene = new Scene(pane,410,400);
+        }else scene = new Scene(pane,410,365);
+        newUserStage.setTitle("New user set up");
+
+        Label error = new Label(errorMessage);
+        error.setTextFill(Color.RED);
+        error.setWrapText(true);
+        TextField userName = new TextField();
+        PasswordField password = new PasswordField();
+        PasswordField confirmPassword = new PasswordField();
+        Button createAccount = new Button("Create account");
+
+        Pattern pattern = Pattern.compile("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}`~]+");
+
+        createAccount.setOnAction(event -> {
+            try {
+                Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
+
+                if (password.getText().length()>=6 && userName.getText().length() >=6  ){
+                    PreparedStatement uniqueUsernameCheck = con.prepareStatement("SELECT username from characterinfo WHERE username = ?");
+                    uniqueUsernameCheck.setString(1,userName.getText());
+                    ResultSet usernameResults = uniqueUsernameCheck.executeQuery();
+                    if (!usernameResults.next()){
+                        if (!password.getText().equals("")&&password.getText().equals(confirmPassword.getText()) && !userName.getText().equals("")){
+
+                            Matcher usernameMatcher = pattern.matcher(userName.getCharacters());
+                            Matcher passwordMatcher = pattern.matcher(password.getCharacters());
+                            if (!usernameMatcher.find()&& !passwordMatcher.find()){
+                                PreparedStatement createUser = con.prepareStatement("Insert INTO characterinfo(username,password) Values(?,?);");
+                                createUser.setString(1,userName.getText());
+                                createUser.setString(2,password.getText());
+                                createUser.execute();
+                                label.setText("User created");
+                                con.close();
+                                newUserStage.close();
+                                System.out.println("User created");
+
+                            }else{
+                                newUserSetUp("Unable to create account from information provided. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
+                                System.out.println("Error 1");
+                            }
+                        }
+                        else{
+                            newUserSetUp("Unable to create account from information provide. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
+                            System.out.println("Error 2");
+                        }
+                    }else {
+                        newUserSetUp("Unable to create account from information provide. Please select an unique username.", newUserStage);
+                        System.out.println("Error 3");
+                    }
+                } else {
+                    newUserSetUp("Unable to create account from information provide. Please confirm that the username and password are greater than 6 characters", newUserStage);
+                    System.out.println("Error 4");
+                }
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+
+        });
+        pane.getChildren().addAll(error,new HBox(new Label("Username: "),userName),new HBox(new Label("Password:  "),password),new HBox(new Label("Confirm Password: "),confirmPassword),createAccount, new Label("Requirements:\n1.) Username/Password length must exceed 5 characters\n2.) Username/Password cannot contain special characters.\n3.) Username must be unique."));
+
+        userName.setLayoutX(50);
+        password.setTranslateX(50);
+        confirmPassword.setTranslateX(8);
+
+        pane.setPadding(new Insets(20,50,50,50));
+        pane.setAlignment(Pos.TOP_CENTER);
+        newUserStage.setScene(scene);
+
+
     }
 
     /** Creates the main Character Sheet stage where all the information is stored.
