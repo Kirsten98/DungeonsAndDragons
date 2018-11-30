@@ -25,14 +25,14 @@ public class UserLogin {
      * Allows user to login with username and password and close screen with "Close" button.
      * @return True if user is authenticated, false if uesr is closing the window
      */
-    public static boolean main() {
-        login("", new Stage());
+    public static boolean main(CharacterSheet mainCharacter) {
+        login("", new Stage(),mainCharacter);
         while (!label.getText().equals("true")){
             if (label.getText().equals("close")){
                 return false;
             }else if (label.getText().equals("User created")){
-                login("",new Stage());
-            }else login("Invalid credentials. Please try again", new Stage());
+                login("",new Stage(),mainCharacter);
+            }else login("Invalid credentials. Please try again", new Stage(),mainCharacter);
         }
         return true;
     }
@@ -41,7 +41,7 @@ public class UserLogin {
      * Prompts the user to login with username and password prior to opening charactersheet.
      * @param errorMessage String of an error message that would be displayed above the username and password fields.
      */
-    public static void login (String errorMessage, Stage loginStage){
+    private static void login (String errorMessage, Stage loginStage,CharacterSheet mainCharacter){
         label.setText("");
         VBox pane = new VBox(20);
         Scene scene = new Scene(pane,325,275);
@@ -71,6 +71,7 @@ public class UserLogin {
                 if (usernameResultSet.next() && passwordResultSet.next()){
                     if (passwordResultSet.getString(1).equals(password.getText())){
                         System.out.println("Login successful");
+                        //TODO Need to add primaryKey to Charactersheet. Take CharacterSheet as a parameter for main / login / newUser (mainCharacter = new Character(getPrimaryKey.executeQuery()););
                         label.setText("true");
                         con.close();
                         loginStage.close();
@@ -97,7 +98,7 @@ public class UserLogin {
         });
 
         newUser.setOnAction(e->{
-            newUserSetUp("", loginStage);
+            newUserSetUp("", loginStage,mainCharacter);
         });
 
         ButtonBar loginAndClose = new ButtonBar();
@@ -116,7 +117,7 @@ public class UserLogin {
         loginStage.showAndWait();
     }
 
-    public static void newUserSetUp (String errorMessage, Stage newUserStage){
+    private static void newUserSetUp (String errorMessage, Stage newUserStage,CharacterSheet mainCharacter){
         // Advise not to use a password that is used for anything secure
         VBox pane = new VBox(20);
         Scene scene;
@@ -159,20 +160,20 @@ public class UserLogin {
                                 System.out.println("User created");
 
                             }else{
-                                newUserSetUp("Unable to create account from information provided. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
+                                newUserSetUp("Unable to create account from information provided. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage,mainCharacter);
                                 System.out.println("Error 1");
                             }
                         }
                         else{
-                            newUserSetUp("Unable to create account from information provide. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
+                            newUserSetUp("Unable to create account from information provide. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage,mainCharacter);
                             System.out.println("Error 2");
                         }
                     }else {
-                        newUserSetUp("Unable to create account from information provide. Please select an unique username.", newUserStage);
+                        newUserSetUp("Unable to create account from information provide. Please select an unique username.", newUserStage,mainCharacter);
                         System.out.println("Error 3");
                     }
                 } else {
-                    newUserSetUp("Unable to create account from information provide. Please confirm that the username and password are greater than 6 characters", newUserStage);
+                    newUserSetUp("Unable to create account from information provide. Please confirm that the username and password are greater than 6 characters", newUserStage,mainCharacter);
                     System.out.println("Error 4");
                 }
 

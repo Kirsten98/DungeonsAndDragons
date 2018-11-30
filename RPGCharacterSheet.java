@@ -21,7 +21,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-// TODO create a check all method for JavaFX that updates entire CS after updating any option
 public class RPGCharacterSheet extends Application {
 
     private static Label label = new Label("");
@@ -147,11 +146,10 @@ public class RPGCharacterSheet extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
+        CharacterSheet character = null;
         // Login page
-        boolean userLogin = UserLogin.main();
+        boolean userLogin = UserLogin.main(character);
         if (userLogin){
-            CharacterSheet character = new CharacterSheet();
             mainStage(primaryStage, character);
         }
 
@@ -424,7 +422,7 @@ public class RPGCharacterSheet extends Application {
         // Save Button
         Button save = new Button("Save");
         save.setPrefWidth(150);
-        //TODO add functionality to save to a DataBase
+        save.setOnAction(e-> saveCharacter(mainCharacter));
 
         left.setMaxWidth(150);
         borderPane.setLeft(left);
@@ -589,6 +587,43 @@ public class RPGCharacterSheet extends Application {
         }
 
 
+        private static void saveCharacter(CharacterSheet mainCharacter){
+                // Need to set up Primary key to save to specific user
+            try {
+                Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
+
+                PreparedStatement characterinfoSave = con.prepareStatement( "Insert INTO characterinfo (name, age, race, class, level, ac, hitPoints, speed, alignment, charismaScore, strengthScore, dexterityScore, wisdomScore, intelligenceScore, constitutionScore) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) WHERE primaryKey = ?;");
+                characterinfoSave.setString(1,mainCharacter.getName());
+                characterinfoSave.setInt(2, mainCharacter.getAge());
+                characterinfoSave.setString(3,mainCharacter.getRace());
+                characterinfoSave.setString(4,mainCharacter.getCharacterClass());
+                characterinfoSave.setInt(5,mainCharacter.getLevel());
+                characterinfoSave.setInt(6,mainCharacter.getAc());
+                characterinfoSave.setInt(7,mainCharacter.getHitPoints());
+                characterinfoSave.setInt(8,mainCharacter.getSpeed());
+                characterinfoSave.setString(9,mainCharacter.getAlignment());
+                characterinfoSave.setInt(10,mainCharacter.getCharismaScore());
+                characterinfoSave.setInt(11,mainCharacter.getStrengthScore());
+                characterinfoSave.setInt(12,mainCharacter.getDexterityScore());
+                characterinfoSave.setInt(13,mainCharacter.getWisdomScore());
+                characterinfoSave.setInt(14,mainCharacter.getIntelligenceScore());
+                characterinfoSave.setInt(15,mainCharacter.getConstitutionScore());
+                characterinfoSave.setInt(16,mainCharacter.getPrimaryKey());
+                characterinfoSave.executeQuery();
+
+
+                PreparedStatement languageSave = con.prepareStatement("SELECT * from languages;" +
+                        "INSERT INTO ? VALUES (1);");
+                for (int i = 0 ; i< mainCharacter.languages.size(); i++){
+                    languageSave.setString(1,mainCharacter.languages.get(i));
+                    languageSave.executeQuery();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
 
 
 

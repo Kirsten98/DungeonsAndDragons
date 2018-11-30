@@ -7,9 +7,9 @@ import java.util.Vector;
 
 public class CharacterSheet {
 
+    private int primaryKey;
 
-
-    private String name ="";
+    private String name = "";
     private String race = "";
     private String characterClass = "";
     private int strengthScore;
@@ -93,6 +93,10 @@ public class CharacterSheet {
      private String[] charismaSkills = {"Deception","Intimidation","Performance","Persuasion"};
      private String[] allSkills = {"Athletics","Acrobatics","Sleight of Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
     private ObservableList allLanguages = FXCollections.observableArrayList("Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves' Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink Dog","Bullywug","Giant Eagle","Giant Elk","Giant Owl","Gnoll","Grell","Grung","Hook Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thri-kreen","Tlincalli","Troglodyte","Umber Hulk","Vegepygmy","Winter Wolf","Worg","Yeti");
+
+    public CharacterSheet( int primaryKey) {
+        this.primaryKey = primaryKey;
+    }
 
 
     public String getName() {
@@ -482,5 +486,9 @@ public class CharacterSheet {
 
     public ObservableList getAllLanguages() {
         return allLanguages;
+    }
+
+    public int getPrimaryKey() {
+        return primaryKey;
     }
 }
