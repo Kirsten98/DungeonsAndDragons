@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class UserLogin {
 
-    private static String url = "jdbc:mysql://192.168.0.111:3306/charactersheet_database";
+    private static String url = "jdbc:mysql://localhost:3306/charactersheet_database";
     private static Label label = new Label("");
 
     /**
