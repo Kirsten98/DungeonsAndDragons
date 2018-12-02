@@ -146,7 +146,7 @@ public class RPGCharacterSheet extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        CharacterSheet character = null;
+        CharacterSheet character = new CharacterSheet();
         // Login page
         boolean userLogin = UserLogin.main(character);
         if (userLogin){
