@@ -17,9 +17,23 @@ import java.util.regex.Pattern;
 
 
 public class UserLogin {
+    //TODO Why can't other users connect to MySQL
 
-    private static String url = "jdbc:mysql://localhost:3306/charactersheet_database";
     private static Label label = new Label("");
+
+    private static Connection connect(){
+        String url = "jdbc:mysql://localhost:3306/charactersheet_database";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con=DriverManager.getConnection(
+                    url,"generaluser","4Testing");
+            return con;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * Allows user to login with username and password and close screen with "Close" button.
@@ -32,8 +46,11 @@ public class UserLogin {
                 return false;
             }else if (label.getText().equals("User created")){
                 login("",new Stage(),mainCharacter);
+            }else if (label.getText().equals("Server Error")){
+                login("Server unavailable.\nPlease contact Server Administrator at (541)-620-2712",new Stage(),mainCharacter);
             }else login("Invalid credentials. Please try again", new Stage(),mainCharacter);
         }
+
         return true;
     }
 
@@ -44,8 +61,14 @@ public class UserLogin {
     private static void login (String errorMessage, Stage loginStage,CharacterSheet mainCharacter){
         label.setText("");
         VBox pane = new VBox(20);
-        Scene scene = new Scene(pane,325,275);
+        Scene scene;
         Label error = new Label(errorMessage);
+        error.setWrapText(true);
+        error.setTextFill(Color.RED);
+        if (!errorMessage.equals("")){
+            scene = new Scene(pane,325,275);
+        }else scene = new Scene(pane,325,295);
+
 
         TextField userName = new TextField();
         PasswordField password = new PasswordField();
@@ -60,7 +83,7 @@ public class UserLogin {
 
         login.setOnAction(e->{
             try {
-                Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
+                Connection con = connect();
                 PreparedStatement usernameQuery = con.prepareStatement("SELECT id FROM characterinfo WHERE username = ?");
                 usernameQuery.setString(1,userName.getText());
                 ResultSet usernameResultSet = usernameQuery.executeQuery();
@@ -92,8 +115,7 @@ public class UserLogin {
 
             } catch (SQLException q) {
                 q.printStackTrace();
-
-
+                label.setText("Server Error");
             }
         });
 
@@ -108,7 +130,7 @@ public class UserLogin {
 
         pane.getChildren().addAll(error,new HBox(new Label("Username: "),userName),new HBox(new Label("Password:  "),password),loginAndClose,newUser);
         pane.setAlignment(Pos.TOP_CENTER);
-        pane.setPadding(new Insets(30,40,50,40));
+        pane.setPadding(new Insets(10,40,20,40));
 
         loginStage.setTitle("Login");
         loginStage.initStyle(StageStyle.TRANSPARENT);
@@ -138,7 +160,7 @@ public class UserLogin {
 
         createAccount.setOnAction(event -> {
             try {
-                Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
+                Connection con = connect();
 
                 if (password.getText().length()>=6 && userName.getText().length() >=6  ){
                     PreparedStatement uniqueUsernameCheck = con.prepareStatement("SELECT username from characterinfo WHERE username = ?");
