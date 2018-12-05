@@ -150,6 +150,7 @@ public class RPGCharacterSheet extends Application {
         // Login page
         boolean userLogin = UserLogin.main(character);
         if (userLogin){
+            System.out.println(character.getPrimaryKey());
             mainStage(primaryStage, character);
         }
 
@@ -624,8 +625,6 @@ public class RPGCharacterSheet extends Application {
             }
 
         }
-
-
 
 
 }
