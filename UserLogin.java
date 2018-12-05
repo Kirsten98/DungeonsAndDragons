@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,12 +19,13 @@ import java.util.regex.Pattern;
 
 
 public class UserLogin {
-    //TODO Why can't other users connect to MySQL
 
     private static Label label = new Label("");
 
     private static Connection connect(){
-        String url = "jdbc:mysql://localhost:3306/charactersheet_database";
+
+        String url = "jdbc:mysql://192.168.0.111:3306/charactersheet_database";
+
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -116,6 +119,7 @@ public class UserLogin {
             } catch (SQLException q) {
                 q.printStackTrace();
                 label.setText("Server Error");
+
             }
         });
 
