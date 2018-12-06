@@ -54,7 +54,7 @@ public class UserLogin {
         while (!label.getText().equals("true")) {
             if (label.getText().equals("close")) {
                 return false;
-            } else if (label.getText().equals("User created")) {
+            } else if (label.getText().equals("User created") || label.getText().equals("return")) {
                 login("", new Stage(), mainCharacter);
             } else if (label.getText().equals("Server Error")) {
                 login("Server unavailable.\nPlease contact Server Administrator at (541)-620-2712", new Stage(), mainCharacter);
@@ -142,7 +142,7 @@ public class UserLogin {
         });
 
         newUser.setOnAction(e -> {
-            newUserSetUp("", loginStage);
+            newUserSetUp("", loginStage,mainCharacter);
         });
 
         ButtonBar loginAndClose = new ButtonBar();
@@ -164,8 +164,7 @@ public class UserLogin {
         loginStage.showAndWait();
     }
 
-    private static void newUserSetUp(String errorMessage, Stage newUserStage) {
-        //TODO Add  return button
+    private static void newUserSetUp(String errorMessage, Stage newUserStage, CharacterSheet mainCharacter) {
         // Advise not to use a password that is used for anything secure
         VBox pane = new VBox(20);
         Scene scene;
@@ -174,6 +173,12 @@ public class UserLogin {
         } else scene = new Scene(pane, 410, 365);
         newUserStage.setTitle("New user set up");
 
+        Button returnButton = new Button("Return");
+        returnButton.setOnAction(e-> {
+            newUserStage.close();
+            label.setText("return");
+        });
+
         Label error = new Label(errorMessage);
         error.setTextFill(Color.RED);
         error.setWrapText(true);
@@ -181,6 +186,9 @@ public class UserLogin {
         PasswordField password = new PasswordField();
         PasswordField confirmPassword = new PasswordField();
         Button createAccount = new Button("Create account");
+
+        ButtonBar row1 = new ButtonBar();
+        row1.getButtons().addAll(createAccount,returnButton);
 
         Pattern pattern = Pattern.compile("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}`~]+");
 
@@ -208,19 +216,19 @@ public class UserLogin {
                                 System.out.println("User created");
 
                             } else {
-                                newUserSetUp("Unable to create account from information provided. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
+                                newUserSetUp("Unable to create account from information provided. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage,mainCharacter);
                                 System.out.println("Error 1");
                             }
                         } else {
-                            newUserSetUp("Unable to create account from information provide. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
+                            newUserSetUp("Unable to create account from information provide. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage,mainCharacter);
                             System.out.println("Error 2");
                         }
                     } else {
-                        newUserSetUp("Unable to create account from information provide. Please select an unique username.", newUserStage);
+                        newUserSetUp("Unable to create account from information provide. Please select an unique username.", newUserStage,mainCharacter);
                         System.out.println("Error 3");
                     }
                 } else {
-                    newUserSetUp("Unable to create account from information provide. Please confirm that the username and password are greater than 6 characters", newUserStage);
+                    newUserSetUp("Unable to create account from information provide. Please confirm that the username and password are greater than 6 characters", newUserStage,mainCharacter);
                     System.out.println("Error 4");
                 }
 
@@ -231,8 +239,9 @@ public class UserLogin {
 
 
         });
-        pane.getChildren().addAll(error, new HBox(new Label("Username: "), userName), new HBox(new Label("Password:  "), password), new HBox(new Label("Confirm Password: "), confirmPassword), createAccount, new Label("Requirements:\n1.) Username/Password length must exceed 5 characters\n2.) Username/Password cannot contain special characters.\n3.) Username must be unique."));
+        pane.getChildren().addAll(error, new HBox(new Label("Username: "), userName), new HBox(new Label("Password:  "), password), new HBox(new Label("Confirm Password: "), confirmPassword), row1, new Label("Requirements:\n1.) Username/Password length must exceed 5 characters\n2.) Username/Password cannot contain special characters.\n3.) Username must be unique."));
 
+        row1.setTranslateX(-25);
         userName.setTranslateX(50);
         password.setTranslateX(50);
         confirmPassword.setTranslateX(8);

@@ -191,6 +191,9 @@ public class RPGCharacterSheet extends Application {
         Button editRace = new Button("Edit Race");
         Button editClass = new Button("Edit Class");
         Button editAbilities = new Button("Edit Abilities");
+        Button close = new Button("Close");
+
+        close.setOnAction(e-> primaryStage.close());
 
         //ListViews
         //TODO add tooltip to find description / quantity for each item.
@@ -425,12 +428,13 @@ public class RPGCharacterSheet extends Application {
 
         // Save Button
         Button save = new Button("Save");
-        save.setPrefWidth(150);
+        save.setPrefWidth(75);
+        close.setPrefWidth(75);
         save.setOnAction(e-> saveCharacter(mainCharacter));
 
         left.setMaxWidth(150);
         borderPane.setLeft(left);
-        left.getChildren().addAll(abilities, languagesList, miscList,save);
+        left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
 
         Scene scene = new Scene(borderPane, 1000, 800);
         borderPane.setStyle("-fx-border-color: black;"+
