@@ -162,12 +162,14 @@ public class RPGCharacterSheet extends Application {
      * @param mainCharacter Character sheet object to hold character information
      */
     private void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
+        //TODO add close button
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
         BorderPane borderPane = new BorderPane();
         GridPane layout = new GridPane();
         layout.setBackground(new Background(new BackgroundFill(Color.gray(1), null, null)));
+        layout.setStyle("-fx-background-radius: 10;");
         borderPane.setTop(layout);
         layout.setPadding(new Insets(5,10,20,10));
         layout.setVgap(10);
@@ -257,6 +259,7 @@ public class RPGCharacterSheet extends Application {
 
         //Sets BorderPane left
         VBox left = new VBox();
+        left.setStyle("-fx-background-radius: 10;");
         VBox abilities = new VBox();
 
         // Set Name
@@ -379,7 +382,7 @@ public class RPGCharacterSheet extends Application {
 
         // Sets Abilities
         abilities.setTranslateY(12);
-        abilities.setStyle("-fx-border-color: black");
+        abilities.setStyle("-fx-border-color: black;");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
         Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
@@ -430,8 +433,13 @@ public class RPGCharacterSheet extends Application {
         left.getChildren().addAll(abilities, languagesList, miscList,save);
 
         Scene scene = new Scene(borderPane, 1000, 800);
+        borderPane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         primaryStage.setScene(scene);
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
+
     }
 
     /**
@@ -467,7 +475,9 @@ public class RPGCharacterSheet extends Application {
         pane.getChildren().addAll(askName,name,continueButton);
         pane.setAlignment(Pos.TOP_CENTER);
         nameStage.initStyle(StageStyle.TRANSPARENT);
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         nameStage.initModality(Modality.APPLICATION_MODAL);
         nameStage.showAndWait();
 
@@ -532,7 +542,9 @@ public class RPGCharacterSheet extends Application {
             pane.add(ageValue,5,2,6,1);
 
             setAgeStage.initStyle(StageStyle.TRANSPARENT);
-            pane.setStyle("-fx-border-color: black");
+            pane.setStyle("-fx-border-color: black;"+
+                    "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+            scene.setFill(Color.TRANSPARENT);
             setAgeStage.setScene(scene);
             setAgeStage.initModality(Modality.APPLICATION_MODAL);
             setAgeStage.showAndWait();
@@ -555,7 +567,9 @@ public class RPGCharacterSheet extends Application {
         shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
         popUpStage.initStyle(StageStyle.TRANSPARENT);
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         popUpStage.initModality(Modality.APPLICATION_MODAL);
 
         Label popUpMessage = new Label(message);

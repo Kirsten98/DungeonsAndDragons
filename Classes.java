@@ -36,7 +36,9 @@ public class Classes {
         classStage.setScene(scene);
         classStage.setResizable(false);
 
-        layout.setStyle("-fx-border-color: black");
+        layout.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
 
         continueButton.setOnAction(e ->{
             if (mainCharacter.getCharacterClass().equals("Barbarian")) {
@@ -200,7 +202,9 @@ public class Classes {
 
         setLevelStage.setScene(scene);
         setLevelStage.initStyle(StageStyle.TRANSPARENT);
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         setLevelStage.initModality(Modality.APPLICATION_MODAL);
         setLevelStage.showAndWait();
 

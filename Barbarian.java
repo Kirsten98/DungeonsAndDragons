@@ -703,7 +703,9 @@ public class Barbarian{
                 left.setPadding(new Insets(10,10,10,10));
                 left.getChildren().addAll(hp,proficiency,rages,rageDamage,primalPath,proficiencies,features);
                 borderPane.setLeft(left);
-                borderPane.setStyle("-fx-border-color: black");
+                borderPane.setStyle("-fx-border-color: black;"        +
+                        "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+                scene.setFill(Color.TRANSPARENT);
             }
 
     }
@@ -880,7 +882,9 @@ public class Barbarian{
         pane.getChildren().addAll(armorLabel,new HBox(armor,armorChoices), new HBox(shield,yOrN));
 
         yOrN.setTranslateX(112);
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
     }
 
 
@@ -954,7 +958,9 @@ public class Barbarian{
         checkAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
         checkAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
 
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
 
 
     }

@@ -4,12 +4,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.awt.*;
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -138,7 +142,7 @@ public class UserLogin {
         });
 
         newUser.setOnAction(e -> {
-            newUserSetUp("", loginStage, mainCharacter);
+            newUserSetUp("", loginStage);
         });
 
         ButtonBar loginAndClose = new ButtonBar();
@@ -151,13 +155,17 @@ public class UserLogin {
         pane.setPadding(new Insets(10, 40, 20, 40));
 
         loginStage.setTitle("Login");
+
         loginStage.initStyle(StageStyle.TRANSPARENT);
-        pane.setStyle("fx-border-color: black");
+        pane.setStyle("fx-border-color: black;" +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         loginStage.setScene(scene);
         loginStage.showAndWait();
     }
 
-    private static void newUserSetUp(String errorMessage, Stage newUserStage, CharacterSheet mainCharacter) {
+    private static void newUserSetUp(String errorMessage, Stage newUserStage) {
+        //TODO Add  return button
         // Advise not to use a password that is used for anything secure
         VBox pane = new VBox(20);
         Scene scene;
@@ -200,19 +208,19 @@ public class UserLogin {
                                 System.out.println("User created");
 
                             } else {
-                                newUserSetUp("Unable to create account from information provided. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage, mainCharacter);
+                                newUserSetUp("Unable to create account from information provided. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
                                 System.out.println("Error 1");
                             }
                         } else {
-                            newUserSetUp("Unable to create account from information provide. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage, mainCharacter);
+                            newUserSetUp("Unable to create account from information provide. Please confirm that the username and password field do not contain special characters and that the password fields match", newUserStage);
                             System.out.println("Error 2");
                         }
                     } else {
-                        newUserSetUp("Unable to create account from information provide. Please select an unique username.", newUserStage, mainCharacter);
+                        newUserSetUp("Unable to create account from information provide. Please select an unique username.", newUserStage);
                         System.out.println("Error 3");
                     }
                 } else {
-                    newUserSetUp("Unable to create account from information provide. Please confirm that the username and password are greater than 6 characters", newUserStage, mainCharacter);
+                    newUserSetUp("Unable to create account from information provide. Please confirm that the username and password are greater than 6 characters", newUserStage);
                     System.out.println("Error 4");
                 }
 
@@ -231,6 +239,9 @@ public class UserLogin {
 
         pane.setPadding(new Insets(20, 50, 50, 50));
         pane.setAlignment(Pos.TOP_CENTER);
+        pane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         newUserStage.setScene(scene);
 
 

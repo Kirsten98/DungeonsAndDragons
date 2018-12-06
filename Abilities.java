@@ -9,6 +9,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -133,7 +134,9 @@ public class Abilities extends RPGCharacterSheet {
         chooseAbilities.setScene(scene);
         chooseAbilities.initModality(Modality.APPLICATION_MODAL);
         chooseAbilities.initStyle(StageStyle.TRANSPARENT);
-        horizontal.setStyle("-fx-border-color: black");
+        horizontal.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         chooseAbilities.showAndWait();
     }
 
@@ -144,7 +147,7 @@ public class Abilities extends RPGCharacterSheet {
      */
     protected static void updateAbilities(VBox abilities, CharacterSheet mainCharacter){
         abilities.setTranslateY(12);
-        abilities.setStyle("-fx-border-color: black");
+        abilities.setStyle("-fx-border-color: black;");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
         Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());

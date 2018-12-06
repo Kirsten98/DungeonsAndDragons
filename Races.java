@@ -136,7 +136,9 @@ public class Races extends RPGCharacterSheet {
 
         pane.setAlignment(Pos.TOP_CENTER);
         raceStage.initStyle(StageStyle.TRANSPARENT);
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         raceStage.initModality(Modality.APPLICATION_MODAL);
         raceStage.showAndWait();
 
@@ -340,9 +342,11 @@ public class Races extends RPGCharacterSheet {
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
-        pane.setStyle("-fx-border-color: black");
-        pane.setPadding(new Insets(10,10,10,10));
         Scene scene = new Scene(pane,500,200);
+        pane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
+        pane.setPadding(new Insets(10,10,10,10));
         dwarfStage.setScene(scene);
         dwarfStage.setTitle("Dwarf");
 
@@ -471,7 +475,9 @@ public class Races extends RPGCharacterSheet {
 
         });
 
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
 
     }
 
@@ -485,15 +491,18 @@ public class Races extends RPGCharacterSheet {
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
         pane.setAlignment(Pos.TOP_CENTER);
-        pane.setStyle("-fx-border-color: black");
-        pane.setPadding(new Insets(10,10,10,10));
         Scene scene = new Scene(pane,400,300);
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
+        pane.setPadding(new Insets(10,10,10,10));
         halfElfStage.setScene(scene);
         halfElfStage.setTitle("Half-Elf");
         halfElfStage.setHeight(250);
 
         raceAbilityChoices.clear();
         Button continueButton = new Button("Continue");
+        continueButton.setDisable(true);
         character.setSpeed(character.getSpeed()+30);
         character.skills.add("Darkvision");
         character.skills.add("Fey Ancestory");
@@ -504,10 +513,11 @@ public class Races extends RPGCharacterSheet {
 
         abilityAddition(character, 1, 2);
         Races.label.setText("You can add +1 to two other abilities");
-        pane.getChildren().addAll(skillsAdded,Races.label, abilityPrintoutAndAdd(character,1),continueButton);
+        pane.getChildren().addAll(skillsAdded,Races.label, abilityPrintoutAndAdd(character,1,continueButton),continueButton);
         continueButton.setOnAction(e->{
             Races.label.setText("You can add +1 to one other ability");
-            pane.getChildren().set(2, abilityPrintoutAndAdd(character,1));
+            continueButton.setDisable(true);
+            pane.getChildren().set(2, abilityPrintoutAndAdd(character,1,continueButton));
             continueButton.setOnAction(event -> {
                 halfElfStage.setHeight(300);
                 pane.getChildren().remove(continueButton);
@@ -533,10 +543,12 @@ public class Races extends RPGCharacterSheet {
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
-        pane.setStyle("-fx-border-color: black");
+        Scene scene = new Scene(pane,450,130);
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         pane.setPadding(new Insets(10,10,10,10));
         pane.setAlignment(Pos.TOP_CENTER);
-        Scene scene = new Scene(pane,450,130);
         halfOrcStage.setScene(scene);
         halfOrcStage.setTitle("Half-Orc");
 
@@ -568,8 +580,10 @@ public class Races extends RPGCharacterSheet {
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
-        pane.setStyle("-fx-border-color: black");
         Scene scene = new Scene(pane,350,175);
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         humanStage.setScene(scene);
         humanStage.setTitle("Human");
 
@@ -634,7 +648,9 @@ public class Races extends RPGCharacterSheet {
             }else row2.getButtons().add(ancestryColor);
         }
         pane.getChildren().addAll(Races.label,row1,row2,continueButton);
-        pane.setStyle("-fx-border-color: black");
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
     }
 
     /**
@@ -646,10 +662,12 @@ public class Races extends RPGCharacterSheet {
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
-        pane.setStyle("-fx-border-color: black");
+        Scene scene = new Scene(pane,350,150);
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         pane.setPadding(new Insets(10,10,10,10));
         pane.setAlignment(Pos.TOP_CENTER);
-        Scene scene = new Scene(pane,350,150);
         halflingStage.setScene(scene);
         halflingStage.setTitle("Halfling");
 
@@ -707,10 +725,12 @@ public class Races extends RPGCharacterSheet {
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
-        pane.setStyle("-fx-border-color: black");
+        Scene scene = new Scene(pane,375,150);
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         pane.setPadding(new Insets(10,10,10,10));
         pane.setAlignment(Pos.TOP_CENTER);
-        Scene scene = new Scene(pane,375,150);
         gnomeStage.setScene(scene);
         gnomeStage.setTitle("Gnome");
 
@@ -760,10 +780,12 @@ public class Races extends RPGCharacterSheet {
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setColor(Color.gray(.5));
         pane.setEffect(innerShadow);
-        pane.setStyle("-fx-border-color: black");
+        Scene scene = new Scene(pane, 400, 130);
+        pane.setStyle("-fx-border-color: black;"        +
+                "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
         pane.setPadding(new Insets(10, 10, 10, 10));
         pane.setAlignment(Pos.TOP_CENTER);
-        Scene scene = new Scene(pane, 400, 130);
         tieflingStage.setScene(scene);
         tieflingStage.setTitle("Tiefling");
 
@@ -786,7 +808,7 @@ public class Races extends RPGCharacterSheet {
      * Adds scores to a VBox, and on action they will call abilityAddition
      * @param character Character that the code is pulling the abilities / scores from
      */
-    private static VBox abilityPrintoutAndAdd(CharacterSheet character, int modifierAddition) {
+    private static VBox abilityPrintoutAndAdd(CharacterSheet character, int modifierAddition, Button continueButton) {
         VBox abilities = new VBox(20);
         abilities.setAlignment(Pos.CENTER);
 
@@ -823,35 +845,41 @@ public class Races extends RPGCharacterSheet {
             Races.raceAbilityChoices.add(1);
             row1.setDisable(true);
             row2.setDisable(true);
+            continueButton.setDisable(false);
         });
         strength.setOnAction(e-> {
             abilityAddition(character,2,modifierAddition);
             Races.raceAbilityChoices.add(2);
             row1.setDisable(true);
-            row2.setDisable(true);});
+            row2.setDisable(true);
+            continueButton.setDisable(false);});
         dexterity.setOnAction(e->{
             abilityAddition(character,3,modifierAddition);
             Races.raceAbilityChoices.add(3);
             row1.setDisable(true);
             row2.setDisable(true);
+            continueButton.setDisable(false);
         });
         wisdom.setOnAction(e-> {
             abilityAddition(character,4,modifierAddition);
             Races.raceAbilityChoices.add(4);
             row1.setDisable(true);
             row2.setDisable(true);
+            continueButton.setDisable(false);
         });
         intelligence.setOnAction(e-> {
             abilityAddition(character,5,modifierAddition);
             Races.raceAbilityChoices.add(5);
             row1.setDisable(true);
             row2.setDisable(true);
+            continueButton.setDisable(false);
         });
         constitution.setOnAction(e->{
             abilityAddition(character,6,modifierAddition);
             Races.raceAbilityChoices.add(6);
             row1.setDisable(true);
             row2.setDisable(true);
+            continueButton.setDisable(false);
         } );
 
         row1.setButtonMinWidth(100);
