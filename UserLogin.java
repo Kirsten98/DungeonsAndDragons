@@ -36,7 +36,7 @@ public class UserLogin {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(
-                    url, "generaluser", "4Testing");
+                    url, "AccountCreator", "CreateAccount");
             return con;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -110,6 +110,7 @@ public class UserLogin {
                 if (usernameResultSet.next() && passwordResultSet.next()) {
                     if (passwordResultSet.getString(1).equals(password.getText())) {
                         System.out.println("Login successful");
+
                         PreparedStatement getPrimaryKey = con.prepareStatement("SELECT id FROM characterinfo WHERE username =? and password = ?;");
                         getPrimaryKey.setString(1, userName.getText());
                         getPrimaryKey.setString(2, password.getText());
@@ -117,6 +118,7 @@ public class UserLogin {
                         if (primaryKey.next()){
                             mainCharacter.setPrimaryKey(primaryKey.getInt(1));
                         }
+
                         label.setText("true");
                         con.close();
                         loginStage.close();
@@ -206,10 +208,23 @@ public class UserLogin {
                             Matcher usernameMatcher = pattern.matcher(userName.getCharacters());
                             Matcher passwordMatcher = pattern.matcher(password.getCharacters());
                             if (!usernameMatcher.find() && !passwordMatcher.find()) {
-                                PreparedStatement createUser = con.prepareStatement("Insert INTO characterinfo(username,password) Values(?,?);");
+                                PreparedStatement createUser = con.prepareStatement("Insert INTO characterinfo(username,password) Values(?,?);" );
                                 createUser.setString(1, userName.getText());
                                 createUser.setString(2, password.getText());
                                 createUser.execute();
+
+                                PreparedStatement getPrimaryKey = con.prepareStatement("SELECT id FROM characterinfo WHERE username =? and password = ?;");
+                                getPrimaryKey.setString(1, userName.getText());
+                                getPrimaryKey.setString(2, password.getText());
+                                ResultSet primaryKey = getPrimaryKey.executeQuery();
+                                if (primaryKey.next()){
+                                    mainCharacter.setPrimaryKey(primaryKey.getInt(1));
+                                }
+
+                                PreparedStatement languageSetup = con.prepareStatement("Insert INTO languages (id) Values (?);");
+                                languageSetup.setInt(1,mainCharacter.getPrimaryKey());
+                                languageSetup.execute();
+
                                 label.setText("User created");
                                 con.close();
                                 newUserStage.close();

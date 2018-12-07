@@ -611,7 +611,23 @@ public class RPGCharacterSheet extends Application {
             try {
                 Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
 
-                PreparedStatement characterinfoSave = con.prepareStatement( "Insert INTO characterinfo (name, age, race, class, level, ac, hitPoints, speed, alignment, charismaScore, strengthScore, dexterityScore, wisdomScore, intelligenceScore, constitutionScore) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) WHERE primaryKey = ?;");
+                PreparedStatement characterinfoSave = con.prepareStatement("UPDATE characterinfo " +
+                        "SET name = (?), " +
+                        "age = (?), " +
+                        "race = (?), " +
+                        "class = (?), " +
+                        "level= (?), " +
+                        "ac= (?), " +
+                        "hitPoints = (?), " +
+                        "speed = (?), " +
+                        "alignment = (?), " +
+                        "charismaScore = (?), " +
+                        "strengthScore= (?), " +
+                        "dexterityScore = (?), " +
+                        "wisdomScore = (?), " +
+                        "intelligenceScore = (?), " +
+                        "constitutionScore= (?) " +
+                        "WHERE id =?;");
                 characterinfoSave.setString(1,mainCharacter.getName());
                 characterinfoSave.setInt(2, mainCharacter.getAge());
                 characterinfoSave.setString(3,mainCharacter.getRace());
@@ -628,16 +644,17 @@ public class RPGCharacterSheet extends Application {
                 characterinfoSave.setInt(14,mainCharacter.getIntelligenceScore());
                 characterinfoSave.setInt(15,mainCharacter.getConstitutionScore());
                 characterinfoSave.setInt(16,mainCharacter.getPrimaryKey());
-                characterinfoSave.executeQuery();
+                characterinfoSave.execute();
 
-
-                PreparedStatement languageSave = con.prepareStatement("SELECT * from languages;" +
-                        "INSERT INTO ? VALUES (1);");
+                //TODO Need to remove previously saved languages
                 for (int i = 0 ; i< mainCharacter.languages.size(); i++){
-                    languageSave.setString(1,mainCharacter.languages.get(i));
-                    languageSave.executeQuery();
+                    PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + mainCharacter.languages.get(i) + "  = 1 WHERE id = ?;");
+                    languageSave.setInt(1,mainCharacter.getPrimaryKey());
+                    languageSave.execute();
                 }
+                //TODO need to save Weapons / Armor/  Skills/ Instruments/ Inventory/ features/ proficiencies after tables are added in SQL
 
+                System.out.println("Saved");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
