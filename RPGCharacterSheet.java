@@ -646,7 +646,12 @@ public class RPGCharacterSheet extends Application {
                 characterinfoSave.setInt(16,mainCharacter.getPrimaryKey());
                 characterinfoSave.execute();
 
-                //TODO Need to remove previously saved languages
+                for (int i = 0; i<mainCharacter.getSQLLanguagesArray().length; i++){
+                    PreparedStatement removesavedLanguages = con.prepareStatement("UPDATE languages SET " + mainCharacter.getSQLLanguagesArray()[i] + " = 0 WHERE id = ?;");
+                    removesavedLanguages.setInt(1,mainCharacter.getPrimaryKey());
+                    removesavedLanguages.execute();
+                }
+
                 for (int i = 0 ; i< mainCharacter.languages.size(); i++){
                     PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + mainCharacter.languages.get(i) + "  = 1 WHERE id = ?;");
                     languageSave.setInt(1,mainCharacter.getPrimaryKey());
