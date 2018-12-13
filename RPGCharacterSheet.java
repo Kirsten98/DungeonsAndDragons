@@ -606,8 +606,15 @@ public class RPGCharacterSheet extends Application {
         }
 
 
-        private static void saveCharacter(CharacterSheet mainCharacter){
-                // Need to set up Primary key to save to specific user
+        //TODO create Load Character
+
+    /**
+     * Updates character information into MySQL Database
+     * @param mainCharacter CharacterSheet that has the information to be saved.
+     */
+    private static void saveCharacter(CharacterSheet mainCharacter){
+
+            // Save basic Charactersheet information (Name/race/ability scores/etc.)
             try {
                 Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
 
@@ -646,14 +653,21 @@ public class RPGCharacterSheet extends Application {
                 characterinfoSave.setInt(16,mainCharacter.getPrimaryKey());
                 characterinfoSave.execute();
 
-                for (int i = 0; i<mainCharacter.getSQLLanguagesArray().length; i++){
-                    PreparedStatement removesavedLanguages = con.prepareStatement("UPDATE languages SET " + mainCharacter.getSQLLanguagesArray()[i] + " = 0 WHERE id = ?;");
+
+                // Save Languages
+                String[] SQLLanguagesArray = {"Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep_Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves_Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink_Dog","Bullywug","Giant_Eagle","Giant_Elk","Giant_Owl","Gnoll","Grell","Grung","Hook_Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thrikreen","Tlincalli","Troglodyte","Umber_Hulk","Vegepygmy","Winter_Wolf","Worg","Yeti"};
+                for (int i = 0; i< SQLLanguagesArray.length; i++){
+                    PreparedStatement removesavedLanguages = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[i] + " = 0 WHERE id = ?;");
                     removesavedLanguages.setInt(1,mainCharacter.getPrimaryKey());
                     removesavedLanguages.execute();
                 }
 
                 for (int i = 0 ; i< mainCharacter.languages.size(); i++){
-                    PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + mainCharacter.languages.get(i) + "  = 1 WHERE id = ?;");
+                    int incrementer = 0;
+                    while (mainCharacter.languages.get(i).equals(mainCharacter.getAllLanguages().get(incrementer))){
+                        incrementer++;
+                    }
+                    PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[incrementer] + "  = 1 WHERE id = ?;");
                     languageSave.setInt(1,mainCharacter.getPrimaryKey());
                     languageSave.execute();
                 }
