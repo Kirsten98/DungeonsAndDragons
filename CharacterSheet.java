@@ -93,7 +93,6 @@ public class CharacterSheet {
      private String[] charismaSkills = {"Deception","Intimidation","Performance","Persuasion"};
      private String[] allSkills = {"Athletics","Acrobatics","Sleight of Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
     private ObservableList allLanguages = FXCollections.observableArrayList("Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves' Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink Dog","Bullywug","Giant Eagle","Giant Elk","Giant Owl","Gnoll","Grell","Grung","Hook Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thri-kreen","Tlincalli","Troglodyte","Umber Hulk","Vegepygmy","Winter Wolf","Worg","Yeti");
-    private String[] SQLLanguagesArray = {"Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep_Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves_Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink_Dog","Bullywug","Giant_Eagle","Giant_Elk","Giant_Owl","Gnoll","Grell","Grung","Hook_Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thrikreen","Tlincalli","Troglodyte","Umber_Hulk","Vegepygmy","Winter_Wolf","Worg","Yeti"};
 
     public CharacterSheet() {
     }
@@ -496,7 +495,4 @@ public class CharacterSheet {
         this.primaryKey = primaryKey;
     }
 
-    public String[] getSQLLanguagesArray() {
-        return SQLLanguagesArray;
-    }
 }

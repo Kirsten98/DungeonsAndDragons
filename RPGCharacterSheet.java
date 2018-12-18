@@ -14,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.sql.*;
 import java.util.Vector;
@@ -200,39 +201,54 @@ public class RPGCharacterSheet extends Application {
         ObservableList armor = FXCollections.observableArrayList();
         ListView armorList = new ListView();
         armorList.setPlaceholder(new Label("---- Armor ----"));
+        armorList.setTooltip(new Tooltip("Armor"));
+//        armorList.setCellFactory(new Callback<ListView, ListCell>() {
+//            @Override
+//            public ListCell call(ListView param) {
+//                return null;
+//            }
+//        });
 
         ObservableList inventory = FXCollections.observableArrayList();
         ListView inventoryList = new ListView();
         inventoryList.setPlaceholder(new Label("---- Inventory ----"));
+        inventoryList.setTooltip(new Tooltip("Inventory"));
 
         ObservableList weapons = FXCollections.observableArrayList();
         ListView weaponsList = new ListView();
         weaponsList.setPlaceholder(new Label("---- Weapons ----"));
+        weaponsList.setTooltip(new Tooltip("Weapons"));
 
         ObservableList instruments = FXCollections.observableArrayList();
         ListView instrumentsList = new ListView();
         instrumentsList.setPlaceholder(new Label("---- Instruments ----"));
+        instrumentsList.setTooltip(new Tooltip("Instruments"));
 
         ObservableList features = FXCollections.observableArrayList();
         ListView featuresList = new ListView();
         featuresList.setPlaceholder(new Label("---- Features ----"));
+        featuresList.setTooltip(new Tooltip("Features"));
 
         ObservableList proficiencies = FXCollections.observableArrayList();
         ListView proficienciesList = new ListView();
         proficienciesList.setPlaceholder(new Label("---- Proficiencies ----"));
+        proficienciesList.setTooltip(new Tooltip("Proficiencies"));
 
         ObservableList spells = FXCollections.observableArrayList();
         ListView spellsList = new ListView();
         spellsList.setPlaceholder(new Label("---- Spells ----"));
+        spellsList.setTooltip(new Tooltip("Spells"));
 
         ObservableList skills = FXCollections.observableArrayList();
         //TODO when getting spells, add cantrips, lvl 1 ... and fourth in between spells
         ListView skillsList = new ListView();
         skillsList.setPlaceholder(new Label("---- Skills ----"));
+        skillsList.setTooltip(new Tooltip("Skills"));
 
         ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
         ListView languagesList = new ListView(languages);
         languagesList.setPlaceholder(new Label("--- Languages --- "));
+        languagesList.setTooltip(new Tooltip("Languages"));
 
 
         //ListView SetUp
@@ -672,6 +688,16 @@ public class RPGCharacterSheet extends Application {
                     languageSave.execute();
                 }
                 //TODO need to save Weapons / Armor/  Skills/ Instruments/ Inventory/ features/ proficiencies after tables are added in SQL
+
+                String[] SQLWeaponsArray = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light_Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War_Pick", "Warhammer", "Whip", "Blowgun", "Hand_Crossbow", "Heavy_Crossbow", "Longbow", "Net"};
+
+
+                String[] SQLArmorArray = {"Padded", "Leather","Studded Leather","Hide", "Chain Shirt", "Scale Mail", "Breastplate", "Halfplate", "Ring Mail",  "Chain Mail" , "Splint, Plate"};
+
+
+                String[] SQLMusicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan_Flute","Shawm","Viol"};
+
+                //TODO complete making SQL tables for Skills/ Inventory/ Features/ Proficiencies/Spells
 
                 System.out.println("Saved");
             } catch (SQLException e) {

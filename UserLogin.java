@@ -92,6 +92,15 @@ public class UserLogin {
         Button login = new Button("Login");
         Button close = new Button("Close");
 
+        Button offline = new Button("Continue Offline");
+        offline.setTooltip(new Tooltip("You will not be able to save your progress if you select this option"));
+        offline.setTranslateX(15);
+
+        offline.setOnAction(e->{
+            label.setText("true");
+            loginStage.close();
+        });
+
         close.setOnAction(e -> {
             label.setText("close");
             loginStage.close();
@@ -152,7 +161,7 @@ public class UserLogin {
         loginAndClose.setTranslateX(-30);
         newUser.setTranslateX(13);
 
-        pane.getChildren().addAll(error, new HBox(new Label("Username: "), userName), new HBox(new Label("Password:  "), password), loginAndClose, newUser);
+        pane.getChildren().addAll(error, new HBox(new Label("Username: "), userName), new HBox(new Label("Password:  "), password), loginAndClose, newUser,offline);
         pane.setAlignment(Pos.TOP_CENTER);
         pane.setPadding(new Insets(10, 40, 20, 40));
 
