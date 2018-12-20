@@ -8,6 +8,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -148,13 +151,46 @@ public class RPGCharacterSheet extends Application {
     @Override
     public void start(Stage primaryStage) {
         CharacterSheet character = new CharacterSheet();
-        // Login page
-        boolean userLogin = UserLogin.main(character);
-        if (userLogin){
+        Pane characterCreation = new Pane();
+        Scene scene = new Scene(characterCreation,1368,840);
+        Stage characterCreationStage = new Stage();
+        characterCreationStage.setScene(scene);
+
+
+
+        Button login = new Button("Login");
+        login.setOnAction(e->{
+            // Login page
+            boolean userLogin = UserLogin.main(character);
+            if (userLogin){
+                System.out.println(character.getPrimaryKey());
+                mainStage(primaryStage, character);
+                characterCreationStage.close();
+            }
+        });
+
+        Button offline = new Button("Continue Offline");
+        offline.setTooltip(new Tooltip("You will not be able to save your progress if you select this option"));
+        offline.setOnAction(e->{
             System.out.println(character.getPrimaryKey());
             mainStage(primaryStage, character);
-        }
+            characterCreationStage.close();
+        });
 
+        ButtonBar loginOrGuest = new ButtonBar();
+        loginOrGuest.getButtons().addAll(login,offline);
+        loginOrGuest.setButtonMinWidth(200);
+        loginOrGuest.setTranslateX(460);
+        loginOrGuest.setTranslateY(785);
+        characterCreation.getChildren().add(loginOrGuest);
+
+        scene.setFill(Color.TRANSPARENT);
+        characterCreation.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("CharacterCreator.jpg"),1368,840,false,true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT)));
+
+        characterCreationStage.initStyle(StageStyle.DECORATED);
+        characterCreationStage.show();
     }
 
     /** Creates the main Character Sheet stage where all the information is stored.
