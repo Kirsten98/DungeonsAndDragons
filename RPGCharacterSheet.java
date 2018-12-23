@@ -190,7 +190,8 @@ public class RPGCharacterSheet extends Application {
                 BackgroundSize.DEFAULT)));
 
         characterCreationStage.initStyle(StageStyle.DECORATED);
-        characterCreationStage.show();
+        characterCreationStage.initModality(Modality.APPLICATION_MODAL);
+        characterCreationStage.showAndWait();
     }
 
     /** Creates the main Character Sheet stage where all the information is stored.

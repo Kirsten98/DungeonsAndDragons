@@ -10,10 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,7 +61,7 @@ public class UserLogin {
             } else if (label.getText().equals("false")) {
                 login("Invalid credentials. Please try again", new Stage(), mainCharacter);
             } else if (label.getText().equals("")) {
-                login("Please close application using close button", new Stage(), mainCharacter);
+                login("Please close the login screen using the back button", new Stage(), mainCharacter);
             }
 
         }
@@ -101,6 +101,10 @@ public class UserLogin {
         login.setOnAction(e -> {
             try {
                 Connection con = connect();
+                if (con == null){
+                    label.setText("Server Error");
+                    loginStage.close();
+                }
                 PreparedStatement usernameQuery = con.prepareStatement("SELECT id FROM characterinfo WHERE username = ?");
                 usernameQuery.setString(1, userName.getText());
                 ResultSet usernameResultSet = usernameQuery.executeQuery();
@@ -140,6 +144,7 @@ public class UserLogin {
             } catch (SQLException q) {
                 q.printStackTrace();
                 label.setText("Server Error");
+                loginStage.close();
 
             }
         });
@@ -164,6 +169,7 @@ public class UserLogin {
                 "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
         scene.setFill(Color.TRANSPARENT);
         loginStage.setScene(scene);
+        loginStage.initModality(Modality.APPLICATION_MODAL);
         loginStage.showAndWait();
     }
 
