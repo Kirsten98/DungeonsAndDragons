@@ -938,7 +938,7 @@ public class Barbarian{
             } else {
                 for (int i =0 ; i<character.getSimpleMeleeWeapons().length ; i++){
                     if (character.getSimpleMeleeWeapons()[i].equals(handaxeOrSMW.getValue().toString())){
-                        checkAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[i],character.getSimpleMeleeWeaponProperties()[i],2,character.getSimpleMeleeWeaponsCost()[i]));
+                        checkAndAddItemQuantity(character.weapons,new Item(character.getSimpleMeleeWeapons()[i],character.getSimpleMeleeWeaponProperties()[i],1,character.getSimpleMeleeWeaponsCost()[i]));
                     }
                 }
             }

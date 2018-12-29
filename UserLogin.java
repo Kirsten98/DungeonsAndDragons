@@ -228,9 +228,13 @@ public class UserLogin {
                                     mainCharacter.setPrimaryKey(primaryKey.getInt(1));
                                 }
 
-                                PreparedStatement languageSetup = con.prepareStatement("Insert INTO languages (id) Values (?);");
+                                PreparedStatement languageSetup = con.prepareStatement("Insert INTO languages (id) Values (?);" +
+                                        "Insert INTO weapons (idweapons) Values (?);");
+
                                 languageSetup.setInt(1,mainCharacter.getPrimaryKey());
+                                languageSetup.setInt(2,mainCharacter.getPrimaryKey());
                                 languageSetup.execute();
+
 
                                 label.setText("User created");
                                 con.close();
@@ -274,6 +278,11 @@ public class UserLogin {
                 "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
         scene.setFill(Color.TRANSPARENT);
         newUserStage.setScene(scene);
+
+
+    }
+
+    private static void loadingScreen(Stage loadingScreen){
 
 
     }

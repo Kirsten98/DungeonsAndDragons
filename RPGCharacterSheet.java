@@ -708,33 +708,50 @@ public class RPGCharacterSheet extends Application {
 
 
                 // Save Languages
+                //TODO Test Languages and confirm that they are saving in MySQL Schema properly.
                 String[] SQLLanguagesArray = {"Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep_Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves_Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink_Dog","Bullywug","Giant_Eagle","Giant_Elk","Giant_Owl","Gnoll","Grell","Grung","Hook_Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thrikreen","Tlincalli","Troglodyte","Umber_Hulk","Vegepygmy","Winter_Wolf","Worg","Yeti"};
                 for (int i = 0; i< SQLLanguagesArray.length; i++){
                     PreparedStatement removesavedLanguages = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[i] + " = 0 WHERE id = ?;");
                     removesavedLanguages.setInt(1,mainCharacter.getPrimaryKey());
                     removesavedLanguages.execute();
                 }
-
                 for (int i = 0 ; i< mainCharacter.languages.size(); i++){
-                    int incrementer = 0;
-                    while (mainCharacter.languages.get(i).equals(mainCharacter.getAllLanguages().get(incrementer))){
-                        incrementer++;
-                    }
-                    PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[incrementer] + "  = 1 WHERE id = ?;");
+                    int position = findArrayPosition(mainCharacter.languages.get(i), mainCharacter.allLanguagesArray);
+
+                    PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[position] + "  = 1 WHERE id = ?;");
                     languageSave.setInt(1,mainCharacter.getPrimaryKey());
                     languageSave.execute();
                 }
-                //TODO need to save Weapons / Armor/  Skills/ Instruments/ Inventory/ features/ proficiencies after tables are added in SQL
+                //TODO need to save Armor/  Skills/ Instruments/ Inventory/ features/ proficiencies after tables are added in SQL
+
+                //Save Weapons
+                //TODO see why it is only saving Club in Weapons Schema
 
                 String[] SQLWeaponsArray = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light_Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War_Pick", "Warhammer", "Whip", "Blowgun", "Hand_Crossbow", "Heavy_Crossbow", "Longbow", "Net"};
+                for (int i = 0; i< SQLWeaponsArray.length; i++){
+                    PreparedStatement removeSavedWeapons= con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[i] + " = 0 WHERE idweapons = ?;");
+                    removeSavedWeapons.setInt(1,mainCharacter.getPrimaryKey());
+                    removeSavedWeapons.execute();
+                }
 
 
-                String[] SQLArmorArray = {"Padded", "Leather","Studded Leather","Hide", "Chain Shirt", "Scale Mail", "Breastplate", "Halfplate", "Ring Mail",  "Chain Mail" , "Splint, Plate"};
+                for (int i = 0 ; i< mainCharacter.weapons.size(); i++){
+                    int position = findArrayPosition(mainCharacter.weapons.get(i).getName(),mainCharacter.getAllWeapons());
+
+                    PreparedStatement weaponSave = con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[position] + "  = ? WHERE idweapons = ?;");
+                    weaponSave.setInt(1, mainCharacter.weapons.get(i).getQuantity());
+                    System.out.println( mainCharacter.weapons.get(i).getQuantity());
+                    weaponSave.setInt(2,mainCharacter.getPrimaryKey());
+                    weaponSave.execute();
+                }
+
+
+                String[] SQLArmorArray = {"Padded", "Leather","Studded_Leather","Hide", "Chain_Shirt", "Scale_Mail", "Breastplate", "Halfplate", "Ring_Mail",  "Chain_Mail" , "Splint", "Plate"};
 
 
                 String[] SQLMusicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan_Flute","Shawm","Viol"};
 
-                //TODO complete making SQL tables for Skills/ Inventory/ Features/ Proficiencies/Spells
+                //TODO complete making SQL tables for Skills/ Inventory/ Features/   Proficiencies/Spells
 
                 System.out.println("Saved");
             } catch (SQLException e) {
@@ -743,6 +760,20 @@ public class RPGCharacterSheet extends Application {
 
         }
 
-
+    /**
+     * Returns the position of the provided item in the given array
+     * @param itemToBeFound String of what is being searched for
+     * @param arrayThatContainsItem String array that is being searched for given item/string
+     * @return Returns position of item in given array, if string is not found in array returns -1.
+     */
+    protected static int findArrayPosition(String itemToBeFound, String[] arrayThatContainsItem){
+            int position = -1;
+            for (int j = 0; j< arrayThatContainsItem.length;j++){
+                if (arrayThatContainsItem[j].equals(itemToBeFound)){
+                    position = j;
+                }
+            }
+            return position;
+        }
 }
 
