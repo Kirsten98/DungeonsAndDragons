@@ -722,31 +722,40 @@ public class RPGCharacterSheet extends Application {
                     languageSave.setInt(1,mainCharacter.getPrimaryKey());
                     languageSave.execute();
                 }
-                //TODO need to save Armor/  Skills/ Instruments/ Inventory/ features/ proficiencies after tables are added in SQL
+                //TODO need to save Skills/ Instruments/ Inventory/ features/ proficiencies after tables are added in SQL
 
                 //Save Weapons
-                //TODO see why it is only saving Club in Weapons Schema
-
                 String[] SQLWeaponsArray = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light_Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War_Pick", "Warhammer", "Whip", "Blowgun", "Hand_Crossbow", "Heavy_Crossbow", "Longbow", "Net"};
                 for (int i = 0; i< SQLWeaponsArray.length; i++){
                     PreparedStatement removeSavedWeapons= con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[i] + " = 0 WHERE idweapons = ?;");
                     removeSavedWeapons.setInt(1,mainCharacter.getPrimaryKey());
                     removeSavedWeapons.execute();
                 }
-
-
                 for (int i = 0 ; i< mainCharacter.weapons.size(); i++){
                     int position = findArrayPosition(mainCharacter.weapons.get(i).getName(),mainCharacter.getAllWeapons());
 
                     PreparedStatement weaponSave = con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[position] + "  = ? WHERE idweapons = ?;");
                     weaponSave.setInt(1, mainCharacter.weapons.get(i).getQuantity());
-                    System.out.println( mainCharacter.weapons.get(i).getQuantity());
                     weaponSave.setInt(2,mainCharacter.getPrimaryKey());
                     weaponSave.execute();
                 }
 
+                // Save Armor
+                String[] SQLArmorArray = {"Padded", "Leather","Studded_Leather","Hide", "Chain_Shirt", "Scale_Mail", "Breastplate", "Halfplate", "Ring_Mail",  "Chain_Mail" , "Splint", "Plate","Shield"};
+                for (int i = 0; i < SQLArmorArray.length;i++){
+                    PreparedStatement removeSavedArmor= con.prepareStatement("UPDATE armor SET " + SQLArmorArray[i] + " = 0 WHERE idarmor = ?;");
+                    removeSavedArmor.setInt(1,mainCharacter.getPrimaryKey());
+                    removeSavedArmor.execute();
+                }
+                for (int i = 0 ; i< mainCharacter.armorList.size(); i++){
+                    System.out.println(mainCharacter.armorList.get(i).getName());
+                    int position = findArrayPosition(mainCharacter.armorList.get(i).getName(),mainCharacter.getAllArmor());
 
-                String[] SQLArmorArray = {"Padded", "Leather","Studded_Leather","Hide", "Chain_Shirt", "Scale_Mail", "Breastplate", "Halfplate", "Ring_Mail",  "Chain_Mail" , "Splint", "Plate"};
+                    PreparedStatement armorSave = con.prepareStatement("UPDATE armor SET " + SQLArmorArray[position] + "  = ? WHERE idarmor = ?;");
+                    armorSave.setInt(1, mainCharacter.armorList.get(i).getQuantity());
+                    armorSave.setInt(2,mainCharacter.getPrimaryKey());
+                    armorSave.execute();
+                }
 
 
                 String[] SQLMusicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan_Flute","Shawm","Viol"};
@@ -767,13 +776,13 @@ public class RPGCharacterSheet extends Application {
      * @return Returns position of item in given array, if string is not found in array returns -1.
      */
     protected static int findArrayPosition(String itemToBeFound, String[] arrayThatContainsItem){
-            int position = -1;
+
             for (int j = 0; j< arrayThatContainsItem.length;j++){
                 if (arrayThatContainsItem[j].equals(itemToBeFound)){
-                    position = j;
+                    return j;
                 }
             }
-            return position;
+            return -1;
         }
 }
 

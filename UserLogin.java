@@ -227,7 +227,7 @@ public class UserLogin {
                                 if (primaryKey.next()){
                                     mainCharacter.setPrimaryKey(primaryKey.getInt(1));
                                 }
-
+                                //TODO need to create ID for all Schemas.
                                 PreparedStatement languageSetup = con.prepareStatement("Insert INTO languages (id) Values (?);" +
                                         "Insert INTO weapons (idweapons) Values (?);");
 
