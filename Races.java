@@ -354,11 +354,11 @@ public class Races extends RPGCharacterSheet {
         Races.availableLanguages.remove("Dwarvish");
         abilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+ 30);
-        character.skills.add("Darkvision");
-        character.skills.add("Dwarven Resilience");
-        character.skills.add("Dwarven Combat Training");
-        character.skills.add("Tool Proficiency");
-        character.skills.add("Stonecunning");
+        character.raceTraits.add("Darkvision");
+        character.raceTraits.add("Dwarven Resilience");
+        character.raceTraits.add("Dwarven Combat Training");
+        character.raceTraits.add("Tool Proficiency");
+        character.raceTraits.add("Stonecunning");
         Races.label.setText("Skills added : Darkvision, Dwarven Resilience, Dwarven Combat Training,\nTool Proficiency, and Stonecunning\n\n                             Are you a Hill Dwarf or Mountain Dwarf?");
 
         Button hillDwarf = new Button("Hill Dwarf");
@@ -383,7 +383,7 @@ public class Races extends RPGCharacterSheet {
             continueButton.setDisable(false);
             continueButton.setOnAction(continueButtonEvent ->{
                 abilityAddition(character, 2, 2);
-                character.skills.add("Dwarven Armor Training");
+                character.raceTraits.add("Dwarven Armor Training");
                 character.setRace("Dwarf (Hill)");
                 dwarfStage.close();
 
@@ -415,10 +415,10 @@ public class Races extends RPGCharacterSheet {
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Elvish");
         Races.availableLanguages.remove("Elvish");
-        character.skills.add("Darkvision");
-        character.skills.add("Keen Senses");
-        character.skills.add("Fey Ancestry");
-        character.skills.add("Trance");
+        character.raceTraits.add("Darkvision");
+        character.raceTraits.add("Keen Senses");
+        character.raceTraits.add("Fey Ancestry");
+        character.raceTraits.add("Trance");
         Races.label.setText("Skills added : Darkvision, Keen Senses, Fey Ancestry, and Trance\nChoose your elf type");
         Button highElf = new Button("High Elf");
         highElf.setTooltip(new Tooltip("+ Elf Weapon Training\n+1 Language"));
@@ -441,7 +441,7 @@ public class Races extends RPGCharacterSheet {
         highElf.setOnAction(e->{
             elfStage.setHeight(325);
             abilityAddition(character, 5, 1);
-            character.skills.add("Elf Weapon Training");
+            character.raceTraits.add("Elf Weapon Training");
             ComboBox<String> languages = new ComboBox<>(availableLanguages);
             Label chooseLanguage = new Label("Choose an additional language");
             continueButton.setDisable(true);
@@ -457,9 +457,9 @@ public class Races extends RPGCharacterSheet {
         woodElf.setOnAction(e->{
             abilityAddition(character, 4, 1);
             character.setRace("Wood Elf");
-            character.skills.add("Elf Weapon Training");
+            character.raceTraits.add("Elf Weapon Training");
             character.setSpeed(character.getSpeed()+35);
-            character.skills.add("Mask of the Wild");
+            character.raceTraits.add("Elf Weapon Training");
             elfStage.close();
 
 
@@ -467,10 +467,10 @@ public class Races extends RPGCharacterSheet {
         darkElf.setOnAction(e->{
             abilityAddition(character, 1, 1);
             character.setRace("Dark Elf");
-            character.skills.add("Superior Darkvision");
-            character.skills.add("Sunlight Sensitivity");
-            character.skills.add("Drow Magic");
-            character.skills.add("Drow Weapon Training");
+            character.raceTraits.add("Superior Darkvision");
+            character.raceTraits.add("Sunlight Sensitivity");
+            character.raceTraits.add("Drow Magic");
+            character.raceTraits.add("Drow Weapon Training");
             elfStage.close();
 
         });
@@ -504,9 +504,9 @@ public class Races extends RPGCharacterSheet {
         Button continueButton = new Button("Continue");
         continueButton.setDisable(true);
         character.setSpeed(character.getSpeed()+30);
-        character.skills.add("Darkvision");
-        character.skills.add("Fey Ancestory");
-        character.skills.add("Skill Versatility");
+        character.raceTraits.add("Darkvision");
+        character.raceTraits.add("Fey Ancestory");
+        character.raceTraits.add("Skill Versatility");
         Label skillsAdded = new Label("Skills added: Darkvision , Fey Ancestory, and Skill Versatility");
         character.languages.add("Elvish");
         Races.availableLanguages.remove("Elvish");
@@ -555,10 +555,10 @@ public class Races extends RPGCharacterSheet {
         abilityAddition(character, 2, 2); // Adds Strength
         abilityAddition(character, 6, 1); // Adds constitution
         character.setSpeed(character.getSpeed()+30);
-        character.skills.add("Darkvision");
-        character.skills.add("Menacing");
-        character.skills.add("Relentless Endurance");
-        character.skills.add("Savage Attacks");
+        character.raceTraits.add("Darkvision");
+        character.raceTraits.add("Menacing");
+        character.raceTraits.add("Relentless Endurance");
+        character.raceTraits.add("Savage Attacks");
         label.setText("Skills added: Darkvision, Menacing, Relentless Endurance, and Savage Attack\n\n Languages learned: Common and Orc");
         character.languages.add("Common");
         character.languages.add("Orc");
@@ -638,7 +638,7 @@ public class Races extends RPGCharacterSheet {
         for (int i = 0; i < draconicAncestryColor.length; i++) {
             Button ancestryColor = new Button(draconicAncestryColor[i]);
             ancestryColor.setTooltip(new Tooltip(draconicAncestryElement[i]));
-            ancestryColor.setOnAction(e->{ continueButton.setOnAction(continueButtonEvent ->{character.skills.add("Damage resistance: " + ancestryColor.getTooltip().getText());
+            ancestryColor.setOnAction(e->{ continueButton.setOnAction(continueButtonEvent ->{character.raceTraits.add("Damage resistance: " + ancestryColor.getTooltip().getText());
                 character.setRace("Dragonborn ("+ancestryColor.getText() +")");
                 dragonbornStage.close();});
                 continueButton.setDisable(false);
@@ -673,9 +673,9 @@ public class Races extends RPGCharacterSheet {
 
         abilityAddition(character, 3, 2);
         character.setSpeed(character.getSpeed()+25);
-        character.skills.add("Lucky");
-        character.skills.add("Brave");
-        character.skills.add("Halfling Nimbleness");
+        character.raceTraits.add("Lucky");
+        character.raceTraits.add("Brave");
+        character.raceTraits.add("Halfling Nimbleness");
         character.languages.add("Common");
         character.languages.add("Halfling");
         availableLanguages.removeAll("Common","Halfling");
@@ -694,7 +694,7 @@ public class Races extends RPGCharacterSheet {
             continueButton.setDisable(false);
             continueButton.setOnAction(continueButtonEvent ->{
                 abilityAddition(character, 1, 1);
-                character.skills.add("Naturally Stealthy");
+                character.raceTraits.add("Naturally Stealthy");
                 character.setRace("Halfling (Lightfoot)");
                 halflingStage.close();
 
@@ -705,7 +705,7 @@ public class Races extends RPGCharacterSheet {
             continueButton.setDisable(false);
             continueButton.setOnAction(continueButtonEvent ->{
                 abilityAddition(character, 6, 1);
-                character.skills.add("Stout Resilience");
+                character.raceTraits.add("Stout Resilience");
                 character.setRace("Halfling (Stout)");
                 halflingStage.close();
 
@@ -736,13 +736,13 @@ public class Races extends RPGCharacterSheet {
 
         abilityAddition(character, 5, 2);
         character.setSpeed(character.getSpeed()+25);
-        character.skills.add("Darkvision");
-        character.skills.add("Gnome Cunning");
+        character.raceTraits.add("Darkvision");
+        character.raceTraits.add("Gnome Cunning");
         character.languages.add("Common");
         character.languages.add("Gnomish");
 
 
-        label.setText("Skills Added: Darkvision and gnome Cunning added to skills\nLanguages learned: Common and Gnomish!\n\nWhich type of gnome are you, a Forest Gnome or Rock Gnome?");
+        label.setText("Skills Added: Darkvision and gnome Cunning added to raceTraits\nLanguages learned: Common and Gnomish!\n\nWhich type of gnome are you, a Forest Gnome or Rock Gnome?");
         ButtonBar row1 = new ButtonBar();
         Button forestGnome = new Button("Forest Gnome");
         Button rockGnome = new Button("Rock Gnome");
@@ -753,16 +753,16 @@ public class Races extends RPGCharacterSheet {
         forestGnome.setOnAction(e->{
             character.setRace("Gnome (Forest)");
             abilityAddition(character, 3, 1);
-            character.skills.add("Natural Illusionist");
-            character.skills.add("Speak with Small Beasts");
+            character.raceTraits.add("Natural Illusionist");
+            character.raceTraits.add("Speak with Small Beasts");
             gnomeStage.close();
 
         });
         rockGnome.setOnAction(e->{
             character.setRace("Gnome (Rock)");
             abilityAddition(character, 6, 1);
-            character.skills.add("Artificer's Lore");
-            character.skills.add("Tinker");
+            character.raceTraits.add("Artificer's Lore");
+            character.raceTraits.add("Tinker");
             gnomeStage.close();
         });
 
@@ -791,9 +791,9 @@ public class Races extends RPGCharacterSheet {
 
         abilityAddition(character, 5, 1);
         character.setSpeed(character.getSpeed() + 30);
-        character.skills.add("Darkvision");
-        character.skills.add("Hellish Resistance");
-        character.skills.add("Infernal Legacy");
+        character.raceTraits.add("Darkvision");
+        character.raceTraits.add("Hellish Resistance");
+        character.raceTraits.add("Infernal Legacy");
         character.languages.add("Common");
         character.languages.add("Infernal");
         label.setText("Skills added : Darkvision , Hellish Resistance, and Infernal Legacy\n\nLanguages learned: Common and Infernal");

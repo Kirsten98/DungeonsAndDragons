@@ -480,7 +480,7 @@ public class Cleric {
     //Tested and verified 9/10
 
     /**
-     * Allows user to add the skills they want to be proficient in.
+     * Allows user to add the raceTraits they want to be proficient in.
      */
     public void chooseSkillProficiencies(){
         Scanner scanner = new Scanner(System.in);
@@ -926,7 +926,7 @@ public class Cleric {
             divineSkills.add("History");
             divineSkills.add("Nature");
             divineSkills.add("Religion");
-            System.out.println("You can become proficient in two skills. Choose your first skill");
+            System.out.println("You can become proficient in two raceTraits. Choose your first skill");
             vectorPrintOut(divineSkills);
             numChoice = scanner.nextInt();
             endOfLine = scanner.nextLine();

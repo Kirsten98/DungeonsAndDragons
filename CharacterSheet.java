@@ -84,7 +84,7 @@ public class CharacterSheet {
     Vector<Item> armorList = new Vector<>();
     Vector<String> instruments = new Vector<>();
     Vector<String> languages = new Vector();
-     Vector<String> skills = new Vector();
+     Vector<String> raceTraits = new Vector();
      Vector<Item> inventory = new Vector();
      private String[] strengthSkills = {"Athletics"};
      private String[] dexteritySkills = {"Acrobatics","Sleight of Hand","Stealth"};
@@ -94,6 +94,9 @@ public class CharacterSheet {
      private String[] allSkills = {"Athletics","Acrobatics","Sleight of Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
     private ObservableList allLanguages = FXCollections.observableArrayList("Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves' Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink Dog","Bullywug","Giant Eagle","Giant Elk","Giant Owl","Gnoll","Grell","Grung","Hook Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thri-kreen","Tlincalli","Troglodyte","Umber Hulk","Vegepygmy","Winter Wolf","Worg","Yeti");
     String[] allLanguagesArray= {"Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves' Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink Dog","Bullywug","Giant Eagle","Giant Elk","Giant Owl","Gnoll","Grell","Grung","Hook Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thri-kreen","Tlincalli","Troglodyte","Umber Hulk","Vegepygmy","Winter Wolf","Worg","Yeti"};
+
+    String[] allRaceTraits = {"Artificer's Lore","Brave","Damage resistance: ","Darkvision","Drow Magic","Drow Weapon Training","Dwarven Armor Training","Dwarven Combat Training","Dwarven Resilience","Elf Weapon Training","Fey Ancestry","Gnome Cunning","Halfling Nimbleness","Hellish Resistance","Infernal Legacy","Keen Senses","Lucky","Menacing","Natural Illusionist","Naturally Stealthy","Relentless Endurance","Savage Attacks","Skill Versatility","Speak with Small Beasts","Stonecunning","Stout Resilience","Sunlight Sensitivity","Superior Darkvision","Tinker","Tool Proficiency","Trance"};
+
 
     public CharacterSheet() {
     }

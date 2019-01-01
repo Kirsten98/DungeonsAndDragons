@@ -584,7 +584,7 @@ public class Bard {
 
     //Tested and verified 9/10
     /**
-     * Allows user to add the skills they want to be proficient in.
+     * Allows user to add the raceTraits they want to be proficient in.
      */
     public void chooseSkillProficiencies(){
         Scanner scanner = new Scanner(System.in);

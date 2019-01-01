@@ -265,7 +265,7 @@ public class Barbarian{
 
                     character.getProficienciesList().addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
 
-                    Label skillChoices = new Label("You have learned two new skills to be proficient in.\nChoose your fist skill.");
+                    Label skillChoices = new Label("You have learned two new raceTraits to be proficient in.\nChoose your fist skill.");
                     pane.add(skillChoices,0,0,3,2);
 
                     ObservableList skills = FXCollections.observableArrayList("Animal Handling","Athletics","Intimidation", "Nature","Perception","Survival");

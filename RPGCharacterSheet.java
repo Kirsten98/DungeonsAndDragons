@@ -9,20 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
 
-import java.io.InputStream;
 import java.sql.*;
-import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class RPGCharacterSheet extends Application {
@@ -200,7 +193,7 @@ public class RPGCharacterSheet extends Application {
      * @param mainCharacter Character sheet object to hold character information
      */
     private void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
-        //TODO add close button
+        //TODO add skills to main stage
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
@@ -278,9 +271,9 @@ public class RPGCharacterSheet extends Application {
 
         ObservableList skills = FXCollections.observableArrayList();
         //TODO when getting spells, add cantrips, lvl 1 ... and fourth in between spells
-        ListView skillsList = new ListView();
-        skillsList.setPlaceholder(new Label("---- Skills ----"));
-        skillsList.setTooltip(new Tooltip("Skills"));
+        ListView raceTraitsList = new ListView();
+        raceTraitsList.setPlaceholder(new Label("---- Race Traits ----"));
+        raceTraitsList.setTooltip(new Tooltip("Race Traits"));
 
         ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
         ListView languagesList = new ListView(languages);
@@ -297,8 +290,8 @@ public class RPGCharacterSheet extends Application {
         featuresList.setPrefWidth(200);
         proficienciesList.setPrefWidth(200);
         spellsList.setPrefWidth(200);
-        skillsList.setPrefWidth(200);
-        centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,skillsList);
+        raceTraitsList.setPrefWidth(200);
+        centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,raceTraitsList);
         center.setTranslateX(30);
         borderPane.setCenter(center);
 
@@ -338,7 +331,7 @@ public class RPGCharacterSheet extends Application {
                     Abilities.updateAbilities(abilities,mainCharacter);
                 }
                 skills.clear();
-                mainCharacter.skills.clear();
+                mainCharacter.raceTraits.clear();
                 languages.clear();
                 mainCharacter.languages.clear();
                 race.setText(Races.chooseRace(continueButton, mainCharacter));
@@ -346,8 +339,8 @@ public class RPGCharacterSheet extends Application {
                 setAge.setDisable(false);
                 age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
                 languages.setAll(mainCharacter.languages);
-                skills.setAll(mainCharacter.skills);
-                skillsList.setItems(skills);
+                skills.setAll(mainCharacter.raceTraits);
+                raceTraitsList.setItems(skills);
                 Abilities.updateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
                 hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
@@ -461,6 +454,7 @@ public class RPGCharacterSheet extends Application {
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
         //Set Level
+        //TODO Create method to remove previous level presets
         editLevel.setDisable(true);
         level.setTooltip(new Tooltip("Missing class selection"));
         level.setUnderline(true);
@@ -757,8 +751,21 @@ public class RPGCharacterSheet extends Application {
                     armorSave.execute();
                 }
 
-
+                // Save Musical instruments
                 String[] SQLMusicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan_Flute","Shawm","Viol"};
+                for (int i = 0; i < SQLMusicalInstruments.length;i++){
+                    PreparedStatement removeInstruments= con.prepareStatement("UPDATE armor SET " + SQLMusicalInstruments[i] + " = 0 WHERE idmusicalInstruments = ?;");
+                    removeInstruments.setInt(1,mainCharacter.getPrimaryKey());
+                    removeInstruments.execute();
+                }
+
+                for (int i = 0 ; i< mainCharacter.instruments.size(); i++){
+                    int position = findArrayPosition(mainCharacter.instruments.get(i),mainCharacter.getMusicalInstruments());
+
+                    PreparedStatement instrumentsSave = con.prepareStatement("UPDATE armor SET " + SQLMusicalInstruments[position] + "  = 1 WHERE idmusicalInstruments = ?;");;
+                    instrumentsSave.setInt(1,mainCharacter.getPrimaryKey());
+                    instrumentsSave.execute();
+                }
 
                 //TODO complete making SQL tables for Skills/ Inventory/ Features/   Proficiencies/Spells
 
