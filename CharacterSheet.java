@@ -33,6 +33,8 @@ public class CharacterSheet {
     private int hitPoints;
     private int ac;
     private int level;
+    private int baseHitPoints;
+    private int baseSpeed;
     private ObservableList featuresList = FXCollections.observableArrayList();
     private ObservableList proficienciesList = FXCollections.observableArrayList();
     private ObservableList misc = FXCollections.observableArrayList();
@@ -499,4 +501,20 @@ public class CharacterSheet {
         this.primaryKey = primaryKey;
     }
 
+
+    public int getBaseHitPoints() {
+        return baseHitPoints;
+    }
+
+    public void setBaseHitPoints(int baseHitPoints) {
+        this.baseHitPoints = baseHitPoints;
+    }
+
+    public int getBaseSpeed() {
+        return baseSpeed;
+    }
+
+    public void setBaseSpeed(int baseSpeed) {
+        this.baseSpeed = baseSpeed;
+    }
 }

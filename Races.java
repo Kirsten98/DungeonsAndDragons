@@ -353,6 +353,7 @@ public class Races extends RPGCharacterSheet {
         character.languages.add("Dwarvish");
         Races.availableLanguages.remove("Dwarvish");
         abilityAddition(character, 3, 2);
+        character.setBaseSpeed(30);
         character.setSpeed(character.getSpeed()+ 30);
         character.raceTraits.add("Darkvision");
         character.raceTraits.add("Dwarven Resilience");
@@ -412,7 +413,6 @@ public class Races extends RPGCharacterSheet {
         elfStage.setTitle("Elf");
 
         abilityAddition(character, 3, 2);
-        character.setSpeed(character.getSpeed()+30);
         character.languages.add("Elvish");
         Races.availableLanguages.remove("Elvish");
         character.raceTraits.add("Darkvision");
@@ -439,6 +439,8 @@ public class Races extends RPGCharacterSheet {
 
         pane.getChildren().addAll(Races.label,elves,choice);
         highElf.setOnAction(e->{
+            character.setBaseSpeed(30);
+            character.setSpeed(character.getSpeed()+30);
             elfStage.setHeight(325);
             abilityAddition(character, 5, 1);
             character.raceTraits.add("Elf Weapon Training");
@@ -458,6 +460,7 @@ public class Races extends RPGCharacterSheet {
             abilityAddition(character, 4, 1);
             character.setRace("Wood Elf");
             character.raceTraits.add("Elf Weapon Training");
+            character.setBaseSpeed(35);
             character.setSpeed(character.getSpeed()+35);
             character.raceTraits.add("Elf Weapon Training");
             elfStage.close();
@@ -466,6 +469,8 @@ public class Races extends RPGCharacterSheet {
         });
         darkElf.setOnAction(e->{
             abilityAddition(character, 1, 1);
+            character.setBaseSpeed(30);
+            character.setSpeed(character.getSpeed()+30);
             character.setRace("Dark Elf");
             character.raceTraits.add("Superior Darkvision");
             character.raceTraits.add("Sunlight Sensitivity");
@@ -503,6 +508,7 @@ public class Races extends RPGCharacterSheet {
         raceAbilityChoices.clear();
         Button continueButton = new Button("Continue");
         continueButton.setDisable(true);
+        character.setBaseSpeed(30);
         character.setSpeed(character.getSpeed()+30);
         character.raceTraits.add("Darkvision");
         character.raceTraits.add("Fey Ancestory");
@@ -554,6 +560,7 @@ public class Races extends RPGCharacterSheet {
 
         abilityAddition(character, 2, 2); // Adds Strength
         abilityAddition(character, 6, 1); // Adds constitution
+        character.setBaseSpeed(30);
         character.setSpeed(character.getSpeed()+30);
         character.raceTraits.add("Darkvision");
         character.raceTraits.add("Menacing");
@@ -590,6 +597,7 @@ public class Races extends RPGCharacterSheet {
         for (int i = 1; i <= 6; i++) {
             abilityAddition(character, i, 1);
         }
+        character.setBaseSpeed(30);
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
         availableLanguages.remove("Common");
@@ -622,6 +630,7 @@ public class Races extends RPGCharacterSheet {
 
         abilityAddition(character, 2, 2);
         abilityAddition(character, 1, 1);
+        character.setBaseSpeed(30);
         character.setSpeed(character.getSpeed()+30);
         character.languages.add("Common");
         character.languages.add("Draconic");
@@ -672,6 +681,7 @@ public class Races extends RPGCharacterSheet {
         halflingStage.setTitle("Halfling");
 
         abilityAddition(character, 3, 2);
+        character.setBaseSpeed(25);
         character.setSpeed(character.getSpeed()+25);
         character.raceTraits.add("Lucky");
         character.raceTraits.add("Brave");
@@ -735,6 +745,7 @@ public class Races extends RPGCharacterSheet {
         gnomeStage.setTitle("Gnome");
 
         abilityAddition(character, 5, 2);
+        character.setBaseSpeed(25);
         character.setSpeed(character.getSpeed()+25);
         character.raceTraits.add("Darkvision");
         character.raceTraits.add("Gnome Cunning");
@@ -790,6 +801,7 @@ public class Races extends RPGCharacterSheet {
         tieflingStage.setTitle("Tiefling");
 
         abilityAddition(character, 5, 1);
+        character.setBaseSpeed(30);
         character.setSpeed(character.getSpeed() + 30);
         character.raceTraits.add("Darkvision");
         character.raceTraits.add("Hellish Resistance");

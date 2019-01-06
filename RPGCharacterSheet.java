@@ -344,6 +344,8 @@ public class RPGCharacterSheet extends Application {
                 Abilities.updateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
                 hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
+                mainCharacter.setBaseHitPoints(mainCharacter.getHitPoints());
+                mainCharacter.setBaseSpeed(mainCharacter.getSpeed());
             }
             });
 
@@ -454,22 +456,32 @@ public class RPGCharacterSheet extends Application {
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
         //Set Level
-        //TODO Create method to remove previous level presets
         editLevel.setDisable(true);
         level.setTooltip(new Tooltip("Missing class selection"));
         level.setUnderline(true);
         layout.add(level,4,0);
         layout.add(editLevel,4,1);
         editLevel.setOnAction(e->{
-            Classes.setLevel(mainCharacter);
-            level.setText("Level: " + mainCharacter.getLevel());
-            proficienciesList.setItems(mainCharacter.getProficienciesList());
-            featuresList.setItems(mainCharacter.getFeaturesList());
-            miscList.setItems(mainCharacter.getMisc());
-            ac.setText("AC: " + mainCharacter.getAc());
-            hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
-            Abilities.updateAbilities(abilities,mainCharacter);
-            speed.setText("Speed: " + mainCharacter.getSpeed());
+            if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+                //Removing previous configurations
+                mainCharacter.getProficienciesList().clear();
+                mainCharacter.getFeaturesList().clear();
+                mainCharacter.getMisc().clear();
+                mainCharacter.setSpeed(mainCharacter.getBaseSpeed());
+                mainCharacter.setHitPoints(mainCharacter.getBaseHitPoints());
+
+
+                //New Level Setup
+                Classes.setLevel(mainCharacter);
+                level.setText("Level: " + mainCharacter.getLevel());
+                proficienciesList.setItems(mainCharacter.getProficienciesList());
+                featuresList.setItems(mainCharacter.getFeaturesList());
+                miscList.setItems(mainCharacter.getMisc());
+                ac.setText("AC: " + mainCharacter.getAc());
+                hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
+                Abilities.updateAbilities(abilities,mainCharacter);
+                speed.setText("Speed: " + mainCharacter.getSpeed());
+            }
         });
 
 
