@@ -9,11 +9,13 @@ public class CharacterSheet {
     // TODO Clean-up, condense weapons/armor into Item[]
     //TODO make Hash Table to keep track of items and quantity. Key = name of item, Value = quantity
     //TODO Clean-up make vectors / ObservableArrayLists arraylists.
+    //TODO Create a "Level Up" Where it levels the user up 1 level without removing previous presets.
 
     private int primaryKey;
 
     private String name = "";
     private String race = "";
+    private int proficiencyMod;
     private String characterClass = "";
     private int strengthScore;
     private int dexterityScore;
@@ -516,5 +518,13 @@ public class CharacterSheet {
 
     public void setBaseSpeed(int baseSpeed) {
         this.baseSpeed = baseSpeed;
+    }
+
+    public int getProficiencyMod() {
+        return proficiencyMod;
+    }
+
+    public void setProficiencyMod(int proficiencyMod) {
+        this.proficiencyMod = proficiencyMod;
     }
 }

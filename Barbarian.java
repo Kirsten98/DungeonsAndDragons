@@ -21,7 +21,6 @@ public class Barbarian{
     CharacterSheet character;
     private int hitDice = 12;
     private String primalPath = "Not selected";
-    private int proficiency;
     private int rageDamage;
     private int rages;
     private String totemSpirit = "Not selected";
@@ -216,7 +215,7 @@ public class Barbarian{
 
             if (startingLevel <= maxLevel){
                 Label hp = new Label("Hit Points: "+ character.getHitPoints());
-                Label proficiency = new Label("Proficiency : + "+ this.proficiency);
+                Label proficiency = new Label("Proficiency : + "+ character.getProficiencyMod());
                 ListView features = new ListView(character.getFeaturesList());
                 ListView proficiencies = new ListView( character.getProficienciesList());
                 proficiencies.setTooltip(new Tooltip("Proficiencies"));
@@ -251,8 +250,8 @@ public class Barbarian{
                 if (startingLevel ==1){
                     character.setHitPoints(character.getHitPoints()+ character.getConstitutionScore()+12);
                     hp.setText("Hit Points: " + character.getHitPoints());
-                    this.proficiency = 2;
-                    proficiency.setText("Proficiency : +" + this.proficiency);
+                    character.setProficiencyMod(2);
+                    proficiency.setText("Proficiency : +" + character.getProficiencyMod());
                     character.getFeaturesList().add("Rage");
                     character.getFeaturesList().add("Unarmored Defense");
                     this.rages = 2;
@@ -431,8 +430,8 @@ public class Barbarian{
                     borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==5){
-                    this.proficiency = 3;
-                    proficiency.setText("Proficiency : + "+ this.proficiency);
+                    character.setProficiencyMod(3);
+                    proficiency.setText("Proficiency : + "+ character.getProficiencyMod());
                     character.getFeaturesList().addAll("Extra Attack","Fast Movement");
                     features.setItems(character.getFeaturesList());
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
@@ -521,13 +520,13 @@ public class Barbarian{
                     borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
                 }
                 if (startingLevel ==9){
-                    this.proficiency = 4;
+                    character.setProficiencyMod(4);
                     character.getFeaturesList().add("Brutal Critical (1 Die)");
                     features.setItems(character.getFeaturesList());
                     this.rageDamage = 3;
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
-                    proficiency.setText("Proficiency : + "+ this.proficiency);
+                    proficiency.setText("Proficiency : + "+ character.getProficiencyMod());
                     rageDamage.setText("Rage Damage: " + this.rageDamage);
                     changes.setText("Features Added: Brutal Critical (1 Die)\nProficiency +1\nRage Damage +1");
                     pane.add(changes,0,0);
@@ -565,7 +564,7 @@ public class Barbarian{
                 if (startingLevel ==13){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
-                    this.proficiency=5;
+                    character.setProficiencyMod(5);
                     character.getFeaturesList().remove("Brutal Critical (1 Die)");
                     character.getFeaturesList().add("Brutal Critical (2 Dice)");
                     changes.setText("Features Added: Updated Brutal Critical (1 Die) to Brutal Critical (2 Dice)\nProficiency +1");
@@ -652,8 +651,8 @@ public class Barbarian{
                 if (startingLevel ==17){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
-                    this.proficiency = 6;
-                    proficiency.setText("Proficiency: " + this.proficiency);
+                    character.setProficiencyMod(6);
+                    proficiency.setText("Proficiency: " + character.getProficiencyMod());
                     character.getFeaturesList().remove("Brutal Critical (2 Dice)");
                     character.getFeaturesList().add("Brutal Critical  (3 Dice)");
                     this.rages = 6;

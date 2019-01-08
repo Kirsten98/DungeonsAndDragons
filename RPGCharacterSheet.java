@@ -1,5 +1,6 @@
 package DungeonsAndDragons;
 
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -193,7 +194,7 @@ public class RPGCharacterSheet extends Application {
      * @param mainCharacter Character sheet object to hold character information
      */
     private void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
-        //TODO add skills to main stage
+        //TODO add skills to main stage (Borderpane right)
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
@@ -208,7 +209,13 @@ public class RPGCharacterSheet extends Application {
         HBox centerTop = new HBox();
         HBox centerBottom = new HBox();
         VBox center = new VBox();
-        center.getChildren().addAll(centerTop,centerBottom);
+        HBox topLabels = new HBox(new Label("Armor"), new Label("Weapons"),new Label("Inventory"),new Label("Instruments"));
+        HBox bottomLabels = new HBox(new Label("Features"),new Label("Proficiencies"),new Label("Spells"),new Label("Race Traits"));
+        topLabels.setSpacing(155);
+        topLabels.setTranslateX(75);
+        bottomLabels.setSpacing(155);
+        bottomLabels.setTranslateX(75);
+        center.getChildren().addAll(topLabels,centerTop, bottomLabels,centerBottom);
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.2));
         shadow.setRadius(5);
@@ -277,22 +284,24 @@ public class RPGCharacterSheet extends Application {
 
         ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
         ListView languagesList = new ListView(languages);
+        languagesList.setPrefHeight(290);
         languagesList.setPlaceholder(new Label("--- Languages --- "));
         languagesList.setTooltip(new Tooltip("Languages"));
 
 
         //ListView SetUp
         centerTop.getChildren().addAll(armorList,weaponsList,inventoryList,instrumentsList);
-        armorList.setPrefWidth(200);
-        weaponsList.setPrefWidth(200);
-        inventoryList.setPrefWidth(200);
-        instrumentsList.setPrefWidth(200);
-        featuresList.setPrefWidth(200);
-        proficienciesList.setPrefWidth(200);
-        spellsList.setPrefWidth(200);
-        raceTraitsList.setPrefWidth(200);
+        armorList.setPrefSize(200,350);
+        weaponsList.setPrefSize(200,350);
+        inventoryList.setPrefSize(200,350);
+        instrumentsList.setPrefSize(200,350);
+        featuresList.setPrefSize(200,350);
+        proficienciesList.setPrefSize(200,350);
+        spellsList.setPrefSize(200,350);
+        raceTraitsList.setPrefSize(200,350);
         centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,raceTraitsList);
-        center.setTranslateX(30);
+//        center.setTranslateX(-145);
+        center.setMaxWidth(800);
         borderPane.setCenter(center);
 
         //Labels
@@ -408,6 +417,7 @@ public class RPGCharacterSheet extends Application {
         //Set Character Specific Misc
         ObservableList misc = FXCollections.observableArrayList();
         ListView miscList = new ListView(misc);
+        miscList.setPrefHeight(295);
         miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
 
         //Sets AC
@@ -484,7 +494,8 @@ public class RPGCharacterSheet extends Application {
             }
         });
 
-
+        //Set Skills
+        borderPane.setRight(setSillsPane(mainCharacter));
         // Save Button
         Button save = new Button("Save");
         save.setPrefWidth(75);
@@ -495,7 +506,7 @@ public class RPGCharacterSheet extends Application {
         borderPane.setLeft(left);
         left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
 
-        Scene scene = new Scene(borderPane, 1000, 800);
+        Scene scene = new Scene(borderPane, 1368, 840);
         borderPane.setStyle("-fx-border-color: black;"+
                 "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
         scene.setFill(Color.TRANSPARENT);
@@ -802,6 +813,77 @@ public class RPGCharacterSheet extends Application {
                 }
             }
             return -1;
+        }
+
+        protected HBox setSillsPane(CharacterSheet character){
+            HBox right = new HBox(15);
+            right.setPadding(new Insets(10,25,10,0));
+            right.setTranslateY(15);
+            VBox skillsList = new VBox(15);
+            VBox modifierList = new VBox(15);
+            VBox additionList = new VBox(15);
+            VBox proficiencyList = new VBox(15);
+            VBox totalList = new VBox(15);
+            skillsList.setAlignment(Pos.TOP_CENTER);
+            modifierList.setAlignment(Pos.TOP_CENTER);
+            additionList.setAlignment(Pos.TOP_CENTER);
+            proficiencyList.setAlignment(Pos.TOP_CENTER);
+            totalList.setAlignment(Pos.TOP_CENTER);
+            String[] allSkills = {"Athletics","Acrobatics","Sleight of Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
+            int abilityIterator = 0;
+            int skillIterator = 0;
+            String[] abilitiesList = {"Strength","Dexterity","Intelligence","Wisdom","Charisma"};
+            for(int i =0;i<22; i++){
+                switch (i){
+                    case 0:
+                    case 2:
+                    case 6:
+                    case 12:
+                    case 16:skillsList.getChildren().add(new Label(abilitiesList[abilityIterator]+" Skills"));
+                        modifierList.getChildren().add(new Label("Ability Modifiers"));
+                        additionList.getChildren().add(new Label(""));
+                        proficiencyList.getChildren().add(new Label("Proficiency Bonus"));
+                        totalList.getChildren().add(new Label("Total"));
+                        if (abilityIterator <5){
+                            abilityIterator++;
+                        }
+                        break;
+                    default:
+                        int abilitySkillModifier=0;
+                        if (abilityIterator==1){
+                            modifierList.getChildren().add(new Label(""+character.getStrengthMod()));
+                            abilitySkillModifier = character.getStrengthMod();
+                        }else if (abilityIterator==2){
+                            modifierList.getChildren().add(new Label(""+character.getDexterityMod()));
+                            abilitySkillModifier = character.getDexterityMod();
+                        }
+                        else if (abilityIterator==3){
+                            modifierList.getChildren().add(new Label(""+character.getIntelligenceMod()));
+                            abilitySkillModifier = character.getIntelligenceMod();
+                        }else if (abilityIterator==4){
+                            modifierList.getChildren().add(new Label(""+character.getWisdomMod()));
+                            abilitySkillModifier = character.getWisdomMod();
+                        }else if (abilityIterator==5){
+                            modifierList.getChildren().add(new Label(""+character.getCharismaMod()));
+                            abilitySkillModifier = character.getCharismaMod();
+                        }
+                        if (character.getProficienciesList().contains(allSkills[skillIterator])){
+                            proficiencyList.getChildren().add(new Label(""+character.getProficiencyMod()));
+                            totalList.getChildren().add(new Label(""+(character.getProficiencyMod()+abilitySkillModifier) ));
+                        }else  {
+                            proficiencyList.getChildren().add(new Label("0"));
+                            totalList.getChildren().add(new Label(""+abilitySkillModifier));
+                        }
+                        skillsList.getChildren().add(new Label(allSkills[skillIterator]+":"));
+                        additionList.getChildren().add(new Label("+"));
+                        skillIterator++;
+                        break;
+                }
+
+            }
+
+            right.getChildren().addAll(skillsList,modifierList,additionList,proficiencyList,totalList);
+            return right;
         }
 }
 
