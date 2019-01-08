@@ -23,6 +23,31 @@ public class RPGCharacterSheet extends Application {
 
     private static Label label = new Label("");
     private static String url = "jdbc:mysql://localhost:3306/charactersheet_database";
+    private ObservableList armor = FXCollections.observableArrayList();
+    private ListView armorList = new ListView();
+    ObservableList inventory = FXCollections.observableArrayList();
+    ListView inventoryList = new ListView();
+    ObservableList weapons = FXCollections.observableArrayList();
+    ListView weaponsList = new ListView();
+    ObservableList instruments = FXCollections.observableArrayList();
+    ListView instrumentsList = new ListView();
+    ObservableList features = FXCollections.observableArrayList();
+    ListView featuresList = new ListView();
+    ObservableList proficiencies = FXCollections.observableArrayList();
+    ListView proficienciesList = new ListView();
+    ObservableList spells = FXCollections.observableArrayList();
+    ListView spellsList = new ListView();
+    ObservableList raceTraits = FXCollections.observableArrayList();
+    ListView raceTraitsList = new ListView();
+    ObservableList languages = FXCollections.observableArrayList();
+    ListView languagesList = new ListView(languages);
+    ObservableList misc = FXCollections.observableArrayList();
+    ListView miscList = new ListView(misc);
+    VBox abilities = new VBox();
+    Button editAbilities = new Button("Edit Abilities");
+    Button editLevel = new Button("Edit level");
+    Button editRace = new Button("Edit Race");
+    Button continueButton = new Button("Continue");
 
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
@@ -194,49 +219,26 @@ public class RPGCharacterSheet extends Application {
      * @param mainCharacter Character sheet object to hold character information
      */
     private void mainStage(Stage primaryStage, CharacterSheet mainCharacter) {
-        //TODO add skills to main stage (Borderpane right)
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
         BorderPane borderPane = new BorderPane();
-        GridPane layout = new GridPane();
-        layout.setBackground(new Background(new BackgroundFill(Color.gray(1), null, null)));
-        layout.setStyle("-fx-background-radius: 10;");
-        borderPane.setTop(layout);
-        layout.setPadding(new Insets(5,10,20,10));
-        layout.setVgap(10);
-        layout.setHgap(20);
-        HBox centerTop = new HBox();
-        HBox centerBottom = new HBox();
-        VBox center = new VBox();
-        HBox topLabels = new HBox(new Label("Armor"), new Label("Weapons"),new Label("Inventory"),new Label("Instruments"));
-        HBox bottomLabels = new HBox(new Label("Features"),new Label("Proficiencies"),new Label("Spells"),new Label("Race Traits"));
-        topLabels.setSpacing(155);
-        topLabels.setTranslateX(75);
-        bottomLabels.setSpacing(155);
-        bottomLabels.setTranslateX(75);
-        center.getChildren().addAll(topLabels,centerTop, bottomLabels,centerBottom);
+
+        borderPane.setTop(setTop(mainCharacter));
+
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.2));
         shadow.setRadius(5);
         borderPane.setEffect(shadow);
 
+
         //Buttons
-        Button continueButton = new Button("Continue");
-        Button setAge = new Button("Edit age");
-        Button editLevel = new Button("Edit level");
-        Button editName = new Button("Edit Name");
-        Button editRace = new Button("Edit Race");
-        Button editClass = new Button("Edit Class");
-        Button editAbilities = new Button("Edit Abilities");
         Button close = new Button("Close");
 
         close.setOnAction(e-> primaryStage.close());
 
         //ListViews
         //TODO add tooltip to find description / quantity for each item.
-        ObservableList armor = FXCollections.observableArrayList();
-        ListView armorList = new ListView();
         armorList.setPlaceholder(new Label("---- Armor ----"));
         armorList.setTooltip(new Tooltip("Armor"));
 //        armorList.setCellFactory(new Callback<ListView, ListCell>() {
@@ -246,200 +248,43 @@ public class RPGCharacterSheet extends Application {
 //            }
 //        });
 
-        ObservableList inventory = FXCollections.observableArrayList();
-        ListView inventoryList = new ListView();
         inventoryList.setPlaceholder(new Label("---- Inventory ----"));
         inventoryList.setTooltip(new Tooltip("Inventory"));
 
-        ObservableList weapons = FXCollections.observableArrayList();
-        ListView weaponsList = new ListView();
         weaponsList.setPlaceholder(new Label("---- Weapons ----"));
         weaponsList.setTooltip(new Tooltip("Weapons"));
 
-        ObservableList instruments = FXCollections.observableArrayList();
-        ListView instrumentsList = new ListView();
         instrumentsList.setPlaceholder(new Label("---- Instruments ----"));
         instrumentsList.setTooltip(new Tooltip("Instruments"));
 
-        ObservableList features = FXCollections.observableArrayList();
-        ListView featuresList = new ListView();
         featuresList.setPlaceholder(new Label("---- Features ----"));
         featuresList.setTooltip(new Tooltip("Features"));
 
-        ObservableList proficiencies = FXCollections.observableArrayList();
-        ListView proficienciesList = new ListView();
         proficienciesList.setPlaceholder(new Label("---- Proficiencies ----"));
         proficienciesList.setTooltip(new Tooltip("Proficiencies"));
 
-        ObservableList spells = FXCollections.observableArrayList();
-        ListView spellsList = new ListView();
         spellsList.setPlaceholder(new Label("---- Spells ----"));
         spellsList.setTooltip(new Tooltip("Spells"));
 
-        ObservableList skills = FXCollections.observableArrayList();
         //TODO when getting spells, add cantrips, lvl 1 ... and fourth in between spells
-        ListView raceTraitsList = new ListView();
         raceTraitsList.setPlaceholder(new Label("---- Race Traits ----"));
         raceTraitsList.setTooltip(new Tooltip("Race Traits"));
 
-        ObservableList languages = FXCollections.observableArrayList(mainCharacter.languages);
-        ListView languagesList = new ListView(languages);
+
         languagesList.setPrefHeight(290);
         languagesList.setPlaceholder(new Label("--- Languages --- "));
         languagesList.setTooltip(new Tooltip("Languages"));
 
-
-        //ListView SetUp
-        centerTop.getChildren().addAll(armorList,weaponsList,inventoryList,instrumentsList);
-        armorList.setPrefSize(200,350);
-        weaponsList.setPrefSize(200,350);
-        inventoryList.setPrefSize(200,350);
-        instrumentsList.setPrefSize(200,350);
-        featuresList.setPrefSize(200,350);
-        proficienciesList.setPrefSize(200,350);
-        spellsList.setPrefSize(200,350);
-        raceTraitsList.setPrefSize(200,350);
-        centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,raceTraitsList);
-//        center.setTranslateX(-145);
-        center.setMaxWidth(800);
-        borderPane.setCenter(center);
-
-        //Labels
-        Label age = new Label("Age: "+ mainCharacter.getAge());
-        Label name = new Label("Name: " + mainCharacter.getName());
-        Label race = new Label("Race: " + mainCharacter.getRace());
-        Label characterClass = new Label("Class: " + mainCharacter.getCharacterClass());
-        Label ac = new Label("AC: " + mainCharacter.getAc());
-        Label hp = new Label("Hit Points: "+ mainCharacter.getHitPoints());
-        Label speed = new Label("Speed: "+ mainCharacter.getSpeed());
-        Label alignment = new Label("Alignment: ");
-        Label level = new Label("Level: "+ mainCharacter.getLevel());
+        borderPane.setCenter(setCenter(mainCharacter));
 
         //Sets BorderPane left
         VBox left = new VBox();
         left.setStyle("-fx-background-radius: 10;");
-        VBox abilities = new VBox();
 
-        // Set Name
-        layout.add(name, 0, 0);
-        name.setPrefWidth(150);
-        editName.setOnAction(e -> {name.setText(chooseName(continueButton,  mainCharacter));
-            name.setTooltip(new Tooltip(mainCharacter.getName()));});
-        layout.add(editName, 0, 1);
-        name.setStyle("-fx-Text-fill: Black;");
-        name.setUnderline(true);
-
-        // Set Race
-        race.setPrefWidth(100);
-        race.setWrapText(true);
-        editRace.setDisable(true);
-        editRace.setOnAction(e -> {
-            if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
-                if (!mainCharacter.getRace().equals("")){
-                    Races.resetPreviousRaceOptions(mainCharacter);
-                    Abilities.updateAbilities(abilities,mainCharacter);
-                }
-                skills.clear();
-                mainCharacter.raceTraits.clear();
-                languages.clear();
-                mainCharacter.languages.clear();
-                race.setText(Races.chooseRace(continueButton, mainCharacter));
-                race.setTooltip(new Tooltip(mainCharacter.getRace()));
-                setAge.setDisable(false);
-                age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
-                languages.setAll(mainCharacter.languages);
-                skills.setAll(mainCharacter.raceTraits);
-                raceTraitsList.setItems(skills);
-                Abilities.updateAbilities(abilities,mainCharacter);
-                speed.setText("Speed: " + mainCharacter.getSpeed());
-                hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
-                mainCharacter.setBaseHitPoints(mainCharacter.getHitPoints());
-                mainCharacter.setBaseSpeed(mainCharacter.getSpeed());
-            }
-            });
-
-        layout.add(editRace, 1, 1);
-        layout.add(race, 1, 0);
-        race.setStyle("-fx-Text-fill: black;");
-        race.setUnderline(true);
-
-        // Set Class
-        layout.add(characterClass, 2, 0);
-        characterClass.setPrefWidth(100);
-        layout.add(editClass, 2, 1);
-        characterClass.setStyle("-fx-Text-fill: black;");
-        characterClass.setUnderline(true);
-
-        editClass.setOnAction(e -> {
-           if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
-               mainCharacter.armorList.clear();
-               armor.clear();
-               mainCharacter.weapons.clear();
-               weapons.clear();
-               mainCharacter.inventory.clear();
-               inventory.clear();
-               mainCharacter.setAc(0);
-               characterClass.setText(Classes.chooseClass(continueButton,mainCharacter ));
-               for (int i=0 ; i < mainCharacter.armorList.size(); i++){
-                   armor.add((mainCharacter.armorList.get(i).getName()));
-               }
-               armorList.setItems(armor);
-
-               for (int i = 0 ; i< mainCharacter.weapons.size() ; i++){
-                   weapons.add(mainCharacter.weapons.get(i).getName());
-               }
-               weaponsList.setItems(weapons);
-
-               for (int i = 0; i < mainCharacter.inventory.size(); i++){
-                   inventory.add(mainCharacter.inventory.get(i).getName());
-               }
-               inventoryList.setItems(inventory);
-               editAbilities.setDisable(false);
-               ac.setText("AC: " + mainCharacter.getAc());
-               Abilities.updateAbilities(abilities,mainCharacter);
-               speed.setText("Speed: " + mainCharacter.getSpeed());
-//               primaryStage.setScene(refreshStage(primaryStage,mainCharacter));
-           }
-           });
-
-        // Set Age
-        age.setUnderline(true);
-        age.setPrefWidth(100);
-        layout.add(age,3,0);
-        setAge.setDisable(true);
-        age.setTooltip(new Tooltip("Missing race selection"));
-        setAge.setOnAction(e->{ setAge(mainCharacter);
-            age.setText("Age: " + mainCharacter.getAge());
-            age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
-        });
-        layout.add(setAge,3,1);
 
         //Set Character Specific Misc
-        ObservableList misc = FXCollections.observableArrayList();
-        ListView miscList = new ListView(misc);
         miscList.setPrefHeight(295);
         miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
-
-        //Sets AC
-        ac.setUnderline(true);
-        layout.add(ac,5,0);
-
-        //Sets HP
-        hp.setUnderline(true);
-        layout.add(hp, 5,1);
-
-        //Sets Speed
-        speed.setUnderline(true);
-        layout.add(speed, 6,0);
-
-        //Sets Alignment
-        ObservableList alignmentOptions = FXCollections.observableArrayList();
-        alignmentOptions.addAll("Lawful Good", "Lawful Neutral", "Lawful Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Chaotic Good", "Chaotic Neutral","Chaotic Evil");
-        ChoiceBox<String> alignmentChoiceBox = new ChoiceBox<>(alignmentOptions);
-        alignmentChoiceBox.setOnAction(e-> mainCharacter.setAlignment(alignmentChoiceBox.getValue()));
-        alignment.setUnderline(true);
-        layout.add(alignment,6,1);
-        layout.add(alignmentChoiceBox,7,1);
 
         // Sets Abilities
         abilities.setTranslateY(12);
@@ -458,20 +303,151 @@ public class RPGCharacterSheet extends Application {
             Abilities.chooseAbilities(continueButton,mainCharacter);
             Abilities.updateAbilities(abilities,mainCharacter);
             editLevel.setDisable(false);
-            level.setTooltip(null);
+            editLevel.setTooltip(new Tooltip("Edit Level"));
             editRace.setDisable(false);
             editAbilities.setDisable(true);
 
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
 
+
+        //Set Skills
+        borderPane.setRight(setSillsPane(mainCharacter));
+        // Save Button
+        Button save = new Button("Save");
+        save.setPrefWidth(75);
+        close.setPrefWidth(75);
+        save.setOnAction(e-> saveCharacter(mainCharacter));
+
+        left.setMaxWidth(150);
+        borderPane.setLeft(left);
+        left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
+
+        Scene scene = new Scene(borderPane, 1368, 840);
+        borderPane.setStyle("-fx-border-color: black;"+
+                "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
+        primaryStage.setScene(scene);
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        primaryStage.show();
+
+    }
+
+    /**
+     *
+     * @param mainCharacter User's CharacterSheet
+     * @return GridPane that will populate the top of the borderPane
+     */
+    private GridPane setTop (CharacterSheet mainCharacter){
+        GridPane layout = new GridPane();
+        layout.setBackground(new Background(new BackgroundFill(Color.gray(1), null, null)));
+        layout.setStyle("-fx-background-radius: 10;");
+        layout.setPadding(new Insets(5,10,20,10));
+        layout.setVgap(10);
+        layout.setHgap(20);
+
+        Button editName = new Button("Edit Name");
+        Button setAge = new Button("Edit age");
+        Button editClass = new Button("Edit Class");
+
+        Label age = new Label("Age: "+ mainCharacter.getAge());
+        Label race = new Label("Race: " + mainCharacter.getRace());
+        Label characterClass = new Label("Class: " + mainCharacter.getCharacterClass());
+        Label ac = new Label("AC: " + mainCharacter.getAc());
+        Label hp = new Label("Hit Points: "+ mainCharacter.getHitPoints());
+        Label speed = new Label("Speed: "+ mainCharacter.getSpeed());
+        Label alignment = new Label("Alignment: ");
+        Label level = new Label("Level: "+ mainCharacter.getLevel());
+
+        // Set Name
+        Label name = new Label("Name: " + mainCharacter.getName());
+        layout.add(name, 0, 0);
+        name.setPrefWidth(150);
+        editName.setOnAction(e -> {name.setText(chooseName(continueButton,  mainCharacter));
+            name.setTooltip(new Tooltip(mainCharacter.getName()));});
+        layout.add(editName, 0, 1);
+        name.setStyle("-fx-Text-fill: Black;");
+        name.setUnderline(true);
+
+        // Set Race
+        race.setPrefWidth(100);
+        race.setWrapText(true);
+        editRace.setDisable(true);
+        editRace.setOnAction(e -> {
+            if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+                if (!mainCharacter.getRace().equals("")){
+                    Races.resetPreviousRaceOptions(mainCharacter);
+                    Abilities.updateAbilities(abilities,mainCharacter);
+                }
+                raceTraits.clear();
+                mainCharacter.raceTraits.clear();
+                languages.clear();
+                mainCharacter.languages.clear();
+                race.setText(Races.chooseRace(continueButton, mainCharacter));
+                race.setTooltip(new Tooltip(mainCharacter.getRace()));
+                setAge.setDisable(false);
+                age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
+                languages.setAll(mainCharacter.languages);
+                raceTraits.setAll(mainCharacter.raceTraits);
+                raceTraitsList.setItems(raceTraits);
+                Abilities.updateAbilities(abilities,mainCharacter);
+                speed.setText("Speed: " + mainCharacter.getSpeed());
+                hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
+                mainCharacter.setBaseHitPoints(mainCharacter.getHitPoints());
+                mainCharacter.setBaseSpeed(mainCharacter.getSpeed());
+            }
+        });
+
+        layout.add(editRace, 1, 1);
+        layout.add(race, 1, 0);
+        race.setStyle("-fx-Text-fill: black;");
+        race.setUnderline(true);
+
+        // Set Class
+        layout.add(characterClass, 2, 0);
+        characterClass.setPrefWidth(100);
+        layout.add(editClass, 2, 1);
+        characterClass.setStyle("-fx-Text-fill: black;");
+        characterClass.setUnderline(true);
+
+        editClass.setOnAction(e -> {
+            if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+                mainCharacter.armorList.clear();
+                armor.clear();
+                mainCharacter.weapons.clear();
+                weapons.clear();
+                mainCharacter.inventory.clear();
+                inventory.clear();
+                mainCharacter.setAc(0);
+                characterClass.setText(Classes.chooseClass(continueButton,mainCharacter ));
+                for (int i=0 ; i < mainCharacter.armorList.size(); i++){
+                    armor.add((mainCharacter.armorList.get(i).getName()));
+                }
+                armorList.setItems(armor);
+
+                for (int i = 0 ; i< mainCharacter.weapons.size() ; i++){
+                    weapons.add(mainCharacter.weapons.get(i).getName());
+                }
+                weaponsList.setItems(weapons);
+
+                for (int i = 0; i < mainCharacter.inventory.size(); i++){
+                    inventory.add(mainCharacter.inventory.get(i).getName());
+                }
+                inventoryList.setItems(inventory);
+                editAbilities.setDisable(false);
+                ac.setText("AC: " + mainCharacter.getAc());
+                Abilities.updateAbilities(abilities,mainCharacter);
+                speed.setText("Speed: " + mainCharacter.getSpeed());
+            }
+        });
+
         //Set Level
         editLevel.setDisable(true);
-        level.setTooltip(new Tooltip("Missing class selection"));
+        editLevel.setTooltip(new Tooltip("Missing class selection"));
         level.setUnderline(true);
         layout.add(level,4,0);
         layout.add(editLevel,4,1);
-        editLevel.setOnAction(e->{
+        editLevel.setOnAction(levelError->{
             if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
                 //Removing previous configurations
                 mainCharacter.getProficienciesList().clear();
@@ -494,26 +470,70 @@ public class RPGCharacterSheet extends Application {
             }
         });
 
-        //Set Skills
-        borderPane.setRight(setSillsPane(mainCharacter));
-        // Save Button
-        Button save = new Button("Save");
-        save.setPrefWidth(75);
-        close.setPrefWidth(75);
-        save.setOnAction(e-> saveCharacter(mainCharacter));
+        // Set Age
+        age.setUnderline(true);
+        age.setPrefWidth(100);
+        layout.add(age,3,0);
+        setAge.setDisable(true);
+        age.setTooltip(new Tooltip("Missing race selection"));
+        setAge.setOnAction(e->{ setAge(mainCharacter);
+            age.setText("Age: " + mainCharacter.getAge());
+            age.setTooltip(new Tooltip(Integer.toString(mainCharacter.getAge())));
+        });
+        layout.add(setAge,3,1);
 
-        left.setMaxWidth(150);
-        borderPane.setLeft(left);
-        left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
+        //Sets AC
+        ac.setUnderline(true);
+        layout.add(ac,5,0);
 
-        Scene scene = new Scene(borderPane, 1368, 840);
-        borderPane.setStyle("-fx-border-color: black;"+
-                "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
-        scene.setFill(Color.TRANSPARENT);
-        primaryStage.setScene(scene);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.show();
+        //Sets HP
+        hp.setUnderline(true);
+        layout.add(hp, 5,1);
 
+        //Sets Speed
+        speed.setUnderline(true);
+        layout.add(speed, 6,0);
+
+        //Sets Alignment
+        ObservableList alignmentOptions = FXCollections.observableArrayList();
+        alignmentOptions.addAll("Lawful Good", "Lawful Neutral", "Lawful Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Chaotic Good", "Chaotic Neutral","Chaotic Evil");
+        ChoiceBox<String> alignmentChoiceBox = new ChoiceBox<>(alignmentOptions);
+        alignmentChoiceBox.setOnAction(e-> mainCharacter.setAlignment(alignmentChoiceBox.getValue()));
+        alignment.setUnderline(true);
+        layout.add(alignment,6,1);
+        layout.add(alignmentChoiceBox,7,1);
+
+
+        return layout;
+    }
+
+    private VBox setCenter(CharacterSheet mainCharacter){
+        HBox centerTop = new HBox();
+        HBox centerBottom = new HBox();
+        VBox center = new VBox();
+        HBox topLabels = new HBox(new Label("Armor"), new Label("Weapons"),new Label("Inventory"),new Label("Instruments"));
+        HBox bottomLabels = new HBox(new Label("Features"),new Label("Proficiencies"),new Label("Spells"),new Label("Race Traits"));
+        topLabels.setSpacing(155);
+        topLabels.setTranslateX(75);
+        bottomLabels.setSpacing(155);
+        bottomLabels.setTranslateX(75);
+        center.getChildren().addAll(topLabels,centerTop, bottomLabels,centerBottom);
+
+        //ListView SetUp
+        centerTop.getChildren().addAll(armorList,weaponsList,inventoryList,instrumentsList);
+        armorList.setPrefSize(200,350);
+        weaponsList.setPrefSize(200,350);
+        inventoryList.setPrefSize(200,350);
+        instrumentsList.setPrefSize(200,350);
+        featuresList.setPrefSize(200,350);
+        proficienciesList.setPrefSize(200,350);
+        spellsList.setPrefSize(200,350);
+        raceTraitsList.setPrefSize(200,350);
+        centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,raceTraitsList);
+        center.setMaxWidth(800);
+
+
+        return center;
     }
 
     /**
