@@ -48,6 +48,7 @@ public class RPGCharacterSheet extends Application {
     Button editLevel = new Button("Edit level");
     Button editRace = new Button("Edit Race");
     Button continueButton = new Button("Continue");
+    Button close = new Button("Close");
 
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
@@ -223,19 +224,11 @@ public class RPGCharacterSheet extends Application {
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
         BorderPane borderPane = new BorderPane();
-
         borderPane.setTop(setTop(mainCharacter));
-
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.2));
         shadow.setRadius(5);
         borderPane.setEffect(shadow);
-
-
-        //Buttons
-        Button close = new Button("Close");
-
-        close.setOnAction(e-> primaryStage.close());
 
         //ListViews
         //TODO add tooltip to find description / quantity for each item.
@@ -265,63 +258,24 @@ public class RPGCharacterSheet extends Application {
 
         spellsList.setPlaceholder(new Label("---- Spells ----"));
         spellsList.setTooltip(new Tooltip("Spells"));
-
         //TODO when getting spells, add cantrips, lvl 1 ... and fourth in between spells
+
         raceTraitsList.setPlaceholder(new Label("---- Race Traits ----"));
         raceTraitsList.setTooltip(new Tooltip("Race Traits"));
-
 
         languagesList.setPrefHeight(290);
         languagesList.setPlaceholder(new Label("--- Languages --- "));
         languagesList.setTooltip(new Tooltip("Languages"));
 
-        borderPane.setCenter(setCenter(mainCharacter));
+        borderPane.setCenter(setCenter());
+
+        //Set Skills/ Borderpane Right
+        borderPane.setRight(setSillsPane(mainCharacter));
 
         //Sets BorderPane left
-        VBox left = new VBox();
-        left.setStyle("-fx-background-radius: 10;");
+        borderPane.setLeft(setLeft(mainCharacter));
 
-
-        //Set Character Specific Misc
-        miscList.setPrefHeight(295);
-        miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
-
-        // Sets Abilities
-        abilities.setTranslateY(12);
-        abilities.setStyle("-fx-border-color: black;");
-        abilities.setMaxHeight(150);
-        abilities.setPadding(new Insets(10,10,10,10));
-        Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
-        Label strength = new Label("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
-        Label dexterity = new Label("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
-        Label wisdom = new Label("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
-        Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
-        Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
-
-        editAbilities.setDisable(true);
-        editAbilities.setOnAction(e-> {
-            Abilities.chooseAbilities(continueButton,mainCharacter);
-            Abilities.updateAbilities(abilities,mainCharacter);
-            editLevel.setDisable(false);
-            editLevel.setTooltip(new Tooltip("Edit Level"));
-            editRace.setDisable(false);
-            editAbilities.setDisable(true);
-
-        });
-        abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
-
-
-        //Set Skills
-        borderPane.setRight(setSillsPane(mainCharacter));
-        // Save Button
-        Button save = new Button("Save");
-        save.setPrefWidth(75);
-        close.setPrefWidth(75);
-        save.setOnAction(e-> saveCharacter(mainCharacter));
-
-        left.setMaxWidth(150);
-        borderPane.setLeft(left);
-        left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
+        close.setOnAction(e-> primaryStage.close());
 
         Scene scene = new Scene(borderPane, 1368, 840);
         borderPane.setStyle("-fx-border-color: black;"+
@@ -507,7 +461,7 @@ public class RPGCharacterSheet extends Application {
         return layout;
     }
 
-    private VBox setCenter(CharacterSheet mainCharacter){
+    private VBox setCenter(){
         HBox centerTop = new HBox();
         HBox centerBottom = new HBox();
         VBox center = new VBox();
@@ -534,6 +488,52 @@ public class RPGCharacterSheet extends Application {
 
 
         return center;
+    }
+
+    private VBox setLeft(CharacterSheet mainCharacter){
+        VBox left = new VBox();
+        left.setStyle("-fx-background-radius: 10;");
+
+
+        //Set Character Specific Misc
+        miscList.setPrefHeight(295);
+        miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
+
+        // Sets Abilities
+        abilities.setTranslateY(12);
+        abilities.setStyle("-fx-border-color: black;");
+        abilities.setMaxHeight(150);
+        abilities.setPadding(new Insets(10,10,10,10));
+        Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
+        Label strength = new Label("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
+        Label dexterity = new Label("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
+        Label wisdom = new Label("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
+        Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
+        Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
+
+        editAbilities.setDisable(true);
+        editAbilities.setOnAction(e-> {
+            Abilities.chooseAbilities(continueButton,mainCharacter);
+            Abilities.updateAbilities(abilities,mainCharacter);
+            editLevel.setDisable(false);
+            editLevel.setTooltip(new Tooltip("Edit Level"));
+            editRace.setDisable(false);
+            editAbilities.setDisable(true);
+
+        });
+        abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
+
+        // Save Buttons
+        Button save = new Button("Save");
+        save.setPrefWidth(75);
+        close.setPrefWidth(75);
+        save.setOnAction(e-> saveCharacter(mainCharacter));
+
+
+        left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
+
+        left.setMaxWidth(150);
+        return left;
     }
 
     /**
