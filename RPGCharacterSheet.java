@@ -49,7 +49,7 @@ public class RPGCharacterSheet extends Application {
     Button editRace = new Button("Edit Race");
     Button continueButton = new Button("Continue");
     Button close = new Button("Close");
-
+    BorderPane borderPane = new BorderPane();
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
     }
@@ -223,7 +223,6 @@ public class RPGCharacterSheet extends Application {
        //Stage set up
         primaryStage.setTitle("Character Sheet Creation");
         primaryStage.setResizable(false);
-        BorderPane borderPane = new BorderPane();
         borderPane.setTop(setTop(mainCharacter));
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.2));
@@ -349,6 +348,7 @@ public class RPGCharacterSheet extends Application {
                 hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
                 mainCharacter.setBaseHitPoints(mainCharacter.getHitPoints());
                 mainCharacter.setBaseSpeed(mainCharacter.getSpeed());
+                borderPane.setRight(setSillsPane(mainCharacter));
             }
         });
 
@@ -392,6 +392,7 @@ public class RPGCharacterSheet extends Application {
                 ac.setText("AC: " + mainCharacter.getAc());
                 Abilities.updateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
+                borderPane.setRight(setSillsPane(mainCharacter));
             }
         });
 
@@ -421,6 +422,8 @@ public class RPGCharacterSheet extends Application {
                 hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
                 Abilities.updateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
+                borderPane.setRight(setSillsPane(mainCharacter));
+
             }
         });
 
@@ -461,6 +464,10 @@ public class RPGCharacterSheet extends Application {
         return layout;
     }
 
+    /**
+     *
+     * @return Vbox that will replace the border pane center.
+     */
     private VBox setCenter(){
         HBox centerTop = new HBox();
         HBox centerBottom = new HBox();
@@ -476,13 +483,21 @@ public class RPGCharacterSheet extends Application {
         //ListView SetUp
         centerTop.getChildren().addAll(armorList,weaponsList,inventoryList,instrumentsList);
         armorList.setPrefSize(200,350);
+        armorList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         weaponsList.setPrefSize(200,350);
+        weaponsList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         inventoryList.setPrefSize(200,350);
+        inventoryList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         instrumentsList.setPrefSize(200,350);
+        instrumentsList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         featuresList.setPrefSize(200,350);
+        featuresList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         proficienciesList.setPrefSize(200,350);
+        proficienciesList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         spellsList.setPrefSize(200,350);
+        spellsList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         raceTraitsList.setPrefSize(200,350);
+        raceTraitsList.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
         centerBottom.getChildren().addAll(featuresList,proficienciesList,spellsList,raceTraitsList);
         center.setMaxWidth(800);
 
@@ -490,6 +505,11 @@ public class RPGCharacterSheet extends Application {
         return center;
     }
 
+    /**
+     *
+     * @param mainCharacter User's CharacterSheet
+     * @return VBox to replace borderpane left pane when returned for primary stage.
+     */
     private VBox setLeft(CharacterSheet mainCharacter){
         VBox left = new VBox();
         left.setStyle("-fx-background-radius: 10;");
@@ -500,6 +520,7 @@ public class RPGCharacterSheet extends Application {
         miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
 
         // Sets Abilities
+        //TODO Need to add an integer array counter for each ability additions throught character sheet so abilities can be modifiable.
         abilities.setTranslateY(12);
         abilities.setStyle("-fx-border-color: black;");
         abilities.setMaxHeight(150);
@@ -519,6 +540,7 @@ public class RPGCharacterSheet extends Application {
             editLevel.setTooltip(new Tooltip("Edit Level"));
             editRace.setDisable(false);
             editAbilities.setDisable(true);
+            borderPane.setRight(setSillsPane(mainCharacter));
 
         });
         abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
@@ -759,7 +781,7 @@ public class RPGCharacterSheet extends Application {
                     languageSave.setInt(1,mainCharacter.getPrimaryKey());
                     languageSave.execute();
                 }
-                //TODO need to save Skills/ Instruments/ Inventory/ features/ proficiencies after tables are added in SQL
+                //TODO need to save Race Traits/ Instruments/ Inventory/ features/ proficiencies (Need to have a check for spaced words ex. Light Armor/ Switch Case?) after tables are added in SQL
 
                 //Save Weapons
                 String[] SQLWeaponsArray = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light_Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War_Pick", "Warhammer", "Whip", "Blowgun", "Hand_Crossbow", "Heavy_Crossbow", "Longbow", "Net"};
@@ -810,7 +832,9 @@ public class RPGCharacterSheet extends Application {
                     instrumentsSave.execute();
                 }
 
-                //TODO complete making SQL tables for Skills/ Inventory/ Features/   Proficiencies/Spells
+                //TODO complete making SQL tables for Race Traits/ Inventory/ Features/Spells
+
+                String[] SQLAllSkills = {"Athletics","Acrobatics","Sleight_of_Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal_Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
 
                 System.out.println("Saved");
             } catch (SQLException e) {
@@ -837,13 +861,23 @@ public class RPGCharacterSheet extends Application {
 
         protected HBox setSillsPane(CharacterSheet character){
             HBox right = new HBox(15);
-            right.setPadding(new Insets(10,25,10,0));
-            right.setTranslateY(15);
+            right.setMaxHeight(400);
+            right.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
+            right.setPadding(new Insets(0,25,0,5));
+            right.setTranslateY(17);
             VBox skillsList = new VBox(15);
+            skillsList.setTranslateY(12);
             VBox modifierList = new VBox(15);
+            modifierList.setStyle(" -fx-border-color: silver; -fx-border-width: 1;");
+            modifierList.setPadding(new Insets(10,5,10,5));
             VBox additionList = new VBox(15);
+            additionList.setTranslateY(12);
             VBox proficiencyList = new VBox(15);
+            proficiencyList.setPadding(new Insets(10,5,10,5));
+            proficiencyList.setStyle(" -fx-border-color: silver; -fx-border-width: 1;");
             VBox totalList = new VBox(15);
+            totalList.setTranslateY(12);
+
             skillsList.setAlignment(Pos.TOP_CENTER);
             modifierList.setAlignment(Pos.TOP_CENTER);
             additionList.setAlignment(Pos.TOP_CENTER);

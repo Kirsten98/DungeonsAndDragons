@@ -6,13 +6,12 @@ import javafx.collections.ObservableList;
 import java.util.Vector;
 
 public class CharacterSheet {
-    // TODO Clean-up, condense weapons/armor into Item[]
+    // TODO Clean-up, condense weapons/armor into Item[] - Don't fix unless it is broken (Needs to be done but not a priority)
     //TODO make Hash Table to keep track of items and quantity. Key = name of item, Value = quantity
     //TODO Clean-up make vectors / ObservableArrayLists arraylists.
     //TODO Create a "Level Up" Where it levels the user up 1 level without removing previous presets.
 
     private int primaryKey;
-
     private String name = "";
     private String race = "";
     private int proficiencyMod;
@@ -44,24 +43,43 @@ public class CharacterSheet {
     private int[] lightArmorCost = {5,10,45};
     private int[] lightArmorAC={11+dexterityMod, 11+dexterityMod, 12+dexterityMod};
     private String[] lightArmorDescription = {"Padded armor consists of quilted layers of cloth batting","The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.", "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes"};
+    //For when converting 4 separate String Arrays to 1 Item array
+//    private Item[] lightArmor = {new Item("Padded","Padded armor consists of quilted layers of cloth batting",0,5),
+//        new Item("Leather","The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.",0,10),
+//        new Item("Studded Leather","Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes",0,45)};
 
     private String[] mediumArmor= {"Hide", "Chain Shirt", "Scale Mail", "Breastplate", "Halfplate"};
     private int[] mediumArmorCost = {10,50,50,400,750};
     private int[] mediumArmorAC = {12+dexterityMod, 13+dexterityMod , 14+dexterityMod, 14+dexterityMod,15+dexterityMod};
     private String[] mediumArmorDescription = {"This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.","Made of interlocking metal rings, a chain shirt is worn between layers of clothing or leather. This armor offers modest protection to the wearer's upper body and allows the sound of the rings rubbing against one another to be muffled by outer layers.","This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. This suit includes gauntlets.", "This armor consists of a fitted metal chest piece worn with supple leather. Although it leaves the legs and arms relatively unprotected, this armor provides good protection for the wearer's vital organs while leaving the wearer relatively unencumbered.", "Half plate consists of shaped metal plates that cover most of the wearer's body. It does not include leg protection beyond simple greaves that are attached with leather straps."};
 
-    private String[] heavyArmor = {"Ring Mail", " Chain Mail" , "Splint", "Plate"};
+    // For when converting 4 separate String Arrays to 1 Item array
+    //    private Item[] mediumArmor = {new Item("Hide","This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.",0,10),
+//        new Item("Chain Shirt","Made of interlocking metal rings, a chain shirt is worn between layers of clothing or leather. This armor offers modest protection to the wearer's upper body and allows the sound of the rings rubbing against one another to be muffled by outer layers.",0,50),
+//        new Item("Scale Mail","This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. This suit includes gauntlets.",0,50),
+//        new Item("Breastplate","This armor consists of a fitted metal chest piece worn with supple leather. Although it leaves the legs and arms relatively unprotected, this armor provides good protection for the wearer's vital organs while leaving the wearer relatively unencumbered.",0,400),
+//        new Item("Halfplate","Half plate consists of shaped metal plates that cover most of the wearer's body. It does not include leg protection beyond simple greaves that are attached with leather straps.",0,750)};
+
+    private String[] heavyArmor = {"Ring Mail", "Chain Mail" , "Splint", "Plate"};
     private int[] heavyArmorCost = {30,75,200,1500};
     private int[] heavyArmorAC = {14,16,17,18};
     private String[] heavyArmorDescriptions= {"This armor is leather armor with heavy rings sewn into it. The rings help reinforce the armor against blows from swords and axes. Ring mail is inferior to chain mail, and it's usually worn by those who can't afford better armor.", "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets."," This armor is made of narrow vertical strips of metal riveted to a backing of leather that is worn over cloth padding. Flexible chain mail protects the joints.", "Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body."};
+//    For when converting 4 separate String Arrays to 1 Item array
+//    private Item[] heavyArmor = {new Item("Ring Mail","This armor is leather armor with heavy rings sewn into it. The rings help reinforce the armor against blows from swords and axes. Ring mail is inferior to chain mail, and it's usually worn by those who can't afford better armor.",0,30),
+//            new Item("Chain Mail","Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets.",0,75),
+//            new Item("Splint"," This armor is made of narrow vertical strips of metal riveted to a backing of leather that is worn over cloth padding. Flexible chain mail protects the joints.",0,200),
+//            new Item("Plate","Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body.",0,1500)};
 
     private boolean shield; // If shield = true , +2 to AC
-    private String armor; //TODO check in Barbarian before removing
+    private String armor;
 
     private String[] allArmor = {"Padded", "Leather","Studded Leather","Hide", "Chain Shirt", "Scale Mail", "Breastplate", "Halfplate", "Ring Mail",  "Chain Mail" , "Splint", "Plate","Shield"};
     private int[] allArmorCost = {5,10,45,10,50,50,400,750,30,75,200,1500};
     private int[] allArmorAC = {11+dexterityMod, 11+dexterityMod, 12+dexterityMod,12+dexterityMod, 13+dexterityMod , 14+dexterityMod, 14+dexterityMod,15+dexterityMod,14+dexterityMod,16+dexterityMod,17+dexterityMod,18+dexterityMod};
     private String[] allArmorDescriptions = {"Padded armor consists of quilted layers of cloth batting","The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.", "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes","This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.","Made of interlocking metal rings, a chain shirt is worn between layers of clothing or leather. This armor offers modest protection to the wearer's upper body and allows the sound of the rings rubbing against one another to be muffled by outer layers.","This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. This suit includes gauntlets.", "This armor consists of a fitted metal chest piece worn with supple leather. Although it leaves the legs and arms relatively unprotected, this armor provides good protection for the wearer's vital organs while leaving the wearer relatively unencumbered.", "Half plate consists of shaped metal plates that cover most of the wearer's body. It does not include leg protection beyond simple greaves that are attached with leather straps.","This armor is leather armor with heavy rings sewn into it. The rings help reinforce the armor against blows from swords and axes. Ring mail is inferior to chain mail, and it's usually worn by those who can't afford better armor.", "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impact of blows. The suit includes gauntlets."," This armor is made of narrow vertical strips of metal riveted to a backing of leather that is worn over cloth padding. Flexible chain mail protects the joints.", "Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body."};
+
+//    For when converting 4 separate String Arrays to 1 Item array
+//    private Item[] allArmor = {lightArmor[0],lightArmor[1],lightArmor[2],mediumArmor[0],mediumArmor[1],mediumArmor[2],mediumArmor[3],mediumArmor[4],heavyArmor[0],heavyArmor[1],heavyArmor[2],heavyArmor[3]};
 
     private String[] simpleMeleeWeapons  = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light Hammer", "Mace", "Quarterstaff", "Sickle", "Spear"};
     private String[] simpleMeleeWeaponProperties = {"Light","Finesse, light, thrown(range 20/60)","Two-handed","Light, thrown (range 20/60)","Thrown (range 30/120)","Light, thrown (range 20/60)","","Versatile (1d8)","Light","Thrown (range 20/60), versatile (1d8)"};

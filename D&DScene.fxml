@@ -33,8 +33,8 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ChoiceBox prefWidth="150.0" style="-fx-border-color: Black;" />
-            <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 100;" />
+            <ChoiceBox prefWidth="150.0" style="-fx-border-color: grey;" />
+            <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-border-: 100;" />
          </children></VBox>
    </left>
    <center>
