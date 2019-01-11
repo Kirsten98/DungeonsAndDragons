@@ -512,7 +512,9 @@ public class RPGCharacterSheet extends Application {
      */
     private VBox setLeft(CharacterSheet mainCharacter){
         VBox left = new VBox();
-        left.setStyle("-fx-background-radius: 10;");
+        left.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 2;");
+        left.setPadding(new Insets(-14,0,-10,0));
+        left.setTranslateY(14);
 
 
         //Set Character Specific Misc
@@ -520,9 +522,9 @@ public class RPGCharacterSheet extends Application {
         miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
 
         // Sets Abilities
-        //TODO Need to add an integer array counter for each ability additions throught character sheet so abilities can be modifiable.
+        //TODO Need to add an integer array counter for each ability additions throughout character sheet so abilities can be modifiable.
         abilities.setTranslateY(12);
-        abilities.setStyle("-fx-border-color: black;");
+        abilities.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 2;");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
         Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
