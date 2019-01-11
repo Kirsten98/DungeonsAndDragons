@@ -147,7 +147,6 @@ public class Abilities extends RPGCharacterSheet {
      */
     protected static void updateAbilities(VBox abilities, CharacterSheet mainCharacter){
         abilities.setTranslateY(12);
-        abilities.setStyle("-fx-border-color: black;");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
         Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
