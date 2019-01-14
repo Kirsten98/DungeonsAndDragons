@@ -264,7 +264,7 @@ public class Barbarian{
 
                     character.getProficienciesList().addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
 
-                    Label skillChoices = new Label("You have learned two new raceTraits to be proficient in.\nChoose your fist skill.");
+                    Label skillChoices = new Label("You have learned two new race traits to be proficient in.\nChoose your fist skill.");
                     pane.add(skillChoices,0,0,3,2);
 
                     ObservableList skills = FXCollections.observableArrayList("Animal Handling","Athletics","Intimidation", "Nature","Perception","Survival");
@@ -955,7 +955,7 @@ public class Barbarian{
         checkAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",10,5));
         checkAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
         checkAndAddItemQuantity(character.inventory, new Item("Hempen Rope","Quantity is in feet",50,0));
-        checkAndAddItemQuantity(character.inventory, new Item("Javelin","",4,0));
+        checkAndAddItemQuantity(character.weapons, new Item("Javelin","",4,0));
 
         pane.setStyle("-fx-border-color: black;"        +
                 "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");

@@ -720,7 +720,7 @@ public class RPGCharacterSheet extends Application {
         }
 
 
-        //TODO create Load Character
+        //TODO create Load Character / When loading character, add Race traits based on what race is saved/ When Loading Character, add features/ Proficiency Bonus based on Class and Level Number
 
     /**
      * Updates character information into MySQL Database
@@ -821,7 +821,7 @@ public class RPGCharacterSheet extends Application {
                 // Save Musical instruments
                 String[] SQLMusicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan_Flute","Shawm","Viol"};
                 for (int i = 0; i < SQLMusicalInstruments.length;i++){
-                    PreparedStatement removeInstruments= con.prepareStatement("UPDATE armor SET " + SQLMusicalInstruments[i] + " = 0 WHERE idmusicalInstruments = ?;");
+                    PreparedStatement removeInstruments= con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[i] + " = 0 WHERE idmusicalInstruments = ?;");
                     removeInstruments.setInt(1,mainCharacter.getPrimaryKey());
                     removeInstruments.execute();
                 }
@@ -829,14 +829,49 @@ public class RPGCharacterSheet extends Application {
                 for (int i = 0 ; i< mainCharacter.instruments.size(); i++){
                     int position = findArrayPosition(mainCharacter.instruments.get(i),mainCharacter.getMusicalInstruments());
 
-                    PreparedStatement instrumentsSave = con.prepareStatement("UPDATE armor SET " + SQLMusicalInstruments[position] + "  = 1 WHERE idmusicalInstruments = ?;");;
+                    PreparedStatement instrumentsSave = con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[position] + "  = 1 WHERE idmusicalInstruments = ?;");;
                     instrumentsSave.setInt(1,mainCharacter.getPrimaryKey());
                     instrumentsSave.execute();
                 }
 
-                //TODO complete making SQL tables for Race Traits/ Inventory/ Features/Spells
+                //Save Adventuring Gear
+                String[] SQLAdventuringGear = {"Shovel","Abacus","Acid","Alchemists_Fire","Arrows","Blowgun_Needles","CrossBow_Bolts","Sling_Bullets","Antitoxin","Crystal","Orb","Rod","Staff","Wand","Backpack","Ball_Bearings","Barrel","Basket","Bedroll","Bell","Blanket","Block_And_Tackle","Book","Bottle","Bucket","Caltrops","Candle","Crossbow_Bolt_Case","Map_Or_Scroll_Case","Chain","Chalk","Chest","Climbers_Kit","Common_Clothes","Costume_Clothes","Fine_Clothes","Travelers_Clothes","Component_Pouch","Crowbar","Sprig_Of_Mistletoe","Totem","Wooden_Staff","Yew_Wand","Fishing_Tackle","Flask_Or_Tankard","Grappling_Hook","Hammer","Sledge_Hammer","Healers_Kit","Amulet","Emblem","Reliquary","Holy_Water","Hourglass","Hunting_Trap","Ink","Ink_Pen","Jug_Or_Pitcher","Ladder","Lamp","Bullseye_Lantern","Hooded_Lantern","Lock","Magnifying_Glass","Manacles","Mess_Kit","Steel_Mirror","Oil","Paper","Parchment","Perfume","Miners_Pick","Piton","Basic_Poison","Pole","Iron_Pot","Potion_Of_Healing","Pouch","Quiver","Portable_Ram","Rations","Robes","Hempen_Rope","Silk_Rope","Sack","Merchants_Scale","Sealing_Wax","Signal_Whistle","Signet_Ring","Soap","Spellbook","Iron_Spikes","Spy_Glass","Two_Person_Tent","Tinderbox","Torch","Vial","Waterskin","Whetstone"};
 
-                String[] SQLAllSkills = {"Athletics","Acrobatics","Sleight_of_Hand","Stealth","Arcana","History","Investigation","Nature","Religion","Animal_Handling","Insight","Medicine","Perception","Survival","Deception","Intimidation","Performance","Persuasion"};
+                for (int i = 0; i < SQLAdventuringGear.length;i++){
+                    PreparedStatement removeGear= con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[i] + " = 0 WHERE idadventuringgear = ?;");
+                    removeGear.setInt(1,mainCharacter.getPrimaryKey());
+                    removeGear.execute();
+                }
+
+                for (int i = 0 ; i< mainCharacter.inventory.size(); i++){
+                    int position = findArrayPosition(mainCharacter.inventory.get(i).getName(),mainCharacter.getAdventuringGear());
+
+
+                    PreparedStatement adventureGearSave = con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[position] + "  = 1 WHERE idadventuringgear = ?;");;
+                    adventureGearSave.setInt(1,mainCharacter.getPrimaryKey());
+                    adventureGearSave.execute();
+                }
+
+                // Saves all Spells
+                String[] SQLCantrips = {"Acid_Splash","Blade_Ward","Chill_Touch","Dancing_Lights","Druidcraft","Eldritch_Blast","Fire_bolts","Friends","Guidance","Light","Mage_Hand","Mending","Message","Minor_Illusion","Poison_Spray","Prestidigitation","Produce Flame","Ray_of_Frost","Resistance","Sacred_Flame","Shillelagh","Shocking_Grasp","Spare_the_Dying","Thaumaturgy","Thorn_Whip","True_Strike","Vicious_Mockery"};
+
+                String[] SQLFirstLevelSpells = {"Alarm","Animal_Friendship","Armor_of_Agathys","Arms_of_Hadar","Bane","Bless","Burning_Hands","Charm_Person","Chromatic_Orb","Color_Spray","Command","Compelled_Duel","Comprehend_Languages","Create_or_Destroy_Water","Cure_Wounds","Detect_Evil_and_Good","Detect_Magic","Detect_Poison_and_Disease","Disguise_Self","Dissonant_Whispers","Divine_Favor","Ensnaring_Strike","Entangle","Expeditious_Retreat","Faerie_Fire","False_Life","Feather_Fall","Find_Familiar","Fog_Cloud","Good_Berry","Grease","Guiding_Bolt","Hail_of_Thorns","Healing_Word","Hellish_Rebuke","Heroism","Hex","Hunters_Mask","Identify","Illusory_Script","Inflict_Wounds","Jump","Longstrider","Mage_Armor","Magic_Missile","Protection_from_Good_or_Evil","Purify_Food_and_Drink","Ray_of_Sickness","Sanctuary","Searing_Smite","Shield","Shield_of_Faith","Silent_Image","Sleep","Speak_with_Animals","Tashas_Hideous_Laughter","Tensers_Floating_Disk","Thunderous_Smite","Thunderwave","Unseen_Servant","Witch_Bolt","Wrathful_Smite"};
+
+                String[] SQLSecondLevelSpells = {"Aid","Alter_Self","Animal_Messenger","Arcane_Lock","Augury","Barkskin","Beast_Sense","Blindness_Deafness","Blur","Branding_Smite","Calm_Emotions","Cloud_of_Daggers","Continual_Flame","Cordon_of_Arrows","Crown_of_Madness","Darkness","Darkvision","Detect_Thoughts","Enhance_Ability","Enlarge_Reduce","Enthrall","Find_Steed","Find_Traps","Flame_Blade","Flaming_Sphere","Gentle_Repose","Gust_of_Wind","Heat_Metal","Hold_Person","Invisibility","Knock","Lesser_Restoration","Levitate","Locate_Animals_or_Plants","Locate_Object","Magic_Mouth","Magic_Weapon","Melfs_Acid_Arrow","Mirror_Image","Misty_Step","Moonbeam","Nystuls_Magic_Aura","Pass_without_Trace","Phantasmal_Force","Prayer_of_Healing","Protection_from_Poison","Ray_of_Enfeeblement","Rope_Trick","Scorching_Ray","See_Invisibility","Shatter","Silence","Spider_Climb","Spike_Growth","Spiritual_Weapon","Suggestion","Warding_Bond","Web","Zone_of_Truth"};
+
+                String[] SQLThirdLevelSpells ={"Animate_Dead","Aura_of_Vitality","Beacon_of_Hope","Bestow_Curse","Blinding_Smite","Blink","Call_Lightning","Clairvoyance","Conjure_Animals","Conjure_Barrage","Counterspell","Create_Food_and_Water","Crusaders_Mantle","Daylight","Dispel_Magic","Elemental_Weapon","Fear","Feign_Death","Fireball","Fly","Gaseous_Form","Glyph_of_Warding","Haste","Hunger_of_Hadar","Hypnotic_Pattern","Leomunds_Tiny_Hut","Lightning_Bolt","Mass_Healing_Word","Magic_Circle","Major_Image","Meld_into_Stone","Nondetection","Phantom_Steed","Plant_Growth","Protection_from_Energy","Remove_Curse","Revivify","Sending","Sleet_Storm","Slow","Speak_with_Dead","Speak_with_Plants","Spirit_Guardians","Stinking_Cloud","Tongues","Vampiric_Touch","Water_Breathing","Water_Walk","Wind_Wall"};
+
+                String[] SQLFourthLevelSpells = {"Arcane_Eye","Aura_of_Life","Aura_of_Purity","Banishment","Blight","Compulsion","Confusion","Conjure_Minor_Elementals","Conjure_Woodland_Beings","Control_Water","Death_Ward","Dimension_Door","Divination","Dominate_Beast","Evards_Black_Tentacles","Fabricate","Fire_Shield","Freedom_of_Movement","Giant_Insect","Grasping_Vine","Greater_Invisibility","Guardian_of_Faith","Hallucinatory_Terrain","Ice_Storm","Leomunds_Secret_Chest","Locate_Creature","Mordenkainens_Faithful_Hound","Mordenkainens_Private_Sanctum","Otilukes_Resilient_Sphere","Phantasmal_Killer","Polymorph","Staggering_Smite","Stone_Shape","Stoneskin","Wall_of_Fire"};
+
+                String[] SQLFifthLevelSpells = {"Animate_Objects","Antilife_Shell","Awaken","Banishing_Smite","Bigbys_Hand","Circle_of_Power","Cloudkill","Commune","Commune_with_Nature","Cone_of_Cold","Conjure_Elemental","Conjure_Volley","Contact_Other_Plane","Contagion","Creation","Destructive_Wave","Dispel_Evil_and_Good","Dominate_Person","Dream","Flame_Strike","Geas","Greater_Restoration","Hallow","Hold_Monster","Insect_Plague","Legend_Lore","Mass_Cure_Wounds","Mislead","Modify_Memory","Passwall","Planar_Binding","Raise_Dead","Rarys_Telepathic_Bond","Reincarnate","Scrying","Seeming","Swift_Quiver","Telekinesis_Circle","Teleportation_Circle","Tree_Stride","Wall_of_Force","Wall_of_Stone"};
+
+                String[] SQLSixthLevelSpells = {"Arcane_Gate","Blade_Barrier","Chain_Lightning","Circle_of_Death","Conjure_Fey","Contingency","Create_Undead","Disintegrate","Drawmijs_Instant_Summons","Eyebite","Find_the_Path","Flesh_to_Stone","Forbiddance","Globe_of_Invulnerability","Guards_of_Wards","Harm","Heal","Heroes' Feast","Magic_Jar","Mass_Suggestion","Move_Earth","Otilukess_Freezing_Sphere","Ottos_Irresistible_Dance","Planar_Ally","Programmed_Illusion","Sunbeam","Transport_via_Plants","True_Seeing","Wall_of_Ice","Wall_of_Thorns","Wind_Walk","Word_of_Recall"};
+
+                String[] SQLSeventhLevelSpells = {"Conjure_Celestial","Delayed_Blast_Fireball","Divine_Word","Etherealness","Finger_of_Death","Fire_Storm","Forecage","Mirage_Arcane","Mordenkainens_Magnificent_Mansion","Mordenkainens_Sword","Plane_Shift","Prismatic_Spray","Project_Image","Regenerate","Resurrection","Reverse_Gravity","Sequester","Simulation","Symbol","Teleport"};
+
+                String[] SQLEighthLevelSpells = {"Animal_Shapes","Antimagic_Field","Antipathy_Sympathy","Clone","Control_Weather","Demiplane","Dominate_Monster","Earthquake","Feeblemind","Glibness","Holy_Aura","Incendiary_Cloud","Maze","Mind_Blank","Power_Word_Stun","Sunburst","Telepathy","Tsunami"};
+
+                String[] SQLNinthLevelSpells = {"Astral_Projection","Foresight","Gate","Imprisonment","Mass_Heal","Meteor_Swarm","Power_Word_Heal","Power_Word_Kill","Prismatic_Wall","Shapechange","Storm_of_Vengeance","Time_Stop","True_Polymorph","True_Resurrection","Weird","Wish"};
 
                 System.out.println("Saved");
             } catch (SQLException e) {
