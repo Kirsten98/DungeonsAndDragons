@@ -835,7 +835,7 @@ public class RPGCharacterSheet extends Application {
                 }
 
                 //Save Adventuring Gear
-                String[] SQLAdventuringGear = {"Shovel","Abacus","Acid","Alchemists_Fire","Arrows","Blowgun_Needles","CrossBow_Bolts","Sling_Bullets","Antitoxin","Crystal","Orb","Rod","Staff","Wand","Backpack","Ball_Bearings","Barrel","Basket","Bedroll","Bell","Blanket","Block_And_Tackle","Book","Bottle","Bucket","Caltrops","Candle","Crossbow_Bolt_Case","Map_Or_Scroll_Case","Chain","Chalk","Chest","Climbers_Kit","Common_Clothes","Costume_Clothes","Fine_Clothes","Travelers_Clothes","Component_Pouch","Crowbar","Sprig_Of_Mistletoe","Totem","Wooden_Staff","Yew_Wand","Fishing_Tackle","Flask_Or_Tankard","Grappling_Hook","Hammer","Sledge_Hammer","Healers_Kit","Amulet","Emblem","Reliquary","Holy_Water","Hourglass","Hunting_Trap","Ink","Ink_Pen","Jug_Or_Pitcher","Ladder","Lamp","Bullseye_Lantern","Hooded_Lantern","Lock","Magnifying_Glass","Manacles","Mess_Kit","Steel_Mirror","Oil","Paper","Parchment","Perfume","Miners_Pick","Piton","Basic_Poison","Pole","Iron_Pot","Potion_Of_Healing","Pouch","Quiver","Portable_Ram","Rations","Robes","Hempen_Rope","Silk_Rope","Sack","Merchants_Scale","Sealing_Wax","Signal_Whistle","Signet_Ring","Soap","Spellbook","Iron_Spikes","Spy_Glass","Two_Person_Tent","Tinderbox","Torch","Vial","Waterskin","Whetstone"};
+                String[] SQLAdventuringGear = {"Shovel","Abacus","Acid","Alchemists_Fire","Arrows","Blowgun_Needles","CrossBow_Bolts","Sling_Bullets","Antitoxin","Crystal","Orb","Rod","Staff","Wand","Backpack","Ball_Bearings","Barrel","Basket","Bedroll","Bell","Blanket","Block_And_Tackle","Book","Bottle","Bucket","Caltrops","Candle","Crossbow_Bolt_Case","Map_Or_Scroll_Case","Chain","Chalk","Chest","Climbers_Kit","Common_Clothes","Costume_Clothes","Fine_Clothes","Travelers_Clothes","Component_Pouch","Crowbar","Sprig_Of_Mistletoe","Totem","Wooden_Staff","Yew_Wand","Fishing_Tackle","Flask_Or_Tankard","Grappling_Hook","Hammer","Sledge_Hammer","Healers_Kit","Amulet","Emblem","Reliquary","Holy_Water","Hourglass","Hunting_Trap","Ink","Ink_Pen","Jug_Or_Pitcher","Ladder","Lamp","Bullseye_Lantern","Hooded_Lantern","Locks","Magnifying_Glass","Manacles","Mess_Kit","Steel_Mirror","Oil","Paper","Parchment","Perfume","Miners_Pick","Piton","Basic_Poison","Pole","Iron_Pot","Potion_Of_Healing","Pouch","Quiver","Portable_Ram","Rations","Robes","Hempen_Rope","Silk_Rope","Sack","Merchants_Scale","Sealing_Wax","Signal_Whistle","Signet_Ring","Soap","Spellbook","Iron_Spikes","Spy_Glass","Two_Person_Tent","Tinderbox","Torch","Vial","Waterskin","Whetstone"};
 
                 for (int i = 0; i < SQLAdventuringGear.length;i++){
                     PreparedStatement removeGear= con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[i] + " = 0 WHERE idadventuringgear = ?;");
@@ -847,8 +847,11 @@ public class RPGCharacterSheet extends Application {
                     int position = findArrayPosition(mainCharacter.inventory.get(i).getName(),mainCharacter.getAdventuringGear());
 
 
-                    PreparedStatement adventureGearSave = con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[position] + "  = 1 WHERE idadventuringgear = ?;");;
-                    adventureGearSave.setInt(1,mainCharacter.getPrimaryKey());
+                    PreparedStatement adventureGearSave = con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[position] + "  = ? WHERE idadventuringgear = ?;");
+                    adventureGearSave.setInt(1,mainCharacter.inventory.get(i).getQuantity());
+                    adventureGearSave.setInt(2,mainCharacter.getPrimaryKey());
+
+                    System.out.println(mainCharacter.inventory.get(i).getQuantity());
                     adventureGearSave.execute();
                 }
 
