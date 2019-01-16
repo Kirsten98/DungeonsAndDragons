@@ -121,6 +121,9 @@ public class CharacterSheet {
 
     private String[] adventuringGear = {"Shovel","Abacus","Acid","Alchemist's Fire","Arrows","Blowgun Needles","CrossBow Bolts","Sling Bullets","Antitoxin","Crystal","Orb","Rod","Staff","Wand","Backpack","Ball Bearings","Barrel","Basket","Bedroll","Bell","Blanket","Block and Tackle","Book","Bottle","Bucket","Caltrops","Candle","Crossbow Bolt Case","Map or Scroll Case","Chain","Chalk","Chest","Climber's Kit","Common Clothes","Costume Clothes","Fine Clothes","Traveler's Clothes","Component Pouch","Crowbar","Sprig of Mistletoe","Totem","Wooden Staff","Yew Wand","Fishing Tackle","Flask or Tankard","Grappling Hook","Hammer","Sledge Hammer","Healers Kit","Amulet","Emblem","Reliquary","Holy Water","Hourglass","Hunting Trap","Ink","Ink Pen","Jug or Pitcher","Ladder","Lamp","Bullseye Lantern","Hooded Lantern","Lock","Magnifying Glass","Manacles","Mess Kit","Steel Mirror","Oil","Paper","Parchment","Perfume","Miner's Pick","Piton","Basic Poison","Pole","Iron Pot","Potion of Healing","Pouch","Quiver","Portable Ram","Rations","Robes","Hempen Rope","Silk Rope","Sack","Merchants Scale","Sealing Wax","Signal Whistle","Signet Ring","Soap","Spellbook","Iron Spikes","Spy Glass","Two Person Tent","Tinderbox","Torch","Vial","Waterskin","Whetstone"};
 
+    Vector<String> spells = new Vector<>();
+    Vector<String> cantrips = new Vector<>();
+
 
     public CharacterSheet() {
     }

@@ -856,25 +856,7 @@ public class RPGCharacterSheet extends Application {
                 }
 
                 // Saves all Spells
-                String[] SQLCantrips = {"Acid_Splash","Blade_Ward","Chill_Touch","Dancing_Lights","Druidcraft","Eldritch_Blast","Fire_bolts","Friends","Guidance","Light","Mage_Hand","Mending","Message","Minor_Illusion","Poison_Spray","Prestidigitation","Produce Flame","Ray_of_Frost","Resistance","Sacred_Flame","Shillelagh","Shocking_Grasp","Spare_the_Dying","Thaumaturgy","Thorn_Whip","True_Strike","Vicious_Mockery"};
-
-                String[] SQLFirstLevelSpells = {"Alarm","Animal_Friendship","Armor_of_Agathys","Arms_of_Hadar","Bane","Bless","Burning_Hands","Charm_Person","Chromatic_Orb","Color_Spray","Command","Compelled_Duel","Comprehend_Languages","Create_or_Destroy_Water","Cure_Wounds","Detect_Evil_and_Good","Detect_Magic","Detect_Poison_and_Disease","Disguise_Self","Dissonant_Whispers","Divine_Favor","Ensnaring_Strike","Entangle","Expeditious_Retreat","Faerie_Fire","False_Life","Feather_Fall","Find_Familiar","Fog_Cloud","Good_Berry","Grease","Guiding_Bolt","Hail_of_Thorns","Healing_Word","Hellish_Rebuke","Heroism","Hex","Hunters_Mask","Identify","Illusory_Script","Inflict_Wounds","Jump","Longstrider","Mage_Armor","Magic_Missile","Protection_from_Good_or_Evil","Purify_Food_and_Drink","Ray_of_Sickness","Sanctuary","Searing_Smite","Shield","Shield_of_Faith","Silent_Image","Sleep","Speak_with_Animals","Tashas_Hideous_Laughter","Tensers_Floating_Disk","Thunderous_Smite","Thunderwave","Unseen_Servant","Witch_Bolt","Wrathful_Smite"};
-
-                String[] SQLSecondLevelSpells = {"Aid","Alter_Self","Animal_Messenger","Arcane_Lock","Augury","Barkskin","Beast_Sense","Blindness_Deafness","Blur","Branding_Smite","Calm_Emotions","Cloud_of_Daggers","Continual_Flame","Cordon_of_Arrows","Crown_of_Madness","Darkness","Darkvision","Detect_Thoughts","Enhance_Ability","Enlarge_Reduce","Enthrall","Find_Steed","Find_Traps","Flame_Blade","Flaming_Sphere","Gentle_Repose","Gust_of_Wind","Heat_Metal","Hold_Person","Invisibility","Knock","Lesser_Restoration","Levitate","Locate_Animals_or_Plants","Locate_Object","Magic_Mouth","Magic_Weapon","Melfs_Acid_Arrow","Mirror_Image","Misty_Step","Moonbeam","Nystuls_Magic_Aura","Pass_without_Trace","Phantasmal_Force","Prayer_of_Healing","Protection_from_Poison","Ray_of_Enfeeblement","Rope_Trick","Scorching_Ray","See_Invisibility","Shatter","Silence","Spider_Climb","Spike_Growth","Spiritual_Weapon","Suggestion","Warding_Bond","Web","Zone_of_Truth"};
-
-                String[] SQLThirdLevelSpells ={"Animate_Dead","Aura_of_Vitality","Beacon_of_Hope","Bestow_Curse","Blinding_Smite","Blink","Call_Lightning","Clairvoyance","Conjure_Animals","Conjure_Barrage","Counterspell","Create_Food_and_Water","Crusaders_Mantle","Daylight","Dispel_Magic","Elemental_Weapon","Fear","Feign_Death","Fireball","Fly","Gaseous_Form","Glyph_of_Warding","Haste","Hunger_of_Hadar","Hypnotic_Pattern","Leomunds_Tiny_Hut","Lightning_Bolt","Mass_Healing_Word","Magic_Circle","Major_Image","Meld_into_Stone","Nondetection","Phantom_Steed","Plant_Growth","Protection_from_Energy","Remove_Curse","Revivify","Sending","Sleet_Storm","Slow","Speak_with_Dead","Speak_with_Plants","Spirit_Guardians","Stinking_Cloud","Tongues","Vampiric_Touch","Water_Breathing","Water_Walk","Wind_Wall"};
-
-                String[] SQLFourthLevelSpells = {"Arcane_Eye","Aura_of_Life","Aura_of_Purity","Banishment","Blight","Compulsion","Confusion","Conjure_Minor_Elementals","Conjure_Woodland_Beings","Control_Water","Death_Ward","Dimension_Door","Divination","Dominate_Beast","Evards_Black_Tentacles","Fabricate","Fire_Shield","Freedom_of_Movement","Giant_Insect","Grasping_Vine","Greater_Invisibility","Guardian_of_Faith","Hallucinatory_Terrain","Ice_Storm","Leomunds_Secret_Chest","Locate_Creature","Mordenkainens_Faithful_Hound","Mordenkainens_Private_Sanctum","Otilukes_Resilient_Sphere","Phantasmal_Killer","Polymorph","Staggering_Smite","Stone_Shape","Stoneskin","Wall_of_Fire"};
-
-                String[] SQLFifthLevelSpells = {"Animate_Objects","Antilife_Shell","Awaken","Banishing_Smite","Bigbys_Hand","Circle_of_Power","Cloudkill","Commune","Commune_with_Nature","Cone_of_Cold","Conjure_Elemental","Conjure_Volley","Contact_Other_Plane","Contagion","Creation","Destructive_Wave","Dispel_Evil_and_Good","Dominate_Person","Dream","Flame_Strike","Geas","Greater_Restoration","Hallow","Hold_Monster","Insect_Plague","Legend_Lore","Mass_Cure_Wounds","Mislead","Modify_Memory","Passwall","Planar_Binding","Raise_Dead","Rarys_Telepathic_Bond","Reincarnate","Scrying","Seeming","Swift_Quiver","Telekinesis_Circle","Teleportation_Circle","Tree_Stride","Wall_of_Force","Wall_of_Stone"};
-
-                String[] SQLSixthLevelSpells = {"Arcane_Gate","Blade_Barrier","Chain_Lightning","Circle_of_Death","Conjure_Fey","Contingency","Create_Undead","Disintegrate","Drawmijs_Instant_Summons","Eyebite","Find_the_Path","Flesh_to_Stone","Forbiddance","Globe_of_Invulnerability","Guards_of_Wards","Harm","Heal","Heroes' Feast","Magic_Jar","Mass_Suggestion","Move_Earth","Otilukess_Freezing_Sphere","Ottos_Irresistible_Dance","Planar_Ally","Programmed_Illusion","Sunbeam","Transport_via_Plants","True_Seeing","Wall_of_Ice","Wall_of_Thorns","Wind_Walk","Word_of_Recall"};
-
-                String[] SQLSeventhLevelSpells = {"Conjure_Celestial","Delayed_Blast_Fireball","Divine_Word","Etherealness","Finger_of_Death","Fire_Storm","Forecage","Mirage_Arcane","Mordenkainens_Magnificent_Mansion","Mordenkainens_Sword","Plane_Shift","Prismatic_Spray","Project_Image","Regenerate","Resurrection","Reverse_Gravity","Sequester","Simulation","Symbol","Teleport"};
-
-                String[] SQLEighthLevelSpells = {"Animal_Shapes","Antimagic_Field","Antipathy_Sympathy","Clone","Control_Weather","Demiplane","Dominate_Monster","Earthquake","Feeblemind","Glibness","Holy_Aura","Incendiary_Cloud","Maze","Mind_Blank","Power_Word_Stun","Sunburst","Telepathy","Tsunami"};
-
-                String[] SQLNinthLevelSpells = {"Astral_Projection","Foresight","Gate","Imprisonment","Mass_Heal","Meteor_Swarm","Power_Word_Heal","Power_Word_Kill","Prismatic_Wall","Shapechange","Storm_of_Vengeance","Time_Stop","True_Polymorph","True_Resurrection","Weird","Wish"};
+               saveAllSpells(mainCharacter);
 
                 System.out.println("Saved");
             } catch (SQLException e) {
@@ -889,7 +871,7 @@ public class RPGCharacterSheet extends Application {
      * @param arrayThatContainsItem String array that is being searched for given item/string
      * @return Returns position of item in given array, if string is not found in array returns -1.
      */
-    protected static int findArrayPosition(String itemToBeFound, String[] arrayThatContainsItem){
+    protected static int findArrayPosition(String itemToBeFound, Object[] arrayThatContainsItem){
 
             for (int j = 0; j< arrayThatContainsItem.length;j++){
                 if (arrayThatContainsItem[j].equals(itemToBeFound)){
@@ -979,5 +961,178 @@ public class RPGCharacterSheet extends Application {
             right.getChildren().addAll(skillsList,modifierList,additionList,proficiencyList,totalList);
             return right;
         }
+
+     protected static void saveAllSpells(CharacterSheet mainCharacter){
+
+         try {
+             Connection con = DriverManager.getConnection(url, "generaluser", "4Testing");
+
+             String[] SQLCantrips = {"Acid_Splash","Blade_Ward","Chill_Touch","Dancing_Lights","Druidcraft","Eldritch_Blast","Fire_bolts","Friends","Guidance","Light","Mage_Hand","Mending","Message","Minor_Illusion","Poison_Spray","Prestidigitation","Produce_Flame","Ray_of_Frost","Resistance","Sacred_Flame","Shillelagh","Shocking_Grasp","Spare_the_Dying","Thaumaturgy","Thorn_Whip","True_Strike","Vicious_Mockery"};
+
+             for (int i = 0; i < SQLCantrips.length;i++){
+                 PreparedStatement removeCantrips= con.prepareStatement("UPDATE cantrips SET " + SQLCantrips[i] + " = 0 WHERE idcantrips = ?;");
+                 removeCantrips.setInt(1,mainCharacter.getPrimaryKey());
+                 removeCantrips.execute();
+             }
+
+             for (int i = 0 ; i< mainCharacter.cantrips.size(); i++){
+                 int position = findArrayPosition(mainCharacter.cantrips.get(i),Spells.allClassSpellSetUp(10).toArray());
+
+                 PreparedStatement cantripsSave = con.prepareStatement("UPDATE cantrips SET " + SQLCantrips[position] + "  = 1 WHERE idcantrips = ?;");
+                 cantripsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 cantripsSave.execute();
+             }
+
+             System.out.println("Added all cantrips");
+             String[] SQLFirstLevelSpells = {"Alarm","Animal_of_Friendship","Armor_of_Agathys","Arms_of_Hadar","Bane","Bless","Burning_Hands","Charm_Person","Chromatic_Orb","Color_Spray","Command","Compelled_Duel","Comprehend_Languages","Create_or_Destroy_Water","Cure_Wounds","Detect_Evil_and_Good","Detect_Magic","Detect_Poison_and_Disease","Disguise_Self","Dissonant_Whispers","Divine_Favor","Ensnaring_Strike","Entangle","Expeditious_Retreat","Faerie_Fire","False_Life","Feather_Fall","Find_Familiar","Fog_Cloud","Good_Berry","Grease","Guiding_Bolt","Hail_of_Thorns","Healing_Word","Hellish_Rebuke","Heroism","Hex","Hunters_Mask","Identify","Illusory_Script","Inflict_Wounds","Jump","Longstrider","Mage_Armor","Magic_Missile","Protection_from_Good_or_Evil","Purify_Food_and_Drink","Ray_of_Sickness","Sanctuary","Searing_Smite","Shield","Shield_of_Faith","Silent_Image","Sleep","Speak_with_Animals","Tashas_Hideous_Laughter","Tensers_Floating_Disk","Thunderous_Smite","Thunderwave","Unseen_Servant","Witch_Bolt","Wrathful_Smite"};
+             for (int i = 0; i < SQLFirstLevelSpells.length;i++){
+                 PreparedStatement removeFirstLvlSpells= con.prepareStatement("UPDATE firstLevelSpells SET " + SQLFirstLevelSpells[i] + " = 0 WHERE idfirstLevelSpells = ?;");
+                 removeFirstLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removeFirstLvlSpells.execute();
+             }
+             int incrementer = 0;
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(1).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(1).toArray());
+
+                 PreparedStatement firstLevelSpellsSave = con.prepareStatement("UPDATE firstLevelSpells SET " + SQLFirstLevelSpells[position] + "  = 1 WHERE idfirstLevelSpells = ?;");
+                 firstLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 firstLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all First Level Spells");
+
+             String[] SQLSecondLevelSpells = {"Aid","Alter_Self","Animal_Messenger","Arcane_Lock","Augury","Barkskin","Beast_Sense","Blindness_Deafness","Blur","Branding_Smite","Calm_Emotions","Cloud_of_Daggers","Continual_Flames","Cordon_of_Arrows","Crown_of_Madness","Darkness","Darkvision","Detect_Thoughts","Enhance_Ability","Enlarge_Reduce","Enthrall","Find_Steed","Find_Traps","Flame_Blade","Flaming_Sphere","Gentle_Repose","Gust_of_Wind","Heat_Metal","Hold_Person","Invisibility","Knock","Lesser_Restoration","Levitate","Locate_Animals_or_Plants","Locate_Object","Magic_Mouth","Magic_Weapon","Melfs_Acid_Arrow","Mirror_Image","Misty_Step","Moonbeam","Nystuls_Magic_Aura","Pass_without_Trace","Phantasmal_Force","Prayer_of_Healing","Protection_from_Poison","Ray_of_Enfeeblement","Rope_Trick","Scorching_Ray","See_Invisibility","Shatter","Silence","Spider_Climb","Spike_Growth","Spiritual_Weapon","Suggestion","Warding_Bond","Web","Zone_of_Truth"};
+             for (int i = 0; i < SQLSecondLevelSpells.length;i++){
+                 PreparedStatement removeSecondLvlSpells= con.prepareStatement("UPDATE secondLevelSpells SET " + SQLSecondLevelSpells[i] + " = 0 WHERE idsecondLevelSpells = ?;");
+                 removeSecondLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removeSecondLvlSpells.execute();
+             }
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(2).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(2).toArray());
+
+
+                 PreparedStatement secondLevelSpellsSave = con.prepareStatement("UPDATE secondLevelSpells SET " + SQLSecondLevelSpells[position] + "  = 1 WHERE idsecondLevelSpells = ?;");
+                 secondLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 secondLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all Second Level Spells");
+
+             String[] SQLThirdLevelSpells ={"Animate_Dead","Aura_of_Vitality","Beacon_of_Hope","Bestow_Curse","Blinding_Smite","Blink","Call_Lightning","Clairvoyance","Conjure_Animals","Conjure_Barrage","Counterspell","Create_Food_and_Water","Crusaders_Mantle","Daylight","Dispel_Magic","Elemental_Weapon","Fear","Feign_Death","Fireball","Fly","Gaseous_Form","Glyph_of_Warding","Haste","Hunger_of_Hadar","Hypnotic_Pattern","Tiny_Hut","Lightning_Bolt","Mass_Healing_Word","Magic_Circle","Major_Image","Meld_into_Stone","Nondetection","Phantom_Steed","Plant_Growth","Protection_from_Energy","Remove_Curse","Revivify","Sending","Sleet_Storm","Slow","Speak_with_Dead","Speak_with_Plants","Spirit_Guardians","Stinking_Cloud","Tongues","Vampiric_Touch","Water_Breathing","Water_Walk","Wind_Wall"};
+             for (int i = 0; i < SQLThirdLevelSpells.length;i++){
+                 PreparedStatement removeThirdLvlSpells= con.prepareStatement("UPDATE thirdLevelSpells SET " + SQLThirdLevelSpells[i] + " = 0 WHERE idthirdLevelSpells = ?;");
+                 removeThirdLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removeThirdLvlSpells.execute();
+             }
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(3).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(3).toArray());
+
+                 PreparedStatement ThirdLevelSpellsSave = con.prepareStatement("UPDATE thirdLevelSpells SET " + SQLThirdLevelSpells[position] + "  = 1 WHERE idthirdLevelSpells = ?;");
+                 ThirdLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 ThirdLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all Third Level Spells");
+
+             String[] SQLFourthLevelSpells = {"Arcane_Eye","Aura_of_Life","Aura_of_Purity","Banishment","Blight","Compulsion","Confusion","Conjure_Minor_Elementals","Conjure_Woodland_Beings","Control_Water","Death_Ward","Dimension_Door","Divination","Dominate_Beast","Evards_Black_Tentacles","Fabricate","Fire_Shield","Freedom_of_Movement","Giant_Insect","Grasping_Vine","Greater_Invisibility","Guardian_of_Faith","Hallucinatory_Terrain","Ice_Storm","Secret_Chest","Locate_Creature","Mordenkainens_Faithful_Hound","Mordenkainens_Private_Sanctum","Otilukes_Resilient_Sphere","Phantasmal_Killer","Polymorph","Staggering_Smite","Stone_Shape","Stoneskin","Wall_of_Fire"};
+             for (int i = 0; i < SQLFourthLevelSpells.length;i++){
+                 PreparedStatement removefourthLvlSpells= con.prepareStatement("UPDATE fourthLevelSpells SET " + SQLFourthLevelSpells[i] + " = 0 WHERE idfourthLevelSpells = ?;");
+                 removefourthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removefourthLvlSpells.execute();
+             }
+             while(incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(4).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(4).toArray());
+
+                 PreparedStatement fourthLevelSpellsSave = con.prepareStatement("UPDATE fourthLevelSpells SET " + SQLFourthLevelSpells[position] + "  = 1 WHERE idfourthLevelSpells = ?;");
+                 fourthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 fourthLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all Fourth Level Spells");
+
+             String[] SQLFifthLevelSpells = {"Animate_Objects","Antilife_Shell","Awaken","Banishing_Smite","Bigbys_Hand","Circle_of_Power","Cloudkill","Commune","Commune_with_Nature","Cone_of_Cold","Conjure_Elemental","Conjure_Volley","Contact_Other_Plane","Contagion","Creation","Destructive_Wave","Dispel_Evil_and_Good","Dominate_Person","Dream","Flame_Strike","Geas","Greater_Restoration","Hallow","Hold_Monster","Insect_Plague","Legend_Lore","Mass_Cure_Wounds","Mislead","Modify_Memory","Passwall","Planar_Binding","Raise_Dead","Rarys_Telepathic_Bond","Reincarnate","Scrying","Seeming","Swift_Quiver","Telekinesis_Circle","Teleportation_Circle","Tree_Stride","Wall_of_Force","Wall_of_Stone"};
+             for (int i = 0; i < SQLFifthLevelSpells.length;i++){
+                 PreparedStatement removefifthLvlSpells= con.prepareStatement("UPDATE fifthLevelSpells SET " + SQLFifthLevelSpells[i] + " = 0 WHERE idfifthLevelSpells = ?;");
+                 removefifthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removefifthLvlSpells.execute();
+             }
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(5).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(5).toArray());
+
+                 PreparedStatement fifthLevelSpellsSave = con.prepareStatement("UPDATE fifthLevelSpells SET " + SQLFifthLevelSpells[position] + "  = 1 WHERE idfifthLevelSpells = ?;");
+                 fifthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 fifthLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all Fifth Level Spells");
+
+
+             String[] SQLSixthLevelSpells = {"Arcane_Gate","Blade_Barrier","Chain_Lightning","Circle_of_Death","Conjure_Fey","Contingency","Create_Undead","Disintegrate","Drawmijs_Instant_Summons","Eyebite","Find_the_Path","Flesh_to_Stone","Forbiddance","Globe_of_Invulnerability","Guards_of_Wards","Harm","Heal","Heroes_Feast","Magic_Jar","Mass_Suggestion","Move_Earth","Otilukess_Freezing_Sphere","Ottos_Irresistible_Dance","Planar_Ally","Programmed_Illusion","Sunbeam","Transport_via_Plants","True_Seeing","Wall_of_Ice","Wall_of_Thorns","Wind_Walk","Word_of_Recall"};
+             for (int i = 0; i < SQLSixthLevelSpells.length;i++){
+                 PreparedStatement removesixthLvlSpells= con.prepareStatement("UPDATE sixthLevelSpells SET " + SQLSixthLevelSpells[i] + " = 0 WHERE idsixthLevelSpells = ?;");
+                 removesixthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removesixthLvlSpells.execute();
+             }
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(6).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(6).toArray());
+
+                 PreparedStatement sixthLevelSpellsSave = con.prepareStatement("UPDATE sixthLevelSpells SET " + SQLSixthLevelSpells[position] + "  = 1 WHERE idsixthLevelSpells = ?;");
+                 sixthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 sixthLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all Sixth Level Spells");
+
+             String[] SQLSeventhLevelSpells = {"Conjure_Celestial","Delayed_Blast_Fireball","Divine_Word","Etherealness","Finger_of_Death","Fire_Storm","Forecage","Mirage_Arcane","Mordenkainens_Magnificent_Mansion","Mordenkainens_Sword","Plane_Shift","Prismatic_Spray","Project_Image","Regenerate","Resurrection","Reverse_Gravity","Sequester","Simulation","Symbol","Teleport"};
+             for (int i = 0; i < SQLSeventhLevelSpells.length;i++){
+                 PreparedStatement removeseventhLvlSpells= con.prepareStatement("UPDATE seventhLevelSpells SET " + SQLSeventhLevelSpells[i] + " = 0 WHERE idseventhLevelSpells = ?;");
+                 removeseventhLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removeseventhLvlSpells.execute();
+             }
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(7).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(7).toArray());
+
+                 PreparedStatement seventhLevelSpellsSave = con.prepareStatement("UPDATE seventhLevelSpells SET " + SQLSeventhLevelSpells[position] + "  = 1 WHERE idseventhLevelSpells = ?;");
+                 seventhLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 seventhLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all Seventh Level Spells");
+
+             String[] SQLEighthLevelSpells = {"Animal_Shapes","Antimagic_Field","Antipathy_Sympathy","Clone","Control_Weather","Demiplane","Dominate_Monster","Earthquake","Feeblemind","Glibness","Holy_Aura","Incendiary_Cloud","Maze","Mind_Blank","Power_Word_Stun","Sunburst","Telepathy","Tsunami"};
+             for (int i = 0; i < SQLEighthLevelSpells.length;i++){
+                 PreparedStatement removeeighthLvlSpells= con.prepareStatement("UPDATE eighthLevelSpells SET " + SQLEighthLevelSpells[i] + " = 0 WHERE ideighthLevelSpells = ?;");
+                 removeeighthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removeeighthLvlSpells.execute();
+             }
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(8).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(8).toArray());
+
+                 PreparedStatement sixthLevelSpellsSave = con.prepareStatement("UPDATE eighthLevelSpells SET " + SQLEighthLevelSpells[position] + "  = 1 WHERE ideighthLevelSpells = ?;");
+                 sixthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 sixthLevelSpellsSave.execute();
+                 incrementer++;
+             }
+             System.out.println("Added all Eighth Level Spells");
+
+             String[] SQLNinthLevelSpells = {"Astral_Projection","Foresight","Gate","Imprisonment","Mass_Heal","Meteor_Swarm","Power_Word_Heal","Power_Word_Kill","Prismatic_Wall","Shapechange","Storm_of_Vengeance","Time_Stop","True_Polymorph","True_Resurrection","Weird","Wish"};
+             for (int i = 0; i < SQLNinthLevelSpells.length;i++){
+                 PreparedStatement removeNinthLvlSpells= con.prepareStatement("UPDATE ninthLevelSpells SET " + SQLNinthLevelSpells[i] + " = 0 WHERE idninthLevelSpells = ?;");
+                 removeNinthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
+                 removeNinthLvlSpells.execute();
+             }
+             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(9).contains(mainCharacter.spells.get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(9).toArray());
+
+                 PreparedStatement sixthLevelSpellsSave = con.prepareStatement("UPDATE ninthLevelSpells SET " + SQLNinthLevelSpells[position] + "  = 1 WHERE idninthLevelSpells = ?;");
+                 sixthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
+                 sixthLevelSpellsSave.execute();
+                incrementer++;;
+             }
+             System.out.println("Added all Ninth Level Spells");
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+     }
 }
 
