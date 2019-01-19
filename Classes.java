@@ -44,6 +44,12 @@ public class Classes {
             if (mainCharacter.getCharacterClass().equals("Barbarian")) {
                 Barbarian barbarianCharacter = new Barbarian(mainCharacter);
                 barbarianCharacter.chooseArmor(classStage); }
+            if (mainCharacter.getCharacterClass().equals("Bard")) {
+                Bard bardCharacter = new Bard(mainCharacter);
+                mainCharacter.setRace("Bard");
+                classStage.close();
+//                bardCharacter.chooseArmor(classStage);
+              }
         });
         continueButton.setDisable(true);
 
@@ -197,6 +203,10 @@ public class Classes {
             if (mainCharacter.getCharacterClass().equals("Barbarian")){
                 Barbarian barbarian = new Barbarian(mainCharacter);
                 barbarian.addLevel(setLevelStage,Integer.parseInt(choice.getText().split(" ")[1]),1);
+            }
+            if (mainCharacter.getCharacterClass().equals("Bard")){
+                Bard bard = new Bard(mainCharacter);
+                bard.addLevel(setLevelStage,Integer.parseInt(choice.getText().split(" ")[1]),1);
             }
         });
 

@@ -1,6 +1,7 @@
 package DungeonsAndDragons;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -74,6 +75,13 @@ public class Barbarian{
         }
     }
 
+    /**
+     *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
+     * @param addLevelStage Stage that the choice will be displayed on
+     * @param maxLevel Maximum level that the user has selected
+     * @param startinglevel Level that the user is currently making choices for
+     * @return
+     */
     public GridPane abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel){
         Button continueButton = new Button("Continue");
         Label choice = new Label();
@@ -211,6 +219,12 @@ public class Barbarian{
         return pane;
     }
 
+    /**
+     * Takes current level and continuously adds additional level until maximum level is hit. Throughout the process it will give the users options for selection for their current level
+     * @param addLevelStage Stage that will contain all Level choices
+     * @param maxLevel Max level that the user has chosen
+     * @param startingLevel Level that the user if currently at
+     */
     public void addLevel(Stage addLevelStage, int maxLevel, int startingLevel){
 
             if (startingLevel <= maxLevel){
@@ -810,7 +824,7 @@ public class Barbarian{
 
     public void chooseArmor(Stage chooseArmorStage){
         VBox pane = new VBox(10);
-        Scene scene = new Scene(pane,450,200);;
+        Scene scene = new Scene(pane,450,280);
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
@@ -819,31 +833,88 @@ public class Barbarian{
         pane.setPadding(new Insets(30,30,20,30));
 
         Button continueButton = new Button("Continue");
+        continueButton.setPrefWidth(100);
+        continueButton.setTranslateX(150);
 
         Label armorLabel = new Label("You are proficient in Light Armor, Medium Armor, and Shields.\nChoose your Armor.");
+        Label proficiencyWarning = new Label("Note: If you wear armor that you lack proficiency with, you have disadvantage on any ability checks, saving throws, or attack rolls that involves Strength or Dexterity, and you can’t cast spells.");
+        proficiencyWarning.setWrapText(true);
+        ObservableList proficientArmor = FXCollections.observableArrayList(character.getLightArmor()[0],character.getLightArmor()[1],character.getLightArmor()[2],character.getMediumArmor()[0],character.getMediumArmor()[1],character.getMediumArmor()[2],character.getMediumArmor()[3],character.getMediumArmor()[4]);
+        ObservableList notProficientArmor =  FXCollections.observableArrayList(character.getHeavyArmor()[0],character.getHeavyArmor()[1],character.getHeavyArmor()[2],character.getHeavyArmor()[3]);
 
 
-        ChoiceBox<String> armorChoices = new ChoiceBox(FXCollections.observableArrayList(character.getLightArmor()[0],character.getLightArmor()[1],character.getLightArmor()[2],character.getMediumArmor()[0],character.getMediumArmor()[1],character.getMediumArmor()[2],character.getMediumArmor()[3],character.getMediumArmor()[4]));
+        ComboBox<String> proficientArmorChoices = new ComboBox(proficientArmor);
+        proficientArmorChoices.setValue("Proficient ");
+        ComboBox<String> nonProficientArmorChoices = new ComboBox<>(notProficientArmor);
+        nonProficientArmorChoices.setValue("Non-Proficient");
 
+        character.nonProficientArmor = character.getHeavyArmor();
         ChoiceBox<String> yOrN = new ChoiceBox(FXCollections.observableArrayList("Yes","No"));
         yOrN.setDisable(true);
 
         Label armor = new Label("Armor: ");
         Label shield = new Label("Shield: ");
 
-        armorChoices.setOnAction(e-> {
-            character.setArmor(armorChoices.getValue());
-            armor.setText("Armor: " + armorChoices.getValue());
-            armorChoices.setDisable(true);
-            armorChoices.hide();
+        proficientArmorChoices.setOnAction(proficientArmorError-> {
+            character.setArmor(proficientArmorChoices.getValue());
+            armor.setText("Armor: " + proficientArmorChoices.getValue());
+            proficientArmorChoices.setDisable(true);
+            proficientArmorChoices.hide();
             yOrN.setDisable(false);
+            nonProficientArmorChoices.setDisable(true);
 
+
+            continueButton.setOnAction(e->{
+                //finds index of Armor and Adds Armor as an item
+                for (int i=0 ;i < character.getAllArmor().length; i++){
+                    if (character.getAllArmor()[i].equals(proficientArmorChoices.getValue())){
+                        checkAndAddItemQuantity(character.armorList,new Item(proficientArmorChoices.getValue() ,character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
+                        character.setAc(character.getAc()+character.getAllArmorAC()[i]);
+                        break;
+                    }
+                }
+
+                if (character.isShield() == true){
+                    checkAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+                    character.setAc(character.getAc() +2);
+                }
+                chooseWeapon(chooseArmorStage);
+            });
+
+        });
+
+        nonProficientArmorChoices.setOnAction(nonProficientArmor ->{
+            character.setArmor(nonProficientArmorChoices.getValue());
+            armor.setText("Armor: " + nonProficientArmorChoices.getValue());
+            proficientArmorChoices.setDisable(true);
+            proficientArmorChoices.hide();
+            yOrN.setDisable(false);
+            nonProficientArmorChoices.setDisable(true);
+
+            continueButton.setOnAction(e->{
+
+                //finds index of Armor and Adds Armor as an item
+                for (int i=0 ;i < character.getAllArmor().length; i++){
+                    if (character.getAllArmor()[i].equals(nonProficientArmorChoices.getValue())){
+                        checkAndAddItemQuantity(character.armorList,new Item(nonProficientArmorChoices.getValue() ,character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
+                        character.setAc(character.getAc()+character.getAllArmorAC()[i]);
+                        break;
+                    }
+                }
+
+                if (character.isShield() == true){
+                    checkAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
+                    character.setAc(character.getAc() +2);
+                }
+                chooseWeapon(chooseArmorStage);
+            });
 
         });
 
         armor.setMinWidth(150);
-
-
+        proficientArmorChoices.setPrefWidth(100);
+        nonProficientArmorChoices.setPrefWidth(125);
+        nonProficientArmorChoices.setTranslateX(25);
 
         yOrN.setOnAction(e-> {
             if (yOrN.getValue().equals("Yes")){
@@ -859,26 +930,7 @@ public class Barbarian{
         });
 
 
-            continueButton.setOnAction(e->{
-
-                //finds index of Armor and Adds Armor as an item
-                for (int i=0 ;i < character.getAllArmor().length; i++){
-                    if (character.getAllArmor()[i].equals(armorChoices.getValue())){
-                        checkAndAddItemQuantity(character.armorList,new Item(armorChoices.getValue() ,character.getAllArmorDescriptions()[i],1,character.getAllArmorCost()[i]) );
-                        character.setAc(character.getAc()+character.getAllArmorAC()[i]);
-                        break;
-                    }
-                }
-
-
-                if (character.isShield() == true){
-                    checkAndAddItemQuantity(character.armorList, new Item("Shield","A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.",1,10));
-                    character.setAc(character.getAc() +2);
-                }
-                chooseWeapon(chooseArmorStage);
-            });
-
-        pane.getChildren().addAll(armorLabel,new HBox(armor,armorChoices), new HBox(shield,yOrN));
+        pane.getChildren().addAll(armorLabel,new HBox(armor,proficientArmorChoices,nonProficientArmorChoices), new HBox(shield,yOrN),proficiencyWarning);
 
         yOrN.setTranslateX(112);
         pane.setStyle("-fx-border-color: black;"        +

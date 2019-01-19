@@ -375,7 +375,12 @@ public class RPGCharacterSheet extends Application {
                 mainCharacter.setAc(0);
                 characterClass.setText(Classes.chooseClass(continueButton,mainCharacter ));
                 for (int i=0 ; i < mainCharacter.armorList.size(); i++){
-                    armor.add((mainCharacter.armorList.get(i).getName()));
+                    if(checkIfArmorIsNotProficient(mainCharacter.nonProficientArmor,mainCharacter.armorList.get(i).getName())){
+                        Label notProficient = new Label(mainCharacter.armorList.get(i).getName()+" (Not Proficient)");
+                        notProficient.setTextFill(Color.RED);
+                        armor.add(notProficient);
+
+                    } else armor.add((mainCharacter.armorList.get(i).getName()));
                 }
                 armorList.setItems(armor);
 
@@ -558,6 +563,15 @@ public class RPGCharacterSheet extends Application {
 
         left.setMaxWidth(150);
         return left;
+    }
+
+    public boolean checkIfArmorIsNotProficient(String[] nonProficientArmorArray, String armor){
+        for (int i = 0; i < nonProficientArmorArray.length; i++){
+            if (nonProficientArmorArray[i].equals(armor)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -783,7 +797,7 @@ public class RPGCharacterSheet extends Application {
                     languageSave.setInt(1,mainCharacter.getPrimaryKey());
                     languageSave.execute();
                 }
-                //TODO need to save Race Traits/ Instruments/ Inventory/ features/ proficiencies (Need to have a check for spaced words ex. Light Armor/ Switch Case?) after tables are added in SQL
+                //TODO need to save proficiencies (Need to have a check for spaced words ex. Light Armor/ Switch Case?) after tables are added in SQL
 
                 //Save Weapons
                 String[] SQLWeaponsArray = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light_Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War_Pick", "Warhammer", "Whip", "Blowgun", "Hand_Crossbow", "Heavy_Crossbow", "Longbow", "Net"};
