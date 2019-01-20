@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -16,7 +17,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class Bard {
-    public Bard(CharacterSheet character){
+    public Bard(CharacterSheet character) {
         this.character = character;
     }
 
@@ -26,7 +27,7 @@ public class Bard {
     private Vector<String> features = new Vector();
     private int hitDice = 8;
     private String pack;
-    private int proficiency=2;
+    private int proficiency = 2;
     private int spellAttackMod;
     private int spellSaveDC;
 
@@ -49,52 +50,51 @@ public class Bard {
     Vector<String> allFifthLevelSpells = Spells.allClassSpellSetUp(5);
     Vector<String> allSixthLevelSpells = Spells.allClassSpellSetUp(6);
     Vector<String> allSeventhLevelSpells = Spells.allClassSpellSetUp(7);
-    Vector<String> allEighthLevelSpells= Spells.allClassSpellSetUp(8);
+    Vector<String> allEighthLevelSpells = Spells.allClassSpellSetUp(8);
     Vector<String> allNinthLevelSpells = Spells.allClassSpellSetUp(9);
 
     Vector<String> proficiencies = new Vector<>();
 
 
-
     //TODO Test Spells
 
- // Tested and verfied 9/10
+    // Tested and verfied 9/10
+
     /**
-     *
-     * @param character CharacterSheet that needs the Ability Modifier added to
-     * @param AbilityChoice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
+     * @param character       CharacterSheet that needs the Ability Modifier added to
+     * @param AbilityChoice   Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
      * @param modifierAddtion The Value that is getting added to the Modifier
      */
-    public void abilityAddition(CharacterSheet character, String AbilityChoice, int modifierAddtion){
-        if (AbilityChoice.equals("Charisma")){
+    public void abilityAddition(CharacterSheet character, String AbilityChoice, int modifierAddtion) {
+        if (AbilityChoice.equals("Charisma")) {
             character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
             System.out.println("Charisma +" + modifierAddtion);
             character.setCharismaMod(findAbilityMod(character.getCharismaScore()));
 
         }
-        if (AbilityChoice.equals("Strength")){
+        if (AbilityChoice.equals("Strength")) {
             character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
             System.out.println("Strength +" + modifierAddtion);
             character.setStrengthMod(findAbilityMod(character.getStrengthScore()));
 
         }
-        if (AbilityChoice.equals("Dexterity")){
+        if (AbilityChoice.equals("Dexterity")) {
             character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
             System.out.println("Dexterity +" + modifierAddtion);
             character.setDexterityMod(findAbilityMod(character.getDexterityScore()));
 
         }
-        if (AbilityChoice.equals("Wisdom")){
+        if (AbilityChoice.equals("Wisdom")) {
             character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
             System.out.println("Wisdom +" + modifierAddtion);
             character.setWisdomMod(findAbilityMod(character.getWisdomScore()));
         }
-        if (AbilityChoice.equals("Intelligence")){
+        if (AbilityChoice.equals("Intelligence")) {
             character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
             System.out.println("Intelligence +" + modifierAddtion);
             character.setIntelligenceMod(findAbilityMod(character.getIntelligenceScore()));
         }
-        if (AbilityChoice.equals("Constitution")){
+        if (AbilityChoice.equals("Constitution")) {
             character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
             System.out.println("Constitution +" + modifierAddtion);
             character.setConstitutionMod(findAbilityMod(character.getConstitutionScore()));
@@ -105,7 +105,7 @@ public class Bard {
     /**
      * Prints out the Ability Choices
      */
-    public static void abilityChoicePrintout(){
+    public static void abilityChoicePrintout() {
         System.out.println("1.) Charisma");
         System.out.println("2.) Strength");
         System.out.println("3.) Dexterity");
@@ -119,13 +119,14 @@ public class Bard {
     // Tested and Verified 9/3
 
     /**
-     *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
+     * Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
+     *
      * @param addLevelStage Stage that the choice will be displayed on
-     * @param maxLevel Maximum level that the user has selected
+     * @param maxLevel      Maximum level that the user has selected
      * @param startinglevel Level that the user is currently making choices for
      * @return
      */
-    public GridPane abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel){
+    public GridPane abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel) {
         Button continueButton = new Button("Continue");
         Label choice = new Label();
         choice.setWrapText(true);
@@ -141,119 +142,119 @@ public class Bard {
         Button plus2 = new Button("One ability score by +2");
         Button plus1 = new Button("Two ability scores by +1");
 
-        pane.add(question,0,0,6,1);
-        pane.add(plus2,1,1);
-        pane.add(plus1,1,2);
+        pane.add(question, 0, 0, 6, 1);
+        pane.add(plus2, 1, 1);
+        pane.add(plus1, 1, 2);
         pane.setVgap(20);
         pane.setHgap(20);
 
-        charisma.setOnAction(charismaEvent->{
-            if (character.getCharismaScore() +1 > 20 ||character.getCharismaScore() +2 > 20  ){
+        charisma.setOnAction(charismaEvent -> {
+            if (character.getCharismaScore() + 1 > 20 || character.getCharismaScore() + 2 > 20) {
                 choice.setText("Charisma ability score is greater than 20.\nPlease choose a different option.");
                 continueButton.setDisable(true);
-            }else {
+            } else {
                 choice.setText("Charisma");
                 continueButton.setDisable(false);
             }
         });
 
-        strength.setOnAction(strengthEvent->{
-            if (character.getStrengthScore()+1 > 20 ||character.getStrengthScore() +2 > 20){
+        strength.setOnAction(strengthEvent -> {
+            if (character.getStrengthScore() + 1 > 20 || character.getStrengthScore() + 2 > 20) {
                 choice.setText("Strength ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
-            }else {
+            } else {
                 choice.setText("Strength");
                 continueButton.setDisable(false);
             }
         });
-        dexterity.setOnAction(dexterityEvent->{
-            if (character.getDexterityScore()+1 > 20 ||character.getDexterityScore() +2 > 20){
+        dexterity.setOnAction(dexterityEvent -> {
+            if (character.getDexterityScore() + 1 > 20 || character.getDexterityScore() + 2 > 20) {
                 choice.setText("Dexterity ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
-            }else {
+            } else {
                 choice.setText("Dexterity");
                 continueButton.setDisable(false);
             }
         });
-        wisdom.setOnAction(wisdomEvent->{
-            if (character.getWisdomScore()+1 > 20||character.getWisdomScore() +2 > 20){
+        wisdom.setOnAction(wisdomEvent -> {
+            if (character.getWisdomScore() + 1 > 20 || character.getWisdomScore() + 2 > 20) {
                 choice.setText("Wisdom ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
-            }else {
+            } else {
                 choice.setText("Wisdom");
                 continueButton.setDisable(false);
             }
         });
-        intelligence.setOnAction(intelligenceEvent->{
-            if (character.getIntelligenceScore()+1 > 20 ||character.getIntelligenceScore() +2 > 20){
+        intelligence.setOnAction(intelligenceEvent -> {
+            if (character.getIntelligenceScore() + 1 > 20 || character.getIntelligenceScore() + 2 > 20) {
                 choice.setText("Intelligence ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
-            }else {
+            } else {
                 choice.setText("Intelligence");
                 continueButton.setDisable(false);
             }
         });
-        constitution.setOnAction(constitutionEvent->{
-            if (character.getConstitutionScore()+1 > 20||character.getConstitutionScore() +2 > 20){
+        constitution.setOnAction(constitutionEvent -> {
+            if (character.getConstitutionScore() + 1 > 20 || character.getConstitutionScore() + 2 > 20) {
                 choice.setText("Constitution ability score is greater than 20. \nPlease choose a different option.");
                 continueButton.setDisable(true);
-            }else {
+            } else {
                 choice.setText("Constitution");
                 continueButton.setDisable(false);
             }
         });
 
 
-        plus2.setOnAction(e->{
+        plus2.setOnAction(e -> {
             pane.getChildren().remove(plus1);
             pane.getChildren().remove(plus2);
-            pane.add(charisma,0,1);
-            pane.add(strength,1,1);
-            pane.add(dexterity,2,1);
-            pane.add(wisdom,0,2);
-            pane.add(intelligence,1,2);
-            pane.add(constitution,2,2);
-            pane.add(choice,1,3,6,1);
-            pane.add(continueButton,1,5);
+            pane.add(charisma, 0, 1);
+            pane.add(strength, 1, 1);
+            pane.add(dexterity, 2, 1);
+            pane.add(wisdom, 0, 2);
+            pane.add(intelligence, 1, 2);
+            pane.add(constitution, 2, 2);
+            pane.add(choice, 1, 3, 6, 1);
+            pane.add(continueButton, 1, 5);
             question.setText("Which Ability score would you like to increase by +2 ?");
 
-            continueButton.setOnAction(continueEvent->{
-                abilityAddition(character,choice.getText(),2);
-                if (startinglevel == maxLevel){
+            continueButton.setOnAction(continueEvent -> {
+                abilityAddition(character, choice.getText(), 2);
+                if (startinglevel == maxLevel) {
                     addLevelStage.close();
-                }else addLevel(addLevelStage,maxLevel,startinglevel+1);
+                } else addLevel(addLevelStage, maxLevel, startinglevel + 1);
             });
 
         });
 
-        plus1.setOnAction(e->{
+        plus1.setOnAction(e -> {
             String[] intChoice = new String[2];
             pane.getChildren().remove(plus1);
             pane.getChildren().remove(plus2);
-            pane.add(charisma,0,1);
-            pane.add(strength,1,1);
-            pane.add(dexterity,2,1);
-            pane.add(wisdom,0,2);
-            pane.add(intelligence,1,2);
-            pane.add(constitution,2,2);
-            pane.add(choice,1,3,6,1);
-            pane.add(continueButton,1,4);
+            pane.add(charisma, 0, 1);
+            pane.add(strength, 1, 1);
+            pane.add(dexterity, 2, 1);
+            pane.add(wisdom, 0, 2);
+            pane.add(intelligence, 1, 2);
+            pane.add(constitution, 2, 2);
+            pane.add(choice, 1, 3, 6, 1);
+            pane.add(continueButton, 1, 4);
             continueButton.setDisable(true);
             question.setText("Choose your first ability to increase by +1.");
 
-            continueButton.setOnAction(continueEvent->{
+            continueButton.setOnAction(continueEvent -> {
                 intChoice[0] = choice.getText();
                 question.setText("Choose your second ability to increase by +1.");
                 continueButton.setDisable(true);
                 choice.setText("");
 
-                continueButton.setOnAction(continueEvent2 ->{
+                continueButton.setOnAction(continueEvent2 -> {
                     intChoice[1] = choice.getText();
-                    for (int i = 0 ; i <2; i++){
-                        abilityAddition(character,intChoice[i],1);
-                        if (startinglevel == maxLevel){
+                    for (int i = 0; i < 2; i++) {
+                        abilityAddition(character, intChoice[i], 1);
+                        if (startinglevel == maxLevel) {
                             addLevelStage.close();
-                        }else addLevel(addLevelStage,maxLevel,startinglevel+1);
+                        } else addLevel(addLevelStage, maxLevel, startinglevel + 1);
                     }
                 });
             });
@@ -265,8 +266,9 @@ public class Bard {
 
     /**
      * Takes current level and continuously adds additional level until maximum level is hit. Throughout the process it will give the users options for selection for their current level
+     *
      * @param addLevelStage Stage that will contain all Level choices
-     * @param maxLevel Max level that the user has chosen
+     * @param maxLevel      Max level that the user has chosen
      * @param startingLevel Level that the user if currently at
      */
     public void addLevel(Stage addLevelStage, int maxLevel, int startingLevel) {
@@ -275,33 +277,33 @@ public class Bard {
             //TODO add level increments by recursion on continue button action
             spellSaveDC = 8 + proficiency + character.getCharismaMod();
             spellAttackMod = proficiency + character.getCharismaMod();
-            Label hp = new Label("Hit Points: "+ character.getHitPoints());
-            Label proficiency = new Label("Proficiency : + "+ character.getProficiencyMod());
+            Label hp = new Label("Hit Points: " + character.getHitPoints());
+            Label proficiency = new Label("Proficiency : + " + character.getProficiencyMod());
             ListView features = new ListView(character.getFeaturesList());
-            ListView proficiencies = new ListView( character.getProficienciesList());
+            ListView proficiencies = new ListView(character.getProficienciesList());
             proficiencies.setTooltip(new Tooltip("Proficiencies"));
             features.setTooltip(new Tooltip("Features"));
 
             BorderPane borderPane = new BorderPane();
-            borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel ));
+            borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel));
             GridPane pane = new GridPane();
             InnerShadow shadow = new InnerShadow();
             shadow.setColor(Color.gray(.5));
             pane.setEffect(shadow);
-            pane.setPadding(new Insets(10,30,10,30));
+            pane.setPadding(new Insets(10, 30, 10, 30));
             pane.setVgap(20);
             pane.setHgap(10);
             borderPane.setCenter(pane);
-            Scene scene = new Scene(borderPane,600,600);
+            Scene scene = new Scene(borderPane, 600, 600);
             addLevelStage.setScene(scene);
             Label changes = new Label();
             Button continueButton = new Button("Continue");
             addLevelStage.setTitle("Level " + startingLevel);
             ObservableList misc = FXCollections.observableArrayList();
-            continueButton.setOnAction(e->{
-                if (startingLevel == maxLevel){
+            continueButton.setOnAction(e -> {
+                if (startingLevel == maxLevel) {
                     addLevelStage.close();
-                }else  addLevel(addLevelStage,maxLevel,startingLevel+1);
+                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
             });
 
             if (startingLevel == 1) {
@@ -309,7 +311,7 @@ public class Bard {
                 character.cantrips.setSize(2);
                 character.spells.setSize(4);
                 character.setProficiencyMod(2);
-                proficiency.setText("Proficiency : +" +character.getProficiencyMod());
+                proficiency.setText("Proficiency : +" + character.getProficiencyMod());
                 character.setHitPoints(8 + character.getConstitutionMod());
                 hp.setText("Hit Points: " + character.getHitPoints());
 
@@ -317,18 +319,18 @@ public class Bard {
                 character.getFeaturesList().add("Bardic Inspiration (d6)");
                 changes.setText("Added the following to your character.\nFeatures: Spellcasting and Bardic Inspiration (d6)");
                 Label chooseSpells = new Label("You have learned 2 Cantrips and 4 First level spells. Please choose a Cantrip");
-                levelOne.getChildren().addAll(changes,chooseSpells);
+                levelOne.getChildren().addAll(changes, chooseSpells);
 
                 //TODO why is continue button disappearing 
-                levelOne.getChildren().add((chooseSpells(continueButton,cantripList,2)));
-                continueButton.setOnAction(e->{
+                levelOne.getChildren().add((chooseSpells(continueButton, cantripList, 2)));
+                continueButton.setOnAction(e -> {
                     levelOne.getChildren().remove(2);
                     chooseSpells.setText("You have learned 2 Cantrips and 4 First level spells. Please choose a spell");
-                    levelOne.getChildren().add((chooseSpells(continueButton,cantripList,2)));
-                    continueButton.setOnAction(ContinueError->{
-                        if (startingLevel == maxLevel){
+                    levelOne.getChildren().add((chooseSpells(continueButton, cantripList, 2)));
+                    continueButton.setOnAction(ContinueError -> {
+                        if (startingLevel == maxLevel) {
                             addLevelStage.close();
-                        }else  addLevel(addLevelStage,maxLevel,startingLevel+1);
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
                     });
                 });
 
@@ -359,11 +361,11 @@ public class Bard {
 //                character.spells.add(firstLevelSpells.get(choice - 1));
 //                firstLevelSpells.remove(choice - 1);
 
-                character.getProficienciesList().addAll("Dexterity","Charisma","Simple Weapons","Hand Crossbows","Longswords","Rapiers","Shortswords");
+                character.getProficienciesList().addAll("Dexterity", "Charisma", "Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords");
                 borderPane.setCenter(levelOne);
 
             }
-            if (startingLevel == 2){
+            if (startingLevel == 2) {
                 System.out.println("Level 2");
                 addLevelStage.close();
             }
@@ -371,11 +373,11 @@ public class Bard {
 
             VBox left = new VBox();
             left.setPrefWidth(150);
-            left.setPadding(new Insets(10,10,10,10));
-            left.getChildren().addAll(hp,proficiency,proficiencies,features);
+            left.setPadding(new Insets(10, 10, 10, 10));
+            left.getChildren().addAll(hp, proficiency, proficiencies, features);
             borderPane.setLeft(left);
-            borderPane.setStyle("-fx-border-color: black;"        +
-                    "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
+            borderPane.setStyle("-fx-border-color: black;" +
+                    "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
             scene.setFill(Color.TRANSPARENT);
         }
 //            if (level == 2) {
@@ -633,90 +635,193 @@ public class Bard {
 //            }
 
 
-        }
+    }
 
     /**
-     *
-     * @param continueButton The continue button that will allow the continuation in the flow
+     * @param continueButton        The continue button that will allow the continuation in the flow
      * @param listOfAvailableSpells The list of spells the user will choose from
-     * @param iteration How many times that this method with the same parameter inputs will be called through recursion
+     * @param iteration             How many times that this method with the same parameter inputs will be called through recursion
      * @return the VBox that contains the choice for the user
      */
-     public VBox chooseSpells(Button continueButton, Vector listOfAvailableSpells, int iteration){
-         VBox chooseSpellsPane = new VBox(20);
-         ChoiceBox<String> spellchoices = new ChoiceBox<>();
-         spellchoices.setItems(FXCollections.observableArrayList(listOfAvailableSpells));
-         continueButton.setDisable(true);
-         spellchoices.setOnAction(spellError ->{
-             continueButton.setDisable(false);
-             continueButton.setOnAction(spellErrorCont ->{
-                 character.cantrips.add(spellchoices.getValue());
-                 spellchoices.getItems().remove(spellchoices.getValue());
-                 if (iteration>1){
-                     chooseSpells(continueButton, listOfAvailableSpells,iteration-1);
-                 }
+    public VBox chooseSpells(Button continueButton, Vector listOfAvailableSpells, int iteration) {
+        VBox chooseSpellsPane = new VBox(20);
+        ChoiceBox<String> spellchoices = new ChoiceBox<>();
+        spellchoices.setItems(FXCollections.observableArrayList(listOfAvailableSpells));
+        continueButton.setDisable(true);
+        spellchoices.setOnAction(spellError -> {
+            continueButton.setDisable(false);
+            continueButton.setOnAction(spellErrorCont -> {
+                character.cantrips.add(spellchoices.getValue());
+                spellchoices.getItems().remove(spellchoices.getValue());
+                if (iteration > 1) {
+                    chooseSpells(continueButton, listOfAvailableSpells, iteration - 1);
+                }
 
-             });
-         });
-         chooseSpellsPane.getChildren().addAll(spellchoices,continueButton);
-         return chooseSpellsPane;
+            });
+        });
+        chooseSpellsPane.getChildren().addAll(spellchoices, continueButton);
+        return chooseSpellsPane;
 
-     }
+    }
 
 
     /**
-     *
      * @param inventory Vector of items
-     * @param item item you are adding in vector, or adding quantity to already existing item
+     * @param item      item you are adding in vector, or adding quantity to already existing item
      */
-    public void checkAndAddItemQuantity(Vector<Item> inventory, Item item){
-        int counter =0;
+    public void checkAndAddItemQuantity(Vector<Item> inventory, Item item) {
+        int counter = 0;
         int i;
-        for ( i =0; i< inventory.size();i++){
-            if (inventory.get(i).getName().equals(item.getName())){
+        for (i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getName().equals(item.getName())) {
                 inventory.get(i).addition(item);
                 counter++;
                 System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
             }
         }
-        if (counter == 0){
+        if (counter == 0) {
             inventory.add(item);
-            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
+            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size() - 1).getQuantity());
         }
 
     }
 
     /**
      * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.
-     * @param vector The vector you are checking/ adding the contents into
-     * @param contents String that you are checking/ adding in the vector
+     *
+     * @param vector     The vector you are checking/ adding the contents into
+     * @param contents   String that you are checking/ adding in the vector
      * @param vectorName Name of the vector you are adding the item to
      */
-    public void checkVectorAndAdd(Vector vector, String vectorName, String contents){
-        if (!vector.contains(contents)){
+    public void checkVectorAndAdd(Vector vector, String vectorName, String contents) {
+        if (!vector.contains(contents)) {
             vector.add(contents);
-            System.out.println(contents+" added to " + vectorName);
+            System.out.println(contents + " added to " + vectorName);
         }
 
     }
 
 
     // Tested and verified 9/5
-    public void chooseArmor(){
-        Scanner scanner = new Scanner(System.in);
-        int choice = -1;
-        String endOfLine = "";
-        System.out.println("You are proficient in Light Armor. Choose your Armor");
-        for (int i =0 ; i<character.getLightArmor().length; i++){
-            System.out.println(i+1 + ".) " + character.getLightArmor()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice,1,character.getLightArmor().length);
-        checkAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[choice-1],character.getLightArmorDescription()[choice-1],1,character.getLightArmorCost()[choice-1]));
-        character.setAc(character.getLightArmorAC()[choice-1]);
+    public void chooseArmor(Stage chooseArmorStage) {
+        VBox pane = new VBox(10);
+        Scene scene = new Scene(pane, 450, 280);
+        InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
+        pane.setEffect(shadow);
+        chooseArmorStage.setScene(scene);
+
+        pane.setPadding(new Insets(30, 30, 20, 30));
+
+        Button continueButton = new Button("Continue");
+        continueButton.setPrefWidth(100);
+        continueButton.setTranslateX(150);
+
+        Label armorLabel = new Label("You are proficient in Light Armor. Choose your Armor.\nChoose your Armor.");
+        Label proficiencyWarning = new Label("Note: If you wear armor that you lack proficiency with, you have disadvantage on any ability checks, saving throws, or attack rolls that involves Strength or Dexterity, and you can’t cast spells.");
+        proficiencyWarning.setWrapText(true);
+        ObservableList proficientArmor = FXCollections.observableArrayList(character.getLightArmor()[0], character.getLightArmor()[1], character.getLightArmor()[2]);
+        ObservableList notProficientArmor = FXCollections.observableArrayList(character.getMediumArmor()[0], character.getMediumArmor()[1], character.getMediumArmor()[2], character.getMediumArmor()[3], character.getMediumArmor()[4], character.getHeavyArmor()[0], character.getHeavyArmor()[1], character.getHeavyArmor()[2], character.getHeavyArmor()[3]);
+
+        ComboBox<String> proficientArmorChoices = new ComboBox(proficientArmor);
+        proficientArmorChoices.setValue("Proficient ");
+        ComboBox<String> nonProficientArmorChoices = new ComboBox<>(notProficientArmor);
+        nonProficientArmorChoices.setValue("Non-Proficient");
+
+        ChoiceBox<String> yOrN = new ChoiceBox(FXCollections.observableArrayList("Yes", "No"));
+        yOrN.setDisable(true);
+
+        Label armor = new Label("Armor: ");
+        Label shield = new Label("Shield: ");
+
+        proficientArmorChoices.setOnAction(proficientArmorError -> {
+            character.setArmor(proficientArmorChoices.getValue());
+            armor.setText("Armor: " + proficientArmorChoices.getValue());
+            proficientArmorChoices.setDisable(true);
+            proficientArmorChoices.hide();
+            yOrN.setDisable(false);
+            nonProficientArmorChoices.setDisable(true);
+
+
+            continueButton.setOnAction(e -> {
+                //finds index of Armor and Adds Armor as an item
+                for (int i = 0; i < character.getAllArmor().length; i++) {
+                    if (character.getAllArmor()[i].equals(proficientArmorChoices.getValue())) {
+                        checkAndAddItemQuantity(character.armorList, new Item(proficientArmorChoices.getValue(), character.getAllArmorDescriptions()[i], 1, character.getAllArmorCost()[i]));
+                        character.setAc(character.getAc() + character.getAllArmorAC()[i]);
+                        break;
+                    }
+                }
+
+                if (character.isShield() == true) {
+                    checkAndAddItemQuantity(character.armorList, new Item("Shield", "A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.", 1, 10));
+                    character.setAc(character.getAc() + 2);
+                }
+//                chooseWeapon(chooseArmorStage);
+                chooseArmorStage.close();
+            });
+
+        });
+
+        nonProficientArmorChoices.setOnAction(nonProficientArmor -> {
+            character.setArmor(nonProficientArmorChoices.getValue());
+            armor.setText("Armor: " + nonProficientArmorChoices.getValue());
+            proficientArmorChoices.setDisable(true);
+            proficientArmorChoices.hide();
+            yOrN.setDisable(false);
+            nonProficientArmorChoices.setDisable(true);
+
+            continueButton.setOnAction(e -> {
+
+                //finds index of Armor and Adds Armor as an item
+                for (int i = 0; i < character.getAllArmor().length; i++) {
+                    if (character.getAllArmor()[i].equals(nonProficientArmorChoices.getValue())) {
+                        checkAndAddItemQuantity(character.armorList, new Item(nonProficientArmorChoices.getValue(), character.getAllArmorDescriptions()[i], 1, character.getAllArmorCost()[i]));
+                        character.setAc(character.getAc() + character.getAllArmorAC()[i]);
+                        break;
+                    }
+                }
+
+                if (character.isShield() == true) {
+                    checkAndAddItemQuantity(character.armorList, new Item("Shield", "A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.", 1, 10));
+                    character.setAc(character.getAc() + 2);
+                }
+                //                chooseWeapon(chooseArmorStage);
+                chooseArmorStage.close();
+            });
+
+        });
+
+        armor.setMinWidth(150);
+        proficientArmorChoices.setPrefWidth(100);
+        nonProficientArmorChoices.setPrefWidth(125);
+        nonProficientArmorChoices.setTranslateX(25);
+
+        yOrN.setOnAction(e -> {
+            if (yOrN.getValue().equals("Yes")) {
+                shield.setText("Shield: Yes");
+                character.setShield(true);
+            } else {
+                shield.setText("Shield: No ");
+                character.setShield(false);
+            }
+            yOrN.setDisable(true);
+            yOrN.setTranslateX(93);
+            pane.getChildren().add(continueButton);
+        });
+
+
+        pane.getChildren().addAll(armorLabel, new HBox(armor, proficientArmorChoices, nonProficientArmorChoices), new HBox(shield, yOrN), proficiencyWarning);
+
+        yOrN.setTranslateX(112);
+        pane.setStyle("-fx-border-color: black;" +
+                "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
+        scene.setFill(Color.TRANSPARENT);
+
+        character.nonProficientArmor =new String[] {character.getHeavyArmor()[0],character.getHeavyArmor()[1],character.getHeavyArmor()[2],character.getHeavyArmor()[3],character.getMediumArmor()[0],character.getMediumArmor()[1],character.getMediumArmor()[2],character.getMediumArmor()[3],character.getMediumArmor()[4],"Shield"};
 
     }
+
 
     //Tested and verified 9/10
     /**
@@ -757,7 +862,7 @@ public class Bard {
     /**
      * Walks user through on adding their Weapons / Equipment ot the character
      */
-    public void chooseWeapon(){
+    public void chooseWeapon(Stage chooseWeaponStage){
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         String endOfLine = "";

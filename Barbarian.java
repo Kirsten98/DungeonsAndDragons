@@ -842,7 +842,6 @@ public class Barbarian{
         ObservableList proficientArmor = FXCollections.observableArrayList(character.getLightArmor()[0],character.getLightArmor()[1],character.getLightArmor()[2],character.getMediumArmor()[0],character.getMediumArmor()[1],character.getMediumArmor()[2],character.getMediumArmor()[3],character.getMediumArmor()[4]);
         ObservableList notProficientArmor =  FXCollections.observableArrayList(character.getHeavyArmor()[0],character.getHeavyArmor()[1],character.getHeavyArmor()[2],character.getHeavyArmor()[3]);
 
-
         ComboBox<String> proficientArmorChoices = new ComboBox(proficientArmor);
         proficientArmorChoices.setValue("Proficient ");
         ComboBox<String> nonProficientArmorChoices = new ComboBox<>(notProficientArmor);

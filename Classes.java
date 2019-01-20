@@ -46,9 +46,7 @@ public class Classes {
                 barbarianCharacter.chooseArmor(classStage); }
             if (mainCharacter.getCharacterClass().equals("Bard")) {
                 Bard bardCharacter = new Bard(mainCharacter);
-                mainCharacter.setRace("Bard");
-                classStage.close();
-//                bardCharacter.chooseArmor(classStage);
+                bardCharacter.chooseArmor(classStage);
               }
         });
         continueButton.setDisable(true);
