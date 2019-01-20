@@ -372,6 +372,9 @@ public class RPGCharacterSheet extends Application {
                 weapons.clear();
                 mainCharacter.inventory.clear();
                 inventory.clear();
+                mainCharacter.instruments.clear();
+                instruments.clear();
+                proficiencies.clear();
                 mainCharacter.setAc(0);
                 characterClass.setText(Classes.chooseClass(continueButton,mainCharacter ));
                 for (int i=0 ; i < mainCharacter.armorList.size(); i++){
@@ -392,7 +395,13 @@ public class RPGCharacterSheet extends Application {
                 for (int i = 0; i < mainCharacter.inventory.size(); i++){
                     inventory.add(mainCharacter.inventory.get(i).getName());
                 }
+                for (int i =0; i<mainCharacter.instruments.size(); i++){
+                    instruments.add(mainCharacter.instruments.get(i));
+                }
                 inventoryList.setItems(inventory);
+                instrumentsList.setItems(instruments);
+                proficiencies.setAll(mainCharacter.getProficienciesList());
+                proficienciesList.setItems(proficiencies);
                 editAbilities.setDisable(false);
                 ac.setText("AC: " + mainCharacter.getAc());
                 Abilities.updateAbilities(abilities,mainCharacter);

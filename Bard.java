@@ -3,6 +3,7 @@ package DungeonsAndDragons;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
@@ -26,7 +27,6 @@ public class Bard {
     private String college;
     private Vector<String> features = new Vector();
     private int hitDice = 8;
-    private String pack;
     private int proficiency = 2;
     private int spellAttackMod;
     private int spellSaveDC;
@@ -717,7 +717,7 @@ public class Bard {
         continueButton.setPrefWidth(100);
         continueButton.setTranslateX(150);
 
-        Label armorLabel = new Label("You are proficient in Light Armor. Choose your Armor.\nChoose your Armor.");
+        Label armorLabel = new Label("You are proficient in Light Armor.\n\nChoose your Armor. Bard's come pre-equipped with Leather armor");
         Label proficiencyWarning = new Label("Note: If you wear armor that you lack proficiency with, you have disadvantage on any ability checks, saving throws, or attack rolls that involves Strength or Dexterity, and you can’t cast spells.");
         proficiencyWarning.setWrapText(true);
         ObservableList proficientArmor = FXCollections.observableArrayList(character.getLightArmor()[0], character.getLightArmor()[1], character.getLightArmor()[2]);
@@ -757,8 +757,8 @@ public class Bard {
                     checkAndAddItemQuantity(character.armorList, new Item("Shield", "A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.", 1, 10));
                     character.setAc(character.getAc() + 2);
                 }
-//                chooseWeapon(chooseArmorStage);
-                chooseArmorStage.close();
+                chooseWeapon(chooseArmorStage);
+
             });
 
         });
@@ -786,8 +786,7 @@ public class Bard {
                     checkAndAddItemQuantity(character.armorList, new Item("Shield", "A shield is made from wood or metal and is carried in one hand. Wielding a shield increases your Armor Class by 2. You can benefit from only one shield at a time.", 1, 10));
                     character.setAc(character.getAc() + 2);
                 }
-                //                chooseWeapon(chooseArmorStage);
-                chooseArmorStage.close();
+                chooseWeapon(chooseArmorStage);
             });
 
         });
@@ -863,103 +862,157 @@ public class Bard {
      * Walks user through on adding their Weapons / Equipment ot the character
      */
     public void chooseWeapon(Stage chooseWeaponStage){
-        Scanner scanner = new Scanner(System.in);
-        int choice = 0;
-        String endOfLine = "";
+        VBox pane = new VBox(10);
+        pane.setAlignment(Pos.TOP_LEFT);
+        Scene scene = new Scene(pane,475,350);
+        InnerShadow shadow = new InnerShadow();
+        shadow.setColor(Color.gray(.5));
+        pane.setEffect(shadow);
+        chooseWeaponStage.setScene(scene);
+        pane.setPadding(new Insets(30,30,30,30));
+
+        VBox equipmentPane = new VBox(20);
+        equipmentPane.setDisable(true);
+        Button continueButton = new Button("Continue");
+        continueButton.setDisable(true);
+        Label weaponLabel = new Label("Choose between the options below.");
+
+        Label musicLabel = new Label("Musical Instrument choices 1/3");
+        Label skillLabel = new Label("Skills Choices 1/3");
+
+        //Sets the proficiency choices
+        VBox proficiencyPane = new VBox(20);
+        Label proficienciesLabel = new Label("Proficiency Choices");
+        proficienciesLabel.setUnderline(true);
+        ObservableList musicList = FXCollections.observableArrayList();
+        musicList.setAll(character.getMusicalInstruments());
+        ObservableList skillList = FXCollections.observableArrayList();
+        skillList.setAll(character.getAllSkills());
+        ChoiceBox musicProficiencies = new ChoiceBox(musicList);
+        musicProficiencies.setPrefWidth(150);
+        musicProficiencies.setTranslateX(100);
+        ChoiceBox skillProficiencies = new ChoiceBox(skillList);
+        skillProficiencies.setPrefWidth(150);
+        skillProficiencies.setTranslateX(172);
+        skillProficiencies.setDisable(true);
+
+        musicProficiencies.setOnAction(firstMusicInstrument ->{
+            character.getProficienciesList().add(musicProficiencies.getValue());
+            musicList.remove(musicProficiencies.getValue());
+            musicLabel.setText("Musical Instrument choices 2/3");
+                musicProficiencies.setItems(musicList);
+                musicProficiencies.setOnAction(secondMusicalInstrument ->{
+                    character.getProficienciesList().add(musicProficiencies.getValue());
+                    musicList.remove(musicProficiencies.getValue());
+                    musicLabel.setText("Musical Instrument choices 3/3");
+                       musicProficiencies.setItems(musicList);
+                       musicProficiencies.setOnAction(thirdMusicalInstrument ->{
+                           character.getProficienciesList().add(musicProficiencies.getValue());
+                           musicProficiencies.setDisable(true);
+                           skillProficiencies.setDisable(false);
+                        });
+                });
+        });
+
+        skillProficiencies.setOnAction(firstSkill ->{
+            character.getProficienciesList().add(skillProficiencies.getValue());
+            skillList.remove(skillProficiencies.getValue());
+            skillLabel.setText("Skills Choices 2/3");
+            skillProficiencies.setOnAction(secondSkill ->{
+                character.getProficienciesList().add(skillProficiencies.getValue());
+                skillList.remove(skillProficiencies.getValue());
+                skillLabel.setText("Skills Choices 3/3");
+                skillProficiencies.setOnAction(thirdSkill ->{
+                    character.getProficienciesList().add(skillProficiencies.getValue());
+                    proficiencyPane.setDisable(true);
+                    equipmentPane.setDisable(false);
+                });
+            });
+
+        });
+        proficiencyPane.getChildren().addAll(new HBox(musicLabel,musicProficiencies),new HBox(skillLabel,skillProficiencies));
+
+        //Equipment Choice Setup
+        Label equipmentChoice = new Label("Equipment Choice");
+        equipmentChoice.setUnderline(true);
+
+        Label R_L_SW = new Label("Rapier, LongSword, or any Simple Weapon");
+        ObservableList R_L_SW_List = FXCollections.observableArrayList("Rapier","Longsword", character.getSimpleMeleeWeapons()[0],character.getSimpleMeleeWeapons()[1],character.getSimpleMeleeWeapons()[2],character.getSimpleMeleeWeapons()[3],character.getSimpleMeleeWeapons()[4],character.getSimpleMeleeWeapons()[5],character.getSimpleMeleeWeapons()[6],character.getSimpleMeleeWeapons()[7],character.getSimpleMeleeWeapons()[8],character.getSimpleMeleeWeapons()[9],character.getSimpleRangedWeapons()[0],character.getSimpleRangedWeapons()[1],character.getSimpleRangedWeapons()[2],character.getSimpleRangedWeapons()[3]);
+        ChoiceBox R_L_SW_ComboBox = new ChoiceBox(R_L_SW_List);
+        R_L_SW_ComboBox.setPrefWidth(150);
+        R_L_SW_ComboBox.setTranslateX(40);
+
+        Label pack = new Label("Diplomat's pack or Entertainer's pack");
+        ChoiceBox packChoice = new ChoiceBox(FXCollections.observableArrayList("Diplomat's pack","Entertainer's pack"));
+        packChoice.setPrefWidth(150);
+        packChoice.setTranslateX(70);
 
 
-        System.out.println("** Equipment Choice **");
-        System.out.println("Choose your equipment 1.)Rapier 2.)Longsword or 3.)any simple weapon?");
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice, 1,3);
-        if(choice==1){
-            character.weapons.add(new Item("Rapier",character.getMartialMeleeWeaponsProperties()[11],1,character.getMartialMeleeWeaponCost()[11]));
-            System.out.println("Rapier added to Weapons");
-        }if(choice ==2){
-            character.weapons.add(new Item("Longsword", character.getMartialMeleeWeaponsProperties()[7],1,character.getMartialMeleeWeaponCost()[7]));
-            System.out.println("Longsword added to Weapons");
-        }if (choice == 3){
-            System.out.println("Which Simple Melee Weapon do you choose?");
-            for (int i = 0; i < character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length; i++) {
-                if (i < character.getSimpleMeleeWeapons().length){
-                    System.out.println( i+1 + ".) " + character.getSimpleMeleeWeapons()[i]);
-                }
-                if (i >= character.getSimpleMeleeWeapons().length){
-                    System.out.println(i+1 + ".) " + character.getSimpleRangedWeapons()[i-character.getSimpleMeleeWeapons().length]);
-                }
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getSimpleMeleeWeapons().length + character.getSimpleRangedWeapons().length);
-            if (choice < character.getSimpleMeleeWeapons().length){
-                character.weapons.add(new Item(character.getSimpleMeleeWeapons()[choice-1],character.getSimpleMeleeWeaponProperties()[choice-1],1,character.getSimpleMeleeWeaponsCost()[choice-1]));
-                System.out.println("You have chosen " + character.getSimpleMeleeWeapons()[choice-1] );
-            }
-            if (choice>=character.getSimpleMeleeWeapons().length){
-                character.weapons.add(new Item(character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1],character.getSimpleRangedWeaponsProperties()[choice-character.getSimpleMeleeWeapons().length -1],1,character.getSimpleRangedWeaponsCost()[choice-character.getSimpleMeleeWeapons().length -1]));
-                System.out.println("You have chosen " + character.getSimpleRangedWeapons()[choice-character.getSimpleMeleeWeapons().length -1]);
-            }
-        }
+        Label musicalInstrumentChoice = new Label("Select any musical instrument");
+        ChoiceBox musicalInstrumentList = new ChoiceBox(FXCollections.observableArrayList(character.getMusicalInstruments()));
+        musicalInstrumentList.setPrefWidth(150);
+        musicalInstrumentList.setTranslateX(110);
 
-        System.out.println("Do you want 1.)Diplomat's pack or 2.)Entertainer's pack");
-        choice=scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice,1,2);
-        if(choice == 1){
-            pack = "Diplomat";
+        packChoice.setDisable(true);
+        musicalInstrumentList.setDisable(true);
 
-            checkAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
-            checkAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
-            checkAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
-            checkAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
-            checkAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
-            checkAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
-            checkAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
-            checkAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
-            checkAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
-            checkAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
-            checkAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
-            System.out.println("Diplomat Pack added to inventory.");
+        R_L_SW_ComboBox.setOnAction(weaponChoice ->{
+            packChoice.setDisable(false);
+            packChoice.setOnAction(packChoices ->{
+                musicalInstrumentList.setDisable(false);
+                musicalInstrumentList.setOnAction(musicalInstrument -> {
+                    continueButton.setDisable(false);
+                });
+            });
+        });
 
-        }if (choice ==2){
-            pack = "Entertainer";
-            checkAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
-            checkAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
-            checkAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
-            checkAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
-            checkAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
-            checkAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
-            checkAndAddItemQuantity(character.inventory, new Item("Disguise kit","This pouch of cosmetics, hair dye,and small props let you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",1,25));
-
-            System.out.println("Entertainer pack added to inventory.");
-
-        }
-
-        System.out.println("Do you want 1.)Lute or 2.) any other musical instrument");
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice ,1,2);
-        if (choice == 1){
-            character.instruments.add("Lute");
-            System.out.println("Lute added to instruments");
-        }
-        if (choice ==2){
-            System.out.println("Choose your instrument");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
-            character.instruments.add(character.getMusicalInstruments()[choice-1]);
-            System.out.println(character.getMusicalInstruments()[choice-1] + " added to your instruments");
-        }
-
-//        character.armorList.add("Leather");
         checkAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
-//        character.weapons.add("Dagger");
-        System.out.println("Dagger has been added to your inventory");
+        checkAndAddItemQuantity(character.weapons, new Item(character.getSimpleMeleeWeapons()[1],character.getSimpleMeleeWeaponProperties()[1],1,character.getSimpleMeleeWeaponsCost()[1]));
+        System.out.println("Dagger / Leather has been added to your inventory");
+        character.getProficienciesList().addAll("Dexterity","Charisma","Light Armor","Simple Weapons","Hand Crossbows","Longswords","Rapiers","Shortsword");
+
+        continueButton.setOnAction(equipmentChoices ->{
+            // Saves equipment choice into Charactersheet
+            for (int i = 0 ; i< character.getAllWeapons().length ; i++){
+                if (character.getAllWeapons()[i].equals(R_L_SW_ComboBox.getValue())){
+                    checkAndAddItemQuantity(character.weapons,new Item(character.getAllWeapons()[i],character.getAllWeaponsProperties()[i],1,character.getAllWeaponCost()[i]));
+                }
+            }
+            // Saves Pack Choice into Charactersheet
+            if(packChoice.getValue().equals("Diplomat's pack")){
+                checkAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
+                checkAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
+                checkAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
+                checkAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
+                checkAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
+                checkAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
+                System.out.println("Diplomat Pack added to inventory.");
+
+            }if (packChoice.getValue().equals("Entertainer's pack")){
+                checkAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
+                checkAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
+                checkAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
+                checkAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
+                checkAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));
+                checkAndAddItemQuantity(character.inventory, new Item("Disguise kit","This pouch of cosmetics, hair dye,and small props let you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",1,25));
+                System.out.println("Entertainer pack added to inventory.");
+            }
+
+            //Saves insrument choice to Charactersheet
+            character.instruments.add(musicalInstrumentList.getValue().toString());
+
+            chooseWeaponStage.close();
+        });
+
+        continueButton.setTranslateX(175);
+        equipmentPane.getChildren().addAll(new HBox(R_L_SW,R_L_SW_ComboBox), new HBox(pack,packChoice),new HBox(musicalInstrumentChoice,musicalInstrumentList));
+        pane.getChildren().addAll(weaponLabel,proficienciesLabel,proficiencyPane,equipmentChoice,equipmentPane,continueButton);
     }
 
 
