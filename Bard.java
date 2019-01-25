@@ -7,13 +7,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -319,47 +317,51 @@ public class Bard {
                 character.getFeaturesList().add("Bardic Inspiration (d6)");
                 changes.setText("Added the following to your character.\nFeatures: Spellcasting and Bardic Inspiration (d6)");
                 Label chooseSpells = new Label("You have learned 2 Cantrips and 4 First level spells. Please choose a Cantrip");
-                levelOne.getChildren().addAll(changes, chooseSpells);
+                ListView<CheckBox> cantripsList = convertVectorToList(cantripList);
+                ListView<CheckBox>  spellsList = convertVectorToList(firstLevelSpells);
+                Label error = new Label();
+                levelOne.getChildren().addAll(changes,new HBox(new VBox(new Label("Cantrips: 2 "),cantripsList),new VBox(new Label("First Level Spells: 4"),spellsList)),continueButton,error);
 
-                //TODO why is continue button disappearing 
-                levelOne.getChildren().add((chooseSpells(continueButton, cantripList, 2)));
-                continueButton.setOnAction(e -> {
-                    levelOne.getChildren().remove(2);
-                    chooseSpells.setText("You have learned 2 Cantrips and 4 First level spells. Please choose a spell");
-                    levelOne.getChildren().add((chooseSpells(continueButton, cantripList, 2)));
-                    continueButton.setOnAction(ContinueError -> {
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    });
-                });
+                continueButton.setOnAction(continueError -> {
+                    int counter1= 0;
+                    int counter2 =0;
+                     for (int i =0; i <cantripsList.getItems().size();i++){
+                           if (cantripsList.getItems().get(i).isSelected()){
+                               counter1++;
+                           }
+                    }
+                    for (int i =0; i <spellsList.getItems().size();i++){
+                        if (spellsList.getItems().get(i).isSelected()){
+                            counter2++;
+                        }
+                    }
+                    if (counter1 != 2 && counter2 !=4 ){
+                        error.setText("Please select 2 cantrips and 4 first level spells");
+                        }else
+                            if (counter1 != 2){
+                                error.setText("Please select 2 cantrips");
+                            }
+                            else
+                            if (counter2 != 4){
+                                error.setText("Please select 4 first level spells");
+                            } else{
+                                //Remove selected spells from available spells
+                                for (int i =0; i <cantripsList.getItems().size(); i++)
+                                    if (cantripsList.getItems().get(i).isSelected()){
+                                        cantripList.remove(cantripsList.getItems().get(i).getText());
+                                    }
+                                for (int i =0; i <spellsList.getItems().size(); i++)
+                                    if (spellsList.getItems().get(i).isSelected()){
+                                        firstLevelSpells.remove(spellsList.getItems().get(i).getText());
+                                    }
 
-//                character.cantrips.add(cantripList.get(choice - 1));
-//                cantripList.remove(choice - 1);
-//                System.out.println("Please choose your second cantrip");
-//                vectorPrintOut(cantripList);
-//                choice = scanner.nextInt();
-//                endOfLine = scanner.nextLine();
-//                choice = inputErrorCheck(choice, 1, cantripList.size());
-//                System.out.println("You have added " + cantripList.get(choice - 1) + " to your cantrips.");
-//                character.cantrips.add(cantripList.get(choice - 1));
-//                cantripList.remove(choice - 1);
-//                System.out.println("Please choose your first First Level Spell");
-//                vectorPrintOut(firstLevelSpells);
-//                choice = scanner.nextInt();
-//                endOfLine = scanner.nextLine();
-//                choice = inputErrorCheck(choice, 1, firstLevelSpells.size());
-//                System.out.println("You have added " + firstLevelSpells.get(choice - 1) + " to your spells.");
-//                character.spells.add(firstLevelSpells.get(choice - 1));
-//                firstLevelSpells.remove(choice - 1);
-//                System.out.println("Please choose your second First Level Spell");
-//                vectorPrintOut(firstLevelSpells);
-//                choice = scanner.nextInt();
-//                endOfLine = scanner.nextLine();
-//                choice = inputErrorCheck(choice, 1, firstLevelSpells.size());
-//                System.out.println("You have added " + firstLevelSpells.get(choice - 1) + " to your spells.");
-//                character.spells.add(firstLevelSpells.get(choice - 1));
-//                firstLevelSpells.remove(choice - 1);
+                                 //Continues to next level
+                                if (startingLevel == maxLevel) {
+                                    addLevelStage.close();
+                                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                         System.out.println("Ready for next issue");
+                     }
+                     });
 
                 character.getProficienciesList().addAll("Dexterity", "Charisma", "Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords");
                 borderPane.setCenter(levelOne);
@@ -637,32 +639,17 @@ public class Bard {
 
     }
 
-    /**
-     * @param continueButton        The continue button that will allow the continuation in the flow
-     * @param listOfAvailableSpells The list of spells the user will choose from
-     * @param iteration             How many times that this method with the same parameter inputs will be called through recursion
-     * @return the VBox that contains the choice for the user
-     */
-    public VBox chooseSpells(Button continueButton, Vector listOfAvailableSpells, int iteration) {
-        VBox chooseSpellsPane = new VBox(20);
-        ChoiceBox<String> spellchoices = new ChoiceBox<>();
-        spellchoices.setItems(FXCollections.observableArrayList(listOfAvailableSpells));
-        continueButton.setDisable(true);
-        spellchoices.setOnAction(spellError -> {
-            continueButton.setDisable(false);
-            continueButton.setOnAction(spellErrorCont -> {
-                character.cantrips.add(spellchoices.getValue());
-                spellchoices.getItems().remove(spellchoices.getValue());
-                if (iteration > 1) {
-                    chooseSpells(continueButton, listOfAvailableSpells, iteration - 1);
-                }
 
-            });
-        });
-        chooseSpellsPane.getChildren().addAll(spellchoices, continueButton);
-        return chooseSpellsPane;
+    public ListView convertVectorToList (Vector vectorToConvert) {
+        ObservableList observableList = FXCollections.observableArrayList();
+       for (int i=0 ; i < vectorToConvert.size(); i++){
+           observableList.add(new CheckBox(vectorToConvert.get(i).toString()));
+       }
+        ListView listView = new ListView(observableList);
+       listView.setMaxWidth(150);
+       return listView ;
 
-    }
+}
 
 
     /**
