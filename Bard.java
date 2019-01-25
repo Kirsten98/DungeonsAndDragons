@@ -639,17 +639,37 @@ public class Bard {
 
     }
 
-
-    public ListView convertVectorToList (Vector vectorToConvert) {
+    /**
+     * Converts a provided vector to a ListView of checkboxes
+     * @param vectorToConvert The vector that will be converted to the ListView
+     * @return The ListView that contains the vector information
+     */
+    public ListView<CheckBox> convertVectorToList (Vector vectorToConvert) {
         ObservableList observableList = FXCollections.observableArrayList();
-       for (int i=0 ; i < vectorToConvert.size(); i++){
-           observableList.add(new CheckBox(vectorToConvert.get(i).toString()));
-       }
+        for (int i=0 ; i < vectorToConvert.size(); i++){
+            observableList.add(new CheckBox(vectorToConvert.get(i).toString()));
+        }
         ListView listView = new ListView(observableList);
-       listView.setMaxWidth(150);
-       return listView ;
+        listView.setMaxWidth(150);
+        return listView ;
 
-}
+    }
+
+    /**
+     * Converts a provided array to a ListView of checkboxes
+     * @param arrayToConvert The array that will be converted to the ListView
+     * @return The ListView that contains the Array information
+     */
+    public ListView<CheckBox>  convertArrayToList (String[] arrayToConvert) {
+        ObservableList observableList = FXCollections.observableArrayList();
+        for (int i=0 ; i < arrayToConvert.length; i++){
+            observableList.add(new CheckBox(arrayToConvert[i]));
+        }
+        ListView listView = new ListView(observableList);
+        listView.setMaxWidth(150);
+        return listView ;
+
+    }
 
 
     /**
@@ -851,7 +871,7 @@ public class Bard {
     public void chooseWeapon(Stage chooseWeaponStage){
         VBox pane = new VBox(10);
         pane.setAlignment(Pos.TOP_LEFT);
-        Scene scene = new Scene(pane,475,350);
+        Scene scene = new Scene(pane,475,550);
         InnerShadow shadow = new InnerShadow();
         shadow.setColor(Color.gray(.5));
         pane.setEffect(shadow);
@@ -864,60 +884,114 @@ public class Bard {
         continueButton.setDisable(true);
         Label weaponLabel = new Label("Choose between the options below.");
 
-        Label musicLabel = new Label("Musical Instrument choices 1/3");
-        Label skillLabel = new Label("Skills Choices 1/3");
+        Label musicLabel = new Label("Select 3 music instruments");
+        Label skillLabel = new Label("Select 3 skills");
+        Label error = new Label();
 
         //Sets the proficiency choices
         VBox proficiencyPane = new VBox(20);
         Label proficienciesLabel = new Label("Proficiency Choices");
         proficienciesLabel.setUnderline(true);
-        ObservableList musicList = FXCollections.observableArrayList();
-        musicList.setAll(character.getMusicalInstruments());
-        ObservableList skillList = FXCollections.observableArrayList();
-        skillList.setAll(character.getAllSkills());
-        ChoiceBox musicProficiencies = new ChoiceBox(musicList);
-        musicProficiencies.setPrefWidth(150);
-        musicProficiencies.setTranslateX(100);
-        ChoiceBox skillProficiencies = new ChoiceBox(skillList);
-        skillProficiencies.setPrefWidth(150);
-        skillProficiencies.setTranslateX(172);
-        skillProficiencies.setDisable(true);
 
-        musicProficiencies.setOnAction(firstMusicInstrument ->{
-            character.getProficienciesList().add(musicProficiencies.getValue());
-            musicList.remove(musicProficiencies.getValue());
-            musicLabel.setText("Musical Instrument choices 2/3");
-                musicProficiencies.setItems(musicList);
-                musicProficiencies.setOnAction(secondMusicalInstrument ->{
-                    character.getProficienciesList().add(musicProficiencies.getValue());
-                    musicList.remove(musicProficiencies.getValue());
-                    musicLabel.setText("Musical Instrument choices 3/3");
-                       musicProficiencies.setItems(musicList);
-                       musicProficiencies.setOnAction(thirdMusicalInstrument ->{
-                           character.getProficienciesList().add(musicProficiencies.getValue());
-                           musicProficiencies.setDisable(true);
-                           skillProficiencies.setDisable(false);
-                        });
-                });
+        Button next = new Button("Next");
+        ListView<CheckBox> musicList = convertArrayToList(character.getMusicalInstruments());
+        ListView<CheckBox> skillList = convertArrayToList(character.getAllSkills());
+        skillList.setPrefHeight(150);
+        musicList.setPrefHeight(150);
+
+        HBox proficienciesHBox = new HBox(20);
+        proficienciesHBox.getChildren().addAll(new VBox(musicLabel,musicList),new VBox(skillLabel,skillList));
+        HBox nextHBox = new HBox(20);
+        nextHBox.getChildren().addAll(next,error);
+
+        proficiencyPane.getChildren().addAll(proficienciesHBox,nextHBox);
+//        ObservableList musicList = FXCollections.observableArrayList();
+//        musicList.setAll(character.getMusicalInstruments());
+//        ObservableList skillList = FXCollections.observableArrayList();
+//        skillList.setAll(character.getAllSkills());
+//        ChoiceBox musicProficiencies = new ChoiceBox(musicList);
+//        musicProficiencies.setPrefWidth(150);
+//        musicProficiencies.setTranslateX(100);
+//        ChoiceBox skillProficiencies = new ChoiceBox(skillList);
+//        skillProficiencies.setPrefWidth(150);
+//        skillProficiencies.setTranslateX(172);
+//        skillProficiencies.setDisable(true);
+//
+//        musicProficiencies.setOnAction(firstMusicInstrument ->{
+//            character.getProficienciesList().add(musicProficiencies.getValue());
+//            musicList.remove(musicProficiencies.getValue());
+//            musicLabel.setText("Musical Instrument choices 2/3");
+//                musicProficiencies.setItems(musicList);
+//                musicProficiencies.setOnAction(secondMusicalInstrument ->{
+//                    character.getProficienciesList().add(musicProficiencies.getValue());
+//                    musicList.remove(musicProficiencies.getValue());
+//                    musicLabel.setText("Musical Instrument choices 3/3");
+//                       musicProficiencies.setItems(musicList);
+//                       musicProficiencies.setOnAction(thirdMusicalInstrument ->{
+//                           character.getProficienciesList().add(musicProficiencies.getValue());
+//                           musicProficiencies.setDisable(true);
+//                           skillProficiencies.setDisable(false);
+//                        });
+//                });
+//        });
+//
+//        skillProficiencies.setOnAction(firstSkill ->{
+//            character.getProficienciesList().add(skillProficiencies.getValue());
+//            skillList.remove(skillProficiencies.getValue());
+//            skillLabel.setText("Skills Choices 2/3");
+//            skillProficiencies.setOnAction(secondSkill ->{
+//                character.getProficienciesList().add(skillProficiencies.getValue());
+//                skillList.remove(skillProficiencies.getValue());
+//                skillLabel.setText("Skills Choices 3/3");
+//                skillProficiencies.setOnAction(thirdSkill ->{
+//                    character.getProficienciesList().add(skillProficiencies.getValue());
+//                    proficiencyPane.setDisable(true);
+//                    equipmentPane.setDisable(false);
+//                });
+//            });
+//
+//        });
+
+        next.setOnAction(nextError ->{
+            //Saves proficiencies
+            int counter1 =0;
+            for (int i =0; i<musicList.getItems().size(); i++){
+                if (musicList.getItems().get(i).isSelected()){
+                    counter1++;
+                }
+            }
+
+            int counter2 = 0;
+            for (int i =0; i<skillList.getItems().size(); i++){
+                if (skillList.getItems().get(i).isSelected()){
+                    counter2++;
+                }
+            }
+
+            if (counter2 != 3 && counter1!=3){
+                error.setText("Please select 3 musical instruments and 3 skills");
+            }else if (counter2 != 3){
+                error.setText("Please select 3 skills");
+            } else if (counter1 != 3){
+                error.setText("Please select 3 musical instruments");
+            } else {
+                for (int i =0; i<skillList.getItems().size(); i++){
+                    if (skillList.getItems().get(i).isSelected()){
+                        character.getProficienciesList().add(skillList.getItems().get(i).getText());
+                    }
+                }
+                for (int i =0; i<musicList.getItems().size(); i++){
+                    if (musicList.getItems().get(i).isSelected()){
+                        character.getProficienciesList().add(musicList.getItems().get(i).getText());
+                    }
+                }
+                proficiencyPane.setDisable(true);
+                equipmentPane.setDisable(false);
+            }
         });
 
-        skillProficiencies.setOnAction(firstSkill ->{
-            character.getProficienciesList().add(skillProficiencies.getValue());
-            skillList.remove(skillProficiencies.getValue());
-            skillLabel.setText("Skills Choices 2/3");
-            skillProficiencies.setOnAction(secondSkill ->{
-                character.getProficienciesList().add(skillProficiencies.getValue());
-                skillList.remove(skillProficiencies.getValue());
-                skillLabel.setText("Skills Choices 3/3");
-                skillProficiencies.setOnAction(thirdSkill ->{
-                    character.getProficienciesList().add(skillProficiencies.getValue());
-                    proficiencyPane.setDisable(true);
-                    equipmentPane.setDisable(false);
-                });
-            });
 
-        });
-        proficiencyPane.getChildren().addAll(new HBox(musicLabel,musicProficiencies),new HBox(skillLabel,skillProficiencies));
+
 
         //Equipment Choice Setup
         Label equipmentChoice = new Label("Equipment Choice");
