@@ -281,17 +281,10 @@ public class Bard {
             ListView proficiencies = new ListView(character.getProficienciesList());
             proficiencies.setTooltip(new Tooltip("Proficiencies"));
             features.setTooltip(new Tooltip("Features"));
-
+            VBox pane = new VBox(20);
             BorderPane borderPane = new BorderPane();
-            borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel));
-            GridPane pane = new GridPane();
-            InnerShadow shadow = new InnerShadow();
-            shadow.setColor(Color.gray(.5));
-            pane.setEffect(shadow);
-            pane.setPadding(new Insets(10, 30, 10, 30));
-            pane.setVgap(20);
-            pane.setHgap(10);
             borderPane.setCenter(pane);
+            borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel));
             Scene scene = new Scene(borderPane, 600, 600);
             addLevelStage.setScene(scene);
             Label changes = new Label();
@@ -320,7 +313,7 @@ public class Bard {
                 ListView<CheckBox> cantripsList = convertVectorToList(cantripList);
                 ListView<CheckBox>  spellsList = convertVectorToList(firstLevelSpells);
                 Label error = new Label();
-                levelOne.getChildren().addAll(changes,new HBox(new VBox(new Label("Cantrips: 2 "),cantripsList),new VBox(new Label("First Level Spells: 4"),spellsList)),continueButton,error);
+                levelOne.getChildren().addAll(changes,chooseSpells,new HBox(new VBox(new Label("Cantrips: 2 "),cantripsList),new VBox(new Label("First Level Spells: 4"),spellsList)),continueButton,error);
 
                 continueButton.setOnAction(continueError -> {
                     int counter1= 0;
@@ -359,7 +352,6 @@ public class Bard {
                                 if (startingLevel == maxLevel) {
                                     addLevelStage.close();
                                 } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                         System.out.println("Ready for next issue");
                      }
                      });
 
@@ -369,8 +361,39 @@ public class Bard {
             }
             if (startingLevel == 2) {
                 System.out.println("Level 2");
-                addLevelStage.close();
+                character.spells.setSize(5);
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
+                Label error = new Label();
+                pane.getChildren().addAll(new Label("Please select 1 first level spell to learn"), firstLevelSpell,continueButton,error);
+                continueButton.setOnAction( continueError ->{
+                    int counter = 0;
+                    for (int i =0; i< firstLevelSpell.getItems().size(); i++){
+                        if (firstLevelSpell.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter!=1){
+                        error.setText("Please select one first level spell");
+                    }else {
+                        for (int i =0; i< firstLevelSpell.getItems().size(); i++){
+                            if (firstLevelSpell.getItems().get(i).isSelected()){
+                                firstLevelSpells.remove(firstLevelSpell.getItems().get(i));
+                            }
+                        }
+                        if (startingLevel == maxLevel) {
+                            addLevelStage.close();
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                    }
+                });
+
+                character.getFeaturesList().add("Jack of All Trades");
+                character.getFeaturesList().add("Song of Rest (d6)");
             }
+            if (startingLevel == 3) {
+                System.out.println("Level 3");
+                addLevelStage.close();
+        }
 
 
             VBox left = new VBox();
@@ -905,52 +928,6 @@ public class Bard {
         nextHBox.getChildren().addAll(next,error);
 
         proficiencyPane.getChildren().addAll(proficienciesHBox,nextHBox);
-//        ObservableList musicList = FXCollections.observableArrayList();
-//        musicList.setAll(character.getMusicalInstruments());
-//        ObservableList skillList = FXCollections.observableArrayList();
-//        skillList.setAll(character.getAllSkills());
-//        ChoiceBox musicProficiencies = new ChoiceBox(musicList);
-//        musicProficiencies.setPrefWidth(150);
-//        musicProficiencies.setTranslateX(100);
-//        ChoiceBox skillProficiencies = new ChoiceBox(skillList);
-//        skillProficiencies.setPrefWidth(150);
-//        skillProficiencies.setTranslateX(172);
-//        skillProficiencies.setDisable(true);
-//
-//        musicProficiencies.setOnAction(firstMusicInstrument ->{
-//            character.getProficienciesList().add(musicProficiencies.getValue());
-//            musicList.remove(musicProficiencies.getValue());
-//            musicLabel.setText("Musical Instrument choices 2/3");
-//                musicProficiencies.setItems(musicList);
-//                musicProficiencies.setOnAction(secondMusicalInstrument ->{
-//                    character.getProficienciesList().add(musicProficiencies.getValue());
-//                    musicList.remove(musicProficiencies.getValue());
-//                    musicLabel.setText("Musical Instrument choices 3/3");
-//                       musicProficiencies.setItems(musicList);
-//                       musicProficiencies.setOnAction(thirdMusicalInstrument ->{
-//                           character.getProficienciesList().add(musicProficiencies.getValue());
-//                           musicProficiencies.setDisable(true);
-//                           skillProficiencies.setDisable(false);
-//                        });
-//                });
-//        });
-//
-//        skillProficiencies.setOnAction(firstSkill ->{
-//            character.getProficienciesList().add(skillProficiencies.getValue());
-//            skillList.remove(skillProficiencies.getValue());
-//            skillLabel.setText("Skills Choices 2/3");
-//            skillProficiencies.setOnAction(secondSkill ->{
-//                character.getProficienciesList().add(skillProficiencies.getValue());
-//                skillList.remove(skillProficiencies.getValue());
-//                skillLabel.setText("Skills Choices 3/3");
-//                skillProficiencies.setOnAction(thirdSkill ->{
-//                    character.getProficienciesList().add(skillProficiencies.getValue());
-//                    proficiencyPane.setDisable(true);
-//                    equipmentPane.setDisable(false);
-//                });
-//            });
-//
-//        });
 
         next.setOnAction(nextError ->{
             //Saves proficiencies
