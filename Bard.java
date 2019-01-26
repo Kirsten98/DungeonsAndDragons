@@ -290,6 +290,8 @@ public class Bard {
             Label changes = new Label();
             Button continueButton = new Button("Continue");
             addLevelStage.setTitle("Level " + startingLevel);
+            Label error = new Label();
+            error.setTextFill(Color.RED);
             ObservableList misc = FXCollections.observableArrayList();
             continueButton.setOnAction(e -> {
                 if (startingLevel == maxLevel) {
@@ -312,7 +314,6 @@ public class Bard {
                 Label chooseSpells = new Label("You have learned 2 Cantrips and 4 First level spells. Please choose a Cantrip");
                 ListView<CheckBox> cantripsList = convertVectorToList(cantripList);
                 ListView<CheckBox>  spellsList = convertVectorToList(firstLevelSpells);
-                Label error = new Label();
                 levelOne.getChildren().addAll(changes,chooseSpells,new HBox(new VBox(new Label("Cantrips: 2 "),cantripsList),new VBox(new Label("First Level Spells: 4"),spellsList)),continueButton,error);
 
                 continueButton.setOnAction(continueError -> {
@@ -341,10 +342,12 @@ public class Bard {
                                 //Remove selected spells from available spells
                                 for (int i =0; i <cantripsList.getItems().size(); i++)
                                     if (cantripsList.getItems().get(i).isSelected()){
+                                        character.cantrips.add(cantripsList.getItems().get(i).getText());
                                         cantripList.remove(cantripsList.getItems().get(i).getText());
                                     }
                                 for (int i =0; i <spellsList.getItems().size(); i++)
                                     if (spellsList.getItems().get(i).isSelected()){
+                                        character.spells.add(spellsList.getItems().get(i).getText());
                                         firstLevelSpells.remove(spellsList.getItems().get(i).getText());
                                     }
 
@@ -363,8 +366,8 @@ public class Bard {
                 System.out.println("Level 2");
                 character.spells.setSize(5);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
                 ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
-                Label error = new Label();
                 pane.getChildren().addAll(new Label("Please select 1 first level spell to learn"), firstLevelSpell,continueButton,error);
                 continueButton.setOnAction( continueError ->{
                     int counter = 0;
@@ -378,7 +381,8 @@ public class Bard {
                     }else {
                         for (int i =0; i< firstLevelSpell.getItems().size(); i++){
                             if (firstLevelSpell.getItems().get(i).isSelected()){
-                                firstLevelSpells.remove(firstLevelSpell.getItems().get(i));
+                                character.spells.add(firstLevelSpell.getItems().get(i).getText());
+                                firstLevelSpells.remove(firstLevelSpell.getItems().get(i).getText());
                             }
                         }
                         if (startingLevel == maxLevel) {
@@ -392,8 +396,80 @@ public class Bard {
             }
             if (startingLevel == 3) {
                 System.out.println("Level 3");
-                addLevelStage.close();
+                character.spells.setSize(6);
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                character.getFeaturesList().add("Expertise");
+                ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
+                ListView<CheckBox> secondLevelSpell = convertVectorToList(secondLevelSpells);
+                ChoiceBox collegeChoice = new ChoiceBox(FXCollections.observableArrayList("College of Lore","College of Valor"));
+                pane.getChildren().addAll(new HBox(new VBox(new Label("First Level Spells: 1"),firstLevelSpell), new VBox(new Label("Second Level Spells: 2"),secondLevelSpell)), new HBox(new Label("Select a Bard College: "),collegeChoice),continueButton,error);
+
+                continueButton.setOnAction(continueError ->{
+                    int firstLevelCounter = 0;
+                    for (int i =0; i <firstLevelSpell.getItems().size();i++){
+                        if (firstLevelSpell.getItems().get(i).isSelected()){
+                            firstLevelCounter++;
+                        }
+                    }
+
+                    int secondLevelCounter = 0;
+                    for (int i =0; i <secondLevelSpell.getItems().size();i++){
+                        if (secondLevelSpell.getItems().get(i).isSelected()){
+                            secondLevelCounter++;
+                        }
+                    }
+                    if (firstLevelCounter!=1 && secondLevelCounter != 2){
+                        error.setText("Please select 1 first level spell and 2 second level spells");
+                    }else
+                        if (firstLevelCounter != 1){
+                            error.setText("Please select 1 first level spell");
+                        }else
+                            if (secondLevelCounter != 2){
+                                error.setText("Please select 2 second level spells");
+                            }
+                            // Successful continue
+                            else {
+                                for (int i =0; i <firstLevelSpell.getItems().size();i++){
+                                    if (firstLevelSpell.getItems().get(i).isSelected()){
+                                        character.spells.add(firstLevelSpell.getItems().get(i).getText());
+                                        firstLevelSpells.remove(firstLevelSpell.getItems().get(i).getText());
+                                    }
+                                }
+                                for (int i =0; i <secondLevelSpell.getItems().size();i++){
+                                    if (secondLevelSpell.getItems().get(i).isSelected()){
+                                        character.spells.add(secondLevelSpell.getItems().get(i).getText());
+                                        secondLevelSpells.remove(secondLevelSpell.getItems().get(i).getText());
+                                    }
+                                }
+                                college = collegeChoice.getValue().toString();
+                                misc.add(college);
+                                if (startingLevel == maxLevel) {
+                                    addLevelStage.close();
+                                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                            }
+                });
+
         }
+//        if (startingLevel == 4) {
+//            System.out.println("Level 4");
+//            character.spells.setSize(7);
+//            character.cantrips.setSize(4);
+//            character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+//            hp.setText("Hit Points: " + character.getHitPoints());
+//                vectorPrintOut(cantripList);
+//                choice = scanner.nextInt();
+//                endOfLine = scanner.nextLine();
+//                choice = inputErrorCheck(choice, 1, cantripList.size());
+//                System.out.println("You added " + cantripList.get(choice - 1));
+//                character.cantrips.add(cantripList.get(choice - 1));
+//                cantripList.remove(choice - 1);
+//
+//                chooseYourSpell(2);
+//
+//                abilityScoreImprovement(character);
+//
+//            }
 
 
             VBox left = new VBox();
@@ -405,42 +481,7 @@ public class Bard {
                     "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
             scene.setFill(Color.TRANSPARENT);
         }
-//            if (level == 2) {
-//                System.out.println("Level 2");
-//                character.spells.setSize(5);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                chooseYourSpell(1);
-//                features.add("Jack of All Trades");
-//                features.add("Song of Rest (d6)");
-//                System.out.println("Jack of All Trades and Song of Rest(d6) added to features");
-//
-//            }
-//            if (level == 3) {
-//                System.out.println("Level 3");
-//                character.spells.setSize(6);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                features.add("Expertise");
-//                chooseYourSpell(1);
-//                for (int i = 0; i < 2; i++) {
-//                    chooseYourSpell(2);
-//                }
-//                System.out.println("Choose your Bard College 1.) College of Lore or 2.) College of Valor . ");
-//                choice = scanner.nextInt();
-//                endOfLine = scanner.nextLine();
-//                choice = inputErrorCheck(choice, 1, 2);
-//                if (choice == 1) {
-//                    features.add("Bard College : College of Lore");
-//                    college = "College of Lore";
-//                    System.out.println("Bard College : College of Lore and Expertise added to features");
-//                }
-//                if (choice == 2) {
-//                    features.add("Bard College : College of Valor");
-//                    college = "College of Valor";
-//                    System.out.println("Bard College : College of Valor and Expertise added to features");
-//                }
-//            }
+
 //            if (level == 4) {
 //                System.out.println("Level 4");
 //                character.spells.setSize(7);
