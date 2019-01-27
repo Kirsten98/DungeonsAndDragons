@@ -36,7 +36,7 @@ public class RPGCharacterSheet extends Application {
     ObservableList proficiencies = FXCollections.observableArrayList();
     ListView proficienciesList = new ListView();
     ObservableList spells = FXCollections.observableArrayList();
-    ListView spellsList = new ListView();
+    ListView<ListView> spellsList = new ListView();
     ObservableList raceTraits = FXCollections.observableArrayList();
     ListView raceTraitsList = new ListView();
     ObservableList languages = FXCollections.observableArrayList();
@@ -424,7 +424,17 @@ public class RPGCharacterSheet extends Application {
                 mainCharacter.getMisc().clear();
                 mainCharacter.setSpeed(mainCharacter.getBaseSpeed());
                 mainCharacter.setHitPoints(mainCharacter.getBaseHitPoints());
-
+                spellsList.getItems().clear();
+                mainCharacter.cantripsListView.getItems().clear();
+                mainCharacter.firstLevelSpellListView.getItems().clear();
+                mainCharacter.secondLevelSpellListView.getItems().clear();
+                mainCharacter.thirdLevelSpellListView.getItems().clear();
+                mainCharacter.fourthLevelSpellListView.getItems().clear();
+                mainCharacter.fifthLevelSpellListView.getItems().clear();
+                mainCharacter.sixthLevelSpellListView.getItems().clear();
+                mainCharacter.seventhLevelSpellListView.getItems().clear();
+                mainCharacter.eighthLevelSpellListView.getItems().clear();
+                mainCharacter.ninthLevelSpellListView.getItems().clear();
 
                 //New Level Setup
                 Classes.setLevel(mainCharacter);
@@ -436,6 +446,16 @@ public class RPGCharacterSheet extends Application {
                 hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
                 Abilities.updateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
+                spellsList.getItems().addAll(mainCharacter.cantripsListView,
+                        mainCharacter.firstLevelSpellListView,
+                        mainCharacter.secondLevelSpellListView,
+                        mainCharacter.thirdLevelSpellListView,
+                        mainCharacter.fourthLevelSpellListView,
+                        mainCharacter.fifthLevelSpellListView,
+                        mainCharacter.sixthLevelSpellListView,
+                        mainCharacter.seventhLevelSpellListView,
+                        mainCharacter.eighthLevelSpellListView,
+                        mainCharacter.ninthLevelSpellListView);
                 borderPane.setRight(setSillsPane(mainCharacter));
 
             }
@@ -998,8 +1018,8 @@ public class RPGCharacterSheet extends Application {
                  removeCantrips.execute();
              }
 
-             for (int i = 0 ; i< mainCharacter.cantrips.size(); i++){
-                 int position = findArrayPosition(mainCharacter.cantrips.get(i),Spells.allClassSpellSetUp(10).toArray());
+             for (int i = 0 ; i< mainCharacter.cantripsListView.getItems().size(); i++){
+                 int position = findArrayPosition(mainCharacter.cantripsListView.getItems().get(i).toString(),Spells.allClassSpellSetUp(10).toArray());
 
                  PreparedStatement cantripsSave = con.prepareStatement("UPDATE cantrips SET " + SQLCantrips[position] + "  = 1 WHERE idcantrips = ?;");
                  cantripsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1014,8 +1034,8 @@ public class RPGCharacterSheet extends Application {
                  removeFirstLvlSpells.execute();
              }
              int incrementer = 0;
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(1).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(1).toArray());
+             while (incrementer < mainCharacter.firstLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(1).contains(mainCharacter.firstLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.firstLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(1).toArray());
 
                  PreparedStatement firstLevelSpellsSave = con.prepareStatement("UPDATE firstLevelSpells SET " + SQLFirstLevelSpells[position] + "  = 1 WHERE idfirstLevelSpells = ?;");
                  firstLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1030,8 +1050,8 @@ public class RPGCharacterSheet extends Application {
                  removeSecondLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removeSecondLvlSpells.execute();
              }
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(2).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(2).toArray());
+             while (incrementer < mainCharacter.secondLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(2).contains(mainCharacter.secondLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.secondLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(2).toArray());
 
 
                  PreparedStatement secondLevelSpellsSave = con.prepareStatement("UPDATE secondLevelSpells SET " + SQLSecondLevelSpells[position] + "  = 1 WHERE idsecondLevelSpells = ?;");
@@ -1047,8 +1067,8 @@ public class RPGCharacterSheet extends Application {
                  removeThirdLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removeThirdLvlSpells.execute();
              }
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(3).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(3).toArray());
+             while (incrementer < mainCharacter.thirdLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(3).contains(mainCharacter.thirdLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.thirdLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(3).toArray());
 
                  PreparedStatement ThirdLevelSpellsSave = con.prepareStatement("UPDATE thirdLevelSpells SET " + SQLThirdLevelSpells[position] + "  = 1 WHERE idthirdLevelSpells = ?;");
                  ThirdLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1063,8 +1083,8 @@ public class RPGCharacterSheet extends Application {
                  removefourthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removefourthLvlSpells.execute();
              }
-             while(incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(4).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(4).toArray());
+             while(incrementer < mainCharacter.fourthLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(4).contains(mainCharacter.fourthLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.fourthLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(4).toArray());
 
                  PreparedStatement fourthLevelSpellsSave = con.prepareStatement("UPDATE fourthLevelSpells SET " + SQLFourthLevelSpells[position] + "  = 1 WHERE idfourthLevelSpells = ?;");
                  fourthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1079,8 +1099,8 @@ public class RPGCharacterSheet extends Application {
                  removefifthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removefifthLvlSpells.execute();
              }
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(5).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(5).toArray());
+             while (incrementer < mainCharacter.fifthLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(5).contains(mainCharacter.fifthLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.fifthLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(5).toArray());
 
                  PreparedStatement fifthLevelSpellsSave = con.prepareStatement("UPDATE fifthLevelSpells SET " + SQLFifthLevelSpells[position] + "  = 1 WHERE idfifthLevelSpells = ?;");
                  fifthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1096,8 +1116,8 @@ public class RPGCharacterSheet extends Application {
                  removesixthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removesixthLvlSpells.execute();
              }
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(6).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(6).toArray());
+             while (incrementer < mainCharacter.sixthLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(6).contains(mainCharacter.sixthLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.sixthLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(6).toArray());
 
                  PreparedStatement sixthLevelSpellsSave = con.prepareStatement("UPDATE sixthLevelSpells SET " + SQLSixthLevelSpells[position] + "  = 1 WHERE idsixthLevelSpells = ?;");
                  sixthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1112,8 +1132,8 @@ public class RPGCharacterSheet extends Application {
                  removeseventhLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removeseventhLvlSpells.execute();
              }
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(7).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(7).toArray());
+             while (incrementer < mainCharacter.seventhLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(7).contains(mainCharacter.seventhLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.seventhLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(7).toArray());
 
                  PreparedStatement seventhLevelSpellsSave = con.prepareStatement("UPDATE seventhLevelSpells SET " + SQLSeventhLevelSpells[position] + "  = 1 WHERE idseventhLevelSpells = ?;");
                  seventhLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1128,8 +1148,8 @@ public class RPGCharacterSheet extends Application {
                  removeeighthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removeeighthLvlSpells.execute();
              }
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(8).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(8).toArray());
+             while (incrementer < mainCharacter.eighthLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(8).contains(mainCharacter.eighthLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.eighthLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(8).toArray());
 
                  PreparedStatement sixthLevelSpellsSave = con.prepareStatement("UPDATE eighthLevelSpells SET " + SQLEighthLevelSpells[position] + "  = 1 WHERE ideighthLevelSpells = ?;");
                  sixthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
@@ -1144,8 +1164,8 @@ public class RPGCharacterSheet extends Application {
                  removeNinthLvlSpells.setInt(1,mainCharacter.getPrimaryKey());
                  removeNinthLvlSpells.execute();
              }
-             while (incrementer < mainCharacter.spells.size() && Spells.allClassSpellSetUp(9).contains(mainCharacter.spells.get(incrementer))){
-                 int position = findArrayPosition(mainCharacter.spells.get(incrementer),Spells.allClassSpellSetUp(9).toArray());
+             while (incrementer < mainCharacter.ninthLevelSpellListView.getItems().size() && Spells.allClassSpellSetUp(9).contains(mainCharacter.ninthLevelSpellListView.getItems().get(incrementer))){
+                 int position = findArrayPosition(mainCharacter.ninthLevelSpellListView.getItems().get(incrementer).toString(),Spells.allClassSpellSetUp(9).toArray());
 
                  PreparedStatement sixthLevelSpellsSave = con.prepareStatement("UPDATE ninthLevelSpells SET " + SQLNinthLevelSpells[position] + "  = 1 WHERE idninthLevelSpells = ?;");
                  sixthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
