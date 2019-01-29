@@ -366,8 +366,6 @@ public class RPGCharacterSheet extends Application {
 
         editClass.setOnAction(e -> {
             if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
-                //TODO determine what needs to be reset for proficiencies between class and Level make class proficiencies and level proficiencies and add them to character proficiencies
-                mainCharacter.armorList.clear();
                 armor.clear();
                 mainCharacter.weapons.clear();
                 weapons.clear();
@@ -375,6 +373,7 @@ public class RPGCharacterSheet extends Application {
                 inventory.clear();
                 mainCharacter.instruments.clear();
                 instruments.clear();
+                mainCharacter.classProficienciesList.clear();
                 proficiencies.clear();
                 mainCharacter.setAc(0);
                 characterClass.setText(Classes.chooseClass(continueButton,mainCharacter ));
@@ -401,7 +400,13 @@ public class RPGCharacterSheet extends Application {
                 }
                 inventoryList.setItems(inventory);
                 instrumentsList.setItems(instruments);
-                proficiencies.setAll(mainCharacter.getProficienciesList());
+                for (int i =0; i<(mainCharacter.levelProficienciesList.size()+mainCharacter.classProficienciesList.size()); i++){
+                    if (i<mainCharacter.classProficienciesList.size()){
+                        proficiencies.add(mainCharacter.classProficienciesList.get(i));
+                    }else {
+                        proficiencies.add(mainCharacter.levelProficienciesList.get(i-mainCharacter.classProficienciesList.size()));
+                    }
+                }
                 proficienciesList.setItems(proficiencies);
                 editAbilities.setDisable(false);
                 ac.setText("AC: " + mainCharacter.getAc());
@@ -420,7 +425,8 @@ public class RPGCharacterSheet extends Application {
         editLevel.setOnAction(levelError->{
             if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
                 //Removing previous configurations
-                mainCharacter.getProficienciesList().clear();
+                mainCharacter.levelProficienciesList.clear();
+                proficiencies.clear();
                 mainCharacter.getFeaturesList().clear();
                 mainCharacter.getMisc().clear();
                 mainCharacter.setSpeed(mainCharacter.getBaseSpeed());
@@ -440,7 +446,14 @@ public class RPGCharacterSheet extends Application {
                 //New Level Setup
                 Classes.setLevel(mainCharacter);
                 level.setText("Level: " + mainCharacter.getLevel());
-                proficienciesList.setItems(mainCharacter.getProficienciesList());
+                for (int i =0; i<(mainCharacter.levelProficienciesList.size()+mainCharacter.classProficienciesList.size()); i++){
+                    if (i<mainCharacter.classProficienciesList.size()){
+                        proficiencies.add(mainCharacter.classProficienciesList.get(i));
+                    }else {
+                        proficiencies.add(mainCharacter.levelProficienciesList.get(i-mainCharacter.classProficienciesList.size()));
+                    }
+                }
+                proficienciesList.setItems(proficiencies);
                 featuresList.setItems(mainCharacter.getFeaturesList());
                 miscList.setItems(mainCharacter.getMisc());
                 ac.setText("AC: " + mainCharacter.getAc());

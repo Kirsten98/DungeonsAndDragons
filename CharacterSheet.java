@@ -39,7 +39,8 @@ public class CharacterSheet {
     private int baseSpeed;
     private ObservableList featuresList = FXCollections.observableArrayList();
     private ObservableList proficienciesList = FXCollections.observableArrayList();
-    private ObservableList classproficienciesList = FXCollections.observableArrayList();
+    ObservableList classProficienciesList = FXCollections.observableArrayList();
+    ObservableList levelProficienciesList = FXCollections.observableArrayList();
     private ObservableList misc = FXCollections.observableArrayList();
     private String[] lightArmor = {"Padded", "Leather","Studded Leather"};
     private int[] lightArmorCost = {5,10,45};

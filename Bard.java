@@ -277,8 +277,9 @@ public class Bard {
             Label hp = new Label("Hit Points: " + character.getHitPoints());
             Label proficiency = new Label("Proficiency : + " + character.getProficiencyMod());
             ListView features = new ListView(character.getFeaturesList());
-            ListView proficiencies = new ListView(character.getProficienciesList());
+            ListView proficiencies = new ListView(character.levelProficienciesList);
             proficiencies.setTooltip(new Tooltip("Proficiencies"));
+            proficiencies.setPlaceholder(new Label("Level Proficiencies"));
             features.setTooltip(new Tooltip("Features"));
             VBox pane = new VBox(20);
             BorderPane borderPane = new BorderPane();
@@ -357,7 +358,6 @@ public class Bard {
                      }
                      });
 
-                character.getProficienciesList().addAll("Dexterity", "Charisma", "Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords");
                 borderPane.setCenter(levelOne);
 
             }
@@ -396,6 +396,7 @@ public class Bard {
             if (startingLevel == 3) {
                 System.out.println("Level 3");
 //                character.spells.setSize(6);
+                //TODO need to add what happens with college choice
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
                 character.getFeaturesList().add("Expertise");
@@ -1047,12 +1048,12 @@ public class Bard {
             } else {
                 for (int i =0; i<skillList.getItems().size(); i++){
                     if (skillList.getItems().get(i).isSelected()){
-                        character.getProficienciesList().add(skillList.getItems().get(i).getText());
+                        character.classProficienciesList.add(skillList.getItems().get(i).getText());
                     }
                 }
                 for (int i =0; i<musicList.getItems().size(); i++){
                     if (musicList.getItems().get(i).isSelected()){
-                        character.getProficienciesList().add(musicList.getItems().get(i).getText());
+                        character.classProficienciesList.add(musicList.getItems().get(i).getText());
                     }
                 }
                 proficiencyPane.setDisable(true);
@@ -1100,7 +1101,7 @@ public class Bard {
         checkAndAddItemQuantity(character.armorList, new Item(character.getLightArmor()[1],character.getLightArmorDescription()[1],1,character.getLightArmorCost()[1]));
         checkAndAddItemQuantity(character.weapons, new Item(character.getSimpleMeleeWeapons()[1],character.getSimpleMeleeWeaponProperties()[1],1,character.getSimpleMeleeWeaponsCost()[1]));
         System.out.println("Dagger / Leather has been added to your inventory");
-        character.getProficienciesList().addAll("Dexterity","Charisma","Light Armor","Simple Weapons","Hand Crossbows","Longswords","Rapiers","Shortsword");
+        character.classProficienciesList.addAll("Dexterity","Charisma","Light Armor","Simple Weapons","Hand Crossbows","Longswords","Rapiers","Shortsword");
 
         continueButton.setOnAction(equipmentChoices ->{
             // Saves equipment choice into Charactersheet
