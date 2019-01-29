@@ -366,6 +366,7 @@ public class RPGCharacterSheet extends Application {
 
         editClass.setOnAction(e -> {
             if (confirmingPopUp("Continuing will erase your current configurations\nWould you like to continue?")==true){
+                //TODO determine what needs to be reset for proficiencies between class and Level make class proficiencies and level proficiencies and add them to character proficiencies
                 mainCharacter.armorList.clear();
                 armor.clear();
                 mainCharacter.weapons.clear();

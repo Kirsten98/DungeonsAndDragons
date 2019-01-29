@@ -272,7 +272,6 @@ public class Bard {
     public void addLevel(Stage addLevelStage, int maxLevel, int startingLevel) {
 
         if (startingLevel <= maxLevel) {
-            //TODO add level increments by recursion on continue button action
             spellSaveDC = 8 + proficiency + character.getCharismaMod();
             spellAttackMod = proficiency + character.getCharismaMod();
             Label hp = new Label("Hit Points: " + character.getHitPoints());
@@ -483,7 +482,7 @@ public class Bard {
                 } else
                     if (cantripsCounter !=1){
                         error.setText("Please select 1 cantrip ");
-                    }else //TODO fix how Spells/ Cantrips are displayed on main page. Possibly have ListView<ListView>
+                    }else
                         if (secondLevelCounter!= 2){
                             error.setText("Please select 2 second level spells");
                         }else {
@@ -505,6 +504,45 @@ public class Bard {
             });
         }
 
+        if (startingLevel == 5) {
+            System.out.println("Level 5");
+            character.setProficiencyMod(3);
+//            character.spells.setSize(8);
+            character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+            hp.setText("Hit Points: " + character.getHitPoints());
+            proficiency.setText("Proficiency : + " + character.getProficiencyMod());
+            Label levelSpells = new Label("Third level spells: 3");
+            ListView<CheckBox> thirdLevelSpellsList = convertVectorToList(thirdLevelSpells);
+
+            continueButton.setOnAction(continueButtonEvent ->{
+                int counter =0;
+                for (int i =0; i <thirdLevelSpellsList.getItems().size(); i++){
+                    if (thirdLevelSpellsList.getItems().get(i).isSelected()){
+                        counter++;
+                    }
+                }
+                if (counter!=3){
+                    error.setText("Please select 3 third level spells");
+                }else {
+                    for (int i =0; i <thirdLevelSpellsList.getItems().size(); i++){
+                        if (thirdLevelSpellsList.getItems().get(i).isSelected()){
+                            character.thirdLevelSpellListView.getItems().add(thirdLevelSpellsList.getItems().get(i).getText());
+                            thirdLevelSpells.remove(thirdLevelSpellsList.getItems().get(i).getText());
+                        }
+                    }
+                    if (startingLevel == maxLevel) {
+                        addLevelStage.close();
+                    } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                }
+            });
+            pane.getChildren().addAll(levelSpells,thirdLevelSpellsList,continueButton,error);
+            character.getFeaturesList().remove("Bardic Inspiration (d6)");
+            character.getFeaturesList().add("Bardic Inspiration (d8)");
+            character.getFeaturesList() .add("Font of Inspiration");
+            System.out.println("Bardic Inspiration (d6) and Font of Inspiration added to features");
+
+            }
+
 
             VBox left = new VBox();
             left.setPrefWidth(150);
@@ -516,26 +554,6 @@ public class Bard {
             scene.setFill(Color.TRANSPARENT);
         }
 
-//            if (level == 4) {
-//                System.out.println("Level 4");
-//                character.spells.setSize(7);
-//                character.cantrips.setSize(4);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                System.out.println("You learned a new Cantrip, please choose your new cantrip");
-//                vectorPrintOut(cantripList);
-//                choice = scanner.nextInt();
-//                endOfLine = scanner.nextLine();
-//                choice = inputErrorCheck(choice, 1, cantripList.size());
-//                System.out.println("You added " + cantripList.get(choice - 1));
-//                character.cantrips.add(cantripList.get(choice - 1));
-//                cantripList.remove(choice - 1);
-//
-//                chooseYourSpell(2);
-//
-//                abilityScoreImprovement(character);
-//
-//            }
 //            if (level == 5) {
 //                System.out.println("Level 5");
 //                character.setProficiencyMod(3);
