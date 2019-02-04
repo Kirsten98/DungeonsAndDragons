@@ -1113,14 +1113,14 @@ public class Bard {
             // Saves Pack Choice into Charactersheet
             if(packChoice.getValue().equals("Diplomat's pack")){
                 checkAndAddItemQuantity(character.inventory, new Item("Chest","",1,5));
-                checkAndAddItemQuantity(character.inventory, new Item("Case","This cylindrical leather case can hold up to ten rolled-up sheets od paper or five rolled-up sheets of parchment ",2,1));
-                checkAndAddItemQuantity(character.inventory, new Item("Set of Fine Clothes","",1,0));
-                checkAndAddItemQuantity(character.inventory, new Item("Bottle of Ink","",1,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Map or Scroll Case","This cylindrical leather case can hold up to ten rolled-up sheets of paper or five rolled-up sheets of parchment ",2,1));
+                checkAndAddItemQuantity(character.inventory, new Item("Fine Clothes","",1,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Ink","",1,0));
                 checkAndAddItemQuantity(character.inventory, new Item("Ink Pen","",1,2));
                 checkAndAddItemQuantity(character.inventory, new Item("Lamp","A  lamp casts bright light in a 15 foot radius and dim light for an additional 30 feet. ONce lit, it burns for 6 hours on a flask (1 pint) of oil",1,5));
-                checkAndAddItemQuantity(character.inventory, new Item("Flask of Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
-                checkAndAddItemQuantity(character.inventory, new Item("Sheets of Paper","",5,0));
-                checkAndAddItemQuantity(character.inventory, new Item("Vial of Perfume","",1,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Oil","Oils usually comes in a clay flask that holds 1 pint. As an action you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5 foot square area,provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters or ends its turn in the area. A creature can take this damage only once per turn.",2,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Paper","",5,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Perfume","",1,0));
                 checkAndAddItemQuantity(character.inventory, new Item("Sealing Wax","",1,5));
                 checkAndAddItemQuantity(character.inventory, new Item("Soap","",1,5));
                 System.out.println("Diplomat Pack added to inventory.");
@@ -1128,7 +1128,7 @@ public class Bard {
             }if (packChoice.getValue().equals("Entertainer's pack")){
                 checkAndAddItemQuantity(character.inventory, new Item("Backpack", "1 cubic foot/ 30 pounds of gear capacity",1,2));
                 checkAndAddItemQuantity(character.inventory, new Item("Bedroll","",1,1));
-                checkAndAddItemQuantity(character.inventory, new Item("Costume","",2,0));
+                checkAndAddItemQuantity(character.inventory, new Item("Costume Clothes","",2,0));
                 checkAndAddItemQuantity(character.inventory, new Item("Candle","For 1 hour, a candle sheds bright light in a 5 - foot radius and dim light for an additional 5 feet",2,1));
                 checkAndAddItemQuantity(character.inventory, new Item("Rations","Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",5,5));
                 checkAndAddItemQuantity(character.inventory, new Item("Waterskin","",1,2));

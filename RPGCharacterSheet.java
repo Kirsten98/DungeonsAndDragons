@@ -2,6 +2,7 @@ package DungeonsAndDragons;
 
 import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import javafx.application.Application;
+import javafx.application.Preloader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -12,10 +13,13 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.sql.*;
 
 
@@ -228,6 +232,7 @@ public class RPGCharacterSheet extends Application {
         shadow.setColor(Color.gray(.2));
         shadow.setRadius(5);
         borderPane.setEffect(shadow);
+        Scene scene = new Scene(borderPane, 1368, 840);
 
         //ListViews
         //TODO add tooltip to find description / quantity for each item.
@@ -272,11 +277,10 @@ public class RPGCharacterSheet extends Application {
         borderPane.setRight(setSillsPane(mainCharacter));
 
         //Sets BorderPane left
-        borderPane.setLeft(setLeft(mainCharacter));
+        borderPane.setLeft(setLeft(mainCharacter,primaryStage,scene));
 
         close.setOnAction(e-> primaryStage.close());
 
-        Scene scene = new Scene(borderPane, 1368, 840);
         borderPane.setStyle("-fx-border-color: black;"+
                 "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
         scene.setFill(Color.TRANSPARENT);
@@ -558,7 +562,7 @@ public class RPGCharacterSheet extends Application {
      * @param mainCharacter User's CharacterSheet
      * @return VBox to replace borderpane left pane when returned for primary stage.
      */
-    private VBox setLeft(CharacterSheet mainCharacter){
+    private VBox setLeft(CharacterSheet mainCharacter, Stage primaryStage, Scene primaryScene){
         VBox left = new VBox();
         left.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 2;");
         left.setPadding(new Insets(-14,0,-10,0));
@@ -599,7 +603,10 @@ public class RPGCharacterSheet extends Application {
         Button save = new Button("Save");
         save.setPrefWidth(75);
         close.setPrefWidth(75);
-        save.setOnAction(e-> saveCharacter(mainCharacter));
+
+        save.setOnAction(SaveEvent->{
+            saveCharacter(mainCharacter);
+        });
 
 
         left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
@@ -730,10 +737,10 @@ public class RPGCharacterSheet extends Application {
 
     /**
      * Pop up message that will either let the user continue or close.
-     * @param message Message that the Pop up will display
+     * @param mainMessage Message that the Pop up will display
      * @return Returns True if the user wants to continue, false otherwise
      */
-    private boolean confirmingPopUp(String message){
+    private boolean confirmingPopUp(String mainMessage){
         VBox pane = new VBox(30);
         Scene scene = new Scene(pane,300,150);
         Stage popUpStage= new Stage();
@@ -747,7 +754,7 @@ public class RPGCharacterSheet extends Application {
         scene.setFill(Color.TRANSPARENT);
         popUpStage.initModality(Modality.APPLICATION_MODAL);
 
-        Label popUpMessage = new Label(message);
+        Label popUpMessage = new Label(mainMessage);
         Button continueButton = new Button("Continue");
         Button close = new Button("Close");
         ButtonBar buttonBar = new ButtonBar();
@@ -783,144 +790,167 @@ public class RPGCharacterSheet extends Application {
      * Updates character information into MySQL Database
      * @param mainCharacter CharacterSheet that has the information to be saved.
      */
-    private static void saveCharacter(CharacterSheet mainCharacter){
+    private Boolean saveCharacter(CharacterSheet mainCharacter){
+        Stage saveScreen = new Stage();
+        Pane pane = new Pane();
+        Scene scene = new Scene(pane,260,130);
+        pane.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("Save_GIF.gif"),300,300,false,true),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+        saveScreen.setScene(scene);
+        Label saving = new Label("Saved");
+        saving.setStyle("-fx-font-size: 20;");
+        saving.setTranslateY(100);
+        saving.setTranslateX(5);
+        Button returnButton = new Button("->");
+        returnButton.setStyle("-fx-font-size: 15;");
+        returnButton.setShape(new Circle());
+        returnButton.setTranslateY(100);
+        returnButton.setOnAction(continueEvent -> saveScreen.close());
+        pane.getChildren().addAll(new HBox(saving,returnButton));
+        pane.setStyle("-fx-border-color: black;");
 
-            // Save basic Charactersheet information (Name/race/ability scores/etc.)
-            try {
-                Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
-
-                PreparedStatement characterinfoSave = con.prepareStatement("UPDATE characterinfo " +
-                        "SET name = (?), " +
-                        "age = (?), " +
-                        "race = (?), " +
-                        "class = (?), " +
-                        "level= (?), " +
-                        "ac= (?), " +
-                        "hitPoints = (?), " +
-                        "speed = (?), " +
-                        "alignment = (?), " +
-                        "charismaScore = (?), " +
-                        "strengthScore= (?), " +
-                        "dexterityScore = (?), " +
-                        "wisdomScore = (?), " +
-                        "intelligenceScore = (?), " +
-                        "constitutionScore= (?) " +
-                        "WHERE id =?;");
-                characterinfoSave.setString(1,mainCharacter.getName());
-                characterinfoSave.setInt(2, mainCharacter.getAge());
-                characterinfoSave.setString(3,mainCharacter.getRace());
-                characterinfoSave.setString(4,mainCharacter.getCharacterClass());
-                characterinfoSave.setInt(5,mainCharacter.getLevel());
-                characterinfoSave.setInt(6,mainCharacter.getAc());
-                characterinfoSave.setInt(7,mainCharacter.getHitPoints());
-                characterinfoSave.setInt(8,mainCharacter.getSpeed());
-                characterinfoSave.setString(9,mainCharacter.getAlignment());
-                characterinfoSave.setInt(10,mainCharacter.getCharismaScore());
-                characterinfoSave.setInt(11,mainCharacter.getStrengthScore());
-                characterinfoSave.setInt(12,mainCharacter.getDexterityScore());
-                characterinfoSave.setInt(13,mainCharacter.getWisdomScore());
-                characterinfoSave.setInt(14,mainCharacter.getIntelligenceScore());
-                characterinfoSave.setInt(15,mainCharacter.getConstitutionScore());
-                characterinfoSave.setInt(16,mainCharacter.getPrimaryKey());
-                characterinfoSave.execute();
-
-
-                // Save Languages
-                //TODO Test Languages and confirm that they are saving in MySQL Schema properly.
-                String[] SQLLanguagesArray = {"Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep_Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves_Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink_Dog","Bullywug","Giant_Eagle","Giant_Elk","Giant_Owl","Gnoll","Grell","Grung","Hook_Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thrikreen","Tlincalli","Troglodyte","Umber_Hulk","Vegepygmy","Winter_Wolf","Worg","Yeti"};
-                for (int i = 0; i< SQLLanguagesArray.length; i++){
-                    PreparedStatement removesavedLanguages = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[i] + " = 0 WHERE id = ?;");
-                    removesavedLanguages.setInt(1,mainCharacter.getPrimaryKey());
-                    removesavedLanguages.execute();
-                }
-                for (int i = 0 ; i< mainCharacter.languages.size(); i++){
-                    int position = findArrayPosition(mainCharacter.languages.get(i), mainCharacter.allLanguagesArray);
-
-                    PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[position] + "  = 1 WHERE id = ?;");
-                    languageSave.setInt(1,mainCharacter.getPrimaryKey());
-                    languageSave.execute();
-                }
-                //TODO need to save proficiencies (Need to have a check for spaced words ex. Light Armor/ Switch Case?) after tables are added in SQL
-
-                //Save Weapons
-                String[] SQLWeaponsArray = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light_Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War_Pick", "Warhammer", "Whip", "Blowgun", "Hand_Crossbow", "Heavy_Crossbow", "Longbow", "Net"};
-                for (int i = 0; i< SQLWeaponsArray.length; i++){
-                    PreparedStatement removeSavedWeapons= con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[i] + " = 0 WHERE idweapons = ?;");
-                    removeSavedWeapons.setInt(1,mainCharacter.getPrimaryKey());
-                    removeSavedWeapons.execute();
-                }
-                for (int i = 0 ; i< mainCharacter.weapons.size(); i++){
-                    int position = findArrayPosition(mainCharacter.weapons.get(i).getName(),mainCharacter.getAllWeapons());
-
-                    PreparedStatement weaponSave = con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[position] + "  = ? WHERE idweapons = ?;");
-                    weaponSave.setInt(1, mainCharacter.weapons.get(i).getQuantity());
-                    weaponSave.setInt(2,mainCharacter.getPrimaryKey());
-                    weaponSave.execute();
-                }
-
-                // Save Armor
-                String[] SQLArmorArray = {"Padded", "Leather","Studded_Leather","Hide", "Chain_Shirt", "Scale_Mail", "Breastplate", "Halfplate", "Ring_Mail",  "Chain_Mail" , "Splint", "Plate","Shield"};
-                for (int i = 0; i < SQLArmorArray.length;i++){
-                    PreparedStatement removeSavedArmor= con.prepareStatement("UPDATE armor SET " + SQLArmorArray[i] + " = 0 WHERE idarmor = ?;");
-                    removeSavedArmor.setInt(1,mainCharacter.getPrimaryKey());
-                    removeSavedArmor.execute();
-                }
-                for (int i = 0 ; i< mainCharacter.armorList.size(); i++){
-                    System.out.println(mainCharacter.armorList.get(i).getName());
-                    int position = findArrayPosition(mainCharacter.armorList.get(i).getName(),mainCharacter.getAllArmor());
-
-                    PreparedStatement armorSave = con.prepareStatement("UPDATE armor SET " + SQLArmorArray[position] + "  = ? WHERE idarmor = ?;");
-                    armorSave.setInt(1, mainCharacter.armorList.get(i).getQuantity());
-                    armorSave.setInt(2,mainCharacter.getPrimaryKey());
-                    armorSave.execute();
-                }
-
-                // Save Musical instruments
-                String[] SQLMusicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan_Flute","Shawm","Viol"};
-                for (int i = 0; i < SQLMusicalInstruments.length;i++){
-                    PreparedStatement removeInstruments= con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[i] + " = 0 WHERE idmusicalInstruments = ?;");
-                    removeInstruments.setInt(1,mainCharacter.getPrimaryKey());
-                    removeInstruments.execute();
-                }
-
-                for (int i = 0 ; i< mainCharacter.instruments.size(); i++){
-                    int position = findArrayPosition(mainCharacter.instruments.get(i),mainCharacter.getMusicalInstruments());
-
-                    PreparedStatement instrumentsSave = con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[position] + "  = 1 WHERE idmusicalInstruments = ?;");;
-                    instrumentsSave.setInt(1,mainCharacter.getPrimaryKey());
-                    instrumentsSave.execute();
-                }
-
-                //Save Adventuring Gear
-                String[] SQLAdventuringGear = {"Shovel","Abacus","Acid","Alchemists_Fire","Arrows","Blowgun_Needles","CrossBow_Bolts","Sling_Bullets","Antitoxin","Crystal","Orb","Rod","Staff","Wand","Backpack","Ball_Bearings","Barrel","Basket","Bedroll","Bell","Blanket","Block_And_Tackle","Book","Bottle","Bucket","Caltrops","Candle","Crossbow_Bolt_Case","Map_Or_Scroll_Case","Chain","Chalk","Chest","Climbers_Kit","Common_Clothes","Costume_Clothes","Fine_Clothes","Travelers_Clothes","Component_Pouch","Crowbar","Sprig_Of_Mistletoe","Totem","Wooden_Staff","Yew_Wand","Fishing_Tackle","Flask_Or_Tankard","Grappling_Hook","Hammer","Sledge_Hammer","Healers_Kit","Amulet","Emblem","Reliquary","Holy_Water","Hourglass","Hunting_Trap","Ink","Ink_Pen","Jug_Or_Pitcher","Ladder","Lamp","Bullseye_Lantern","Hooded_Lantern","Locks","Magnifying_Glass","Manacles","Mess_Kit","Steel_Mirror","Oil","Paper","Parchment","Perfume","Miners_Pick","Piton","Basic_Poison","Pole","Iron_Pot","Potion_Of_Healing","Pouch","Quiver","Portable_Ram","Rations","Robes","Hempen_Rope","Silk_Rope","Sack","Merchants_Scale","Sealing_Wax","Signal_Whistle","Signet_Ring","Soap","Spellbook","Iron_Spikes","Spy_Glass","Two_Person_Tent","Tinderbox","Torch","Vial","Waterskin","Whetstone"};
-
-                for (int i = 0; i < SQLAdventuringGear.length;i++){
-                    PreparedStatement removeGear= con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[i] + " = 0 WHERE idadventuringgear = ?;");
-                    removeGear.setInt(1,mainCharacter.getPrimaryKey());
-                    removeGear.execute();
-                }
-
-                for (int i = 0 ; i< mainCharacter.inventory.size(); i++){
-                    int position = findArrayPosition(mainCharacter.inventory.get(i).getName(),mainCharacter.getAdventuringGear());
+        // Save basic Charactersheet information (Name/race/ability scores/etc.)
+               try {
+                   Connection con = DriverManager.getConnection(url,"generaluser","4Testing");
+                   PreparedStatement characterinfoSave = con.prepareStatement("UPDATE characterinfo " +
+                           "SET name = (?), " +
+                           "age = (?), " +
+                           "race = (?), " +
+                           "class = (?), " +
+                           "level= (?), " +
+                           "ac= (?), " +
+                           "hitPoints = (?), " +
+                           "speed = (?), " +
+                           "alignment = (?), " +
+                           "charismaScore = (?), " +
+                           "strengthScore= (?), " +
+                           "dexterityScore = (?), " +
+                           "wisdomScore = (?), " +
+                           "intelligenceScore = (?), " +
+                           "constitutionScore= (?) " +
+                           "WHERE id =?;");
+                   characterinfoSave.setString(1,mainCharacter.getName());
+                   characterinfoSave.setInt(2, mainCharacter.getAge());
+                   characterinfoSave.setString(3,mainCharacter.getRace());
+                   characterinfoSave.setString(4,mainCharacter.getCharacterClass());
+                   characterinfoSave.setInt(5,mainCharacter.getLevel());
+                   characterinfoSave.setInt(6,mainCharacter.getAc());
+                   characterinfoSave.setInt(7,mainCharacter.getHitPoints());
+                   characterinfoSave.setInt(8,mainCharacter.getSpeed());
+                   characterinfoSave.setString(9,mainCharacter.getAlignment());
+                   characterinfoSave.setInt(10,mainCharacter.getCharismaScore());
+                   characterinfoSave.setInt(11,mainCharacter.getStrengthScore());
+                   characterinfoSave.setInt(12,mainCharacter.getDexterityScore());
+                   characterinfoSave.setInt(13,mainCharacter.getWisdomScore());
+                   characterinfoSave.setInt(14,mainCharacter.getIntelligenceScore());
+                   characterinfoSave.setInt(15,mainCharacter.getConstitutionScore());
+                   characterinfoSave.setInt(16,mainCharacter.getPrimaryKey());
+                   characterinfoSave.execute();
 
 
-                    PreparedStatement adventureGearSave = con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[position] + "  = ? WHERE idadventuringgear = ?;");
-                    adventureGearSave.setInt(1,mainCharacter.inventory.get(i).getQuantity());
-                    adventureGearSave.setInt(2,mainCharacter.getPrimaryKey());
+                   // Save Languages
+                   //TODO Test Languages and confirm that they are saving in MySQL Schema properly.
+                   String[] SQLLanguagesArray = {"Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep_Speech","Infernal","Aquan","Auran","Ignan","Terran","Sylvan","Undercommon","Aarakocra","Druidic","Gith","Thieves_Cant","Dambrathan","Bedine","Alzhedo","Chondathan","Damaran","Waelan","Guran","Halruaan","Illuskan","Roushoum","Chessentan","Mulhorandi","Untheric","Thayan","Rashemi","Shaaran","Shou","Tuigan","Turmic","Uluik","Blink_Dog","Bullywug","Giant_Eagle","Giant_Elk","Giant_Owl","Gnoll","Grell","Grung","Hook_Horror","Kruthik","Modron","Otyugh","Sahuagin","Slaad","Sphinx","Thrikreen","Tlincalli","Troglodyte","Umber_Hulk","Vegepygmy","Winter_Wolf","Worg","Yeti"};
+                   for (int i = 0; i< SQLLanguagesArray.length; i++){
+                       PreparedStatement removesavedLanguages = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[i] + " = 0 WHERE id = ?;");
+                       removesavedLanguages.setInt(1,mainCharacter.getPrimaryKey());
+                       removesavedLanguages.execute();
+                   }
+                   for (int i = 0 ; i< mainCharacter.languages.size(); i++){
+                       int position = findArrayPosition(mainCharacter.languages.get(i), mainCharacter.allLanguagesArray);
 
-                    System.out.println(mainCharacter.inventory.get(i).getQuantity());
-                    adventureGearSave.execute();
-                }
+                       PreparedStatement languageSave = con.prepareStatement("UPDATE languages SET " + SQLLanguagesArray[position] + "  = 1 WHERE id = ?;");
+                       languageSave.setInt(1,mainCharacter.getPrimaryKey());
+                       languageSave.execute();
+                   }
+                   //TODO need to save proficiencies (Need to have a check for spaced words ex. Light Armor/ Switch Case?) after tables are added in SQL
 
-                // Saves all Spells
-               saveAllSpells(mainCharacter);
+                   //Save Weapons
+                   String[] SQLWeaponsArray = {"Club", "Dagger", "Greatclub", "Handaxe", "Javelin", "Light_Hammer", "Mace", "Quarterstaff", "Sickle", "Spear","Light_Crossbow", "Dart", "Sling","Battleaxe", "Flail", "Glaive", "Greataxe", "Greatsword", "Halberd", "Lance","Longsword", "Maul","Morningstar", "Pike", "Rapier", "Scimitar", "Shortsword", "Trident", "War_Pick", "Warhammer", "Whip", "Blowgun", "Hand_Crossbow", "Heavy_Crossbow", "Longbow", "Net"};
+                   for (int i = 0; i< SQLWeaponsArray.length; i++){
+                       PreparedStatement removeSavedWeapons= con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[i] + " = 0 WHERE idweapons = ?;");
+                       removeSavedWeapons.setInt(1,mainCharacter.getPrimaryKey());
+                       removeSavedWeapons.execute();
+                   }
+                   for (int i = 0 ; i< mainCharacter.weapons.size(); i++){
+                       int position = findArrayPosition(mainCharacter.weapons.get(i).getName(),mainCharacter.getAllWeapons());
 
-                System.out.println("Saved");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                       PreparedStatement weaponSave = con.prepareStatement("UPDATE weapons SET " + SQLWeaponsArray[position] + "  = ? WHERE idweapons = ?;");
+                       weaponSave.setInt(1, mainCharacter.weapons.get(i).getQuantity());
+                       weaponSave.setInt(2,mainCharacter.getPrimaryKey());
+                       weaponSave.execute();
+                   }
 
-        }
+                   // Save Armor
+                   String[] SQLArmorArray = {"Padded", "Leather","Studded_Leather","Hide", "Chain_Shirt", "Scale_Mail", "Breastplate", "Halfplate", "Ring_Mail",  "Chain_Mail" , "Splint", "Plate","Shield"};
+                   for (int i = 0; i < SQLArmorArray.length;i++){
+                       PreparedStatement removeSavedArmor= con.prepareStatement("UPDATE armor SET " + SQLArmorArray[i] + " = 0 WHERE idarmor = ?;");
+                       removeSavedArmor.setInt(1,mainCharacter.getPrimaryKey());
+                       removeSavedArmor.execute();
+                   }
+                   for (int i = 0 ; i< mainCharacter.armorList.size(); i++){
+                       System.out.println(mainCharacter.armorList.get(i).getName());
+                       int position = findArrayPosition(mainCharacter.armorList.get(i).getName(),mainCharacter.getAllArmor());
+
+                       PreparedStatement armorSave = con.prepareStatement("UPDATE armor SET " + SQLArmorArray[position] + "  = ? WHERE idarmor = ?;");
+                       armorSave.setInt(1, mainCharacter.armorList.get(i).getQuantity());
+                       armorSave.setInt(2,mainCharacter.getPrimaryKey());
+                       armorSave.execute();
+                   }
+
+                   // Save Musical instruments
+                   String[] SQLMusicalInstruments = {"Bagpipes","Drum","Dulcimer","Flute","Lute","Lyre","Horn","Pan_Flute","Shawm","Viol"};
+                   for (int i = 0; i < SQLMusicalInstruments.length;i++){
+                       PreparedStatement removeInstruments= con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[i] + " = 0 WHERE idmusicalInstruments = ?;");
+                       removeInstruments.setInt(1,mainCharacter.getPrimaryKey());
+                       removeInstruments.execute();
+                   }
+
+                   for (int i = 0 ; i< mainCharacter.instruments.size(); i++){
+                       int position = findArrayPosition(mainCharacter.instruments.get(i),mainCharacter.getMusicalInstruments());
+
+                       PreparedStatement instrumentsSave = con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[position] + "  = 1 WHERE idmusicalInstruments = ?;");;
+                       instrumentsSave.setInt(1,mainCharacter.getPrimaryKey());
+                       instrumentsSave.execute();
+                   }
+
+                   //Save Adventuring Gear
+                   //TODO Add tools (PG 154) and Mounts/ Vechicles (Pg 155)
+                   String[] SQLAdventuringGear = {"Shovel","Abacus","Acid","Alchemists_Fire","Arrows","Blowgun_Needles","CrossBow_Bolts","Sling_Bullets","Antitoxin","Crystal","Orb","Rod","Staff","Wand","Backpack","Ball_Bearings","Barrel","Basket","Bedroll","Bell","Blanket","Block_And_Tackle","Book","Bottle","Bucket","Caltrops","Candle","Crossbow_Bolt_Case","Map_Or_Scroll_Case","Chain","Chalk","Chest","Climbers_Kit","Common_Clothes","Costume_Clothes","Fine_Clothes","Travelers_Clothes","Component_Pouch","Crowbar","Sprig_Of_Mistletoe","Totem","Wooden_Staff","Yew_Wand","Fishing_Tackle","Flask_Or_Tankard","Grappling_Hook","Hammer","Sledge_Hammer","Healers_Kit","Amulet","Emblem","Reliquary","Holy_Water","Hourglass","Hunting_Trap","Ink","Ink_Pen","Jug_Or_Pitcher","Ladder","Lamp","Bullseye_Lantern","Hooded_Lantern","Locks","Magnifying_Glass","Manacles","Mess_Kit","Steel_Mirror","Oil","Paper","Parchment","Perfume","Miners_Pick","Piton","Basic_Poison","Pole","Iron_Pot","Potion_Of_Healing","Pouch","Quiver","Portable_Ram","Rations","Robes","Hempen_Rope","Silk_Rope","Sack","Merchants_Scale","Sealing_Wax","Signal_Whistle","Signet_Ring","Soap","Spellbook","Iron_Spikes","Spy_Glass","Two_Person_Tent","Tinderbox","Torch","Vial","Waterskin","Whetstone"};
+
+                   for (int i = 0; i < SQLAdventuringGear.length;i++){
+                       PreparedStatement removeGear= con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[i] + " = 0 WHERE idadventuringgear = ?;");
+                       removeGear.setInt(1,mainCharacter.getPrimaryKey());
+                       removeGear.execute();
+                   }
+
+                   for (int i = 0 ; i< mainCharacter.inventory.size(); i++){
+                       int position = findArrayPosition(mainCharacter.inventory.get(i).getName(),mainCharacter.getAdventuringGear());
+
+
+                       PreparedStatement adventureGearSave = con.prepareStatement("UPDATE adventuringgear SET " + SQLAdventuringGear[position] + "  = ? WHERE idadventuringgear = ?;");
+                       adventureGearSave.setInt(1,mainCharacter.inventory.get(i).getQuantity());
+                       adventureGearSave.setInt(2,mainCharacter.getPrimaryKey());
+
+                       System.out.println(mainCharacter.inventory.get(i).getQuantity());
+                       adventureGearSave.execute();
+                   }
+
+                   // Saves all Spells
+                   saveAllSpells(mainCharacter);
+                   System.out.println("Saved");
+                   saveScreen.initStyle(StageStyle.TRANSPARENT);
+                   saveScreen.initModality(Modality.APPLICATION_MODAL);
+                   saveScreen.show();
+
+               } catch (SQLException e) {
+                   e.printStackTrace();
+                   if (confirmingPopUp("Server is currently unreachable.\nWould you like to continue or return?")){
+                       saveCharacter(mainCharacter);
+                   }else return false;
+               }
+        return true;
+    }
+
 
     /**
      * Returns the position of the provided item in the given array
