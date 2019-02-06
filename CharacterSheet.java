@@ -509,6 +509,7 @@ public class CharacterSheet {
         this.featuresList = featuresList;
     }
 
+    //TODO can this be removed? Replace with LevelProficiencyList / ClassProficiencyList
     public ObservableList getProficienciesList() {
         return proficienciesList;
     }

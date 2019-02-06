@@ -474,6 +474,7 @@ public class RPGCharacterSheet extends Application {
                         mainCharacter.seventhLevelSpellListView,
                         mainCharacter.eighthLevelSpellListView,
                         mainCharacter.ninthLevelSpellListView);
+                //TODO update ArmorList to reflect any armor proficiencies updates from the college selection (Valor)
                 borderPane.setRight(setSillsPane(mainCharacter));
 
             }
@@ -605,6 +606,7 @@ public class RPGCharacterSheet extends Application {
         close.setPrefWidth(75);
 
         save.setOnAction(SaveEvent->{
+            borderPane.setDisable(true);
             saveCharacter(mainCharacter);
         });
 
@@ -804,7 +806,10 @@ public class RPGCharacterSheet extends Application {
         returnButton.setStyle("-fx-font-size: 15;");
         returnButton.setShape(new Circle());
         returnButton.setTranslateY(100);
-        returnButton.setOnAction(continueEvent -> saveScreen.close());
+        returnButton.setOnAction(continueEvent -> {
+            saveScreen.close();
+            borderPane.setDisable(false);
+        });
         pane.getChildren().addAll(new HBox(saving,returnButton));
         pane.setStyle("-fx-border-color: black;");
 
@@ -1030,7 +1035,7 @@ public class RPGCharacterSheet extends Application {
                             modifierList.getChildren().add(new Label(""+character.getCharismaMod()));
                             abilitySkillModifier = character.getCharismaMod();
                         }
-                        if (character.getProficienciesList().contains(allSkills[skillIterator])){
+                        if (character.levelProficienciesList.contains(allSkills[skillIterator]) || character.classProficienciesList.contains(allSkills[skillIterator])){
                             proficiencyList.getChildren().add(new Label(""+character.getProficiencyMod()));
                             totalList.getChildren().add(new Label(""+(character.getProficiencyMod()+abilitySkillModifier) ));
                         }else  {

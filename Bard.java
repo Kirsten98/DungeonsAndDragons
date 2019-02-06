@@ -11,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.swing.text.LabelView;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
@@ -270,6 +271,7 @@ public class Bard {
      * @param startingLevel Level that the user if currently at
      */
     public void addLevel(Stage addLevelStage, int maxLevel, int startingLevel) {
+        //TODO Note - Possibly make each level a separate method, and instead of dealing with starting level it can just call the method for the next level
 
         if (startingLevel <= maxLevel) {
             spellSaveDC = 8 + proficiency + character.getCharismaMod();
@@ -396,7 +398,6 @@ public class Bard {
             if (startingLevel == 3) {
                 System.out.println("Level 3");
 //                character.spells.setSize(6);
-                //TODO need to add what happens with college choice
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
                 character.getFeaturesList().add("Expertise");
@@ -446,9 +447,53 @@ public class Bard {
                                 }
                                 college = collegeChoice.getValue().toString();
                                 character.getMisc().add(college);
-                                if (startingLevel == maxLevel) {
-                                    addLevelStage.close();
-                                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                                if (college.equals("College of Lore")){
+                                    character.getFeaturesList().add("Cutting Words");
+                                    pane.getChildren().clear();
+                                    Label skillsLabel = new Label("Please select 3 skills to be proficient in" );
+                                    ListView<CheckBox> skillProficiencies = convertArrayToList(character.getAllSkills());
+                                    pane.getChildren().addAll(skillsLabel,skillProficiencies,continueButton,error);
+                                    continueButton.setOnAction(continueEvent->{
+                                        error.setText("");
+                                        int counter = 0;
+                                        for (int i=0; i < skillProficiencies.getItems().size();i++){
+                                            if (skillProficiencies.getItems().get(i).isSelected()){
+                                                if (character.levelProficienciesList.contains(skillProficiencies.getItems().get(i).getText()) || character.classProficienciesList.contains(skillProficiencies.getItems().get(i).getText())){
+                                                    error.setText("You are already proficient with " + skillProficiencies.getItems().get(i).getText() + " , please choose a different skill" );
+                                                }else counter++;
+                                            }
+                                        }
+                                        if ( error.getText().equals("")){
+                                            if (counter!=3){
+                                                error.setText("Please select 3 skills");
+                                            }else {
+                                                for (int i=0; i < skillProficiencies.getItems().size();i++){
+                                                    if (skillProficiencies.getItems().get(i).isSelected()){
+                                                        character.levelProficienciesList.add(skillProficiencies.getItems().get(i).getText());
+                                                    }
+                                                }
+                                                if (startingLevel == maxLevel) {
+                                                    addLevelStage.close();
+                                                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                                            }
+                                        }
+                                    });
+
+                                }else{
+                                    if (!character.getProficienciesList().contains("Medium Armor")){
+                                        character.levelProficienciesList.add("Medium Armor");
+                                    }if (!character.getProficienciesList().contains("Shields")){
+                                        character.levelProficienciesList.add("Shields");
+                                    }if (!character.getProficienciesList().contains("Martial Weapons")){
+                                        character.levelProficienciesList.add("Martial Weapons");
+                                    }
+                                    character.getFeaturesList().add("Combat Inspiration");
+
+                                    if (startingLevel == maxLevel) {
+                                        addLevelStage.close();
+                                    } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                                }
+
                             }
                 });
 
@@ -1136,7 +1181,7 @@ public class Bard {
                 System.out.println("Entertainer pack added to inventory.");
             }
 
-            //Saves insrument choice to Charactersheet
+            //Saves instrument choice to Charactersheet
             character.instruments.add(musicalInstrumentList.getValue().toString());
 
             chooseWeaponStage.close();
