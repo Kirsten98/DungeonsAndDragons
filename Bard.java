@@ -1,5 +1,6 @@
 package DungeonsAndDragons;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -9,12 +10,15 @@ import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import javax.swing.text.LabelView;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Bard {
     public Bard(CharacterSheet character) {
@@ -451,7 +455,13 @@ public class Bard {
                                     character.getFeaturesList().add("Cutting Words");
                                     pane.getChildren().clear();
                                     Label skillsLabel = new Label("Please select 3 skills to be proficient in" );
-                                    ListView<CheckBox> skillProficiencies = convertArrayToList(character.getAllSkills());
+                                    Vector availableSkills = new Vector();
+                                    for (int i =0; i<character.getAllSkills().length; i++){
+                                        if (!character.classProficienciesList.contains(character.getAllSkills()[i]) && !character.levelProficienciesList.contains(character.getAllSkills()[i])){
+                                            availableSkills.add(character.getAllSkills()[i]);
+                                        }
+                                    }
+                                    ListView<CheckBox> skillProficiencies = convertVectorToList(availableSkills);
                                     pane.getChildren().addAll(skillsLabel,skillProficiencies,continueButton,error);
                                     continueButton.setOnAction(continueEvent->{
                                         error.setText("");
@@ -587,6 +597,52 @@ public class Bard {
             character.getFeaturesList() .add("Font of Inspiration");
             System.out.println("Bardic Inspiration (d6) and Font of Inspiration added to features");
 
+            }
+            if (startingLevel == 6) {
+                System.out.println("Level 6");
+//                character.spells.setSize(9);
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                Label chooseThirdLevelSpell = new Label("Please select one level three spell");
+                ListView<CheckBox> thirdLevelSpellList = convertVectorToList(thirdLevelSpells);
+                pane.getChildren().addAll(chooseThirdLevelSpell,thirdLevelSpellList,continueButton,error);
+                character.getFeaturesList().add("Countercharm");
+                continueButton.setOnAction(continueEvent ->{
+                    int counter =0;
+                    for (int i =0; i<thirdLevelSpellList.getItems().size(); i++){
+                        if (thirdLevelSpellList.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter!=1){
+                        error.setText("Please select one third level spell.");
+                    }else{ // Successful continue
+                        for (int i =0; i<thirdLevelSpellList.getItems().size(); i++){
+                            if (thirdLevelSpellList.getItems().get(i).isSelected()){
+                                character.thirdLevelSpellListView.getItems().add(thirdLevelSpellList.getItems().get(i));
+                                thirdLevelSpellList.getItems().remove(thirdLevelSpellList.getItems().get(i));
+                            }
+                        }
+                        if (college.equals("College of Lore")) {
+                            System.out.println("Countercharm and Additional Magical Secrets added to features");
+                            for (int i = 0; i < 2; i++) {
+                                pane.getChildren().clear();
+                                pane.getChildren().add(magicalSecrects(3,2,continueButton));
+                                continueButton.setOnAction(continueButtonEvent ->{
+                                    if (startingLevel == maxLevel) {
+                                        addLevelStage.close();
+                                    } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                                });
+                            }
+
+                        }
+                        if (college.equals("College of Valor")) {
+                            character.getFeaturesList().add("Extra Attack");
+                            System.out.println("Countercharm and Extra Attack added to features");
+                        }
+
+                    }
+                });
             }
 
 
@@ -1286,320 +1342,221 @@ public class Bard {
     }
 
 
-    // Tested and verified 9/9
-//    /**
-//     * Code needed to complete the Magical Secrets Feature
-//     * @param maxlevel Max Level that the Spells can be
-//     */
-//    public void magicalSecrects(int maxlevel){
-//        Scanner scanner = new Scanner(System.in);
-//        int level;
-//        int choice ;
-//        String endOdLine = "";
-//
-//        System.out.println("\nMagical Secretes:\nWhat level of Spells would you like to learn from all spells?\n0.) Cantrips , 1, 2, 3, 4, 5, 6, 7, 8, or 9? Your Max Level is :" + maxlevel);
-//        level = scanner.nextInt();
-//        endOdLine = scanner.nextLine();
-//        level = inputErrorCheck(level, 0, maxlevel);
-//        if(level==0){
-//            System.out.println("All Cantrips");
-//            vectorPrintOut(allCantrips);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allCantrips.size());
-//            if (character.spells.contains(allCantrips.get(choice-1))){
-//                while(character.spells.contains(allCantrips.get(choice-1))){
-//                    allCantrips.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//
-//                }
-//                choice = -1;
-//            }
-//            else{
-//
-//                character.spells.add(allCantrips.get(choice-1));
-//                System.out.println("You have added : " +allCantrips.get(choice-1)+ " to your cantrips");
-//                allCantrips.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//        }
-//
-//        if(level==1){
-//            System.out.println("All First Level Spells");
-//            vectorPrintOut(allFirstLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allFirstLevelSpells.size());
-//            if (character.spells.contains(allFirstLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allFirstLevelSpells.get(choice-1))){
-//                    allFirstLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }
-//            else {
-//                character.spells.add(allFirstLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allFirstLevelSpells.get(choice-1));
-//                allFirstLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//
-//        }
-//
-//        if(level==2){
-//            System.out.println("All Second Level Spells");
-//            vectorPrintOut(allSecondLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allSecondLevelSpells.size());
-//            if (character.spells.contains(allSecondLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allSecondLevelSpells.get(choice-1))) {
-//                    allSecondLevelSpells.remove(choice - 1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allSecondLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allSecondLevelSpells.get(choice-1));
-//                allSecondLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//        }
-//
-//
-//        if(level==3){
-//            System.out.println("All Third Level Spells");
-//            vectorPrintOut(allThirdLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allThirdLevelSpells.size());
-//            if (character.spells.contains(allThirdLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allThirdLevelSpells.get(choice-1))){
-//                    allThirdLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allThirdLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allThirdLevelSpells.get(choice-1));
-//                allThirdLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//
-//
-//        }
-//
-//        if(level==4){
-//            System.out.println("All Fourth Level Spells");
-//            vectorPrintOut(allFourthLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allFourthLevelSpells.size());
-//            if (character.spells.contains(allFourthLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allFourthLevelSpells.get(choice-1))){
-//                    allFourthLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allFourthLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allFourthLevelSpells.get(choice-1));
-//                allFourthLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//
-//        }
-//
-//        if(level==5){
-//            System.out.println("All Fifth Level Spells");
-//            vectorPrintOut(allFifthLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allFifthLevelSpells.size());
-//            if (character.spells.contains(allFifthLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allFifthLevelSpells.get(choice-1))){
-//                    allFifthLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allFifthLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allFifthLevelSpells.get(choice-1));
-//                allFifthLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//        }
-//
-//        if(level==6){
-//            System.out.println("All Sixth Level Spells");
-//            vectorPrintOut(allSixthLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allSixthLevelSpells.size());
-//            if (character.spells.contains(allSixthLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allSixthLevelSpells.get(choice-1))){
-//                    allSixthLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allSixthLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allSixthLevelSpells.get(choice-1));
-//                allSixthLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//        }
-//
-//        if(level==7){
-//            System.out.println("All Seventh Level Spells");
-//            vectorPrintOut(allSeventhLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allSeventhLevelSpells.size());
-//            if (character.spells.contains(allSeventhLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allSeventhLevelSpells.get(choice-1))){
-//                    allSeventhLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allSeventhLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allSeventhLevelSpells.get(choice-1));
-//                allSeventhLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//        }
-//
-//        if(level==8){
-//            System.out.println("All Eighth Level Spells");
-//            vectorPrintOut(allEighthLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allEighthLevelSpells.size());
-//            if (character.spells.contains(allEighthLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allEighthLevelSpells.get(choice-1))){
-//                    allEighthLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allEighthLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allEighthLevelSpells.get(choice-1));
-//                allEighthLevelSpells.remove(choice-1);
-//                choice = -1;
-//
-//            }
-//
-//        }
-//
-//        if(level==9){
-//            System.out.println("All Ninth Level Spells");
-//            vectorPrintOut(allNinthLevelSpells);
-//            choice = scanner.nextInt();
-//            endOdLine = scanner.nextLine();
-//            choice = inputErrorCheck(choice,1,allNinthLevelSpells.size());
-//            if (character.spells.contains(allNinthLevelSpells.get(choice-1))){
-//                while(character.spells.contains(allNinthLevelSpells.get(choice-1))){
-//                    allNinthLevelSpells.remove(choice-1);
-//                    System.out.println("You already have this spell, please choose a different spell");
-//                    magicalSecrects(maxlevel);
-//                }
-//                choice = -1;
-//            }else {
-//                character.spells.add(allNinthLevelSpells.get(choice-1));
-//                System.out.println("You have added : " +allNinthLevelSpells.get(choice-1));
-//                allNinthLevelSpells.remove(choice-1);
-//                choice = -1;
-//            }
-//
-//        }
-//
-//
-//
-//    }
-
-
-
-    //Tested and verified 9/9
-
     /**
-     * Walks user through choosing the tools they want to be proficient in
+     * Code needed to complete the Magical Secrets Feature. Allows the user to select any level spell
+     * @param maxLevel Max Level that the Spells can be
+     * @param maxSelection Maximum spells that the user can select from the available CheckBox's
+     * @param continueButton Button to link the method back to the method where it was invoked.
+     * @return VBox that will contain all of the necessary spells that the user can select from
      */
-    public void toolsProficiencies(){
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-        String endOfLine="";
-        System.out.println("You are proficient in three musical instruments, choose your first instrument.");
-        for (int i = 0; i < character.getMusicalInstruments().length; i++){
-            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
-            System.out.println("You are already proficient in this item, please choose a different option");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        }
-        checkVectorAndAdd(proficiencies,"proficiencies", character.getMusicalInstruments()[choice-1]);
+    public VBox magicalSecrects(int maxLevel, int maxSelection,  Button continueButton){
+        continueButton.setDisable(true);
+        Button checkSpells = new Button("Check Spells");
+        VBox mainPane = new VBox(20);
+        ObservableList<CheckBox> spellsList = FXCollections.observableArrayList();
+        ListView spellListView = new ListView();
+        spellListView.setPrefSize(100,500);
+        LinkedList<CheckBox> selectedBoxes = new LinkedList<>();
+        Label error = new Label();
+        error.setTextFill(Color.RED);
+        mainPane.getChildren().add(new Label("Available Spells: "+ maxSelection));
 
-        System.out.println("Choose your second instrument.");
-        for (int i = 0; i < character.getMusicalInstruments().length; i++){
-            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+        switch (maxLevel){
+            case 1:
+                // Cantrips
+                for (int i =0; i < allCantrips.size(); i++){
+                    if (!character.cantripsListView.getItems().contains(allCantrips.get(i))){
+                        CheckBox checkBox = new CheckBox(allCantrips.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                //first level spells
+                for (int i =0; i < allFirstLevelSpells.size(); i++){
+                    if (!character.firstLevelSpellListView.getItems().contains(allFirstLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allFirstLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 1){
+                    break;
+                }
+            case 2:
+                //Second level spells
+                for (int i =0; i < allSecondLevelSpells.size(); i++){
+                    if (!character.secondLevelSpellListView.getItems().contains(allSecondLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allSecondLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 2){
+                    break;
+                }
+            case 3:
+                //Third level spells
+                for (int i =0; i < allThirdLevelSpells.size(); i++){
+                    if (!character.thirdLevelSpellListView.getItems().contains(allThirdLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allThirdLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 3){
+                    break;
+                }
+            case 4:
+                //Fourth level spells
+                for (int i =0; i < allFourthLevelSpells.size(); i++){
+                    if (!character.fourthLevelSpellListView.getItems().contains(allFourthLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allFourthLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 4){
+                    break;
+                }
+            case 5:
+                //Fifth level spells
+                for (int i =0; i < allFifthLevelSpells.size(); i++){
+                    if (!character.fifthLevelSpellListView.getItems().contains(allFifthLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allFifthLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 5){
+                    break;
+                }
+            case 6:
+                //Sixth level spells
+                for (int i =0; i < allSixthLevelSpells.size(); i++){
+                    if (!character.sixthLevelSpellListView.getItems().contains(allSixthLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allSixthLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 6){
+                    break;
+                }
+            case 7:
+                //Seventh level spells
+                for (int i =0; i < allSeventhLevelSpells.size(); i++){
+                    if (!character.seventhLevelSpellListView.getItems().contains(allSeventhLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allSeventhLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 7){
+                    break;
+                }
+            case 8:
+                //Eighth level spells
+                for (int i =0; i < allEighthLevelSpells.size(); i++){
+                    if (!character.eighthLevelSpellListView.getItems().contains(allEighthLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allEighthLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 8){
+                    break;
+                }
+            case 9:
+                //Ninth level spells
+                for (int i =0; i < allNinthLevelSpells.size(); i++){
+                    if (!character.ninthLevelSpellListView.getItems().contains(allNinthLevelSpells.get(i))){
+                        CheckBox checkBox = new CheckBox(allNinthLevelSpells.get(i));
+                        checkBox.setOnAction(checkBoxEvent ->{
+                            if (checkBox.isSelected()){
+                                selectedBoxes.add(checkBox);
+                            }else selectedBoxes.remove(checkBox);
+                        });
+                        spellsList.add(checkBox);
+                    }
+                }
+                if (maxLevel == 9){
+                    break;
+                }
         }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
-            System.out.println("You are already proficient in this item, please choose a different option");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
+        spellListView.setItems(spellsList);
+        mainPane.getChildren().addAll(spellListView,new HBox(checkSpells,continueButton),error);
+        checkSpells.setOnAction(continueEvent ->{
+            //confirm user does not already have spell selected
+            //check how many are selected
+            if (selectedBoxes.size() != maxSelection){
+                error.setText("Please select " + maxSelection + " of the listed spells");
+            }else{
+                for (int i=0; i<selectedBoxes.size(); i++){
+                    System.out.println(selectedBoxes.get(i).getText());
+                    if (allCantrips.contains(selectedBoxes.get(i).getText())){
+                        character.cantripsListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allFirstLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.firstLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allSecondLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.secondLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allThirdLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.thirdLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allFourthLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.fourthLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allFifthLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.fifthLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allSixthLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.sixthLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allSeventhLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.seventhLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allEighthLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.eighthLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }else if (allNinthLevelSpells.contains(selectedBoxes.get(i).getText())){
+                        character.ninthLevelSpellListView.getItems().add(selectedBoxes.get(i).getText());
+                    }
+                    spellListView.setDisable(true);
+                    continueButton.setDisable(false);
+                }
             }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        }
-        checkVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
+        });
 
-        System.out.println("Choose your third instrument");
-        for (int i = 0; i < character.getMusicalInstruments().length; i++){
-            System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-        }
-        choice = scanner.nextInt();
-        endOfLine = scanner.nextLine();
-        choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        while(proficiencies.contains(character.getMusicalInstruments()[choice-1])){
-            System.out.println("You are already proficient in this item, please choose a different option");
-            for (int i = 0; i < character.getMusicalInstruments().length; i++){
-                System.out.println(i+1 +".) " + character.getMusicalInstruments()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getMusicalInstruments().length);
-        }
-        checkVectorAndAdd(proficiencies,"proficiencies",character.getMusicalInstruments()[choice-1]);
+        return mainPane;
 
     }
 
