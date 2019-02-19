@@ -707,6 +707,63 @@ public class Bard {
                 });
 
             }
+            if (startingLevel == 9) {
+                System.out.println("Level 9");
+                character.setProficiencyMod(4);
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                proficiency.setText("Proficiency : + " + character.getProficiencyMod());
+//                character.spells.setSize(12);
+                character.getFeaturesList().remove("Song of Rest (d6)");
+                character.getFeaturesList().add("Song of Rest (d8)");
+                System.out.println("You have added Song of Rest (d8) to your features");
+
+                ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
+                ListView<CheckBox> fifthLevelSpellsList = convertVectorToList(fifthLevelSpells);
+                pane.getChildren().addAll(new HBox(new VBox(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList), new VBox(new Label("Fifth Level Spells: 1"), fifthLevelSpellsList)),continueButton,error);
+
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int fourthLevelCounter =0;
+                    for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                        if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                            fourthLevelCounter++;
+                        }
+                    }
+                    int fifthLevelCounter =0;
+                    for (int i=0; i<fifthLevelSpellsList.getItems().size(); i++){
+                        if (fifthLevelSpellsList.getItems().get(i).isSelected()){
+                            fifthLevelCounter++;
+                        }
+                    }
+
+                    if (fourthLevelCounter!=1 && fifthLevelCounter!=1){
+                        error.setText("Please select 1 fourth level spell and 1 fifth level spell");
+                    }else if (fourthLevelCounter !=1){
+                        error.setText("Please select 1 fourth level spell");
+                    }else if (fifthLevelCounter !=1){
+                        error.setText("Please select 1 fifth level spell");
+                    }
+                    else {
+                        // Successful continue
+                        for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                            if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                                character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
+                                fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
+                            }
+                        }
+                        for (int i=0; i<fifthLevelSpellsList.getItems().size(); i++){
+                            if (fifthLevelSpellsList.getItems().get(i).isSelected()){
+                                character.fifthLevelSpellListView.getItems().add(fifthLevelSpellsList.getItems().get(i).getText());
+                                fifthLevelSpells.remove(fifthLevelSpellsList.getItems().get(i).getText());
+                            }
+                        }
+                        if (startingLevel == maxLevel) {
+                            addLevelStage.close();
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+
+                    }
+                });
+            }
 
 
             VBox left = new VBox();
