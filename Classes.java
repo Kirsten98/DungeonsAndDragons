@@ -187,6 +187,7 @@ public class Classes {
             Button numButton = new Button(levelNum.toString());
             numButton.setOnAction(e->{
                 choice.setText("Level: " + Integer.parseInt(numButton.getText()));
+                mainCharacter.setLevel(Integer.parseInt(numButton.getText()));
                 continueButton.setDisable(false);
             });
 
@@ -206,6 +207,7 @@ public class Classes {
                 Bard bard = new Bard(mainCharacter);
                 bard.addLevel(setLevelStage,Integer.parseInt(choice.getText().split(" ")[1]),1);
             }
+
         });
 
         setLevelStage.setScene(scene);
