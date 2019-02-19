@@ -639,6 +639,9 @@ public class Bard {
                         if (college.equals("College of Valor")) {
                             character.getFeaturesList().add("Extra Attack");
                             System.out.println("Countercharm and Extra Attack added to features");
+                            if (startingLevel == maxLevel) {
+                                addLevelStage.close();
+                            } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
                         }
 
                     }
@@ -673,6 +676,36 @@ public class Bard {
                         } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
                     }
                 });
+            }
+
+            if (startingLevel == 8) {
+                System.out.println("Level 8");
+//                character.spells.setSize(11);
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
+                pane.getChildren().addAll(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                        if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter!=1){
+                        error.setText("Please select 1 fourth level spell");
+                    }else {
+                        // Successful continue
+                        for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                            if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                                character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
+                                fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
+                            }
+                        }
+                        borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    }
+                });
+
             }
 
 
