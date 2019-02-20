@@ -764,7 +764,66 @@ public class Bard {
                     }
                 });
             }
+            if (startingLevel == 10) {
+                System.out.println("Level 10");
+//                character.spells.setSize(14);
+//                character.cantrips.setSize(4);
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                System.out.println("Your current Hit Points is : " + character.getHitPoints());
+                character.getFeaturesList().remove("Bardic Inspiration (d8)");
+                character.getFeaturesList().add("Bardic Inspiration (d10)");
+                character.getFeaturesList().add("Expertise");
+                System.out.println("You have added Bardic Inspiration (d10), Expertise, Magical Secrets to your features");
 
+                System.out.println("You have learned a new Cantrip");
+                ListView<CheckBox> cantripListView = convertVectorToList(cantripList);
+                ListView<CheckBox> fifthLevelListView = convertVectorToList(fifthLevelSpells);
+                pane.getChildren().addAll(new HBox(new VBox(new Label("Cantrips: 1"),cantripListView), new VBox(new Label("Fifth Level Spells: 1"), fifthLevelListView)), continueButton,error);
+
+                continueButton.setOnAction(continueEvent ->{
+                    int cantripsCounter = 0;
+                    for (int i=0; i < cantripListView.getItems().size(); i++){
+                        if (cantripListView.getItems().get(i).isSelected()){
+                            cantripsCounter++;
+                        }
+                    }
+                    int fifthLevelCounter = 0;
+                    for (int i=0; i < fifthLevelListView.getItems().size(); i++){
+                        if (fifthLevelListView.getItems().get(i).isSelected()){
+                            fifthLevelCounter++;
+                        }
+                    }
+
+                    if(cantripsCounter!=1 && fifthLevelCounter!=1){
+                        error.setText("Please select 1 cantrip and 1 fifth level spell");
+                    }else if(fifthLevelCounter!=1){
+                        error.setText("Please select 1 fifth level spell");
+                    }else if(cantripsCounter!=1){
+                        error.setText("Please select 1 cantrip");
+                    }else{
+                        //Successful continue
+                        for (int i=0; i < cantripListView.getItems().size(); i++){
+                            if (cantripListView.getItems().get(i).isSelected()){
+                                character.cantripsListView.getItems().add(cantripListView.getItems().get(i).getText());
+                                cantripList.remove(cantripListView.getItems().get(i).getText());
+                            }
+                        }
+                        for (int i=0; i < fifthLevelListView.getItems().size(); i++){
+                            if (fifthLevelListView.getItems().get(i).isSelected()){
+                                character.fifthLevelSpellListView.getItems().add(fifthLevelListView.getItems().get(i).getText());
+                                fifthLevelSpells.remove(fifthLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        pane.getChildren().clear();
+                        pane.getChildren().add(magicalSecrects(5,2,continueButton));
+                        continueButton.setOnAction(continueButtonEvent ->{
+                            if (startingLevel == maxLevel) {
+                                addLevelStage.close();
+                            } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                        });
+                    }
+                });
+            }
 
             VBox left = new VBox();
             left.setPrefWidth(150);
