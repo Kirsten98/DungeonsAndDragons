@@ -861,6 +861,40 @@ public class Bard {
                 pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
 
             }
+            if (startingLevel == 13) {
+                System.out.println("Level 13");
+                character.setProficiencyMod(5);
+                proficiency.setText("Proficiency : + " + character.getProficiencyMod());
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                character.getFeaturesList().remove("Song of Rest (d8)");
+                character.getFeaturesList().add("Song of Rest (d10)");
+                System.out.println("You added Song of Rest (d10) to features");
+                ListView<CheckBox> seventhLevelListView = convertVectorToList(seventhLevelSpells);
+                pane.getChildren().addAll(new Label("Seventh Level Spells: 1"), seventhLevelListView,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                        if (seventhLevelListView.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter != 1){
+                        error.setText("Please select 1 seventh level spell");
+                    }else {
+                        //Successful continue
+                        for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                            if (seventhLevelListView.getItems().get(i).isSelected()){
+                                character.seventhLevelSpellListView.getItems().add(seventhLevelListView.getItems().get(i).getText());
+                                seventhLevelSpells.remove(seventhLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        if (startingLevel == maxLevel) {
+                            addLevelStage.close();
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                    }
+                });
+            }
 
             VBox left = new VBox();
             left.setPrefWidth(150);
