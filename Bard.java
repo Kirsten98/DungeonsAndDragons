@@ -854,6 +854,13 @@ public class Bard {
                     }
                 });
             }
+            if (startingLevel == 12) {
+                System.out.println("Level 12");
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+
+            }
 
             VBox left = new VBox();
             left.setPrefWidth(150);
