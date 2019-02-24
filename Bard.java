@@ -769,7 +769,7 @@ public class Bard {
 //                character.spells.setSize(14);
 //                character.cantrips.setSize(4);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                System.out.println("Your current Hit Points is : " + character.getHitPoints());
+                hp.setText("Hit Points: " + character.getHitPoints());
                 character.getFeaturesList().remove("Bardic Inspiration (d8)");
                 character.getFeaturesList().add("Bardic Inspiration (d10)");
                 character.getFeaturesList().add("Expertise");
@@ -821,6 +821,36 @@ public class Bard {
                                 addLevelStage.close();
                             } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
                         });
+                    }
+                });
+            }
+            if (startingLevel == 11) {
+                System.out.println("Level 11");
+//                character.spells.setSize(15);
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
+                pane.getChildren().addAll(new Label("Sixth Level Spells: 1"), sixthLevelListView,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                        if (sixthLevelListView.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter != 1){
+                        error.setText("Please select 1 sixth level spell");
+                    }else {
+                        //Successful continue
+                        for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                            if (sixthLevelListView.getItems().get(i).isSelected()){
+                                character.sixthLevelSpellListView.getItems().add(sixthLevelListView.getItems().get(i).getText());
+                                sixthLevelSpells.remove(sixthLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        if (startingLevel == maxLevel) {
+                            addLevelStage.close();
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
                     }
                 });
             }
