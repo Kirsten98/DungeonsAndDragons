@@ -308,6 +308,7 @@ public class Bard {
 
             if (startingLevel == 1) {
                 VBox levelOne = new VBox(20);
+                error.setText("");
 //                character.cantrips.setSize(2);
 //                character.spells.setSize(4);
                 character.setProficiencyMod(2);
@@ -370,6 +371,7 @@ public class Bard {
             }
             if (startingLevel == 2) {
                 System.out.println("Level 2");
+                error.setText("");
 //                character.spells.setSize(5);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
@@ -402,6 +404,7 @@ public class Bard {
             }
             if (startingLevel == 3) {
                 System.out.println("Level 3");
+                error.setText("");
 //                character.spells.setSize(6);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
@@ -511,6 +514,7 @@ public class Bard {
         }
         if (startingLevel == 4) {
             System.out.println("Level 4");
+            error.setText("");
 //            character.spells.setSize(7);
 //            character.cantrips.setSize(4);
             character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
@@ -563,6 +567,7 @@ public class Bard {
 
         if (startingLevel == 5) {
             System.out.println("Level 5");
+            error.setText("");
             character.setProficiencyMod(3);
 //            character.spells.setSize(8);
             character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
@@ -601,6 +606,7 @@ public class Bard {
             }
             if (startingLevel == 6) {
                 System.out.println("Level 6");
+                error.setText("");
 //                character.spells.setSize(9);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
@@ -650,6 +656,7 @@ public class Bard {
             }
             if (startingLevel == 7) {
                 System.out.println("Level 7");
+                error.setText("");
 //                character.spells.setSize(10);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
@@ -681,6 +688,7 @@ public class Bard {
 
             if (startingLevel == 8) {
                 System.out.println("Level 8");
+                error.setText("");
 //                character.spells.setSize(11);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
@@ -710,6 +718,7 @@ public class Bard {
             }
             if (startingLevel == 9) {
                 System.out.println("Level 9");
+                error.setText("");
                 character.setProficiencyMod(4);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
@@ -767,6 +776,7 @@ public class Bard {
             }
             if (startingLevel == 10) {
                 System.out.println("Level 10");
+                error.setText("");
 //                character.spells.setSize(14);
 //                character.cantrips.setSize(4);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
@@ -827,6 +837,7 @@ public class Bard {
             }
             if (startingLevel == 11) {
                 System.out.println("Level 11");
+                error.setText("");
 //                character.spells.setSize(15);
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
@@ -857,6 +868,7 @@ public class Bard {
             }
             if (startingLevel == 12) {
                 System.out.println("Level 12");
+                error.setText("");
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
                 pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
@@ -864,6 +876,7 @@ public class Bard {
             }
             if (startingLevel == 13) {
                 System.out.println("Level 13");
+                error.setText("");
                 character.setProficiencyMod(5);
                 proficiency.setText("Proficiency : + " + character.getProficiencyMod());
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
@@ -898,6 +911,7 @@ public class Bard {
             }
             if (startingLevel == 14) {
                 System.out.println("Level 14");
+                error.setText("");
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
                 if (college.equals("College of Lore")) {
@@ -915,6 +929,7 @@ public class Bard {
 
             if (startingLevel == 15) {
                 System.out.println("Level 15");
+                error.setText("");
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
                 character.getFeaturesList().remove("Bardic Inspiration (d10)");
@@ -946,6 +961,7 @@ public class Bard {
             }
             if (startingLevel == 16) {
                 System.out.println("Level 16");
+                error.setText("");
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
                 pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
@@ -953,6 +969,7 @@ public class Bard {
 
             if (startingLevel == 17) {
                 System.out.println("Level 17");
+                error.setText("");
                 character.setProficiencyMod(6);
                 proficiency.setText("Proficiency : + " + character.getProficiencyMod());
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
@@ -988,6 +1005,7 @@ public class Bard {
             }
             if (startingLevel == 18) {
                 System.out.println("Level 18");
+                error.setText("");
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
 
@@ -1022,6 +1040,7 @@ public class Bard {
             }
             if (startingLevel == 19) {
                 System.out.println("Level 19");
+                error.setText("");
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
 
@@ -1052,6 +1071,7 @@ public class Bard {
             }
             if (startingLevel == 20) {
                 System.out.println("Level 20");
+                error.setText("");
                 character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
                 hp.setText("Hit Points: " + character.getHitPoints());
 
@@ -1093,205 +1113,6 @@ public class Bard {
                     "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
             scene.setFill(Color.TRANSPARENT);
         }
-
-//            if (level == 5) {
-//                System.out.println("Level 5");
-//                character.setProficiencyMod(3);
-//                System.out.println("Proficiency : +" + proficiency);
-//                character.spells.setSize(8);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                for (int i = 0; i < 2; i++) {
-//                    chooseYourSpell(3);
-//                }
-//
-//                features.remove("Bardic Inspiration (d6)");
-//                features.add("Bardic Inspiration (d8)");
-//                features.add("Font of Inspiration");
-//                System.out.println("Bardic Inspiration (d6) and Font of Inspiration added to features");
-//
-//            }
-//            if (level == 6) {
-//                System.out.println("Level 6");
-//                character.spells.setSize(9);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                chooseYourSpell(3);
-//                features.add("Countercharm");
-//                if (college.equals("College of Lore")) {
-//                    features.add("Additional Magical Secrets");
-//                    System.out.println("Countercharm and Additional Magical Secrets added to features");
-//                    for (int i = 0; i < 2; i++) {
-//                        magicalSecrects(3);
-//                    }
-//
-//                }
-//                if (college.equals("College of Valor")) {
-//                    features.add("Extra Attack");
-//                    System.out.println("Countercharm and Extra Attack added to features");
-//                }
-//
-//            }
-//            if (level == 7) {
-//                System.out.println("Level 7");
-//                character.spells.setSize(10);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                chooseYourSpell(4);
-//
-//            }
-//            if (level == 8) {
-//                System.out.println("Level 8");
-//                character.spells.setSize(11);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                chooseYourSpell(4);
-//
-//                abilityScoreImprovement(character);
-//
-//            }
-//            if (level == 9) {
-//                System.out.println("Level 9");
-//                character.setProficiencyMod(4);
-//                System.out.println("Proficiency : +" + proficiency);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                character.spells.setSize(12);
-//                features.remove("Song of Rest (d6)");
-//                features.add("Song of Rest (d8)");
-//                System.out.println("You have added Song of Rest (d8) to your features");
-//                chooseYourSpell(4);
-//                chooseYourSpell(5);
-//
-//            }
-//            if (level == 10) {
-//                System.out.println("Level 10");
-//                character.spells.setSize(14);
-//                character.cantrips.setSize(4);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                features.remove("Bardic Inspiration (d8)");
-//                features.add("Bardic Inspiration (d10)");
-//                features.add("Expertise");
-//                features.add("Magical Secrets");
-//                System.out.println("You have added Bardic Inspiration (d10), Expertise, Magical Secrets to your features");
-//                for (int i = 0; i < 2; i++) {
-//                    magicalSecrects(5);
-//                }
-//                System.out.println("You have learned a new Cantrip");
-//                vectorPrintOut(cantripList);
-//                choice = scanner.nextInt();
-//                endOfLine = scanner.nextLine();
-//                choice = inputErrorCheck(choice, 1, cantripList.size());
-//                System.out.println("You have added " + cantripList.get(choice - 1));
-//                character.cantrips.add(cantripList.get(choice - 1));
-//                cantripList.remove(choice - 1);
-//                chooseYourSpell(5);
-//
-//
-//            }
-//            if (level == 11) {
-//                System.out.println("Level 11");
-//                character.spells.setSize(15);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                chooseYourSpell(6);
-//            }
-//            if (level == 12) {
-//                System.out.println("Level 12");
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                abilityScoreImprovement(character);
-//
-//            }
-//            if (level == 13) {
-//                System.out.println("Level 13");
-//                proficiency++;
-//                System.out.println("Proficiency : +" + proficiency);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                features.remove("Song of Rest (d8)");
-//                features.add("Song of Rest (d10)");
-//                System.out.println("You added Song of Rest (d10) to features");
-//                chooseYourSpell(7);
-//
-//
-//            }
-//            if (level == 14) {
-//                System.out.println("Level 14");
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                if (college.equals("College of Lore")) {
-//                    features.add("Peerless Skills");
-//                    System.out.println("You have added Peerless Skills and Magical Secrets to features");
-//                    for (int i = 0; i < 2; i++) {
-//                        magicalSecrects(7);
-//                    }
-//
-//                }
-//                if (college.equals("College of Valor")) {
-//                    features.add("Battle Magic");
-//                    System.out.println("You have added Battle Magic and Magical Secrets to features");
-//                }
-//            }
-//
-//            if (level == 15) {
-//                System.out.println("Level 15");
-//                character.setProficiencyMod(5);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                features.remove("Bardic Inspiration (d10)");
-//                features.add("Bardic Inspiration (d12)");
-//                chooseYourSpell(8);
-//
-//            }
-//            if (level == 16) {
-//                System.out.println("Level 16");
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                abilityScoreImprovement(character);
-//
-//
-//            }
-//            if (level == 17) {
-//                System.out.println("Level 17");
-//                character.setProficiencyMod(6);
-//                System.out.println("Proficiency : +" + proficiency);
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                features.remove("Song of Rest (d10");
-//                features.add("Song of Rest (d12)");
-//
-//                chooseYourSpell(9);
-//
-//            }
-//            if (level == 18) {
-//                System.out.println("Level 18");
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                for (int i = 0; i < 2; i++) {
-//                    magicalSecrects(9);
-//                }
-//                chooseYourSpell(5);
-//            }
-//            if (level == 19) {
-//                System.out.println("Level 19");
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                abilityScoreImprovement(character);
-//                chooseYourSpell(6);
-//
-//            }
-//            if (level == 20) {
-//                System.out.println("Level 20");
-//                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-//                System.out.println("Your current Hit Points is : " + character.getHitPoints());
-//                chooseYourSpell(7);
-//                features.add("Superior Inspiration");
-//                System.out.println("You have added Superior Inspiration to your features");
-//
-//            }
-
 
     }
 
