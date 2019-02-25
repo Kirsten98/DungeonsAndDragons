@@ -985,6 +985,42 @@ public class Bard {
                 });
 
             }
+            if (startingLevel == 18) {
+                System.out.println("Level 18");
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+
+                ListView<CheckBox> fifthLevelListView = convertVectorToList(fifthLevelSpells);
+                pane.getChildren().addAll(new Label("Fifth Level Spells: 1"), fifthLevelListView,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i< fifthLevelListView.getItems().size(); i++){
+                        if (fifthLevelListView.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter != 1){
+                        error.setText("Please select 1 fifth level spell");
+                    }else {
+                        //Successful continue
+                        for (int i=0; i< fifthLevelListView.getItems().size(); i++){
+                            if (fifthLevelListView.getItems().get(i).isSelected()){
+                                character.fifthLevelSpellListView.getItems().add(fifthLevelListView.getItems().get(i).getText());
+                                fifthLevelSpells.remove(fifthLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        pane.getChildren().clear();
+                        pane.getChildren().add(magicalSecrects(9,2, continueButton));
+                        continueButton.setOnAction(continueButtonE ->{
+                            if (startingLevel == maxLevel) {
+                                addLevelStage.close();
+                            } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                        });
+                    }
+                });
+
+
+            }
 
             VBox left = new VBox();
             left.setPrefWidth(150);
@@ -1686,7 +1722,7 @@ public class Bard {
      * Code needed to complete the Magical Secrets Feature. Allows the user to select any level spell
      * @param maxLevel Max Level that the Spells can be
      * @param maxSelection Maximum spells that the user can select from the available CheckBox's
-     * @param continueButton Button to link the method back to the method where it was invoked.
+     * @param continueButton Button to link the method back to the method where it was invoked. Continue button action will need to be set after the magical secrets has been returned.
      * @return VBox that will contain all of the necessary spells that the user can select from
      */
     public VBox magicalSecrects(int maxLevel, int maxSelection,  Button continueButton){
