@@ -895,6 +895,22 @@ public class Bard {
                     }
                 });
             }
+            if (startingLevel == 14) {
+                System.out.println("Level 14");
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                if (college.equals("College of Lore")) {
+                    character.getFeaturesList().add("Peerless Skills");
+                    System.out.println("You have added Peerless Skills and Magical Secrets to features");
+                        pane.getChildren().add(magicalSecrects(7,2,continueButton));
+
+                }
+                if (college.equals("College of Valor")) {
+                    character.getFeaturesList().add("Battle Magic");
+                    System.out.println("You have added Battle Magic and Magical Secrets to features");
+                    pane.getChildren().add(magicalSecrects(7,2,continueButton));
+                }
+            }
 
             VBox left = new VBox();
             left.setPrefWidth(150);
@@ -1611,163 +1627,152 @@ public class Bard {
         error.setTextFill(Color.RED);
         mainPane.getChildren().add(new Label("Available Spells: "+ maxSelection));
 
-        switch (maxLevel){
-            case 1:
-                // Cantrips
-                for (int i =0; i < allCantrips.size(); i++){
-                    if (!character.cantripsListView.getItems().contains(allCantrips.get(i))){
-                        CheckBox checkBox = new CheckBox(allCantrips.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+        for (int iterator =1; iterator<=maxLevel; iterator++){
+            switch (iterator){
+                case 1:
+                    // Cantrips
+                    for (int i =0; i < allCantrips.size(); i++){
+                        if (!character.cantripsListView.getItems().contains(allCantrips.get(i))){
+                            CheckBox checkBox = new CheckBox(allCantrips.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                //first level spells
-                for (int i =0; i < allFirstLevelSpells.size(); i++){
-                    if (!character.firstLevelSpellListView.getItems().contains(allFirstLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allFirstLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                    //first level spells
+                    for (int i =0; i < allFirstLevelSpells.size(); i++){
+                        if (!character.firstLevelSpellListView.getItems().contains(allFirstLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allFirstLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 1){
-                    break;
-                }
-            case 2:
-                //Second level spells
-                for (int i =0; i < allSecondLevelSpells.size(); i++){
-                    if (!character.secondLevelSpellListView.getItems().contains(allSecondLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allSecondLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                        break;
+                case 2:
+                    //Second level spells
+                    for (int i =0; i < allSecondLevelSpells.size(); i++){
+                        if (!character.secondLevelSpellListView.getItems().contains(allSecondLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allSecondLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 2){
-                    break;
-                }
-            case 3:
-                //Third level spells
-                for (int i =0; i < allThirdLevelSpells.size(); i++){
-                    if (!character.thirdLevelSpellListView.getItems().contains(allThirdLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allThirdLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                    if (maxLevel == 2){
+                        break;
                     }
-                }
-                if (maxLevel == 3){
-                    break;
-                }
-            case 4:
-                //Fourth level spells
-                for (int i =0; i < allFourthLevelSpells.size(); i++){
-                    if (!character.fourthLevelSpellListView.getItems().contains(allFourthLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allFourthLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                case 3:
+                    //Third level spells
+                    for (int i =0; i < allThirdLevelSpells.size(); i++){
+                        if (!character.thirdLevelSpellListView.getItems().contains(allThirdLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allThirdLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 4){
-                    break;
-                }
-            case 5:
-                //Fifth level spells
-                for (int i =0; i < allFifthLevelSpells.size(); i++){
-                    if (!character.fifthLevelSpellListView.getItems().contains(allFifthLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allFifthLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                        break;
+                case 4:
+                    //Fourth level spells
+                    for (int i =0; i < allFourthLevelSpells.size(); i++){
+                        if (!character.fourthLevelSpellListView.getItems().contains(allFourthLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allFourthLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 5){
-                    break;
-                }
-            case 6:
-                //Sixth level spells
-                for (int i =0; i < allSixthLevelSpells.size(); i++){
-                    if (!character.sixthLevelSpellListView.getItems().contains(allSixthLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allSixthLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                        break;
+                case 5:
+                    //Fifth level spells
+                    for (int i =0; i < allFifthLevelSpells.size(); i++){
+                        if (!character.fifthLevelSpellListView.getItems().contains(allFifthLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allFifthLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 6){
-                    break;
-                }
-            case 7:
-                //Seventh level spells
-                for (int i =0; i < allSeventhLevelSpells.size(); i++){
-                    if (!character.seventhLevelSpellListView.getItems().contains(allSeventhLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allSeventhLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                        break;
+
+                case 6:
+                    //Sixth level spells
+                    for (int i =0; i < allSixthLevelSpells.size(); i++){
+                        if (!character.sixthLevelSpellListView.getItems().contains(allSixthLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allSixthLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 7){
-                    break;
-                }
-            case 8:
-                //Eighth level spells
-                for (int i =0; i < allEighthLevelSpells.size(); i++){
-                    if (!character.eighthLevelSpellListView.getItems().contains(allEighthLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allEighthLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                        break;
+
+                case 7:
+                    //Seventh level spells
+                    for (int i =0; i < allSeventhLevelSpells.size(); i++){
+                        if (!character.seventhLevelSpellListView.getItems().contains(allSeventhLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allSeventhLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 8){
-                    break;
-                }
-            case 9:
-                //Ninth level spells
-                for (int i =0; i < allNinthLevelSpells.size(); i++){
-                    if (!character.ninthLevelSpellListView.getItems().contains(allNinthLevelSpells.get(i))){
-                        CheckBox checkBox = new CheckBox(allNinthLevelSpells.get(i));
-                        checkBox.setOnAction(checkBoxEvent ->{
-                            if (checkBox.isSelected()){
-                                selectedBoxes.add(checkBox);
-                            }else selectedBoxes.remove(checkBox);
-                        });
-                        spellsList.add(checkBox);
+                        break;
+
+                case 8:
+                    //Eighth level spells
+                    for (int i =0; i < allEighthLevelSpells.size(); i++){
+                        if (!character.eighthLevelSpellListView.getItems().contains(allEighthLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allEighthLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
                     }
-                }
-                if (maxLevel == 9){
-                    break;
-                }
+                        break;
+                case 9:
+                    //Ninth level spells
+                    for (int i =0; i < allNinthLevelSpells.size(); i++){
+                        if (!character.ninthLevelSpellListView.getItems().contains(allNinthLevelSpells.get(i))){
+                            CheckBox checkBox = new CheckBox(allNinthLevelSpells.get(i));
+                            checkBox.setOnAction(checkBoxEvent ->{
+                                if (checkBox.isSelected()){
+                                    selectedBoxes.add(checkBox);
+                                }else selectedBoxes.remove(checkBox);
+                            });
+                            spellsList.add(checkBox);
+                        }
+                    }
+                        break;
+            }
         }
         spellListView.setItems(spellsList);
         mainPane.getChildren().addAll(spellListView,new HBox(checkSpells,continueButton),error);
