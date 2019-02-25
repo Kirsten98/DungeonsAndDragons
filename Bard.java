@@ -912,6 +912,38 @@ public class Bard {
                 }
             }
 
+            if (startingLevel == 15) {
+                System.out.println("Level 15");
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                character.getFeaturesList().remove("Bardic Inspiration (d10)");
+                character.getFeaturesList().add("Bardic Inspiration (d12)");
+                ListView<CheckBox> eighthLevelListView = convertVectorToList(eighthLevelSpells);
+                pane.getChildren().addAll(new Label("Eighth Level Spells: 1"), eighthLevelListView,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i< eighthLevelListView.getItems().size(); i++){
+                        if (eighthLevelListView.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter != 1){
+                        error.setText("Please select 1 eighth level spell");
+                    }else {
+                        //Successful continue
+                        for (int i=0; i< eighthLevelListView.getItems().size(); i++){
+                            if (eighthLevelListView.getItems().get(i).isSelected()){
+                                character.eighthLevelSpellListView.getItems().add(eighthLevelListView.getItems().get(i).getText());
+                                eighthLevelSpells.remove(eighthLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        if (startingLevel == maxLevel) {
+                            addLevelStage.close();
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                    }
+                });
+            }
+
             VBox left = new VBox();
             left.setPrefWidth(150);
             left.setPadding(new Insets(10, 10, 10, 10));
