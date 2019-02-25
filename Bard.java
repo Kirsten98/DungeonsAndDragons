@@ -943,6 +943,48 @@ public class Bard {
                     }
                 });
             }
+            if (startingLevel == 16) {
+                System.out.println("Level 16");
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+            }
+
+            if (startingLevel == 17) {
+                System.out.println("Level 17");
+                character.setProficiencyMod(6);
+                proficiency.setText("Proficiency : + " + character.getProficiencyMod());
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+                character.getFeaturesList().remove("Song of Rest (d10");
+                character.getFeaturesList().add("Song of Rest (d12)");
+
+                ListView<CheckBox> ninthLevelListView = convertVectorToList(ninthLevelSpells);
+                pane.getChildren().addAll(new Label("Ninth Level Spells: 1"), ninthLevelListView,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i< ninthLevelListView.getItems().size(); i++){
+                        if (ninthLevelListView.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter != 1){
+                        error.setText("Please select 1 ninth level spell");
+                    }else {
+                        //Successful continue
+                        for (int i=0; i< ninthLevelListView.getItems().size(); i++){
+                            if (ninthLevelListView.getItems().get(i).isSelected()){
+                                character.ninthLevelSpellListView.getItems().add(ninthLevelListView.getItems().get(i).getText());
+                                ninthLevelSpells.remove(ninthLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        if (startingLevel == maxLevel) {
+                            addLevelStage.close();
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                    }
+                });
+
+            }
 
             VBox left = new VBox();
             left.setPrefWidth(150);
