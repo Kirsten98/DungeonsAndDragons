@@ -1050,6 +1050,39 @@ public class Bard {
                 });
 
             }
+            if (startingLevel == 20) {
+                System.out.println("Level 20");
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
+
+                ListView<CheckBox> seventhLevelListView = convertVectorToList(seventhLevelSpells);
+                pane.getChildren().addAll(new Label("Seventh Level Spells: 1"), seventhLevelListView,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                        if (seventhLevelListView.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter != 1){
+                        error.setText("Please select 1 seventh level spell");
+                    }else {
+                        //Successful continue
+                        for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                            if (seventhLevelListView.getItems().get(i).isSelected()){
+                                character.seventhLevelSpellListView.getItems().add(seventhLevelListView.getItems().get(i).getText());
+                                seventhLevelSpells.remove(seventhLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        if (startingLevel == maxLevel) {
+                            addLevelStage.close();
+                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
+                    }
+                });
+                character.getFeaturesList().add("Superior Inspiration");
+                System.out.println("You have added Superior Inspiration to your features");
+
+            }
 
             VBox left = new VBox();
             left.setPrefWidth(150);
