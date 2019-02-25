@@ -3,6 +3,7 @@ package DungeonsAndDragons;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -1018,7 +1019,35 @@ public class Bard {
                         });
                     }
                 });
+            }
+            if (startingLevel == 19) {
+                System.out.println("Level 19");
+                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+                hp.setText("Hit Points: " + character.getHitPoints());
 
+                ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
+                pane.getChildren().addAll(new Label("Sixth Level Spells: 1"), sixthLevelListView,continueButton,error);
+                continueButton.setOnAction(continueButtonEvent ->{
+                    int counter =0;
+                    for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                        if (sixthLevelListView.getItems().get(i).isSelected()){
+                            counter++;
+                        }
+                    }
+                    if (counter != 1){
+                        error.setText("Please select 1 sixth level spell");
+                    }else {
+                        //Successful continue
+                        for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                            if (sixthLevelListView.getItems().get(i).isSelected()){
+                                character.sixthLevelSpellListView.getItems().add(sixthLevelListView.getItems().get(i).getText());
+                                sixthLevelSpells.remove(sixthLevelListView.getItems().get(i).getText());
+                            }
+                        }
+                        pane.getChildren().clear();
+                        pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    }
+                });
 
             }
 
