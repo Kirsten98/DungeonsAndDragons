@@ -1,6 +1,8 @@
 package DungeonsAndDragons;
 
+import com.sun.javafx.application.PlatformImpl;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -13,7 +15,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import jdk.internal.dynalink.support.BottomGuardingDynamicLinker;
 
+import javax.swing.*;
 import javax.swing.text.LabelView;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +38,7 @@ public class Bard {
     private int proficiency = 2;
     private int spellAttackMod;
     private int spellSaveDC;
+    private Stage addLevelStage;
 
     Vector<String> cantripList = Spells.bardSpellSetUp(10);
     Vector<String> firstLevelSpells = Spells.bardSpellSetUp(1);
@@ -227,6 +232,7 @@ public class Bard {
                 if (startinglevel == maxLevel) {
                     addLevelStage.close();
                 } else addLevel(addLevelStage, maxLevel, startinglevel + 1);
+//                    addLevel(addLevelStage, maxLevel, startinglevel + 1);
             });
 
         });
@@ -267,854 +273,989 @@ public class Bard {
         return pane;
     }
 
+    private VBox leftSetUp (){
+        VBox left = new VBox();
+        Label hp = new Label("Hit Points: " + character.getHitPoints());
+        Label proficiency = new Label("Proficiency : + " + character.getProficiencyMod());
+        ListView features = new ListView(character.getFeaturesList());
+        ListView proficiencies = new ListView(character.levelProficienciesList);
+        proficiencies.setTooltip(new Tooltip("Proficiencies"));
+        proficiencies.setPlaceholder(new Label("Level Proficiencies"));
+        features.setTooltip(new Tooltip("Features"));
+        left.setPadding(new Insets(10, 10, 10, 10));
+        left.getChildren().addAll(hp,proficiency,proficiencies,features);
+        left.setPrefWidth(150);
+
+        return left;
+    }
+
+    private HBox updateAbilityPane(){
+        return new HBox(new Label("Strength " + character.getStrengthScore()), new Label(" | Charisma " + character.getCharismaScore()), new Label(" | Dexterity " + character.getDexterityScore()), new Label(" | Constitution " + character.getConstitutionScore()), new Label(" | Intelligence " + character.getIntelligenceScore()), new Label(" | Wisdom " + character.getWisdomScore()));
+    }
+
+    private BorderPane borderPaneSetUp(BorderPane borderPane, VBox pane){
+        borderPane.setTop(updateAbilityPane());
+        borderPane.setLeft(leftSetUp());
+        borderPane.setCenter(pane);
+        return borderPane;
+
+    }
 
     /**
      * Takes current level and continuously adds additional level until maximum level is hit. Throughout the process it will give the users options for selection for their current level
      *
-     * @param addLevelStage Stage that will contain all Level choices
+     * @param stage Stage that will contain all Level choices
      * @param maxLevel      Max level that the user has chosen
      * @param startingLevel Level that the user if currently at
      */
-    public void addLevel(Stage addLevelStage, int maxLevel, int startingLevel) {
-        //TODO Note - Possibly make each level a separate method, and instead of dealing with starting level it can just call the method for the next level
-
-        if (startingLevel <= maxLevel) {
-            spellSaveDC = 8 + proficiency + character.getCharismaMod();
-            spellAttackMod = proficiency + character.getCharismaMod();
-            Label hp = new Label("Hit Points: " + character.getHitPoints());
-            Label proficiency = new Label("Proficiency : + " + character.getProficiencyMod());
-            ListView features = new ListView(character.getFeaturesList());
-            ListView proficiencies = new ListView(character.levelProficienciesList);
-            proficiencies.setTooltip(new Tooltip("Proficiencies"));
-            proficiencies.setPlaceholder(new Label("Level Proficiencies"));
-            features.setTooltip(new Tooltip("Features"));
-            VBox pane = new VBox(20);
-            BorderPane borderPane = new BorderPane();
-            borderPane.setCenter(pane);
-            borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel));
-            Scene scene = new Scene(borderPane, 600, 600);
-            addLevelStage.setScene(scene);
-            Label changes = new Label();
-            Button continueButton = new Button("Continue");
-            addLevelStage.setTitle("Level " + startingLevel);
-            Label error = new Label();
-            error.setTextFill(Color.RED);
-//            ObservableList misc = FXCollections.observableArrayList();
-            continueButton.setOnAction(e -> {
-                if (startingLevel == maxLevel) {
-                    addLevelStage.close();
-                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-            });
-
-            if (startingLevel == 1) {
-                VBox levelOne = new VBox(20);
-                error.setText("");
-//                character.cantrips.setSize(2);
-//                character.spells.setSize(4);
-                character.setProficiencyMod(2);
-                proficiency.setText("Proficiency : +" + character.getProficiencyMod());
-                character.setHitPoints(8 + character.getConstitutionMod());
-                hp.setText("Hit Points: " + character.getHitPoints());
-
-                character.getFeaturesList().add("Spellcasting");
-                character.getFeaturesList().add("Bardic Inspiration (d6)");
-                changes.setText("Added the following to your character.\nFeatures: Spellcasting and Bardic Inspiration (d6)");
-                Label chooseSpells = new Label("You have learned 2 Cantrips and 4 First level spells. Please choose a Cantrip");
-                ListView<CheckBox> cantripsList = convertVectorToList(cantripList);
-                ListView<CheckBox>  spellsList = convertVectorToList(firstLevelSpells);
-                levelOne.getChildren().addAll(changes,chooseSpells,new HBox(new VBox(new Label("Cantrips: 2 "),cantripsList),new VBox(new Label("First Level Spells: 4"),spellsList)),continueButton,error);
-
-                continueButton.setOnAction(continueError -> {
-                    int counter1= 0;
-                    int counter2 =0;
-                     for (int i =0; i <cantripsList.getItems().size();i++){
-                           if (cantripsList.getItems().get(i).isSelected()){
-                               counter1++;
-                           }
-                    }
-                    for (int i =0; i <spellsList.getItems().size();i++){
-                        if (spellsList.getItems().get(i).isSelected()){
-                            counter2++;
-                        }
-                    }
-                    if (counter1 != 2 && counter2 !=4 ){
-                        error.setText("Please select 2 cantrips and 4 first level spells");
-                        }else
-                            if (counter1 != 2){
-                                error.setText("Please select 2 cantrips");
-                            }
-                            else
-                            if (counter2 != 4){
-                                error.setText("Please select 4 first level spells");
-                            } else{
-                                //Remove selected spells from available spells
-                                for (int i =0; i <cantripsList.getItems().size(); i++)
-                                    if (cantripsList.getItems().get(i).isSelected()){
-                                        character.cantripsListView.getItems().add(cantripsList.getItems().get(i).getText());
-                                        cantripList.remove(cantripsList.getItems().get(i).getText());
-                                    }
-                                for (int i =0; i <spellsList.getItems().size(); i++)
-                                    if (spellsList.getItems().get(i).isSelected()){
-                                        character.firstLevelSpellListView.getItems().add(spellsList.getItems().get(i).getText());
-                                        firstLevelSpells.remove(spellsList.getItems().get(i).getText());
-                                    }
-
-                                 //Continues to next level
-                                if (startingLevel == maxLevel) {
-                                    addLevelStage.close();
-                                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                     }
-                     });
-
-                borderPane.setCenter(levelOne);
-
-            }
-            if (startingLevel == 2) {
-                System.out.println("Level 2");
-                error.setText("");
-//                character.spells.setSize(5);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
-                pane.getChildren().addAll(new Label("First Level Spells: 1"), firstLevelSpell,continueButton,error);
-                continueButton.setOnAction( continueError ->{
-                    int counter = 0;
-                    for (int i =0; i< firstLevelSpell.getItems().size(); i++){
-                        if (firstLevelSpell.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter!=1){
-                        error.setText("Please select one first level spell");
-                    }else {
-                        for (int i =0; i< firstLevelSpell.getItems().size(); i++){
-                            if (firstLevelSpell.getItems().get(i).isSelected()){
-                                character.firstLevelSpellListView.getItems().add(firstLevelSpell.getItems().get(i).getText());
-                                firstLevelSpells.remove(firstLevelSpell.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    }
-                });
-
-                character.getFeaturesList().add("Jack of All Trades");
-                character.getFeaturesList().add("Song of Rest (d6)");
-            }
-            if (startingLevel == 3) {
-                System.out.println("Level 3");
-                error.setText("");
-//                character.spells.setSize(6);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                character.getFeaturesList().add("Expertise");
-                ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
-                ListView<CheckBox> secondLevelSpell = convertVectorToList(secondLevelSpells);
-                ChoiceBox collegeChoice = new ChoiceBox(FXCollections.observableArrayList("College of Lore","College of Valor"));
-                pane.getChildren().addAll(new HBox(new VBox(new Label("First Level Spells: 1"),firstLevelSpell), new VBox(new Label("Second Level Spells: 2"),secondLevelSpell)), new HBox(new Label("Select a Bard College: "),collegeChoice),continueButton,error);
-
-                continueButton.setDisable(true);
-                collegeChoice.setOnAction(collegeChoiceError -> continueButton.setDisable(false));
-                continueButton.setOnAction(continueError ->{
-                    int firstLevelCounter = 0;
-                    for (int i =0; i <firstLevelSpell.getItems().size();i++){
-                        if (firstLevelSpell.getItems().get(i).isSelected()){
-                            firstLevelCounter++;
-                        }
-                    }
-
-                    int secondLevelCounter = 0;
-                    for (int i =0; i <secondLevelSpell.getItems().size();i++){
-                        if (secondLevelSpell.getItems().get(i).isSelected()){
-                            secondLevelCounter++;
-                        }
-                    }
-                    if (firstLevelCounter!=1 && secondLevelCounter != 2){
-                        error.setText("Please select 1 first level spell and 2 second level spells");
-                    }else
-                        if (firstLevelCounter != 1){
-                            error.setText("Please select 1 first level spell");
-                        }else
-                            if (secondLevelCounter != 2){
-                                error.setText("Please select 2 second level spells");
-                            }
-                            // Successful continue
-                            else {
-                                for (int i =0; i <firstLevelSpell.getItems().size();i++){
-                                    if (firstLevelSpell.getItems().get(i).isSelected()){
-                                        character.firstLevelSpellListView.getItems().add(firstLevelSpell.getItems().get(i).getText());
-                                        firstLevelSpells.remove(firstLevelSpell.getItems().get(i).getText());
-                                    }
-                                }
-                                for (int i =0; i <secondLevelSpell.getItems().size();i++){
-                                    if (secondLevelSpell.getItems().get(i).isSelected()){
-                                        character.secondLevelSpellListView.getItems().add(secondLevelSpell.getItems().get(i).getText());
-                                        secondLevelSpells.remove(secondLevelSpell.getItems().get(i).getText());
-                                    }
-                                }
-                                college = collegeChoice.getValue().toString();
-                                character.getMisc().add(college);
-                                if (college.equals("College of Lore")){
-                                    character.getFeaturesList().add("Cutting Words");
-                                    pane.getChildren().clear();
-                                    Label skillsLabel = new Label("Please select 3 skills to be proficient in" );
-                                    Vector availableSkills = new Vector();
-                                    for (int i =0; i<character.getAllSkills().length; i++){
-                                        if (!character.classProficienciesList.contains(character.getAllSkills()[i]) && !character.levelProficienciesList.contains(character.getAllSkills()[i])){
-                                            availableSkills.add(character.getAllSkills()[i]);
-                                        }
-                                    }
-                                    ListView<CheckBox> skillProficiencies = convertVectorToList(availableSkills);
-                                    pane.getChildren().addAll(skillsLabel,skillProficiencies,continueButton,error);
-                                    continueButton.setOnAction(continueEvent->{
-                                        error.setText("");
-                                        int counter = 0;
-                                        for (int i=0; i < skillProficiencies.getItems().size();i++){
-                                            if (skillProficiencies.getItems().get(i).isSelected()){
-                                                if (character.levelProficienciesList.contains(skillProficiencies.getItems().get(i).getText()) || character.classProficienciesList.contains(skillProficiencies.getItems().get(i).getText())){
-                                                    error.setText("You are already proficient with " + skillProficiencies.getItems().get(i).getText() + " , please choose a different skill" );
-                                                }else counter++;
-                                            }
-                                        }
-                                        if ( error.getText().equals("")){
-                                            if (counter!=3){
-                                                error.setText("Please select 3 skills");
-                                            }else {
-                                                for (int i=0; i < skillProficiencies.getItems().size();i++){
-                                                    if (skillProficiencies.getItems().get(i).isSelected()){
-                                                        character.levelProficienciesList.add(skillProficiencies.getItems().get(i).getText());
-                                                    }
-                                                }
-                                                if (startingLevel == maxLevel) {
-                                                    addLevelStage.close();
-                                                } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                                            }
-                                        }
-                                    });
-
-                                }else{
-                                    if (!character.getProficienciesList().contains("Medium Armor")){
-                                        character.levelProficienciesList.add("Medium Armor");
-                                    }if (!character.getProficienciesList().contains("Shields")){
-                                        character.levelProficienciesList.add("Shields");
-                                    }if (!character.getProficienciesList().contains("Martial Weapons")){
-                                        character.levelProficienciesList.add("Martial Weapons");
-                                    }
-                                    character.getFeaturesList().add("Combat Inspiration");
-
-                                    if (startingLevel == maxLevel) {
-                                        addLevelStage.close();
-                                    } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                                }
-
-                            }
-                });
-
-        }
-        if (startingLevel == 4) {
-            System.out.println("Level 4");
-            error.setText("");
-//            character.spells.setSize(7);
-//            character.cantrips.setSize(4);
-            character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-            hp.setText("Hit Points: " + character.getHitPoints());
-            Button next = new Button("Next");
-            ListView<CheckBox> cantripListView = convertVectorToList(cantripList);
-            ListView<CheckBox> secondLevelSpellListView = convertVectorToList(secondLevelSpells);
-            pane.getChildren().addAll(new HBox(new VBox(new Label("Cantrips: 1"),cantripListView)), new HBox(new VBox(new Label("Second Level Spells: 2"), secondLevelSpellListView)),next,error);
-
-            next.setOnAction(nextError->{
-                int cantripsCounter = 0;
-                for (int i =0; i<cantripListView.getItems().size(); i++){
-                    if (cantripListView.getItems().get(i).isSelected()){
-                        cantripsCounter++;
-                    }
-                }
-
-                int secondLevelCounter = 0;
-                for (int i =0; i<secondLevelSpellListView.getItems().size(); i++){
-                    if (secondLevelSpellListView.getItems().get(i).isSelected()){
-                        secondLevelCounter++;
-                    }
-                }
-                if (cantripsCounter !=1 && secondLevelCounter!= 2){
-                    error.setText("Please select 1 cantrip and 2 second level spells");
-                } else
-                    if (cantripsCounter !=1){
-                        error.setText("Please select 1 cantrip ");
-                    }else
-                        if (secondLevelCounter!= 2){
-                            error.setText("Please select 2 second level spells");
-                        }else {
-                            for (int i =0; i<cantripListView.getItems().size(); i++){
-                                if (cantripListView.getItems().get(i).isSelected()){
-                                    character.cantripsListView.getItems().add(cantripListView.getItems().get(i).getText());
-                                    cantripList.remove(cantripListView.getItems().get(i).getText());
-                                }
-                            }
-                            for (int i =0; i<secondLevelSpellListView.getItems().size(); i++){
-                                if (secondLevelSpellListView.getItems().get(i).isSelected()){
-                                    character.secondLevelSpellListView.getItems().add(secondLevelSpellListView.getItems().get(i).getText());
-                                        secondLevelSpells.remove(secondLevelSpellListView.getItems().get(i).getText());
-                                }
-                            }
-                            borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
-                        }
-
-            });
-        }
-
-        if (startingLevel == 5) {
-            System.out.println("Level 5");
-            error.setText("");
-            character.setProficiencyMod(3);
-//            character.spells.setSize(8);
-            character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-            hp.setText("Hit Points: " + character.getHitPoints());
-            proficiency.setText("Proficiency : + " + character.getProficiencyMod());
-            Label levelSpells = new Label("Third level spells: 3");
-            ListView<CheckBox> thirdLevelSpellsList = convertVectorToList(thirdLevelSpells);
-
-            continueButton.setOnAction(continueButtonEvent ->{
-                int counter =0;
-                for (int i =0; i <thirdLevelSpellsList.getItems().size(); i++){
-                    if (thirdLevelSpellsList.getItems().get(i).isSelected()){
-                        counter++;
-                    }
-                }
-                if (counter!=3){
-                    error.setText("Please select 3 third level spells");
-                }else {
-                    for (int i =0; i <thirdLevelSpellsList.getItems().size(); i++){
-                        if (thirdLevelSpellsList.getItems().get(i).isSelected()){
-                            character.thirdLevelSpellListView.getItems().add(thirdLevelSpellsList.getItems().get(i).getText());
-                            thirdLevelSpells.remove(thirdLevelSpellsList.getItems().get(i).getText());
-                        }
-                    }
-                    if (startingLevel == maxLevel) {
-                        addLevelStage.close();
-                    } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                }
-            });
-            pane.getChildren().addAll(levelSpells,thirdLevelSpellsList,continueButton,error);
-            character.getFeaturesList().remove("Bardic Inspiration (d6)");
-            character.getFeaturesList().add("Bardic Inspiration (d8)");
-            character.getFeaturesList() .add("Font of Inspiration");
-            System.out.println("Bardic Inspiration (d6) and Font of Inspiration added to features");
-
-            }
-            if (startingLevel == 6) {
-                System.out.println("Level 6");
-                error.setText("");
-//                character.spells.setSize(9);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                Label chooseThirdLevelSpell = new Label("Third Level Spell: 1");
-                ListView<CheckBox> thirdLevelSpellList = convertVectorToList(thirdLevelSpells);
-                pane.getChildren().addAll(chooseThirdLevelSpell,thirdLevelSpellList,continueButton,error);
-                character.getFeaturesList().add("Countercharm");
-                continueButton.setOnAction(continueEvent ->{
-                    int counter =0;
-                    for (int i =0; i<thirdLevelSpellList.getItems().size(); i++){
-                        if (thirdLevelSpellList.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter!=1){
-                        error.setText("Please select one third level spell.");
-                    }else{ // Successful continue
-                        for (int i =0; i<thirdLevelSpellList.getItems().size(); i++){
-                            if (thirdLevelSpellList.getItems().get(i).isSelected()){
-                                character.thirdLevelSpellListView.getItems().add(thirdLevelSpellList.getItems().get(i).getText());
-                                thirdLevelSpellList.getItems().remove(thirdLevelSpellList.getItems().get(i));
-                            }
-                        }
-                        if (college.equals("College of Lore")) {
-                            System.out.println("Countercharm and Additional Magical Secrets added to features");
-                            for (int i = 0; i < 2; i++) {
-                                pane.getChildren().clear();
-                                pane.getChildren().add(magicalSecrects(3,2,continueButton));
-                                continueButton.setOnAction(continueButtonEvent ->{
-                                    if (startingLevel == maxLevel) {
-                                        addLevelStage.close();
-                                    } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                                });
-                            }
-
-                        }
-                        if (college.equals("College of Valor")) {
-                            character.getFeaturesList().add("Extra Attack");
-                            System.out.println("Countercharm and Extra Attack added to features");
-                            if (startingLevel == maxLevel) {
-                                addLevelStage.close();
-                            } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                        }
-
-                    }
-                });
-            }
-            if (startingLevel == 7) {
-                System.out.println("Level 7");
-                error.setText("");
-//                character.spells.setSize(10);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
-                pane.getChildren().addAll(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
-                        if (fourthLevelSpellsList.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter!=1){
-                        error.setText("Please select 1 fourth level spell");
-                    }else {
-                        // Successful continue
-                        for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
-                            if (fourthLevelSpellsList.getItems().get(i).isSelected()){
-                                character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
-                                fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    }
-                });
-            }
-
-            if (startingLevel == 8) {
-                System.out.println("Level 8");
-                error.setText("");
-//                character.spells.setSize(11);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
-                pane.getChildren().addAll(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
-                        if (fourthLevelSpellsList.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter!=1){
-                        error.setText("Please select 1 fourth level spell");
-                    }else {
-                        // Successful continue
-                        for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
-                            if (fourthLevelSpellsList.getItems().get(i).isSelected()){
-                                character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
-                                fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
-                            }
-                        }
-                        borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
-                    }
-                });
-
-            }
-            if (startingLevel == 9) {
-                System.out.println("Level 9");
-                error.setText("");
-                character.setProficiencyMod(4);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                proficiency.setText("Proficiency : + " + character.getProficiencyMod());
-//                character.spells.setSize(12);
-                character.getFeaturesList().remove("Song of Rest (d6)");
-                character.getFeaturesList().add("Song of Rest (d8)");
-                System.out.println("You have added Song of Rest (d8) to your features");
-
-                ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
-                ListView<CheckBox> fifthLevelSpellsList = convertVectorToList(fifthLevelSpells);
-                pane.getChildren().addAll(new HBox(new VBox(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList), new VBox(new Label("Fifth Level Spells: 1"), fifthLevelSpellsList)),continueButton,error);
-
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int fourthLevelCounter =0;
-                    for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
-                        if (fourthLevelSpellsList.getItems().get(i).isSelected()){
-                            fourthLevelCounter++;
-                        }
-                    }
-                    int fifthLevelCounter =0;
-                    for (int i=0; i<fifthLevelSpellsList.getItems().size(); i++){
-                        if (fifthLevelSpellsList.getItems().get(i).isSelected()){
-                            fifthLevelCounter++;
-                        }
-                    }
-
-                    if (fourthLevelCounter!=1 && fifthLevelCounter!=1){
-                        error.setText("Please select 1 fourth level spell and 1 fifth level spell");
-                    }else if (fourthLevelCounter !=1){
-                        error.setText("Please select 1 fourth level spell");
-                    }else if (fifthLevelCounter !=1){
-                        error.setText("Please select 1 fifth level spell");
-                    }
-                    else {
-                        // Successful continue
-                        for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
-                            if (fourthLevelSpellsList.getItems().get(i).isSelected()){
-                                character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
-                                fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
-                            }
-                        }
-                        for (int i=0; i<fifthLevelSpellsList.getItems().size(); i++){
-                            if (fifthLevelSpellsList.getItems().get(i).isSelected()){
-                                character.fifthLevelSpellListView.getItems().add(fifthLevelSpellsList.getItems().get(i).getText());
-                                fifthLevelSpells.remove(fifthLevelSpellsList.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-
-                    }
-                });
-            }
-            if (startingLevel == 10) {
-                System.out.println("Level 10");
-                error.setText("");
-//                character.spells.setSize(14);
-//                character.cantrips.setSize(4);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                character.getFeaturesList().remove("Bardic Inspiration (d8)");
-                character.getFeaturesList().add("Bardic Inspiration (d10)");
-                character.getFeaturesList().add("Expertise");
-                System.out.println("You have added Bardic Inspiration (d10), Expertise, Magical Secrets to your features");
-
-                System.out.println("You have learned a new Cantrip");
-                ListView<CheckBox> cantripListView = convertVectorToList(cantripList);
-                ListView<CheckBox> fifthLevelListView = convertVectorToList(fifthLevelSpells);
-                pane.getChildren().addAll(new HBox(new VBox(new Label("Cantrips: 1"),cantripListView), new VBox(new Label("Fifth Level Spells: 1"), fifthLevelListView)), continueButton,error);
-
-                continueButton.setOnAction(continueEvent ->{
-                    int cantripsCounter = 0;
-                    for (int i=0; i < cantripListView.getItems().size(); i++){
-                        if (cantripListView.getItems().get(i).isSelected()){
-                            cantripsCounter++;
-                        }
-                    }
-                    int fifthLevelCounter = 0;
-                    for (int i=0; i < fifthLevelListView.getItems().size(); i++){
-                        if (fifthLevelListView.getItems().get(i).isSelected()){
-                            fifthLevelCounter++;
-                        }
-                    }
-
-                    if(cantripsCounter!=1 && fifthLevelCounter!=1){
-                        error.setText("Please select 1 cantrip and 1 fifth level spell");
-                    }else if(fifthLevelCounter!=1){
-                        error.setText("Please select 1 fifth level spell");
-                    }else if(cantripsCounter!=1){
-                        error.setText("Please select 1 cantrip");
-                    }else{
-                        //Successful continue
-                        for (int i=0; i < cantripListView.getItems().size(); i++){
-                            if (cantripListView.getItems().get(i).isSelected()){
-                                character.cantripsListView.getItems().add(cantripListView.getItems().get(i).getText());
-                                cantripList.remove(cantripListView.getItems().get(i).getText());
-                            }
-                        }
-                        for (int i=0; i < fifthLevelListView.getItems().size(); i++){
-                            if (fifthLevelListView.getItems().get(i).isSelected()){
-                                character.fifthLevelSpellListView.getItems().add(fifthLevelListView.getItems().get(i).getText());
-                                fifthLevelSpells.remove(fifthLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        pane.getChildren().clear();
-                        pane.getChildren().add(magicalSecrects(5,2,continueButton));
-                        continueButton.setOnAction(continueButtonEvent ->{
-                            if (startingLevel == maxLevel) {
-                                addLevelStage.close();
-                            } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                        });
-                    }
-                });
-            }
-            if (startingLevel == 11) {
-                System.out.println("Level 11");
-                error.setText("");
-//                character.spells.setSize(15);
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
-                pane.getChildren().addAll(new Label("Sixth Level Spells: 1"), sixthLevelListView,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i< sixthLevelListView.getItems().size(); i++){
-                        if (sixthLevelListView.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter != 1){
-                        error.setText("Please select 1 sixth level spell");
-                    }else {
-                        //Successful continue
-                        for (int i=0; i< sixthLevelListView.getItems().size(); i++){
-                            if (sixthLevelListView.getItems().get(i).isSelected()){
-                                character.sixthLevelSpellListView.getItems().add(sixthLevelListView.getItems().get(i).getText());
-                                sixthLevelSpells.remove(sixthLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    }
-                });
-            }
-            if (startingLevel == 12) {
-                System.out.println("Level 12");
-                error.setText("");
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
-
-            }
-            if (startingLevel == 13) {
-                System.out.println("Level 13");
-                error.setText("");
-                character.setProficiencyMod(5);
-                proficiency.setText("Proficiency : + " + character.getProficiencyMod());
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                character.getFeaturesList().remove("Song of Rest (d8)");
-                character.getFeaturesList().add("Song of Rest (d10)");
-                System.out.println("You added Song of Rest (d10) to features");
-                ListView<CheckBox> seventhLevelListView = convertVectorToList(seventhLevelSpells);
-                pane.getChildren().addAll(new Label("Seventh Level Spells: 1"), seventhLevelListView,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i< seventhLevelListView.getItems().size(); i++){
-                        if (seventhLevelListView.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter != 1){
-                        error.setText("Please select 1 seventh level spell");
-                    }else {
-                        //Successful continue
-                        for (int i=0; i< seventhLevelListView.getItems().size(); i++){
-                            if (seventhLevelListView.getItems().get(i).isSelected()){
-                                character.seventhLevelSpellListView.getItems().add(seventhLevelListView.getItems().get(i).getText());
-                                seventhLevelSpells.remove(seventhLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    }
-                });
-            }
-            if (startingLevel == 14) {
-                System.out.println("Level 14");
-                error.setText("");
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                if (college.equals("College of Lore")) {
-                    character.getFeaturesList().add("Peerless Skills");
-                    System.out.println("You have added Peerless Skills and Magical Secrets to features");
-                        pane.getChildren().add(magicalSecrects(7,2,continueButton));
-
-                }
-                if (college.equals("College of Valor")) {
-                    character.getFeaturesList().add("Battle Magic");
-                    System.out.println("You have added Battle Magic and Magical Secrets to features");
-                    pane.getChildren().add(magicalSecrects(7,2,continueButton));
-                }
-            }
-
-            if (startingLevel == 15) {
-                System.out.println("Level 15");
-                error.setText("");
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                character.getFeaturesList().remove("Bardic Inspiration (d10)");
-                character.getFeaturesList().add("Bardic Inspiration (d12)");
-                ListView<CheckBox> eighthLevelListView = convertVectorToList(eighthLevelSpells);
-                pane.getChildren().addAll(new Label("Eighth Level Spells: 1"), eighthLevelListView,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i< eighthLevelListView.getItems().size(); i++){
-                        if (eighthLevelListView.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter != 1){
-                        error.setText("Please select 1 eighth level spell");
-                    }else {
-                        //Successful continue
-                        for (int i=0; i< eighthLevelListView.getItems().size(); i++){
-                            if (eighthLevelListView.getItems().get(i).isSelected()){
-                                character.eighthLevelSpellListView.getItems().add(eighthLevelListView.getItems().get(i).getText());
-                                eighthLevelSpells.remove(eighthLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    }
-                });
-            }
-            if (startingLevel == 16) {
-                System.out.println("Level 16");
-                error.setText("");
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
-            }
-
-            if (startingLevel == 17) {
-                System.out.println("Level 17");
-                error.setText("");
-                character.setProficiencyMod(6);
-                proficiency.setText("Proficiency : + " + character.getProficiencyMod());
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-                character.getFeaturesList().remove("Song of Rest (d10");
-                character.getFeaturesList().add("Song of Rest (d12)");
-
-                ListView<CheckBox> ninthLevelListView = convertVectorToList(ninthLevelSpells);
-                pane.getChildren().addAll(new Label("Ninth Level Spells: 1"), ninthLevelListView,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i< ninthLevelListView.getItems().size(); i++){
-                        if (ninthLevelListView.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter != 1){
-                        error.setText("Please select 1 ninth level spell");
-                    }else {
-                        //Successful continue
-                        for (int i=0; i< ninthLevelListView.getItems().size(); i++){
-                            if (ninthLevelListView.getItems().get(i).isSelected()){
-                                character.ninthLevelSpellListView.getItems().add(ninthLevelListView.getItems().get(i).getText());
-                                ninthLevelSpells.remove(ninthLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    }
-                });
-
-            }
-            if (startingLevel == 18) {
-                System.out.println("Level 18");
-                error.setText("");
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-
-                ListView<CheckBox> fifthLevelListView = convertVectorToList(fifthLevelSpells);
-                pane.getChildren().addAll(new Label("Fifth Level Spells: 1"), fifthLevelListView,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i< fifthLevelListView.getItems().size(); i++){
-                        if (fifthLevelListView.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter != 1){
-                        error.setText("Please select 1 fifth level spell");
-                    }else {
-                        //Successful continue
-                        for (int i=0; i< fifthLevelListView.getItems().size(); i++){
-                            if (fifthLevelListView.getItems().get(i).isSelected()){
-                                character.fifthLevelSpellListView.getItems().add(fifthLevelListView.getItems().get(i).getText());
-                                fifthLevelSpells.remove(fifthLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        pane.getChildren().clear();
-                        pane.getChildren().add(magicalSecrects(9,2, continueButton));
-                        continueButton.setOnAction(continueButtonE ->{
-                            if (startingLevel == maxLevel) {
-                                addLevelStage.close();
-                            } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                        });
-                    }
-                });
-            }
-            if (startingLevel == 19) {
-                System.out.println("Level 19");
-                error.setText("");
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-
-                ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
-                pane.getChildren().addAll(new Label("Sixth Level Spells: 1"), sixthLevelListView,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i< sixthLevelListView.getItems().size(); i++){
-                        if (sixthLevelListView.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter != 1){
-                        error.setText("Please select 1 sixth level spell");
-                    }else {
-                        //Successful continue
-                        for (int i=0; i< sixthLevelListView.getItems().size(); i++){
-                            if (sixthLevelListView.getItems().get(i).isSelected()){
-                                character.sixthLevelSpellListView.getItems().add(sixthLevelListView.getItems().get(i).getText());
-                                sixthLevelSpells.remove(sixthLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        pane.getChildren().clear();
-                        pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
-                    }
-                });
-
-            }
-            if (startingLevel == 20) {
-                System.out.println("Level 20");
-                error.setText("");
-                character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
-                hp.setText("Hit Points: " + character.getHitPoints());
-
-                ListView<CheckBox> seventhLevelListView = convertVectorToList(seventhLevelSpells);
-                pane.getChildren().addAll(new Label("Seventh Level Spells: 1"), seventhLevelListView,continueButton,error);
-                continueButton.setOnAction(continueButtonEvent ->{
-                    int counter =0;
-                    for (int i=0; i< seventhLevelListView.getItems().size(); i++){
-                        if (seventhLevelListView.getItems().get(i).isSelected()){
-                            counter++;
-                        }
-                    }
-                    if (counter != 1){
-                        error.setText("Please select 1 seventh level spell");
-                    }else {
-                        //Successful continue
-                        for (int i=0; i< seventhLevelListView.getItems().size(); i++){
-                            if (seventhLevelListView.getItems().get(i).isSelected()){
-                                character.seventhLevelSpellListView.getItems().add(seventhLevelListView.getItems().get(i).getText());
-                                seventhLevelSpells.remove(seventhLevelListView.getItems().get(i).getText());
-                            }
-                        }
-                        if (startingLevel == maxLevel) {
-                            addLevelStage.close();
-                        } else addLevel(addLevelStage, maxLevel, startingLevel + 1);
-                    }
-                });
-                character.getFeaturesList().add("Superior Inspiration");
-                System.out.println("You have added Superior Inspiration to your features");
-
-            }
-
-            VBox left = new VBox();
-            left.setPrefWidth(150);
-            left.setPadding(new Insets(10, 10, 10, 10));
-            left.getChildren().addAll(hp, proficiency, proficiencies, features);
-            borderPane.setLeft(left);
-            borderPane.setStyle("-fx-border-color: black;" +
+    public void addLevel (Stage stage, int maxLevel, int startingLevel) {
+        //TODO stop health from going down when leveling up
+        /**int possibleHealthIncrement = d8roll + con mod;
+         * if (possibleHealthIncrement >=1){
+         *  character hp += possibleHealthIncrement;
+         * } else character hp +=1
+         */
+        spellSaveDC = 8 + proficiency + character.getCharismaMod();
+        spellAttackMod = proficiency + character.getCharismaMod();
+        addLevelStage = stage;
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(updateAbilityPane());
+        Scene scene = new Scene(borderPane, 600, 600);
+        addLevelStage.setScene(scene);
+        Button continueButton = new Button("Continue");
+        addLevelStage.setTitle("Level " + startingLevel);
+        Label error = new Label();
+        error.setTextFill(Color.RED);
+        borderPane.setStyle("-fx-border-color: black;" +
                     "-fx-background-radius: 10;" + "-fx-border-radius: 10;");
-            scene.setFill(Color.TRANSPARENT);
+        scene.setFill(Color.TRANSPARENT);
+
+        //Starts the leveling process at one. Each level will check if it is the max label and close the stage if it is, or go to the next level if not.
+        switch (startingLevel){
+            case 1: levelOne(borderPane,continueButton,error,maxLevel);
+                break;
+            case 2: levelTwo(borderPane,continueButton,error,maxLevel);
+                break;
+            case 3: levelThree(borderPane,continueButton,error,maxLevel);
+                break;
+            case 4: levelFour(borderPane,continueButton,error,maxLevel);
+                break;
+            case 5: levelFive(borderPane,continueButton,error,maxLevel);
+                break;
+            case 6: levelSix(borderPane,continueButton,error,maxLevel);
+                break;
+            case 7: levelSeven(borderPane,continueButton,error,maxLevel);
+                break;
+            case 8: levelEight(borderPane,continueButton,error,maxLevel);
+                break;
+            case 9: levelNine(borderPane,continueButton,error,maxLevel);
+                break;
+            case 10: levelTen(borderPane,continueButton,error,maxLevel);
+            case 11: levelEleven(borderPane,continueButton,error,maxLevel);
+                break;
+            case 12: levelTwelve(borderPane,continueButton,error,maxLevel);
+                break;
+            case 13: levelThirteen(borderPane,continueButton,error,maxLevel);
+                break;
+            case 14: levelFourteen(borderPane,continueButton,error,maxLevel);
+                break;
+            case 15: levelFifteen(borderPane,continueButton,error,maxLevel);
+                break;
+            case 16: levelSixteen(borderPane,continueButton,error,maxLevel);
+                break;
+            case 17: levelSeventeen(borderPane,continueButton,error,maxLevel);
+                break;
+            case 18: levelEighteen(borderPane,continueButton,error,maxLevel);
+                break;
+            case 19: levelNineteen(borderPane,continueButton,error,maxLevel);
+                break;
+            case 20: levelTwenty(borderPane,continueButton,error,maxLevel);
+
         }
 
     }
+    private void levelOne (BorderPane borderPane, Button continueButton, Label error, int maxLevel){
+//                character.cantrips.setSize(2);
+//                character.spells.setSize(4);
+        System.out.println("Level 1");
+        addLevelStage.setTitle("Level 1");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        character.setProficiencyMod(2);
+        character.setHitPoints(8 + character.getConstitutionMod());
+        borderPaneSetUp(borderPane, pane);
+
+        character.getFeaturesList().add("Spellcasting");
+        character.getFeaturesList().add("Bardic Inspiration (d6)");
+        Label chooseSpells = new Label("You have learned 2 Cantrips and 4 First level spells. Please choose a Cantrip");
+        ListView<CheckBox> cantripsList = convertVectorToList(cantripList);
+        ListView<CheckBox>  spellsList = convertVectorToList(firstLevelSpells);
+        pane.getChildren().addAll(chooseSpells,new HBox(new VBox(new Label("Cantrips: 2 "),cantripsList),new VBox(new Label("First Level Spells: 4"),spellsList)),continueButton,error);
+
+        continueButton.setOnAction(continueError -> {
+            int counter1= 0;
+            int counter2 =0;
+            for (int i =0; i <cantripsList.getItems().size();i++){
+                if (cantripsList.getItems().get(i).isSelected()){
+                    counter1++;
+                }
+            }
+            for (int i =0; i <spellsList.getItems().size();i++){
+                if (spellsList.getItems().get(i).isSelected()){
+                    counter2++;
+                }
+            }
+            if (counter1 != 2 && counter2 !=4 ){
+                error.setText("Please select 2 cantrips and 4 first level spells");
+            }else
+            if (counter1 != 2){
+                error.setText("Please select 2 cantrips");
+            }
+            else
+            if (counter2 != 4){
+                error.setText("Please select 4 first level spells");
+            } else{
+                //Remove selected spells from available spells
+                for (int i =0; i <cantripsList.getItems().size(); i++)
+                    if (cantripsList.getItems().get(i).isSelected()){
+                        character.cantripsListView.getItems().add(cantripsList.getItems().get(i).getText());
+                        cantripList.remove(cantripsList.getItems().get(i).getText());
+                    }
+                for (int i =0; i <spellsList.getItems().size(); i++)
+                    if (spellsList.getItems().get(i).isSelected()){
+                        character.firstLevelSpellListView.getItems().add(spellsList.getItems().get(i).getText());
+                        firstLevelSpells.remove(spellsList.getItems().get(i).getText());
+                    }
+
+                //Continues to next level
+                    if (maxLevel == 1) {
+                        addLevelStage.close();
+                    } else levelTwo(borderPane,continueButton,error,maxLevel);
+            }
+        });
+    }
+
+    private void levelTwo(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        System.out.println("Level 2");
+        addLevelStage.setTitle("Level 2");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        error.setText("");
+//                character.spells.setSize(5);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPaneSetUp(borderPane, pane);
+        ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
+        pane.getChildren().addAll(new Label("First Level Spells: 1"), firstLevelSpell,continueButton,error);
+        continueButton.setOnAction( continueError ->{
+            int counter = 0;
+            for (int i =0; i< firstLevelSpell.getItems().size(); i++){
+                if (firstLevelSpell.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter!=1){
+                error.setText("Please select one first level spell");
+            }else {
+                for (int i =0; i< firstLevelSpell.getItems().size(); i++){
+                    if (firstLevelSpell.getItems().get(i).isSelected()){
+                        character.firstLevelSpellListView.getItems().add(firstLevelSpell.getItems().get(i).getText());
+                        firstLevelSpells.remove(firstLevelSpell.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel == 2) {
+                    addLevelStage.close();
+                }
+                    else levelThree(borderPane,continueButton,error,maxLevel);
+            }
+        });
+
+        character.getFeaturesList().add("Jack of All Trades");
+        character.getFeaturesList().add("Song of Rest (d6)");
+    }
+
+
+    private void levelThree(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        System.out.println("Level 3");
+        addLevelStage.setTitle("Level 3");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        error.setText("");
+//                character.spells.setSize(6);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPaneSetUp(borderPane, pane);
+        character.getFeaturesList().add("Expertise");
+        ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
+        ListView<CheckBox> secondLevelSpell = convertVectorToList(secondLevelSpells);
+        ChoiceBox collegeChoice = new ChoiceBox(FXCollections.observableArrayList("College of Lore","College of Valor"));
+        pane.getChildren().addAll(new HBox(new VBox(new Label("First Level Spells: 1"),firstLevelSpell), new VBox(new Label("Second Level Spells: 2"),secondLevelSpell)), new HBox(new Label("Select a Bard College: "),collegeChoice),continueButton,error);
+
+        continueButton.setDisable(true);
+        collegeChoice.setOnAction(collegeChoiceError -> continueButton.setDisable(false));
+        continueButton.setOnAction(continueError ->{
+            int firstLevelCounter = 0;
+            for (int i =0; i <firstLevelSpell.getItems().size();i++){
+                if (firstLevelSpell.getItems().get(i).isSelected()){
+                    firstLevelCounter++;
+                }
+            }
+
+            int secondLevelCounter = 0;
+            for (int i =0; i <secondLevelSpell.getItems().size();i++){
+                if (secondLevelSpell.getItems().get(i).isSelected()){
+                    secondLevelCounter++;
+                }
+            }
+            if (firstLevelCounter!=1 && secondLevelCounter != 2){
+                error.setText("Please select 1 first level spell and 2 second level spells");
+            }else
+            if (firstLevelCounter != 1){
+                error.setText("Please select 1 first level spell");
+            }else
+            if (secondLevelCounter != 2){
+                error.setText("Please select 2 second level spells");
+            }
+            // Successful continue
+            else {
+                for (int i =0; i <firstLevelSpell.getItems().size();i++){
+                    if (firstLevelSpell.getItems().get(i).isSelected()){
+                        character.firstLevelSpellListView.getItems().add(firstLevelSpell.getItems().get(i).getText());
+                        firstLevelSpells.remove(firstLevelSpell.getItems().get(i).getText());
+                    }
+                }
+                for (int i =0; i <secondLevelSpell.getItems().size();i++){
+                    if (secondLevelSpell.getItems().get(i).isSelected()){
+                        character.secondLevelSpellListView.getItems().add(secondLevelSpell.getItems().get(i).getText());
+                        secondLevelSpells.remove(secondLevelSpell.getItems().get(i).getText());
+                    }
+                }
+                college = collegeChoice.getValue().toString();
+                character.getMisc().add(college);
+                if (college.equals("College of Lore")){
+                    character.getFeaturesList().add("Cutting Words");
+                    pane.getChildren().clear();
+                    Label skillsLabel = new Label("Please select 3 skills to be proficient in" );
+                    Vector availableSkills = new Vector();
+                    for (int i =0; i<character.getAllSkills().length; i++){
+                        if (!character.classProficienciesList.contains(character.getAllSkills()[i]) && !character.levelProficienciesList.contains(character.getAllSkills()[i])){
+                            availableSkills.add(character.getAllSkills()[i]);
+                        }
+                    }
+                    ListView<CheckBox> skillProficiencies = convertVectorToList(availableSkills);
+                    pane.getChildren().addAll(skillsLabel,skillProficiencies,continueButton,error);
+                    continueButton.setOnAction(continueEvent->{
+                        error.setText("");
+                        int counter = 0;
+                        for (int i=0; i < skillProficiencies.getItems().size();i++){
+                            if (skillProficiencies.getItems().get(i).isSelected()){
+                                if (character.levelProficienciesList.contains(skillProficiencies.getItems().get(i).getText()) || character.classProficienciesList.contains(skillProficiencies.getItems().get(i).getText())){
+                                    error.setText("You are already proficient with " + skillProficiencies.getItems().get(i).getText() + " , please choose a different skill" );
+                                }else counter++;
+                            }
+                        }
+                        if ( error.getText().equals("")){
+                            if (counter!=3){
+                                error.setText("Please select 3 skills");
+                            }else {
+                                for (int i=0; i < skillProficiencies.getItems().size();i++){
+                                    if (skillProficiencies.getItems().get(i).isSelected()){
+                                        character.levelProficienciesList.add(skillProficiencies.getItems().get(i).getText());
+                                    }
+                                }
+                                if (maxLevel ==3) {
+                                    addLevelStage.close();
+                                } else levelFour(borderPane,continueButton,error,maxLevel);
+                            }
+                        }
+                    });
+
+                }else{
+                    if (!character.getProficienciesList().contains("Medium Armor")){
+                        character.levelProficienciesList.add("Medium Armor");
+                    }if (!character.getProficienciesList().contains("Shields")){
+                        character.levelProficienciesList.add("Shields");
+                    }if (!character.getProficienciesList().contains("Martial Weapons")){
+                        character.levelProficienciesList.add("Martial Weapons");
+                    }
+                    character.getFeaturesList().add("Combat Inspiration");
+
+                    if (maxLevel ==3) {
+                        addLevelStage.close();
+                    } else levelFour(borderPane,continueButton,error,maxLevel);
+                }
+
+            }
+        });
+
+    }
+    private void levelFour(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        System.out.println("Level 4");
+        addLevelStage.setTitle("Level 4");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPaneSetUp(borderPane, pane);
+        error.setText("");
+//            character.spells.setSize(7);
+//            character.cantrips.setSize(4);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        Button next = new Button("Next");
+        ListView<CheckBox> cantripListView = convertVectorToList(cantripList);
+        ListView<CheckBox> secondLevelSpellListView = convertVectorToList(secondLevelSpells);
+        pane.getChildren().addAll(new HBox(new VBox(new Label("Cantrips: 1"),cantripListView)), new HBox(new VBox(new Label("Second Level Spells: 2"), secondLevelSpellListView)),next,error);
+
+        next.setOnAction(nextError->{
+            int cantripsCounter = 0;
+            for (int i =0; i<cantripListView.getItems().size(); i++){
+                if (cantripListView.getItems().get(i).isSelected()){
+                    cantripsCounter++;
+                }
+            }
+
+            int secondLevelCounter = 0;
+            for (int i =0; i<secondLevelSpellListView.getItems().size(); i++){
+                if (secondLevelSpellListView.getItems().get(i).isSelected()){
+                    secondLevelCounter++;
+                }
+            }
+            if (cantripsCounter !=1 && secondLevelCounter!= 2){
+                error.setText("Please select 1 cantrip and 2 second level spells");
+            } else
+            if (cantripsCounter !=1){
+                error.setText("Please select 1 cantrip ");
+            }else
+            if (secondLevelCounter!= 2){
+                error.setText("Please select 2 second level spells");
+            }else {
+                for (int i =0; i<cantripListView.getItems().size(); i++){
+                    if (cantripListView.getItems().get(i).isSelected()){
+                        character.cantripsListView.getItems().add(cantripListView.getItems().get(i).getText());
+                        cantripList.remove(cantripListView.getItems().get(i).getText());
+                    }
+                }
+                for (int i =0; i<secondLevelSpellListView.getItems().size(); i++){
+                    if (secondLevelSpellListView.getItems().get(i).isSelected()){
+                        character.secondLevelSpellListView.getItems().add(secondLevelSpellListView.getItems().get(i).getText());
+                        secondLevelSpells.remove(secondLevelSpellListView.getItems().get(i).getText());
+                    }
+                }
+                borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,4));
+//                levelFive(borderPane,continueButton,error,maxLevel);
+                //TODO Need to update abilityScoreImprovement to call the next level
+            }
+
+        });
+    }
+
+    private void levelFive(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 5");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPaneSetUp(borderPane, pane);
+        System.out.println("Level 5");
+        error.setText("");
+        character.setProficiencyMod(3);
+//            character.spells.setSize(8);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        Label levelSpells = new Label("Third level spells: 3");
+        ListView<CheckBox> thirdLevelSpellsList = convertVectorToList(thirdLevelSpells);
+
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i =0; i <thirdLevelSpellsList.getItems().size(); i++){
+                if (thirdLevelSpellsList.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter!=3){
+                error.setText("Please select 3 third level spells");
+            }else {
+                for (int i =0; i <thirdLevelSpellsList.getItems().size(); i++){
+                    if (thirdLevelSpellsList.getItems().get(i).isSelected()){
+                        character.thirdLevelSpellListView.getItems().add(thirdLevelSpellsList.getItems().get(i).getText());
+                        thirdLevelSpells.remove(thirdLevelSpellsList.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel==5) {
+                    addLevelStage.close();
+                }levelSix(borderPane,continueButton,error,maxLevel);
+            }
+        });
+        pane.getChildren().addAll(levelSpells,thirdLevelSpellsList,continueButton,error);
+        character.getFeaturesList().remove("Bardic Inspiration (d6)");
+        character.getFeaturesList().add("Bardic Inspiration (d8)");
+        character.getFeaturesList() .add("Font of Inspiration");
+        System.out.println("Bardic Inspiration (d6) and Font of Inspiration added to features");
+
+
+    }
+    private void levelSix(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 6");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 6");
+        error.setText("");
+//                character.spells.setSize(9);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        Label chooseThirdLevelSpell = new Label("Third Level Spell: 1");
+        ListView<CheckBox> thirdLevelSpellList = convertVectorToList(thirdLevelSpells);
+        pane.getChildren().addAll(chooseThirdLevelSpell,thirdLevelSpellList,continueButton,error);
+        character.getFeaturesList().add("Countercharm");
+        continueButton.setOnAction(continueEvent ->{
+            int counter =0;
+            for (int i =0; i<thirdLevelSpellList.getItems().size(); i++){
+                if (thirdLevelSpellList.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter!=1){
+                error.setText("Please select one third level spell.");
+            }else{ // Successful continue
+                for (int i =0; i<thirdLevelSpellList.getItems().size(); i++){
+                    if (thirdLevelSpellList.getItems().get(i).isSelected()){
+                        character.thirdLevelSpellListView.getItems().add(thirdLevelSpellList.getItems().get(i).getText());
+                        thirdLevelSpellList.getItems().remove(thirdLevelSpellList.getItems().get(i));
+                    }
+                }
+                if (college.equals("College of Lore")) {
+                    System.out.println("Countercharm and Additional Magical Secrets added to features");
+                    for (int i = 0; i < 2; i++) {
+                        pane.getChildren().clear();
+                        pane.getChildren().add(magicalSecrects(3,2,continueButton));
+                        continueButton.setOnAction(continueButtonEvent ->{
+                            if (maxLevel==6) {
+                                addLevelStage.close();
+                            } levelSeven(borderPane,continueButton,error,maxLevel);
+                        });
+                    }
+
+                }
+                if (college.equals("College of Valor")) {
+                    character.getFeaturesList().add("Extra Attack");
+                    System.out.println("Countercharm and Extra Attack added to features");
+                    if (maxLevel ==6) {
+                        addLevelStage.close();
+                    }levelSeven(borderPane,continueButton,error,maxLevel);
+                }
+
+            }
+        });
+
+    }
+    private void levelSeven(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 7");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 7");
+        error.setText("");
+//                character.spells.setSize(10);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
+        pane.getChildren().addAll(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter!=1){
+                error.setText("Please select 1 fourth level spell");
+            }else {
+                // Successful continue
+                for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                    if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                        character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
+                        fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel == 7) {
+                    addLevelStage.close();
+                } else levelEight(borderPane,continueButton,error,maxLevel);
+            }
+        });
+
+    }
+    private void levelEight(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 8");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 8");
+        error.setText("");
+//                character.spells.setSize(11);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+       borderPane.setLeft(leftSetUp());
+        ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
+        pane.getChildren().addAll(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter!=1){
+                error.setText("Please select 1 fourth level spell");
+            }else {
+                // Successful continue
+                for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                    if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                        character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
+                        fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
+                    }
+                }
+                borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,8));
+            }
+        });
+
+    }
+    private void levelNine(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 9");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 9");
+        error.setText("");
+        character.setProficiencyMod(4);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+//                character.spells.setSize(12);
+        character.getFeaturesList().remove("Song of Rest (d6)");
+        character.getFeaturesList().add("Song of Rest (d8)");
+        System.out.println("You have added Song of Rest (d8) to your features");
+
+        ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
+        ListView<CheckBox> fifthLevelSpellsList = convertVectorToList(fifthLevelSpells);
+        pane.getChildren().addAll(new HBox(new VBox(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList), new VBox(new Label("Fifth Level Spells: 1"), fifthLevelSpellsList)),continueButton,error);
+
+        continueButton.setOnAction(continueButtonEvent ->{
+            int fourthLevelCounter =0;
+            for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                    fourthLevelCounter++;
+                }
+            }
+            int fifthLevelCounter =0;
+            for (int i=0; i<fifthLevelSpellsList.getItems().size(); i++){
+                if (fifthLevelSpellsList.getItems().get(i).isSelected()){
+                    fifthLevelCounter++;
+                }
+            }
+
+            if (fourthLevelCounter!=1 && fifthLevelCounter!=1){
+                error.setText("Please select 1 fourth level spell and 1 fifth level spell");
+            }else if (fourthLevelCounter !=1){
+                error.setText("Please select 1 fourth level spell");
+            }else if (fifthLevelCounter !=1){
+                error.setText("Please select 1 fifth level spell");
+            }
+            else {
+                // Successful continue
+                for (int i=0; i<fourthLevelSpellsList.getItems().size(); i++){
+                    if (fourthLevelSpellsList.getItems().get(i).isSelected()){
+                        character.fourthLevelSpellListView.getItems().add(fourthLevelSpellsList.getItems().get(i).getText());
+                        fourthLevelSpells.remove(fourthLevelSpellsList.getItems().get(i).getText());
+                    }
+                }
+                for (int i=0; i<fifthLevelSpellsList.getItems().size(); i++){
+                    if (fifthLevelSpellsList.getItems().get(i).isSelected()){
+                        character.fifthLevelSpellListView.getItems().add(fifthLevelSpellsList.getItems().get(i).getText());
+                        fifthLevelSpells.remove(fifthLevelSpellsList.getItems().get(i).getText());
+                    }
+                }
+                if ( maxLevel == 9) {
+                    addLevelStage.close();
+                } else levelTen(borderPane,continueButton,error,maxLevel);
+            }
+        });
+
+    }
+    private void levelTen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 10");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 10");
+        error.setText("");
+//                character.spells.setSize(14);
+//                character.cantrips.setSize(4);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        character.getFeaturesList().remove("Bardic Inspiration (d8)");
+        character.getFeaturesList().add("Bardic Inspiration (d10)");
+        character.getFeaturesList().add("Expertise");
+        System.out.println("You have added Bardic Inspiration (d10), Expertise, Magical Secrets to your features");
+
+        System.out.println("You have learned a new Cantrip");
+        ListView<CheckBox> cantripListView = convertVectorToList(cantripList);
+        ListView<CheckBox> fifthLevelListView = convertVectorToList(fifthLevelSpells);
+        pane.getChildren().addAll(new HBox(new VBox(new Label("Cantrips: 1"),cantripListView), new VBox(new Label("Fifth Level Spells: 1"), fifthLevelListView)), continueButton,error);
+
+        continueButton.setOnAction(continueEvent ->{
+            int cantripsCounter = 0;
+            for (int i=0; i < cantripListView.getItems().size(); i++){
+                if (cantripListView.getItems().get(i).isSelected()){
+                    cantripsCounter++;
+                }
+            }
+            int fifthLevelCounter = 0;
+            for (int i=0; i < fifthLevelListView.getItems().size(); i++){
+                if (fifthLevelListView.getItems().get(i).isSelected()){
+                    fifthLevelCounter++;
+                }
+            }
+
+            if(cantripsCounter!=1 && fifthLevelCounter!=1){
+                error.setText("Please select 1 cantrip and 1 fifth level spell");
+            }else if(fifthLevelCounter!=1){
+                error.setText("Please select 1 fifth level spell");
+            }else if(cantripsCounter!=1){
+                error.setText("Please select 1 cantrip");
+            }else{
+                //Successful continue
+                for (int i=0; i < cantripListView.getItems().size(); i++){
+                    if (cantripListView.getItems().get(i).isSelected()){
+                        character.cantripsListView.getItems().add(cantripListView.getItems().get(i).getText());
+                        cantripList.remove(cantripListView.getItems().get(i).getText());
+                    }
+                }
+                for (int i=0; i < fifthLevelListView.getItems().size(); i++){
+                    if (fifthLevelListView.getItems().get(i).isSelected()){
+                        character.fifthLevelSpellListView.getItems().add(fifthLevelListView.getItems().get(i).getText());
+                        fifthLevelSpells.remove(fifthLevelListView.getItems().get(i).getText());
+                    }
+                }
+                pane.getChildren().clear();
+                pane.getChildren().add(magicalSecrects(5,2,continueButton));
+                continueButton.setOnAction(continueButtonEvent ->{
+                    if (maxLevel == 10) {
+                        addLevelStage.close();
+                    } else  levelEleven(borderPane,continueButton,error,maxLevel);
+                });
+            }
+        });
+
+    }
+    private void levelEleven(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 11");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 11");
+        error.setText("");
+//                character.spells.setSize(15);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
+        pane.getChildren().addAll(new Label("Sixth Level Spells: 1"), sixthLevelListView,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                if (sixthLevelListView.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter != 1){
+                error.setText("Please select 1 sixth level spell");
+            }else {
+                //Successful continue
+                for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                    if (sixthLevelListView.getItems().get(i).isSelected()){
+                        character.sixthLevelSpellListView.getItems().add(sixthLevelListView.getItems().get(i).getText());
+                        sixthLevelSpells.remove(sixthLevelListView.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel == 11) {
+                    addLevelStage.close();
+                } else levelTwelve(borderPane,continueButton,error,maxLevel);
+            }
+        });
+
+    }
+    private void levelTwelve(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 12");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 12");
+        error.setText("");
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,12));
+
+    }
+    private void levelThirteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 13");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 13");
+        error.setText("");
+        character.setProficiencyMod(5);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        character.getFeaturesList().remove("Song of Rest (d8)");
+        character.getFeaturesList().add("Song of Rest (d10)");
+        System.out.println("You added Song of Rest (d10) to features");
+        ListView<CheckBox> seventhLevelListView = convertVectorToList(seventhLevelSpells);
+        pane.getChildren().addAll(new Label("Seventh Level Spells: 1"), seventhLevelListView,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                if (seventhLevelListView.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter != 1){
+                error.setText("Please select 1 seventh level spell");
+            }else {
+                //Successful continue
+                for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                    if (seventhLevelListView.getItems().get(i).isSelected()){
+                        character.seventhLevelSpellListView.getItems().add(seventhLevelListView.getItems().get(i).getText());
+                        seventhLevelSpells.remove(seventhLevelListView.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel ==13) {
+                    addLevelStage.close();
+                } else levelFourteen(borderPane,continueButton,error,maxLevel);
+            }
+        });
+    }
+    private void levelFourteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 14");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 14");
+        error.setText("");
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        if (college.equals("College of Lore")) {
+            character.getFeaturesList().add("Peerless Skills");
+            System.out.println("You have added Peerless Skills and Magical Secrets to features");
+            pane.getChildren().add(magicalSecrects(7,2,continueButton));
+
+        }
+        if (college.equals("College of Valor")) {
+            character.getFeaturesList().add("Battle Magic");
+            System.out.println("You have added Battle Magic and Magical Secrets to features");
+            pane.getChildren().add(magicalSecrects(7,2,continueButton));
+        }
+        continueButton.setOnAction(continueButtonEvent -> {
+            if (maxLevel ==14) {
+                addLevelStage.close();
+            } else levelFifteen(borderPane,continueButton,error,maxLevel);
+        });
+
+    }
+    private void levelFifteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 15");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 15");
+        error.setText("");
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        character.getFeaturesList().remove("Bardic Inspiration (d10)");
+        character.getFeaturesList().add("Bardic Inspiration (d12)");
+        ListView<CheckBox> eighthLevelListView = convertVectorToList(eighthLevelSpells);
+        pane.getChildren().addAll(new Label("Eighth Level Spells: 1"), eighthLevelListView,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i< eighthLevelListView.getItems().size(); i++){
+                if (eighthLevelListView.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter != 1){
+                error.setText("Please select 1 eighth level spell");
+            }else {
+                //Successful continue
+                for (int i=0; i< eighthLevelListView.getItems().size(); i++){
+                    if (eighthLevelListView.getItems().get(i).isSelected()){
+                        character.eighthLevelSpellListView.getItems().add(eighthLevelListView.getItems().get(i).getText());
+                        eighthLevelSpells.remove(eighthLevelListView.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel == 15) {
+                    addLevelStage.close();
+                } else levelSixteen(borderPane,continueButton,error,maxLevel);
+            }
+        });
+
+    }
+    private void levelSixteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 16");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 16");
+        error.setText("");
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,16));
+
+    }
+    private void levelSeventeen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 17");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 17");
+        error.setText("");
+        character.setProficiencyMod(6);
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+        character.getFeaturesList().remove("Song of Rest (d10");
+        character.getFeaturesList().add("Song of Rest (d12)");
+
+        ListView<CheckBox> ninthLevelListView = convertVectorToList(ninthLevelSpells);
+        pane.getChildren().addAll(new Label("Ninth Level Spells: 1"), ninthLevelListView,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i< ninthLevelListView.getItems().size(); i++){
+                if (ninthLevelListView.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter != 1){
+                error.setText("Please select 1 ninth level spell");
+            }else {
+                //Successful continue
+                for (int i=0; i< ninthLevelListView.getItems().size(); i++){
+                    if (ninthLevelListView.getItems().get(i).isSelected()){
+                        character.ninthLevelSpellListView.getItems().add(ninthLevelListView.getItems().get(i).getText());
+                        ninthLevelSpells.remove(ninthLevelListView.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel == 17) {
+                    addLevelStage.close();
+                } else levelEighteen(borderPane,continueButton,error,maxLevel);
+            }
+        });
+
+    }
+    private void levelEighteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 18");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 18");
+        error.setText("");
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+
+        ListView<CheckBox> fifthLevelListView = convertVectorToList(fifthLevelSpells);
+        pane.getChildren().addAll(new Label("Fifth Level Spells: 1"), fifthLevelListView,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i< fifthLevelListView.getItems().size(); i++){
+                if (fifthLevelListView.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter != 1){
+                error.setText("Please select 1 fifth level spell");
+            }else {
+                //Successful continue
+                for (int i=0; i< fifthLevelListView.getItems().size(); i++){
+                    if (fifthLevelListView.getItems().get(i).isSelected()){
+                        character.fifthLevelSpellListView.getItems().add(fifthLevelListView.getItems().get(i).getText());
+                        fifthLevelSpells.remove(fifthLevelListView.getItems().get(i).getText());
+                    }
+                }
+                pane.getChildren().clear();
+                pane.getChildren().add(magicalSecrects(9,2, continueButton));
+                continueButton.setOnAction(continueButtonE ->{
+                    if (maxLevel == 18) {
+                        addLevelStage.close();
+                    } else levelNineteen(borderPane,continueButton,error,maxLevel);
+                });
+            }
+        });
+
+    }
+    private void levelNineteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 19");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 19");
+        error.setText("");
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+
+        ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
+        pane.getChildren().addAll(new Label("Sixth Level Spells: 1"), sixthLevelListView,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                if (sixthLevelListView.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter != 1){
+                error.setText("Please select 1 sixth level spell");
+            }else {
+                //Successful continue
+                for (int i=0; i< sixthLevelListView.getItems().size(); i++){
+                    if (sixthLevelListView.getItems().get(i).isSelected()){
+                        character.sixthLevelSpellListView.getItems().add(sixthLevelListView.getItems().get(i).getText());
+                        sixthLevelSpells.remove(sixthLevelListView.getItems().get(i).getText());
+                    }
+                }
+                pane.getChildren().clear();
+                pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,19));
+            }
+        });
+
+    }
+    private void levelTwenty(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
+        addLevelStage.setTitle("Level 20");
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(15,5,5,5));
+        borderPane.setCenter(pane);
+        System.out.println("Level 20");
+        error.setText("");
+        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        borderPane.setLeft(leftSetUp());
+
+        ListView<CheckBox> seventhLevelListView = convertVectorToList(seventhLevelSpells);
+        pane.getChildren().addAll(new Label("Seventh Level Spells: 1"), seventhLevelListView,continueButton,error);
+        continueButton.setOnAction(continueButtonEvent ->{
+            int counter =0;
+            for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                if (seventhLevelListView.getItems().get(i).isSelected()){
+                    counter++;
+                }
+            }
+            if (counter != 1){
+                error.setText("Please select 1 seventh level spell");
+            }else {
+                //Successful continue
+                for (int i=0; i< seventhLevelListView.getItems().size(); i++){
+                    if (seventhLevelListView.getItems().get(i).isSelected()){
+                        character.seventhLevelSpellListView.getItems().add(seventhLevelListView.getItems().get(i).getText());
+                        seventhLevelSpells.remove(seventhLevelListView.getItems().get(i).getText());
+                    }
+                }
+                if (maxLevel ==20) {
+                    addLevelStage.close();
+                } else addLevel(addLevelStage, maxLevel, 21);
+            }
+        });
+        character.getFeaturesList().add("Superior Inspiration");
+        System.out.println("You have added Superior Inspiration to your features");
+
+    }
+
 
     /**
      * Converts a provided vector to a ListView of checkboxes

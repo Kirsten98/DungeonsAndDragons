@@ -16,14 +16,7 @@ import static javafx.application.Application.launch;
 public class Tester extends Application {
 
     public static void main(String[] args) {
-//        launch(args);
-
-        AtomicInteger cantripCounter = new AtomicInteger(0);
-        for (int i =0; i<10 ; i++){
-            cantripCounter.getAndAdd(1);
-            System.out.println(cantripCounter);
-        }
-
+        launch(args);
 
 
 
@@ -42,7 +35,9 @@ public class Tester extends Application {
         mainCharacter.setCharacterClass("Bard");
         Stage stage = new Stage();
         Bard bard = new Bard(mainCharacter);
-        bard.addLevel(stage,6,6);
+
+        bard.addLevel(stage,10,9);
+//        bard.addLevel(stage,2,1);
         stage.initStyle(StageStyle.DECORATED);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
