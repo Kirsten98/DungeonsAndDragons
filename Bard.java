@@ -1,11 +1,7 @@
 package DungeonsAndDragons;
 
-import com.sun.javafx.application.PlatformImpl;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,23 +9,17 @@ import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import jdk.internal.dynalink.support.BottomGuardingDynamicLinker;
 
-import javax.swing.*;
-import javax.swing.text.LabelView;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Bard {
+
     public Bard(CharacterSheet character) {
         this.character = character;
     }
-
 
     private CharacterSheet character;
     private String college;
@@ -64,8 +54,6 @@ public class Bard {
 
     Vector<String> proficiencies = new Vector<>();
 
-
-    //TODO Test Spells
 
     // Tested and verfied 9/10
 
@@ -110,22 +98,6 @@ public class Bard {
 
         }
     }
-
-    /**
-     * Prints out the Ability Choices
-     */
-    public static void abilityChoicePrintout() {
-        System.out.println("1.) Charisma");
-        System.out.println("2.) Strength");
-        System.out.println("3.) Dexterity");
-        System.out.println("4.) Wisdom");
-        System.out.println("5.) Intelligence");
-        System.out.println("6.) Constitution");
-
-    }
-
-
-    // Tested and Verified 9/3
 
     /**
      * Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
@@ -273,6 +245,10 @@ public class Bard {
         return pane;
     }
 
+    /**
+     * Updates a VBox that will provide a HP label with current character HP, proficiency label with current proficiency modifier, a list view of the level proficiencies, and a list view of the features.
+     * @return VBox that contains a HP label, proficiency label, proficiency list, and features list.
+     */
     private VBox leftSetUp (){
         VBox left = new VBox();
         Label hp = new Label("Hit Points: " + character.getHitPoints());
@@ -289,15 +265,41 @@ public class Bard {
         return left;
     }
 
+    /**
+     * Sets up a HBox with the abilities and their corresponding modifiers.
+     * @return HBox of Labels that display the abilities and their corresponding modifiers
+     */
     private HBox updateAbilityPane(){
-        return new HBox(new Label("Strength " + character.getStrengthScore()), new Label(" | Charisma " + character.getCharismaScore()), new Label(" | Dexterity " + character.getDexterityScore()), new Label(" | Constitution " + character.getConstitutionScore()), new Label(" | Intelligence " + character.getIntelligenceScore()), new Label(" | Wisdom " + character.getWisdomScore()));
+        return new HBox(new Label("  Strength " + character.getStrengthScore()), new Label(" | Charisma " + character.getCharismaScore()), new Label(" | Dexterity " + character.getDexterityScore()), new Label(" | Constitution " + character.getConstitutionScore()), new Label(" | Intelligence " + character.getIntelligenceScore()), new Label(" | Wisdom " + character.getWisdomScore()));
     }
 
+    /**
+     * Sets up the addLevel() border pane to display the character abilities and their corresponding modifiers (top), update the border pane top with the HBox from updateAbilityPane(), and will set the border pane center to the pane that is provided.
+     * @param borderPane Borderpane that will have the top modified to display the ability modifiers with their corresponding modifiers, top updated with the HBox from updateAbilityPane(), and that will update the center with the pane provided
+     * @param pane VBox that will replace the border pane center
+     * @return Border pane with the applied changes to the top, left, and center
+     */
     private BorderPane borderPaneSetUp(BorderPane borderPane, VBox pane){
         borderPane.setTop(updateAbilityPane());
         borderPane.setLeft(leftSetUp());
         borderPane.setCenter(pane);
         return borderPane;
+
+    }
+
+    /**
+     * Will update Character sheet HP with a random D8 roll and their constitution modifier. If their constitution modifier is negative and it is more than the D8 roll resulting in a negative number, 1 HP will be added to the character.
+     *
+     */
+    public void updateCharacterHP(){
+        int possibleHPIncrement = (d8Roll() + character.getConstitutionMod());
+        if (possibleHPIncrement >= 1){
+            character.setHitPoints(character.getHitPoints()+ possibleHPIncrement);
+            System.out.println("HP +" +possibleHPIncrement );
+        }else  {
+            character.setHitPoints(character.getHitPoints() + 1);
+            System.out.println("HP + 1");
+        }
 
     }
 
@@ -309,12 +311,6 @@ public class Bard {
      * @param startingLevel Level that the user if currently at
      */
     public void addLevel (Stage stage, int maxLevel, int startingLevel) {
-        //TODO stop health from going down when leveling up
-        /**int possibleHealthIncrement = d8roll + con mod;
-         * if (possibleHealthIncrement >=1){
-         *  character hp += possibleHealthIncrement;
-         * } else character hp +=1
-         */
         spellSaveDC = 8 + proficiency + character.getCharismaMod();
         spellAttackMod = proficiency + character.getCharismaMod();
         addLevelStage = stage;
@@ -374,9 +370,17 @@ public class Bard {
         }
 
     }
+
+    /** Level one for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelOne (BorderPane borderPane, Button continueButton, Label error, int maxLevel){
-//                character.cantrips.setSize(2);
-//                character.spells.setSize(4);
+    //  Character known Cantrips = 2
+    //  Character known spells = 4
         System.out.println("Level 1");
         addLevelStage.setTitle("Level 1");
         VBox pane = new VBox(20);
@@ -435,6 +439,13 @@ public class Bard {
         });
     }
 
+    /** Level two for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelTwo(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         System.out.println("Level 2");
         addLevelStage.setTitle("Level 2");
@@ -442,7 +453,7 @@ public class Bard {
         pane.setPadding(new Insets(15,5,5,5));
         error.setText("");
 //                character.spells.setSize(5);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPaneSetUp(borderPane, pane);
         ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
         pane.getChildren().addAll(new Label("First Level Spells: 1"), firstLevelSpell,continueButton,error);
@@ -473,7 +484,13 @@ public class Bard {
         character.getFeaturesList().add("Song of Rest (d6)");
     }
 
-
+    /** Level three for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelThree(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         System.out.println("Level 3");
         addLevelStage.setTitle("Level 3");
@@ -481,7 +498,7 @@ public class Bard {
         pane.setPadding(new Insets(15,5,5,5));
         error.setText("");
 //                character.spells.setSize(6);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPaneSetUp(borderPane, pane);
         character.getFeaturesList().add("Expertise");
         ListView<CheckBox> firstLevelSpell = convertVectorToList(firstLevelSpells);
@@ -587,6 +604,14 @@ public class Bard {
         });
 
     }
+
+    /** Level four for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelFour(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         System.out.println("Level 4");
         addLevelStage.setTitle("Level 4");
@@ -596,7 +621,7 @@ public class Bard {
         error.setText("");
 //            character.spells.setSize(7);
 //            character.cantrips.setSize(4);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         Button next = new Button("Next");
         ListView<CheckBox> cantripListView = convertVectorToList(cantripList);
@@ -646,6 +671,13 @@ public class Bard {
         });
     }
 
+    /** Level five for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelFive(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 5");
         VBox pane = new VBox(20);
@@ -655,7 +687,7 @@ public class Bard {
         error.setText("");
         character.setProficiencyMod(3);
 //            character.spells.setSize(8);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         Label levelSpells = new Label("Third level spells: 3");
         ListView<CheckBox> thirdLevelSpellsList = convertVectorToList(thirdLevelSpells);
@@ -689,6 +721,14 @@ public class Bard {
 
 
     }
+
+    /** Level six for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelSix(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 6");
         VBox pane = new VBox(20);
@@ -697,7 +737,7 @@ public class Bard {
         System.out.println("Level 6");
         error.setText("");
 //                character.spells.setSize(9);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         Label chooseThirdLevelSpell = new Label("Third Level Spell: 1");
         ListView<CheckBox> thirdLevelSpellList = convertVectorToList(thirdLevelSpells);
@@ -723,7 +763,7 @@ public class Bard {
                     System.out.println("Countercharm and Additional Magical Secrets added to features");
                     for (int i = 0; i < 2; i++) {
                         pane.getChildren().clear();
-                        pane.getChildren().add(magicalSecrects(3,2,continueButton));
+                        pane.getChildren().add(magicalSecrets(3,2,continueButton));
                         continueButton.setOnAction(continueButtonEvent ->{
                             if (maxLevel==6) {
                                 addLevelStage.close();
@@ -744,6 +784,14 @@ public class Bard {
         });
 
     }
+
+    /** Level seven for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelSeven(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 7");
         VBox pane = new VBox(20);
@@ -752,7 +800,7 @@ public class Bard {
         System.out.println("Level 7");
         error.setText("");
 //                character.spells.setSize(10);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
         pane.getChildren().addAll(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList,continueButton,error);
@@ -780,6 +828,14 @@ public class Bard {
         });
 
     }
+
+    /** Level eight for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelEight(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 8");
         VBox pane = new VBox(20);
@@ -788,7 +844,7 @@ public class Bard {
         System.out.println("Level 8");
         error.setText("");
 //                character.spells.setSize(11);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
        borderPane.setLeft(leftSetUp());
         ListView<CheckBox> fourthLevelSpellsList = convertVectorToList(fourthLevelSpells);
         pane.getChildren().addAll(new Label("Fourth Level Spells: 1"), fourthLevelSpellsList,continueButton,error);
@@ -814,6 +870,14 @@ public class Bard {
         });
 
     }
+
+    /** Level nine for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelNine(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 9");
         VBox pane = new VBox(20);
@@ -822,7 +886,7 @@ public class Bard {
         System.out.println("Level 9");
         error.setText("");
         character.setProficiencyMod(4);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
 //                character.spells.setSize(12);
         character.getFeaturesList().remove("Song of Rest (d6)");
@@ -875,6 +939,14 @@ public class Bard {
         });
 
     }
+
+    /** Level ten for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelTen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 10");
         VBox pane = new VBox(20);
@@ -884,7 +956,7 @@ public class Bard {
         error.setText("");
 //                character.spells.setSize(14);
 //                character.cantrips.setSize(4);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         character.getFeaturesList().remove("Bardic Inspiration (d8)");
         character.getFeaturesList().add("Bardic Inspiration (d10)");
@@ -931,7 +1003,7 @@ public class Bard {
                     }
                 }
                 pane.getChildren().clear();
-                pane.getChildren().add(magicalSecrects(5,2,continueButton));
+                pane.getChildren().add(magicalSecrets(5,2,continueButton));
                 continueButton.setOnAction(continueButtonEvent ->{
                     if (maxLevel == 10) {
                         addLevelStage.close();
@@ -941,6 +1013,14 @@ public class Bard {
         });
 
     }
+
+    /** Level eleven for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelEleven(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 11");
         VBox pane = new VBox(20);
@@ -949,7 +1029,7 @@ public class Bard {
         System.out.println("Level 11");
         error.setText("");
 //                character.spells.setSize(15);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
         pane.getChildren().addAll(new Label("Sixth Level Spells: 1"), sixthLevelListView,continueButton,error);
@@ -977,6 +1057,14 @@ public class Bard {
         });
 
     }
+
+    /** Level twelve for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelTwelve(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 12");
         VBox pane = new VBox(20);
@@ -984,11 +1072,19 @@ public class Bard {
         borderPane.setCenter(pane);
         System.out.println("Level 12");
         error.setText("");
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,12));
 
     }
+
+    /** Level thirteen for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelThirteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 13");
         VBox pane = new VBox(20);
@@ -997,7 +1093,7 @@ public class Bard {
         System.out.println("Level 13");
         error.setText("");
         character.setProficiencyMod(5);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         character.getFeaturesList().remove("Song of Rest (d8)");
         character.getFeaturesList().add("Song of Rest (d10)");
@@ -1027,6 +1123,14 @@ public class Bard {
             }
         });
     }
+
+    /** Level fourteen for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelFourteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 14");
         VBox pane = new VBox(20);
@@ -1034,18 +1138,18 @@ public class Bard {
         borderPane.setCenter(pane);
         System.out.println("Level 14");
         error.setText("");
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         if (college.equals("College of Lore")) {
             character.getFeaturesList().add("Peerless Skills");
             System.out.println("You have added Peerless Skills and Magical Secrets to features");
-            pane.getChildren().add(magicalSecrects(7,2,continueButton));
+            pane.getChildren().add(magicalSecrets(7,2,continueButton));
 
         }
         if (college.equals("College of Valor")) {
             character.getFeaturesList().add("Battle Magic");
             System.out.println("You have added Battle Magic and Magical Secrets to features");
-            pane.getChildren().add(magicalSecrects(7,2,continueButton));
+            pane.getChildren().add(magicalSecrets(7,2,continueButton));
         }
         continueButton.setOnAction(continueButtonEvent -> {
             if (maxLevel ==14) {
@@ -1054,6 +1158,14 @@ public class Bard {
         });
 
     }
+
+    /** Level fifteen for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelFifteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 15");
         VBox pane = new VBox(20);
@@ -1061,7 +1173,7 @@ public class Bard {
         borderPane.setCenter(pane);
         System.out.println("Level 15");
         error.setText("");
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         character.getFeaturesList().remove("Bardic Inspiration (d10)");
         character.getFeaturesList().add("Bardic Inspiration (d12)");
@@ -1091,6 +1203,14 @@ public class Bard {
         });
 
     }
+
+    /** Level sixteen for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelSixteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 16");
         VBox pane = new VBox(20);
@@ -1098,11 +1218,19 @@ public class Bard {
         borderPane.setCenter(pane);
         System.out.println("Level 16");
         error.setText("");
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         pane.getChildren().add(abilityScoreImprovement(addLevelStage,maxLevel,16));
 
     }
+
+    /** Level seventeen for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelSeventeen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 17");
         VBox pane = new VBox(20);
@@ -1111,7 +1239,7 @@ public class Bard {
         System.out.println("Level 17");
         error.setText("");
         character.setProficiencyMod(6);
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
         character.getFeaturesList().remove("Song of Rest (d10");
         character.getFeaturesList().add("Song of Rest (d12)");
@@ -1142,6 +1270,14 @@ public class Bard {
         });
 
     }
+
+    /** Level eighteen for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelEighteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 18");
         VBox pane = new VBox(20);
@@ -1149,7 +1285,7 @@ public class Bard {
         borderPane.setCenter(pane);
         System.out.println("Level 18");
         error.setText("");
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
 
         ListView<CheckBox> fifthLevelListView = convertVectorToList(fifthLevelSpells);
@@ -1172,7 +1308,7 @@ public class Bard {
                     }
                 }
                 pane.getChildren().clear();
-                pane.getChildren().add(magicalSecrects(9,2, continueButton));
+                pane.getChildren().add(magicalSecrets(9,2, continueButton));
                 continueButton.setOnAction(continueButtonE ->{
                     if (maxLevel == 18) {
                         addLevelStage.close();
@@ -1182,6 +1318,14 @@ public class Bard {
         });
 
     }
+
+    /** Level nineteen for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelNineteen(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 19");
         VBox pane = new VBox(20);
@@ -1189,7 +1333,7 @@ public class Bard {
         borderPane.setCenter(pane);
         System.out.println("Level 19");
         error.setText("");
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
 
         ListView<CheckBox> sixthLevelListView = convertVectorToList(sixthLevelSpells);
@@ -1217,6 +1361,14 @@ public class Bard {
         });
 
     }
+
+    /** Level twenty for Bard Character
+     *
+     * @param borderPane Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param error Label that will display an error in red text
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelTwenty(BorderPane borderPane, Button continueButton, Label error,int maxLevel){
         addLevelStage.setTitle("Level 20");
         VBox pane = new VBox(20);
@@ -1224,7 +1376,7 @@ public class Bard {
         borderPane.setCenter(pane);
         System.out.println("Level 20");
         error.setText("");
-        character.setHitPoints(character.getHitPoints() + (d8Roll() + character.getConstitutionMod()));
+        updateCharacterHP();
         borderPane.setLeft(leftSetUp());
 
         ListView<CheckBox> seventhLevelListView = convertVectorToList(seventhLevelSpells);
@@ -1328,6 +1480,11 @@ public class Bard {
 
 
     // Tested and verified 9/5
+
+    /**
+     * Allows user to select their armor including proficient armor, and non-proficient armor
+     * @param chooseArmorStage Stage that the options will be displayed on.
+     */
     public void chooseArmor(Stage chooseArmorStage) {
         VBox pane = new VBox(10);
         Scene scene = new Scene(pane, 450, 280);
@@ -1447,44 +1604,9 @@ public class Bard {
     }
 
 
-    //Tested and verified 9/10
-    /**
-     * Allows user to add the raceTraits they want to be proficient in.
-     */
-    public void chooseSkillProficiencies(){
-        Scanner scanner = new Scanner(System.in);
-        int choice =-1;
-        String endOfLine = "";
-        System.out.println("Choose your first skill to be proficient in.");
-        for (int k =0; k<3; k++){
-            if (k==1){
-                System.out.println("Choose your second skill to be proficient in.");
-
-            }if (k==2){
-                System.out.println("Choose your third skill to be proficient in.");
-            }
-            for (int i =0; i< character.getAllSkills().length; i++){
-                System.out.println(i+1 + ".) " + character.getAllSkills()[i]);
-            }
-            choice = scanner.nextInt();
-            endOfLine =scanner.nextLine();
-            choice = inputErrorCheck(choice,1,character.getAllSkills().length);
-            while (proficiencies.contains(character.getAllSkills()[choice-1])){
-                System.out.println("You are already proficient in this skill, please choose a different skill.");
-                choice = scanner.nextInt();
-                endOfLine =scanner.nextLine();
-                choice = inputErrorCheck(choice,1,character.getAllSkills().length);
-
-            }
-            checkVectorAndAdd(proficiencies, "proficiencies",character.getAllSkills()[choice-1]);
-
-        }
-
-    }
-
     // Tested and verified 9/5
     /**
-     * Walks user through on adding their Weapons / Equipment ot the character
+     * Walks user through on adding their Weapons / Equipment to their character
      */
     public void chooseWeapon(Stage chooseWeaponStage){
         VBox pane = new VBox(10);
@@ -1725,31 +1847,13 @@ public class Bard {
     }
 
     /**
-     * Checks to make sure that the choice from the user does not exceed the lower or upper bounds
-     * @param choice Numberic Choice made by user
-     * @param lowerCheck The lower bound
-     * @param higherCheck The upper bound
-     * @return Returns choice once it is a valid option
-     */
-    public int inputErrorCheck(int choice, int lowerCheck, int higherCheck){
-        Scanner scanner = new Scanner(System.in);
-        while (choice < lowerCheck || choice > higherCheck){
-            System.out.println("Incorrect option, please choose a different option");
-            choice = scanner.nextInt();
-            String endofLine = scanner.nextLine();
-        }
-        return choice;
-    }
-
-
-    /**
      * Code needed to complete the Magical Secrets Feature. Allows the user to select any level spell
      * @param maxLevel Max Level that the Spells can be
      * @param maxSelection Maximum spells that the user can select from the available CheckBox's
      * @param continueButton Button to link the method back to the method where it was invoked. Continue button action will need to be set after the magical secrets has been returned.
      * @return VBox that will contain all of the necessary spells that the user can select from
      */
-    public VBox magicalSecrects(int maxLevel, int maxSelection,  Button continueButton){
+    public VBox magicalSecrets(int maxLevel, int maxSelection, Button continueButton){
         continueButton.setDisable(true);
         Button checkSpells = new Button("Check Spells");
         VBox mainPane = new VBox(20);
