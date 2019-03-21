@@ -2,6 +2,7 @@ package DungeonsAndDragons;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,9 +35,11 @@ public class Tester extends Application {
         CharacterSheet mainCharacter = new CharacterSheet();
         mainCharacter.setCharacterClass("Bard");
         Stage stage = new Stage();
-        Bard bard = new Bard(mainCharacter);
+//        Bard bard = new Bard(mainCharacter);
+//
+//        bard.addLevel(stage,10,9);
+        Abilities.chooseAbilities(new Button("Continue Button"),mainCharacter);
 
-        bard.addLevel(stage,10,9);
 //        bard.addLevel(stage,2,1);
         stage.initStyle(StageStyle.DECORATED);
         stage.initModality(Modality.APPLICATION_MODAL);

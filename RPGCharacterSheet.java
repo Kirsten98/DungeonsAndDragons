@@ -522,13 +522,16 @@ public class RPGCharacterSheet extends Application {
      * @return Vbox that will replace the border pane center.
      */
     private VBox setCenter(){
-        HBox centerTop = new HBox();
-        HBox centerBottom = new HBox();
+        HBox centerTop = new HBox(1);
+        HBox centerBottom = new HBox(1);
         VBox center = new VBox();
+        center.setPadding(new Insets(1,2,1,1));
         HBox topLabels = new HBox(new Label("Armor"), new Label("Weapons"),new Label("Inventory"),new Label("Instruments"));
         HBox bottomLabels = new HBox(new Label("Features"),new Label("Proficiencies"),new Label("Spells"),new Label("Race Traits"));
         topLabels.setSpacing(155);
-        topLabels.setTranslateX(75);
+        topLabels.setAlignment(Pos.CENTER);
+
+
         bottomLabels.setSpacing(155);
         bottomLabels.setTranslateX(75);
         center.getChildren().addAll(topLabels,centerTop, bottomLabels,centerBottom);
@@ -580,12 +583,12 @@ public class RPGCharacterSheet extends Application {
         abilities.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 2;");
         abilities.setMaxHeight(150);
         abilities.setPadding(new Insets(10,10,10,10));
-        Label charisma = new Label("Charisma: " + mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod());
-        Label strength = new Label("Strength: " + mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod());
-        Label dexterity = new Label("Dexterity: " + mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod());
-        Label wisdom = new Label("Wisdom: " + mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod());
-        Label intelligence = new Label("Intelligence: " + mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod());
-        Label constitution = new Label("Constitution: " + mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod());
+        Label charisma = new Label("Charisma: " );
+        Label strength = new Label("Strength: " );
+        Label dexterity = new Label("Dexterity: " );
+        Label wisdom = new Label("Wisdom: " );
+        Label intelligence = new Label("Intelligence: " );
+        Label constitution = new Label("Constitution: " );
 
         editAbilities.setDisable(true);
         editAbilities.setOnAction(e-> {
@@ -598,7 +601,16 @@ public class RPGCharacterSheet extends Application {
             borderPane.setRight(setSillsPane(mainCharacter));
 
         });
-        abilities.getChildren().addAll(editAbilities,charisma, strength, dexterity, wisdom, intelligence,constitution);
+
+        VBox abilityNames = new VBox(5);
+        VBox abilityScores = new VBox(5);
+        abilityNames.getChildren().addAll(charisma, strength, dexterity, wisdom, intelligence,constitution);
+        abilityScores.getChildren().addAll(
+                new Label(mainCharacter.getCharismaScore() + " / " + mainCharacter.getCharismaMod()), new Label(mainCharacter.getStrengthScore() + " / " + mainCharacter.getStrengthMod()), new Label(mainCharacter.getDexterityScore() + " / " + mainCharacter.getDexterityMod()), new Label(mainCharacter.getWisdomScore() + " / " + mainCharacter.getWisdomMod()),new Label(mainCharacter.getIntelligenceScore() + " / " + mainCharacter.getIntelligenceMod()), new Label( mainCharacter.getConstitutionScore() + " / " + mainCharacter.getConstitutionMod()));
+        HBox listOfAbilities = new HBox(5);
+        listOfAbilities.getChildren().addAll(abilityNames,abilityScores);
+
+        abilities.getChildren().addAll(editAbilities,listOfAbilities);
 
         // Save Buttons
         Button save = new Button("Save");

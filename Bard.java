@@ -347,6 +347,7 @@ public class Bard {
             case 9: levelNine(borderPane,continueButton,error,maxLevel);
                 break;
             case 10: levelTen(borderPane,continueButton,error,maxLevel);
+                break;
             case 11: levelEleven(borderPane,continueButton,error,maxLevel);
                 break;
             case 12: levelTwelve(borderPane,continueButton,error,maxLevel);
