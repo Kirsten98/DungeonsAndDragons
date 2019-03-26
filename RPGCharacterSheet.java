@@ -29,31 +29,33 @@ public class RPGCharacterSheet extends Application {
     private static String url = "jdbc:mysql://localhost:3306/charactersheet_database";
     private ObservableList armor = FXCollections.observableArrayList();
     private ListView armorList = new ListView();
-    ObservableList inventory = FXCollections.observableArrayList();
-    ListView inventoryList = new ListView();
-    ObservableList weapons = FXCollections.observableArrayList();
-    ListView weaponsList = new ListView();
-    ObservableList instruments = FXCollections.observableArrayList();
-    ListView instrumentsList = new ListView();
-    ObservableList features = FXCollections.observableArrayList();
-    ListView featuresList = new ListView();
-    ObservableList proficiencies = FXCollections.observableArrayList();
-    ListView proficienciesList = new ListView();
-    ObservableList spells = FXCollections.observableArrayList();
-    ListView<ListView> spellsList = new ListView();
-    ObservableList raceTraits = FXCollections.observableArrayList();
-    ListView raceTraitsList = new ListView();
-    ObservableList languages = FXCollections.observableArrayList();
-    ListView languagesList = new ListView(languages);
-    ObservableList misc = FXCollections.observableArrayList();
-    ListView miscList = new ListView(misc);
-    VBox abilities = new VBox();
-    Button editAbilities = new Button("Edit Abilities");
-    Button editLevel = new Button("Edit level");
-    Button editRace = new Button("Edit Race");
-    Button continueButton = new Button("Continue");
-    Button close = new Button("Close");
-    BorderPane borderPane = new BorderPane();
+    private ObservableList inventory = FXCollections.observableArrayList();
+    private ListView inventoryList = new ListView();
+    private ObservableList weapons = FXCollections.observableArrayList();
+    private ListView weaponsList = new ListView();
+    private ObservableList instruments = FXCollections.observableArrayList();
+    private ListView instrumentsList = new ListView();
+    private ObservableList features = FXCollections.observableArrayList();
+    private  ListView featuresList = new ListView();
+    private ObservableList proficiencies = FXCollections.observableArrayList();
+    private  ListView proficienciesList = new ListView();
+    private  ObservableList spells = FXCollections.observableArrayList();
+    private ListView<ListView> spellsList = new ListView();
+    private ObservableList raceTraits = FXCollections.observableArrayList();
+    private ListView raceTraitsList = new ListView();
+    private ObservableList languages = FXCollections.observableArrayList();
+    private ListView languagesList = new ListView(languages);
+    private ObservableList misc = FXCollections.observableArrayList();
+    private ListView miscList = new ListView(misc);
+    private VBox abilities = new VBox();
+    private Button editAbilities = new Button("Edit Abilities");
+    private Button editLevel = new Button("Edit level");
+    private Button editRace = new Button("Edit Race");
+    private Button continueButton = new Button("Continue");
+    private Button close = new Button("Close");
+    private BorderPane borderPane = new BorderPane();
+
+
     public static void main(String[] args) {
         launch(args); // Sets up program as javaFX application
     }
@@ -262,8 +264,7 @@ public class RPGCharacterSheet extends Application {
 
         spellsList.setPlaceholder(new Label("---- Spells ----"));
         spellsList.setTooltip(new Tooltip("Spells"));
-        //TODO when getting spells, add cantrips, lvl 1 ... and fourth in between spells
-
+        //TODO Add tooltips to the list views reflecting their level
         raceTraitsList.setPlaceholder(new Label("---- Race Traits ----"));
         raceTraitsList.setTooltip(new Tooltip("Race Traits"));
 
@@ -518,7 +519,7 @@ public class RPGCharacterSheet extends Application {
     }
 
     /**
-     *
+     * Initial set up for the center pane that contains Armor, Weapons, Inventory, Instruments, Features, Proficiencies, Spells, and Race Trait List views reflecting the character sheet information
      * @return Vbox that will replace the border pane center.
      */
     private VBox setCenter(){
@@ -528,12 +529,13 @@ public class RPGCharacterSheet extends Application {
         center.setPadding(new Insets(1,2,1,1));
         HBox topLabels = new HBox(new Label("Armor"), new Label("Weapons"),new Label("Inventory"),new Label("Instruments"));
         HBox bottomLabels = new HBox(new Label("Features"),new Label("Proficiencies"),new Label("Spells"),new Label("Race Traits"));
-        topLabels.setSpacing(155);
+        topLabels.setSpacing(150);
         topLabels.setAlignment(Pos.CENTER);
+        centerTop.setAlignment(Pos.CENTER);
 
-
-        bottomLabels.setSpacing(155);
-        bottomLabels.setTranslateX(75);
+        bottomLabels.setSpacing(150);
+        bottomLabels.setAlignment(Pos.CENTER);
+        centerBottom.setAlignment(Pos.CENTER);
         center.getChildren().addAll(topLabels,centerTop, bottomLabels,centerBottom);
 
         //ListView SetUp
@@ -578,7 +580,6 @@ public class RPGCharacterSheet extends Application {
         miscList.setPlaceholder(new Label("--- Miscellaneous ---"));
 
         // Sets Abilities
-        //TODO Need to add an integer array counter for each ability additions throughout character sheet so abilities can be modifiable.
         abilities.setTranslateY(12);
         abilities.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 2;");
         abilities.setMaxHeight(150);
@@ -620,12 +621,14 @@ public class RPGCharacterSheet extends Application {
         save.setOnAction(SaveEvent->{
             borderPane.setDisable(true);
             saveCharacter(mainCharacter);
+            borderPane.setDisable(false);
         });
 
 
         left.getChildren().addAll(abilities, languagesList, miscList,new HBox(close,save));
 
         left.setMaxWidth(150);
+        left.setMaxHeight(735);
         return left;
     }
 

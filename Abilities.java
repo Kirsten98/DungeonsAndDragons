@@ -58,7 +58,6 @@ public class Abilities extends RPGCharacterSheet {
         error.setVisible(false);
         error.setTextFill(Color.RED);
 
-        // TODO add the modifier to the character sheet
 //        String[] abilityNames = {"Charisma, ""Strength", "Dexterity", "Wisdom", "Intelligence", "Constitution"};
         if (d20Rolls[0]==null) {
             for (int i = 0; i < 6; i++) {
