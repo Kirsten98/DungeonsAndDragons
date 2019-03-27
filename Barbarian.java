@@ -231,7 +231,7 @@ public class Barbarian{
                 Label hp = new Label("Hit Points: "+ character.getHitPoints());
                 Label proficiency = new Label("Proficiency : + "+ character.getProficiencyMod());
                 ListView features = new ListView(character.getFeaturesList());
-                ListView proficiencies = new ListView( character.getProficienciesList());
+                ListView proficiencies = new ListView( character.levelProficienciesList);
                 proficiencies.setTooltip(new Tooltip("Proficiencies"));
                 features.setTooltip(new Tooltip("Features"));
                 Label rages = new Label("Rages: " + this.rages);
@@ -276,7 +276,7 @@ public class Barbarian{
                     continueButton.setDisable(true);
                     pane.add(continueButton,1,4);
 
-                    character.getProficienciesList().addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
+                    character.levelProficienciesList.addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
 
                     Label skillChoices = new Label("You have learned two new race traits to be proficient in.\nChoose your fist skill.");
                     pane.add(skillChoices,0,0,3,2);
@@ -294,7 +294,7 @@ public class Barbarian{
                     firstChoice.setOnAction(e-> {
                         continueButton.setDisable(false);
                         continueButton.setOnAction(continueEvent ->{
-                            character.getProficienciesList().add(firstChoice.getValue());
+                            character.levelProficienciesList.add(firstChoice.getValue());
                             skills.remove(firstChoice.getValue());
                             firstSkill.setText("First skill choice: " + firstChoice.getValue());
                             pane.getChildren().remove(firstChoice);
@@ -306,7 +306,7 @@ public class Barbarian{
                     secondChoice.setOnAction(e ->{
                         continueButton.setDisable(false);
                         continueButton.setOnAction(continueEvent -> {
-                            character.getProficienciesList().add(secondChoice.getValue());
+                            character.levelProficienciesList.add(secondChoice.getValue());
                             pane.getChildren().remove(secondChoice);
                             secondSkill.setText("Second skill choice: " + secondChoice.getValue());
                             secondChoice.setDisable(true);
@@ -331,7 +331,7 @@ public class Barbarian{
                     character.getFeaturesList().add("Reckless Attack");
                     character.getFeaturesList().add("Danger Sense");
                     features.setItems(character.getFeaturesList());
-                    proficiencies.setItems( character.getProficienciesList());
+                    proficiencies.setItems( character.levelProficienciesList);
 
                      changes.setText("Added the following to your character.\nFeatures: Reckless Attack and Danger Sense.");
                     pane.add(changes,0,0);

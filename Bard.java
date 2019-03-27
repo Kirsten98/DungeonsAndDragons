@@ -587,11 +587,11 @@ public class Bard {
                     });
 
                 }else{
-                    if (!character.getProficienciesList().contains("Medium Armor")){
+                    if (!character.levelProficienciesList.contains("Medium Armor") || !character.classProficienciesList.contains("Medium Armor")){
                         character.levelProficienciesList.add("Medium Armor");
-                    }if (!character.getProficienciesList().contains("Shields")){
+                    }if (!character.levelProficienciesList.contains("Shields")||!character.classProficienciesList.contains("Shields")){
                         character.levelProficienciesList.add("Shields");
-                    }if (!character.getProficienciesList().contains("Martial Weapons")){
+                    }if (!character.levelProficienciesList.contains("Martial Weapons") || !character.classProficienciesList.contains("Martial Weapons")){
                         character.levelProficienciesList.add("Martial Weapons");
                     }
                     character.getFeaturesList().add("Combat Inspiration");

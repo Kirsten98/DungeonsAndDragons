@@ -163,6 +163,15 @@ public class RPGCharacterSheet extends Application {
         }
         return +10;
 
+        //TODO create an Algorithm that can reflects for scores greater than 30
+        // int modifier = -5;
+        //for (int i = 0; i< abilityScore; i++){
+        //     if( i%2 == 0){
+        //          modifier++;
+        //     }
+        //}
+        //return modifier;
+
     }
 
 
