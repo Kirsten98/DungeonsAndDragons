@@ -14,6 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -27,7 +29,8 @@ public class Barbarian{
     private String totemSpirit = "Not selected";
 
 
-
+// TODO move Continue button to the bottom left of the screen in AddLevel
+    // TODO Make it to where if a user quits the Add Level process it does not save any progress. Return a Barbarian and if they quite it does not return anything back
     public Barbarian (CharacterSheet character){
         this.character = character;
     }
@@ -83,6 +86,7 @@ public class Barbarian{
      * @return
      */
     public GridPane abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel){
+        //TODO update UI/ Return VBox?
         Button continueButton = new Button("Continue");
         Label choice = new Label();
         choice.setWrapText(true);
@@ -94,7 +98,7 @@ public class Barbarian{
         Button constitution = new Button("Constitution");
 
         GridPane pane = new GridPane();
-        Label question = new Label("Would you like to increase one ability score by +2 or two ability scores by +1 ");
+        Label question = new Label("Would you like to increase one ability score \nby +2 or two ability scores by +1 ");
         Button plus2 = new Button("One ability score by +2");
         Button plus1 = new Button("Two ability scores by +1");
 
@@ -219,6 +223,8 @@ public class Barbarian{
         return pane;
     }
 
+    //TODO Create separate methods for each level
+
     /**
      * Takes current level and continuously adds additional level until maximum level is hit. Throughout the process it will give the users options for selection for their current level
      * @param addLevelStage Stage that will contain all Level choices
@@ -241,13 +247,11 @@ public class Barbarian{
 
                 BorderPane borderPane = new BorderPane();
                 borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel ));
-                GridPane pane = new GridPane();
+                VBox pane = new VBox(20);
                 InnerShadow shadow = new InnerShadow();
                 shadow.setColor(Color.gray(.5));
                 pane.setEffect(shadow);
                 pane.setPadding(new Insets(10,30,10,30));
-                pane.setVgap(20);
-                pane.setHgap(10);
                 borderPane.setCenter(pane);
                 Scene scene = new Scene(borderPane,600,600);
                 addLevelStage.setScene(scene);
@@ -272,22 +276,28 @@ public class Barbarian{
                     rages.setText("Rages: " + this.rages);
                     this.rageDamage = 2;
                     rageDamage.setText("Rage Damage: " + this.rageDamage);
-
                     continueButton.setDisable(true);
-                    pane.add(continueButton,1,4);
 
                     character.levelProficienciesList.addAll("Strength","Constitution","Light Armor","Medium Armor","Shields","Simple Weapons","Martial Weapons");
 
-                    Label skillChoices = new Label("You have learned two new race traits to be proficient in.\nChoose your fist skill.");
-                    pane.add(skillChoices,0,0,3,2);
+                    Label skillChoices = new Label("You have learned two new race traits to be proficient in.\nChoose your fist skill.\n ");
+
 
                     ObservableList skills = FXCollections.observableArrayList("Animal Handling","Athletics","Intimidation", "Nature","Perception","Survival");
-                    Label firstSkill = new Label("First skill choice");
+                    Label firstSkill = new Label("First skill choice: ");
                     ChoiceBox firstChoice = new ChoiceBox(skills);
+                    HBox firstSkillChoice = new HBox(30);
+                    firstSkillChoice.getChildren().addAll(firstSkill, firstChoice);
+                    firstSkillChoice.setAlignment(Pos.BASELINE_LEFT);
+                    firstSkillChoice.setPrefWidth(300);
                     firstChoice.setPrefWidth(150);
 
-                    Label secondSkill = new Label("Second skill choice");
+                    Label secondSkill = new Label("Second skill choice: ");
                     ChoiceBox secondChoice = new ChoiceBox(skills);
+                    HBox secondSkillChoice = new HBox(15);
+                    secondSkillChoice.getChildren().addAll(secondSkill, secondChoice);
+                    secondSkillChoice.setPrefWidth(300);
+                    secondSkillChoice.setAlignment(Pos.BASELINE_LEFT);
                     secondChoice.setPrefWidth(150);
                     secondChoice.setDisable(true);
 
@@ -297,7 +307,7 @@ public class Barbarian{
                             character.levelProficienciesList.add(firstChoice.getValue());
                             skills.remove(firstChoice.getValue());
                             firstSkill.setText("First skill choice: " + firstChoice.getValue());
-                            pane.getChildren().remove(firstChoice);
+                            firstSkillChoice.getChildren().remove(firstChoice);
                             secondChoice.setDisable(false);
                             continueButton.setDisable(true);
                         } );
@@ -307,7 +317,7 @@ public class Barbarian{
                         continueButton.setDisable(false);
                         continueButton.setOnAction(continueEvent -> {
                             character.levelProficienciesList.add(secondChoice.getValue());
-                            pane.getChildren().remove(secondChoice);
+                            secondSkillChoice.getChildren().remove(secondChoice);
                             secondSkill.setText("Second skill choice: " + secondChoice.getValue());
                             secondChoice.setDisable(true);
                            if (startingLevel == maxLevel){
@@ -316,11 +326,8 @@ public class Barbarian{
 
                         });
                     });
-
-                    pane.add(firstSkill,0,2,6,1);
-                    pane.add(firstChoice,2,2);
-                    pane.add(secondSkill,0,3,2,1);
-                    pane.add(secondChoice,2,3);
+                    pane.getChildren().addAll(skillChoices,firstSkillChoice,secondSkillChoice,continueButton);
+                    pane.setAlignment(Pos.TOP_CENTER);
 
 
 
@@ -333,12 +340,11 @@ public class Barbarian{
                     features.setItems(character.getFeaturesList());
                     proficiencies.setItems( character.levelProficienciesList);
 
-                     changes.setText("Added the following to your character.\nFeatures: Reckless Attack and Danger Sense.");
-                    pane.add(changes,0,0);
+                     changes.setText("The following has been added to your character.\nFeatures: Reckless Attack and Danger Sense.\n");
+                    pane.getChildren().addAll(changes,continueButton);
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
 
-                    pane.add(continueButton,0,1);
 
 
                 }
@@ -349,16 +355,13 @@ public class Barbarian{
                     hp.setText("Hit Points: " + character.getHitPoints());
 
                     Label choosePath = new Label("Choose your Primal Path");
-                    pane.add(choosePath,1,0,6,1);
                     Label choice = new Label("Primal Path: " + this.primalPath);
-                    pane.add(choice,1,3,3,1);
 
                     continueButton.setDisable(true);
 
                     Button berserker = new Button("Berserker");
                     berserker.setTooltip(new Tooltip("Path of Berserker\nFeatures: Frenzy"));
-                    pane.add(berserker,0,1);
-                    berserker.setTranslateX(45);
+                    berserker.setPrefWidth(100);
                     berserker.setOnAction(e-> {
                         this.primalPath=berserker.getText();
                        choice.setText("Primal Path: " + this.primalPath);
@@ -366,15 +369,21 @@ public class Barbarian{
                     });
 
                     Button totemWarrior = new Button("Totem Warrior");
+                    totemWarrior.setPrefWidth(100);
                     berserker.setTooltip(new Tooltip("Path of Totem Warrior\nFeatures: Spirit Speaker\nTotem Spirit choice"));
-                    pane.add(totemWarrior,2,1);
                     totemWarrior.setOnAction(e-> {
                         this.primalPath=totemWarrior.getText();
                         choice.setText("Primal Path: " + this.primalPath);
                         continueButton.setDisable(false);
                     });
 
-                    pane.add(continueButton,1,4);
+                    HBox pathChoices = new HBox(30);
+                    pathChoices.getChildren().addAll(berserker,totemWarrior);
+                    pathChoices.setAlignment(Pos.CENTER);
+
+                    pane.getChildren().addAll(choosePath,choice,pathChoices,continueButton);
+                    pane.setAlignment(Pos.TOP_CENTER);
+
                     continueButton.setOnAction(e->{
                         primalPath.setText("Primal Path: "+ this.primalPath);
 
@@ -385,44 +394,47 @@ public class Barbarian{
                                 addLevelStage.close();
                             } else addLevel(addLevelStage,maxLevel,4);
                         }else {
-
-                            pane.getChildren().removeAll(berserker,totemWarrior);
+                            pane.getChildren().clear();
 
                             choosePath.setText("Choose your Totem Spirit");
-                            pane.getChildren().remove(choosePath);
-                            pane.add(choosePath,0,0,6,1);
-                            choosePath.setTranslateX(20);
                             choice.setText("Totem Spirit: " + this.totemSpirit);
-                            choice.setTranslateX(-10);
+                            continueButton.setDisable(true);
+
 
                             Button bear = new Button("Bear");
-                            bear.setTooltip(new Tooltip("While raging, you have resistance to all damage except psychic damage. The spirit of the bear makes you tough enough to stand up to any punishment"));
+                            bear.setTooltip(new Tooltip("While raging, you have resistance to all damage \nexcept psychic damage. The spirit of the bear makes \nyou tough enough to stand up to any punishment"));
                             bear.getTooltip().setWrapText(true);
-                            bear.setTranslateX(20);
-                            pane.add(bear,0,1);
+
                             Button eagle = new Button("Eagle");
-                            eagle.setTooltip(new Tooltip("While you are raging and aren't wearing heavy armor, other creatures have disadvantage on opportunity attack rolls against you, and you can use the Dash action as a bonus action on your turn. The spirit of the eagle makes you into a predator who can weave through the fray with ease."));
+                            eagle.setTooltip(new Tooltip("While you are raging and aren't wearing heavy armor, other creatures \nhave disadvantage on opportunity attack rolls against you, \nand you can use the Dash action as a bonus action on your turn. \nThe spirit of the eagle makes you into a predator who can weave \nthrough the fray with ease."));
                             eagle.getTooltip().setWrapText(true);
-                            eagle.setTranslateX(20);
-                            pane.add(eagle,1,1);
+
                             Button wolf = new Button("Wolf");
-                            wolf.setTooltip(new Tooltip("While you are raging, your friends have advantage on melee attack rolls against any creature within 5 feet of you that is hostile to you. The spirit of the wolf makes you a leader of hunters."));
+                            wolf.setTooltip(new Tooltip("While you are raging, your friends have advantage on melee attack \nrolls against any creature within 5 feet of you that is hostile to you. \nThe spirit of the wolf makes you a leader of hunters."));
                             wolf.getTooltip().setWrapText(true);
-                            pane.add(wolf,2,1);
+
+                            HBox primalPathChoices = new HBox(20);
+                            primalPathChoices.getChildren().addAll(bear,eagle,wolf);
+                            primalPathChoices.setAlignment(Pos.TOP_CENTER);
+
+                            pane.getChildren().addAll(choosePath,choice,primalPathChoices,new Label(),continueButton);
 
                             bear.setOnAction(bearEvent->{
                                 this.totemSpirit = "Bear";
                                 choice.setText("Totem Spirit: " + this.totemSpirit);
+                                continueButton.setDisable(false);
                             });
 
                             eagle.setOnAction(eagleEvent->{
                                 this.totemSpirit = "Eagle";
                                 choice.setText("Totem Spirit: " + this.totemSpirit);
+                                continueButton.setDisable(false);
                             });
 
                             wolf.setOnAction(wolfEvent->{
                                 this.totemSpirit = "Wolf";
                                 choice.setText("Totem Spirit: " + this.totemSpirit);
+                                continueButton.setDisable(false);
                             });
 
                             continueButton.setOnAction(continueButtonEvent -> {
@@ -441,7 +453,9 @@ public class Barbarian{
                 if (startingLevel ==4){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
-                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
+                    abilityPane.setAlignment(Pos.TOP_CENTER);
+                    borderPane.setCenter(abilityPane);
                 }
                 if (startingLevel ==5){
                     character.setProficiencyMod(3);
@@ -452,59 +466,60 @@ public class Barbarian{
                     hp.setText("Hit Points: " + character.getHitPoints());
                     character.setSpeed(character.getSpeed() + 10);
 
-                    pane.add(new Label("Features added: Extra Attack and Fast Movement\nProficiency bonus +1\nSpeed +10"),0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(new Label("Features added: Extra Attack and Fast Movement\nProficiency bonus +1\nSpeed +10"),continueButton);
 
                 }
                 if (startingLevel ==6){
                     this.rages = 4;
                     rages.setText("Rages: " + this.rages);
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
+                    pane.setAlignment(Pos.TOP_CENTER);
                     hp.setText("Hit Points: " + character.getHitPoints());
                     if (primalPath.getText().split(" ")[2].equals("Berserker")){
                         character.getFeaturesList().add("Mindless Rage");
                         features.setItems(character.getFeaturesList());
-                        pane.add(new Label("Features added: Mindless Rage\n Rages +1"),0,0);
-                        pane.add(continueButton,2,1);
+                        pane.getChildren().addAll(new Label("Features added: Mindless Rage\nRages +1"),continueButton);
 
                     }else {
+                        continueButton.setDisable(true);
                         Label choosePath = new Label("Choose your Totem Spirit");;
-                        pane.add(choosePath,0,0,6,1);
-                        choosePath.setTranslateX(20);
                         Label choice = new Label("Totem Spirit: Not Selected");
-                        pane.add(choice,1,2,3,1);
-                        choice.setTranslateX(-10);
 
                         Button bear = new Button("Bear");
-                        bear.setTooltip(new Tooltip("You gain the might of a bear. Your carrying capacity (including maximum load and maximum lift) is doubled, and you have advantage on Strength checks made to push, pull, lift, or break objects."));
+                        bear.setTooltip(new Tooltip("You gain the might of a bear. Your carrying capacity (including maximum load and maximum lift) is doubled, \nand you have advantage on Strength checks made to push, pull, lift, or break objects."));
                         bear.getTooltip().setWrapText(true);
-                        bear.setTranslateX(20);
-                        pane.add(bear,0,1);
-                        Button eagle = new Button("Eagle");
-                        eagle.setTooltip(new Tooltip("You gain eyesight of an eagle. You can see up to 1 mile away with no difficulty, able to discern even fine details as though looking at something no more than 100 feet away from you. Additionally, dim light doesn't impose disadvantage on your Wisdom (Perception) checks"));
-                        eagle.getTooltip().setWrapText(true);
-                        eagle.setTranslateX(20);
-                        pane.add(eagle,1,1);
-                        Button wolf = new Button("Wolf");
-                        wolf.setTooltip(new Tooltip("You gain the hunting sensibilities of a wolf. You can track other creatures while travelling at a fast pace, and you can move stealthily while travelling at a normal pace."));
-                        wolf.getTooltip().setWrapText(true);
-                        pane.add(wolf,2,1);
 
-                        pane.add(continueButton,1,3);
+                        Button eagle = new Button("Eagle");
+                        eagle.setTooltip(new Tooltip("You gain eyesight of an eagle. You can see up to 1 mile away with no difficulty, able to discern even fine details as though \nlooking at something no more than 100 feet away from you. Additionally, dim light doesn't \nimpose disadvantage on your Wisdom (Perception) checks"));
+                        eagle.getTooltip().setWrapText(true);
+
+
+                        Button wolf = new Button("Wolf");
+                        wolf.setTooltip(new Tooltip("You gain the hunting sensibilities of a wolf. You can track other creatures while travelling at a fast pace, \nand you can move stealthily while travelling at a normal pace."));
+                        wolf.getTooltip().setWrapText(true);
+
+                        HBox primalPathChoices = new HBox(20);
+                        primalPathChoices.getChildren().addAll(bear, eagle,wolf);
+                        primalPathChoices.setAlignment(Pos.TOP_CENTER);
+
+                        pane.getChildren().addAll(choosePath, choice,primalPathChoices, continueButton );
 
                         bear.setOnAction(bearEvent->{
                             this.totemSpirit = "Bear";
                             choice.setText("Totem Spirit: " + this.totemSpirit);
+                            continueButton.setDisable(false);
                         });
 
                         eagle.setOnAction(eagleEvent->{
                             this.totemSpirit = "Eagle";
                             choice.setText("Totem Spirit: " + this.totemSpirit);
+                            continueButton.setDisable(false);
                         });
 
                         wolf.setOnAction(wolfEvent->{
                             this.totemSpirit = "Wolf";
                             choice.setText("Totem Spirit: " + this.totemSpirit);
+                            continueButton.setDisable(false);
                         });
 
                         continueButton.setOnAction(continueButtonEvent -> {
@@ -525,13 +540,15 @@ public class Barbarian{
                     hp.setText("Hit Points: " + character.getHitPoints());
 
                      changes.setText("Features Added: Feral Instinct");
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
+
                 }
                 if (startingLevel ==8){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: " + character.getHitPoints());
-                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
+                    abilityPane.setAlignment(Pos.TOP_CENTER);
+                    borderPane.setCenter(abilityPane);
                 }
                 if (startingLevel ==9){
                     character.setProficiencyMod(4);
@@ -543,8 +560,8 @@ public class Barbarian{
                     proficiency.setText("Proficiency : + "+ character.getProficiencyMod());
                     rageDamage.setText("Rage Damage: " + this.rageDamage);
                     changes.setText("Features Added: Brutal Critical (1 Die)\nProficiency +1\nRage Damage +1");
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
+
                 }
                 if (startingLevel ==10){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
@@ -556,8 +573,7 @@ public class Barbarian{
                         character.getFeaturesList().add("Spirit Walker");
                         changes.setText("Features added: Spirit Walker");
                     }
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
                 }
                 if (startingLevel ==11){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
@@ -565,15 +581,16 @@ public class Barbarian{
                     character.getFeaturesList().add("Relentless Rage");
                     features.setItems(character.getFeaturesList());
                     changes.setText("Features Added: Relentless Rage");
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes, continueButton);
 
                 }
                 if (startingLevel ==12){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     this.rages = 5;
-                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+                    GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
+                    center.setAlignment(Pos.TOP_CENTER);
+                    borderPane.setCenter(center);
                 }
                 if (startingLevel ==13){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
@@ -582,8 +599,7 @@ public class Barbarian{
                     character.getFeaturesList().remove("Brutal Critical (1 Die)");
                     character.getFeaturesList().add("Brutal Critical (2 Dice)");
                     changes.setText("Features Added: Updated Brutal Critical (1 Die) to Brutal Critical (2 Dice)\nProficiency +1");
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
                 }
                 if (startingLevel ==14){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
@@ -593,46 +609,47 @@ public class Barbarian{
                         character.getFeaturesList().add("Retaliation");
                         features.setItems(character.getFeaturesList());
                         changes.setText("Features added: Retaliation");
-                        pane.add(changes,0,0);
-                        pane.add(continueButton,0,1);
+                        pane.getChildren().addAll(changes, continueButton);
                     }else {
+                        continueButton.setDisable(true);
+                        pane.setAlignment(Pos.TOP_CENTER);
                         Label choosePath = new Label("Choose your Totem Spirit");;
-                        pane.add(choosePath,0,0,6,1);
-                        choosePath.setTranslateX(20);
                         Label choice = new Label("Totem Spirit: Not Selected");
-                        pane.add(choice,1,2,3,1);
-                        choice.setTranslateX(-10);
+
+                        HBox primalPathChoices = new HBox(20);
 
                         Button bear = new Button("Bear");
                         bear.setTooltip(new Tooltip("While you're raging, any creature within 5 feet of you that's hostile to you has a disadvantage on attack rolls against targets other than you or another character with this feature. An enemy is immune to this effect if it can't see or hear you or if it can't be frightened."));
                         bear.getTooltip().setWrapText(true);
-                        bear.setTranslateX(20);
-                        pane.add(bear,0,1);
+
                         Button eagle = new Button("Eagle");
                         eagle.setTooltip(new Tooltip("While raging, you have a flying speed equal to your current walking speed. This benefit works only in short bursts; you fall if you end your turn in the air and nothing else is holding you aloft."));
                         eagle.getTooltip().setWrapText(true);
-                        eagle.setTranslateX(20);
-                        pane.add(eagle,1,1);
+
                         Button wolf = new Button("Wolf");
                         wolf.setTooltip(new Tooltip("While you're raging, you can use a bonus action on your turn to knock a large or smaller creature prone when you hit it with melee weapon attack."));
                         wolf.getTooltip().setWrapText(true);
-                        pane.add(wolf,2,1);
 
-                        pane.add(continueButton,1,3);
+                        primalPathChoices.getChildren().addAll(bear,eagle,wolf);
+                        primalPathChoices.setAlignment(Pos.TOP_CENTER);
+                        pane.getChildren().addAll(choosePath, choice,primalPathChoices,continueButton);
 
                         bear.setOnAction(bearEvent->{
                             this.totemSpirit = "Bear";
                             choice.setText("Totem Spirit: " + this.totemSpirit);
+                            continueButton.setDisable(false);
                         });
 
                         eagle.setOnAction(eagleEvent->{
                             this.totemSpirit = "Eagle";
                             choice.setText("Totem Spirit: " + this.totemSpirit);
+                            continueButton.setDisable(false);
                         });
 
                         wolf.setOnAction(wolfEvent->{
                             this.totemSpirit = "Wolf";
                             choice.setText("Totem Spirit: " + this.totemSpirit);
+                            continueButton.setDisable(false);
                         });
 
                         continueButton.setOnAction(continueButtonEvent -> {
@@ -652,15 +669,18 @@ public class Barbarian{
                     character.getFeaturesList().add("Persistent Rage");
                     features.setItems(character.getFeaturesList());
                     changes.setText("Features Added: Persistent Rage");
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
                 }
                 if (startingLevel ==16){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
                     this.rageDamage = 4;
                     rageDamage.setText("Rage Damage: 4");
-                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+
+                    GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
+                    center.setAlignment(Pos.TOP_CENTER);
+
+                    borderPane.setCenter(center);
                 }
                 if (startingLevel ==17){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
@@ -671,8 +691,8 @@ public class Barbarian{
                     character.getFeaturesList().add("Brutal Critical  (3 Dice)");
                     this.rages = 6;
                     changes.setText("Features Added: Updated Brutal Critical (2 Dice) to Brutal Critical (3 Dice)\nRages +1\nProficiency +1");
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
+
                 }
                 if (startingLevel ==18){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
@@ -680,13 +700,16 @@ public class Barbarian{
                     character.getFeaturesList().add("Indomitable Might");
                     features.setItems(character.getFeaturesList());
                     changes.setText("Features Added: Indomitable Might");
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
                 }
                 if (startingLevel ==19){
                     character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
                     hp.setText("Hit Points: "+ character.getHitPoints());
-                    borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,startingLevel));
+
+                    GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
+                    center.setAlignment(Pos.TOP_CENTER);
+
+                    borderPane.setCenter(center);
                 }
                 if (startingLevel ==20){
                     continueButton.setText("Close");
@@ -701,8 +724,8 @@ public class Barbarian{
                     rages.setText("Rages: Unlimited");
                     changes.setText("Features Added: Primal Champion \nRages are now unlimited");
                     continueButton.setOnAction(e-> addLevelStage.close());
-                    pane.add(changes,0,0);
-                    pane.add(continueButton,0,1);
+                    pane.getChildren().addAll(changes,continueButton);
+
                 }
                 if (startingLevel == maxLevel){
                     character.setLevel(maxLevel);

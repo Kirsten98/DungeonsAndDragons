@@ -119,7 +119,7 @@ public class Bard {
         Button constitution = new Button("Constitution");
 
         GridPane pane = new GridPane();
-        Label question = new Label("Would you like to increase one ability score by +2 or two ability scores by +1 ");
+        Label question = new Label("Would you like to increase one ability score \nby +2 or two ability scores by +1 ");
         Button plus2 = new Button("One ability score by +2");
         Button plus1 = new Button("Two ability scores by +1");
 
@@ -666,7 +666,6 @@ public class Bard {
                 }
                 borderPane.setCenter(abilityScoreImprovement(addLevelStage,maxLevel,4));
 //                levelFive(borderPane,continueButton,error,maxLevel);
-                //TODO Need to update abilityScoreImprovement to call the next level
             }
 
         });
