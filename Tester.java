@@ -1,5 +1,6 @@
 package DungeonsAndDragons;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.awt.*;
+
+import java.util.Arrays;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,16 +32,15 @@ public class Tester extends Application {
         }
     }
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         CharacterSheet mainCharacter = new CharacterSheet();
-        mainCharacter.setCharacterClass("Bard");
+        mainCharacter.setCharacterClass("Barbarian");
         Stage stage = new Stage();
-//        Bard bard = new Bard(mainCharacter);
-//
-//        bard.addLevel(stage,10,9);
-        Abilities.chooseAbilities(new Button("Continue Button"),mainCharacter);
+        Barbarian barbarian = new Barbarian(mainCharacter);
+
+        barbarian.addLevel(stage,9,7);
+//        Abilities.chooseAbilities(new Button("Continue Button"),mainCharacter);
 
 //        bard.addLevel(stage,2,1);
         stage.initStyle(StageStyle.DECORATED);
