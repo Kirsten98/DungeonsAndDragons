@@ -1,4 +1,4 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

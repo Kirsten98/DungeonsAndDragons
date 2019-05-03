@@ -1,4 +1,4 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;

@@ -1,5 +1,8 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
+import DungeonsAndDragons.MainCharacter.Item;
+import DungeonsAndDragons.MainCharacter.CharacterSheet;
+import DungeonsAndDragons.MainCharacter.Spells;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

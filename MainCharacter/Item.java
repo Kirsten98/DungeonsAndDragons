@@ -1,4 +1,4 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
 public class Item {
 

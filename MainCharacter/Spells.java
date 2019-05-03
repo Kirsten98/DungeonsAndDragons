@@ -1,4 +1,4 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
 import java.util.Scanner;
 import java.util.Vector;

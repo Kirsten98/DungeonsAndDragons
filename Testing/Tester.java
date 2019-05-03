@@ -1,19 +1,13 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.Testing;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
+import DungeonsAndDragons.MainCharacter.Barbarian;
+import DungeonsAndDragons.MainCharacter.CharacterSheet;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.*;
-
-import java.util.Arrays;
 import java.util.Vector;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static javafx.application.Application.launch;
 
@@ -39,7 +33,7 @@ public class Tester extends Application {
         Stage stage = new Stage();
         Barbarian barbarian = new Barbarian(mainCharacter);
 
-        barbarian.addLevel(stage,9,7);
+        barbarian.addLevel(stage,20,16);
 //        Abilities.chooseAbilities(new Button("Continue Button"),mainCharacter);
 
 //        bard.addLevel(stage,2,1);

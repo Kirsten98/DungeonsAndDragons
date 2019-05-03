@@ -1,9 +1,9 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
+import DungeonsAndDragons.MainCharacter.Item;
+import DungeonsAndDragons.MainCharacter.CharacterSheet;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,12 +14,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Cylinder;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
-import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -363,6 +359,7 @@ public class Barbarian{
                 secondSkill.setText("Second skill choice: " + secondChoice.getValue());
                 secondChoice.setDisable(true);
                 if (maxLevel == 1){
+                    addLevel(addLevelStage,1,1);
                     addLevelStage.close();
                 }else  levelTwo(borderPane,continueButton,maxLevel);
 
@@ -393,6 +390,7 @@ public class Barbarian{
         pane.getChildren().addAll(changes,continueButton);
         continueButton.setOnAction(continueButtonEvent -> {
             if (maxLevel == 2){
+                addLevel(addLevelStage,2,2);
                 addLevelStage.close();
             }else  levelThree(borderPane,continueButton,maxLevel);
         });
@@ -449,6 +447,7 @@ public class Barbarian{
             if (this.primalPath.equals("Berserker")){
                 character.getFeaturesList().add("Frenzy");
                 if ( maxLevel ==3){
+                    addLevel(addLevelStage,3,3);
                     addLevelStage.close();
                 } else levelFour(borderPane,continueButton,maxLevel);
             }else {
@@ -498,6 +497,7 @@ public class Barbarian{
                 continueButton.setOnAction(continueButtonEvent -> {
                     character.getFeaturesList().add("Spirit Speaker: " + this.totemSpirit);
                     if ( maxLevel ==3){
+                        addLevel(addLevelStage,3,3);
                         addLevelStage.close();
                     } else levelFour(borderPane,continueButton,maxLevel);
                 });
@@ -545,6 +545,7 @@ public class Barbarian{
         character.setSpeed(character.getSpeed() + 10);
         continueButton.setOnAction(continueButtonEvent ->{
             if ( maxLevel ==4){
+                addLevel(addLevelStage,4,4);
                 addLevelStage.close();
             } else levelSix(borderPane,continueButton,maxLevel);
         });
@@ -575,6 +576,7 @@ public class Barbarian{
             pane.getChildren().addAll(new Label("Features added: Mindless Rage\nRages +1"),continueButton);
             continueButton.setOnAction(continueButtonEvent -> {
                 if (maxLevel == 6){
+                    addLevel(addLevelStage,6,6);
                     addLevelStage.close();
                 }else levelSeven(borderPane,continueButton,maxLevel);
             });
@@ -625,6 +627,7 @@ public class Barbarian{
                 character.getFeaturesList().add("Aspect of the Beast: " + this.totemSpirit);
 
                 if (maxLevel == 6){
+                    addLevel(addLevelStage,6,6);
                     addLevelStage.close();
                 }else levelSeven(borderPane,continueButton,maxLevel);
 
@@ -654,6 +657,7 @@ public class Barbarian{
 
         continueButton.setOnAction(continueButtonEvent -> {
             if (maxLevel == 7){
+                addLevel(addLevelStage,7,7);
                 addLevelStage.close();
             }else levelEight(borderPane,continueButton,maxLevel);
 
@@ -704,6 +708,7 @@ public class Barbarian{
 
         continueButton.setOnAction(continueButtonEvent -> {
             if (maxLevel == 9){
+                addLevel(addLevelStage,9,9);
                 addLevelStage.close();
             }else levelTen(borderPane,continueButton,maxLevel);
 
@@ -711,10 +716,367 @@ public class Barbarian{
         pane.getChildren().addAll(changes,continueButton);
     }
 
+    /** Barbarian Level ten changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Features + Intimidating Presence OR Spirit Walker (based on Primal Path)
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
     private void levelTen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(50,20,50,20));
+        pane.setAlignment(Pos.TOP_CENTER);
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+        Label changes = new Label("");
+
+        if (this.primalPath.equals("Berserker")){
+            character.getFeaturesList().add("Intimidating Presence");
+            changes.setText("Features added: Intimidating Presence");
+        }else {
+            character.getFeaturesList().add("Spirit Walker");
+            changes.setText("Features added: Spirit Walker");
+        }
+
+        continueButton.setOnAction(continueButtonEvent -> {
+            if (maxLevel == 10){
+                addLevel(addLevelStage,10,10);
+                addLevelStage.close();
+            }else levelEleven(borderPane,continueButton,maxLevel);
+        });
+
+        pane.getChildren().addAll(changes,continueButton);
+    }
+
+    /** Barbarian Level eleven changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Features + Relentless Rage
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    private void levelEleven(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(50,20,50,20));
+        pane.setAlignment(Pos.TOP_CENTER);
+
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+
+        Label changes = new Label("Features Added: Relentless Rage");
+        character.getFeaturesList().add("Relentless Rage");
+
+        continueButton.setOnAction(continueButtonEvent ->{
+            if (maxLevel == 11){
+                addLevel(addLevelStage,11,11);
+                addLevelStage.close();
+            }else levelTwelve(borderPane,continueButton,maxLevel);
+        });
+
+        pane.getChildren().addAll(changes, continueButton);
+}
+
+    /** Barbarian Level twelve changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Rages = 5
+     * User is presented the option to either update one ability modifier by two points, or two ability modifiers by one point
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    private void levelTwelve(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+        this.rages = 5;
+        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,12);
+        center.setAlignment(Pos.TOP_CENTER);
+        center.setPadding(new Insets(50,20,50,20));
+        borderPane.setCenter(center);
+    }
+
+    /** Barbarian Level thirteen changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Proficiency Modifier = 5
+     * Features - "Brutal Critical (1 Die)"
+     * Features + "Brutal Critical (2 Die)"
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    private void levelThirteen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.setPadding(new Insets(50,20,50,20));
+
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+        character.setProficiencyMod(5);
+        character.getFeaturesList().remove("Brutal Critical (1 Die)");
+        character.getFeaturesList().add("Brutal Critical (2 Dice)");
+        Label changes = new Label ("Features Added: Updated Brutal Critical (1 Die) to Brutal Critical (2 Dice)\nProficiency +1");
+
+        continueButton.setOnAction(continueButtonEvent ->{
+            if (maxLevel == 13){
+                addLevel(addLevelStage,13,13);
+                addLevelStage.close();
+            }else levelFourteen(borderPane,continueButton,maxLevel);
+        });
+
+        pane.getChildren().addAll(changes,continueButton);
+    }
+
+    /** Barbarian Level fourteen changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Feature + Retaliation (If primal path is Berserker) OR Totem Attunement (If Primal path is other)
+     * User chooses Totem Spirit if they are not a Berserker
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    private void levelFourteen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setPadding(new Insets(50,20,50,20));
+        pane.setAlignment(Pos.TOP_CENTER);
+
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+
+        Label changes = new Label();
+        if (this.primalPath.equals("Berserker")){
+            character.getFeaturesList().add("Retaliation");
+            changes.setText("Features added: Retaliation");
+            continueButton.setOnAction(continueButtonEvent -> {
+                if (maxLevel == 14){
+                    addLevel(addLevelStage,14,14);
+                    addLevelStage.close();
+                }else levelFifteen(borderPane,continueButton,maxLevel);
+            });
+            pane.getChildren().addAll(changes, continueButton);
+        }else {
+            continueButton.setDisable(true);
+            pane.setAlignment(Pos.TOP_CENTER);
+            Label choosePath = new Label("Choose your Totem Spirit");;
+            Label choice = new Label("Totem Spirit: Not Selected");
+
+            HBox primalPathChoices = new HBox(20);
+
+            Button bear = new Button("Bear");
+            bear.setTooltip(new Tooltip("While you're raging, any creature within 5 feet of you that's hostile to you has a disadvantage on attack rolls against targets other than you or another character with this feature. An enemy is immune to this effect if it can't see or hear you or if it can't be frightened."));
+            bear.getTooltip().setWrapText(true);
+            bear.getTooltip().setWidth(75);
+
+            Button eagle = new Button("Eagle");
+            eagle.setTooltip(new Tooltip("While raging, you have a flying speed equal to your current walking speed. This benefit works only in short bursts; you fall if you end your turn in the air and nothing else is holding you aloft."));
+            eagle.getTooltip().setWrapText(true);
+            eagle.getTooltip().setWidth(75);
+
+            Button wolf = new Button("Wolf");
+            wolf.setTooltip(new Tooltip("While you're raging, you can use a bonus action on your turn to knock a large or smaller creature prone when you hit it with melee weapon attack."));
+            wolf.getTooltip().setWrapText(true);
+            wolf.getTooltip().setWidth(75);
+
+            primalPathChoices.getChildren().addAll(bear,eagle,wolf);
+            primalPathChoices.setAlignment(Pos.TOP_CENTER);
+            pane.getChildren().addAll(choosePath, choice,primalPathChoices,continueButton);
+
+            bear.setOnAction(bearEvent->{
+                this.totemSpirit = "Bear";
+                choice.setText("Totem Spirit: " + this.totemSpirit);
+                continueButton.setDisable(false);
+            });
+
+            eagle.setOnAction(eagleEvent->{
+                this.totemSpirit = "Eagle";
+                choice.setText("Totem Spirit: " + this.totemSpirit);
+                continueButton.setDisable(false);
+            });
+
+            wolf.setOnAction(wolfEvent->{
+                this.totemSpirit = "Wolf";
+                choice.setText("Totem Spirit: " + this.totemSpirit);
+                continueButton.setDisable(false);
+            });
+
+            continueButton.setOnAction(continueButtonEvent -> {
+                character.getFeaturesList().add("Totemic Attunement");
+                if (maxLevel == 14){
+                    addLevel(addLevelStage,14,14);
+                    addLevelStage.close();
+                }else levelFifteen(borderPane,continueButton,maxLevel);
+
+            });
+        }
+    }
+
+    /** Barbarian Level fifteen changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Features + Persistent Rage
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    public void levelFifteen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.setPadding(new Insets(50,20,50,20));
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+        Label changes = new Label("Features Added: Persistent Rage");
+        character.getFeaturesList().add("Persistent Rage");
+
+        continueButton.setOnAction(continueButtonEvent ->{
+            if (maxLevel == 15){
+                addLevel(addLevelStage,15,15);
+                addLevelStage.close();
+            }else levelSixteen(borderPane,continueButton,maxLevel);
+        });
+        pane.getChildren().addAll(changes,continueButton);
+    }
+
+    /** Barbarian Level sixteen changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Rages = 4
+     *  User is presented the option to either update one ability modifier by two points, or two ability modifiers by one point
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    public void levelSixteen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+        this.rageDamage = 4;
+
+        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,16);
+        center.setAlignment(Pos.TOP_CENTER);
+        center.setPadding(new Insets(50,20,50,20));
+
+        borderPane.setCenter(center);
+
 
     }
 
+    /** Barbarian Level seventeen changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Features - Brutal Critical (2 Dice)
+     * Features + Brutal Critical (3 Dice)
+     * Proficiency Modifier = 6
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    public void levelSeventeen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.setPadding(new Insets(50,20,50,20));
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+
+        character.setProficiencyMod(6);
+        character.getFeaturesList().remove("Brutal Critical (2 Dice)");
+        character.getFeaturesList().add("Brutal Critical  (3 Dice)");
+        this.rages = 6;
+        Label changes = new Label("Features Added: Updated Brutal Critical (2 Dice) to Brutal Critical (3 Dice)\nRages +1\nProficiency +1");
+
+        continueButton.setOnAction(continueButtonEvent ->{
+            if (maxLevel == 17){
+                addLevel(addLevelStage,17,17);
+                addLevelStage.close();
+            }else levelEighteen(borderPane,continueButton,maxLevel);
+        });
+        pane.getChildren().addAll(changes,continueButton);
+    }
+
+    /** Barbarian Level eighteen changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Features + Indomitable Might
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    public void levelEighteen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.setPadding(new Insets(50,20,50,20));
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+        character.getFeaturesList().add("Indomitable Might");
+        Label changes = new Label("Features Added: Indomitable Might");
+
+        continueButton.setOnAction(continueButtonEvent ->{
+            if (maxLevel == 18){
+                addLevel(addLevelStage,18,18);
+                addLevelStage.close();
+            }else levelNineteen(borderPane,continueButton,maxLevel);
+        });
+
+        pane.getChildren().addAll(changes,continueButton);
+    }
+
+    /** Barbarian Level Nineteen changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * User is presented the option to either update one ability modifier by two points, or two ability modifiers by one point
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    public void levelNineteen(BorderPane borderPane, Button continueButton,int maxLevel){
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+
+        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,19);
+        center.setAlignment(Pos.TOP_CENTER);
+        center.setPadding(new Insets(50,20,50,20));
+
+        borderPane.setCenter(center);
+
+    }
+
+    /** Barbarian Level twenty changes to charactersheet
+     * HP += Random number between 1 and 12 + Constitution Modifier
+     * Rages = Unlimited
+     * Strength Score +4
+     * Constitution +4
+     * Features + Primal Champion
+     *
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param continueButton Button to navigate the user between their choices and the next level
+     * @param maxLevel The maximum level that the user has selected
+     */
+    public void levelTwenty(BorderPane borderPane, Button continueButton,int maxLevel){
+        continueButton.setText("Close");
+        abilityAddition(character,"Strength",4);
+        abilityAddition(character,"Constitution",4);
+
+        VBox pane = new VBox(20);
+        pane.setAlignment(Pos.TOP_CENTER);
+        pane.setPadding(new Insets(50,20,50,20));
+        updateCharacterHP();
+        borderPaneSetUp(borderPane,pane);
+        character.getFeaturesList().add("Primal Champion");
+        this.rages = 999999999;
+        Label changes = new Label("Features Added: Primal Champion \nRages are now unlimited");
+        continueButton.setOnAction(e-> {
+            addLevel(addLevelStage,20,20);
+            addLevelStage.close();
+        });
+        pane.getChildren().addAll(changes,continueButton);
+    }
     /**
      * Takes current level and continuously adds additional level until maximum level is hit. Throughout the process it will give the users options for selection for their current level
      * @param addLevelStage Stage that will contain all Level choices
@@ -775,429 +1137,34 @@ public class Barbarian{
                         break;
                     case 10: levelTen(borderPane,continueButton,maxLevel);
                         break;
-//                    case 11: levelEleven(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 12: levelTwelve(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 13: levelThirteen(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 14: levelFourteen(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 15: levelFifteen(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 16: levelSixteen(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 17: levelSeventeen(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 18: levelEighteen(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 19: levelNineteen(borderPane,continueButton,maxLevel);
-//                        break;
-//                    case 20: levelTwenty(borderPane,continueButton,maxLevel);
+                    case 11: levelEleven(borderPane,continueButton,maxLevel);
+                        break;
+                    case 12: levelTwelve(borderPane,continueButton,maxLevel);
+                        break;
+                    case 13: levelThirteen(borderPane,continueButton,maxLevel);
+                        break;
+                    case 14: levelFourteen(borderPane,continueButton,maxLevel);
+                        break;
+                    case 15: levelFifteen(borderPane,continueButton,maxLevel);
+                        break;
+                    case 16: levelSixteen(borderPane,continueButton,maxLevel);
+                        break;
+                    case 17: levelSeventeen(borderPane,continueButton,maxLevel);
+                        break;
+                    case 18: levelEighteen(borderPane,continueButton,maxLevel);
+                        break;
+                    case 19: levelNineteen(borderPane,continueButton,maxLevel);
+                        break;
+                    case 20: levelTwenty(borderPane,continueButton,maxLevel);
 
                 }
 
-                //TODO remove after implementing individual methods for each level
-//                if (startingLevel ==2){
-//
-//                    character.getFeaturesList().add("Reckless Attack");
-//                    character.getFeaturesList().add("Danger Sense");
-//                    features.setItems(character.getFeaturesList());
-//                    proficiencies.setItems( character.levelProficienciesList);
-//
-//                     changes.setText("The following has been added to your character.\nFeatures: Reckless Attack and Danger Sense.\n");
-//                    pane.getChildren().addAll(changes,continueButton);
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: " + character.getHitPoints());
-//
-//
-//
-//                }
-//                if (startingLevel ==3){
-//                    this.rages = 3;
-//                    rages.setText("Rages: " + this.rages);
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: " + character.getHitPoints());
-//
-//                    Label choosePath = new Label("Choose your Primal Path");
-//                    Label choice = new Label("Primal Path: " + this.primalPath);
-//
-//                    continueButton.setDisable(true);
-//
-//                    Button berserker = new Button("Berserker");
-//                    berserker.setTooltip(new Tooltip("Path of Berserker\nFeatures: Frenzy"));
-//                    berserker.setPrefWidth(100);
-//                    berserker.setOnAction(e-> {
-//                        this.primalPath=berserker.getText();
-//                       choice.setText("Primal Path: " + this.primalPath);
-//                        continueButton.setDisable(false);
-//                    });
-//
-//                    Button totemWarrior = new Button("Totem Warrior");
-//                    totemWarrior.setPrefWidth(100);
-//                    berserker.setTooltip(new Tooltip("Path of Totem Warrior\nFeatures: Spirit Speaker\nTotem Spirit choice"));
-//                    totemWarrior.setOnAction(e-> {
-//                        this.primalPath=totemWarrior.getText();
-//                        choice.setText("Primal Path: " + this.primalPath);
-//                        continueButton.setDisable(false);
-//                    });
-//
-//                    HBox pathChoices = new HBox(30);
-//                    pathChoices.getChildren().addAll(berserker,totemWarrior);
-//                    pathChoices.setAlignment(Pos.CENTER);
-//
-//                    pane.getChildren().addAll(choosePath,choice,pathChoices,continueButton);
-//                    pane.setAlignment(Pos.TOP_CENTER);
-//
-//                    continueButton.setOnAction(e->{
-//                        primalPath.setText("Primal Path: "+ this.primalPath);
-//
-//                        if (this.primalPath.equals("Berserker")){
-//                            character.getFeaturesList().add("Frenzy");
-//                            features.setItems(character.getFeaturesList());
-//                            if (startingLevel == maxLevel){
-//                                addLevelStage.close();
-//                            } else addLevel(addLevelStage,maxLevel,4);
-//                        }else {
-//                            pane.getChildren().clear();
-//
-//                            choosePath.setText("Choose your Totem Spirit");
-//                            choice.setText("Totem Spirit: " + this.totemSpirit);
-//                            continueButton.setDisable(true);
-//
-//
-//                            Button bear = new Button("Bear");
-//                            bear.setTooltip(new Tooltip("While raging, you have resistance to all damage \nexcept psychic damage. The spirit of the bear makes \nyou tough enough to stand up to any punishment"));
-//                            bear.getTooltip().setWrapText(true);
-//
-//                            Button eagle = new Button("Eagle");
-//                            eagle.setTooltip(new Tooltip("While you are raging and aren't wearing heavy armor, other creatures \nhave disadvantage on opportunity attack rolls against you, \nand you can use the Dash action as a bonus action on your turn. \nThe spirit of the eagle makes you into a predator who can weave \nthrough the fray with ease."));
-//                            eagle.getTooltip().setWrapText(true);
-//
-//                            Button wolf = new Button("Wolf");
-//                            wolf.setTooltip(new Tooltip("While you are raging, your friends have advantage on melee attack \nrolls against any creature within 5 feet of you that is hostile to you. \nThe spirit of the wolf makes you a leader of hunters."));
-//                            wolf.getTooltip().setWrapText(true);
-//
-//                            HBox primalPathChoices = new HBox(20);
-//                            primalPathChoices.getChildren().addAll(bear,eagle,wolf);
-//                            primalPathChoices.setAlignment(Pos.TOP_CENTER);
-//
-//                            pane.getChildren().addAll(choosePath,choice,primalPathChoices,new Label(),continueButton);
-//
-//                            bear.setOnAction(bearEvent->{
-//                                this.totemSpirit = "Bear";
-//                                choice.setText("Totem Spirit: " + this.totemSpirit);
-//                                continueButton.setDisable(false);
-//                            });
-//
-//                            eagle.setOnAction(eagleEvent->{
-//                                this.totemSpirit = "Eagle";
-//                                choice.setText("Totem Spirit: " + this.totemSpirit);
-//                                continueButton.setDisable(false);
-//                            });
-//
-//                            wolf.setOnAction(wolfEvent->{
-//                                this.totemSpirit = "Wolf";
-//                                choice.setText("Totem Spirit: " + this.totemSpirit);
-//                                continueButton.setDisable(false);
-//                            });
-//
-//                            continueButton.setOnAction(continueButtonEvent -> {
-//                                character.getFeaturesList().add("Spirit Speaker: " + this.totemSpirit);
-//                                features.setItems(character.getFeaturesList());
-//                                primalPath.setText("Primal Path: "+ this.primalPath);
-//                                if (startingLevel == maxLevel){
-//                                    addLevelStage.close();
-//                                }else addLevel(addLevelStage,maxLevel,4);
-//
-//                            });
-//                        }
-//                    });
-//
-//                }
-//                if (startingLevel ==4){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
-//                    abilityPane.setAlignment(Pos.TOP_CENTER);
-//                    borderPane.setCenter(abilityPane);
-//                }
-//                if (startingLevel ==5){
-//                    character.setProficiencyMod(3);
-//                    proficiency.setText("Proficiency : + "+ character.getProficiencyMod());
-//                    character.getFeaturesList().addAll("Extra Attack","Fast Movement");
-//                    features.setItems(character.getFeaturesList());
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: " + character.getHitPoints());
-//                    character.setSpeed(character.getSpeed() + 10);
-//
-//                    pane.getChildren().addAll(new Label("Features added: Extra Attack and Fast Movement\nProficiency bonus +1\nSpeed +10"),continueButton);
-//
-//                }
-//                if (startingLevel ==6){
-//                    this.rages = 4;
-//                    rages.setText("Rages: " + this.rages);
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    pane.setAlignment(Pos.TOP_CENTER);
-//                    hp.setText("Hit Points: " + character.getHitPoints());
-//                    if (primalPath.getText().split(" ")[2].equals("Berserker")){
-//                        character.getFeaturesList().add("Mindless Rage");
-//                        features.setItems(character.getFeaturesList());
-//                        pane.getChildren().addAll(new Label("Features added: Mindless Rage\nRages +1"),continueButton);
-//
-//                    }else {
-//                        continueButton.setDisable(true);
-//                        Label choosePath = new Label("Choose your Totem Spirit");;
-//                        Label choice = new Label("Totem Spirit: Not Selected");
-//
-//                        Button bear = new Button("Bear");
-//                        bear.setTooltip(new Tooltip("You gain the might of a bear. Your carrying capacity (including maximum load and maximum lift) is doubled, \nand you have advantage on Strength checks made to push, pull, lift, or break objects."));
-//                        bear.getTooltip().setWrapText(true);
-//
-//                        Button eagle = new Button("Eagle");
-//                        eagle.setTooltip(new Tooltip("You gain eyesight of an eagle. You can see up to 1 mile away with no difficulty, able to discern even fine details as though \nlooking at something no more than 100 feet away from you. Additionally, dim light doesn't \nimpose disadvantage on your Wisdom (Perception) checks"));
-//                        eagle.getTooltip().setWrapText(true);
-//
-//
-//                        Button wolf = new Button("Wolf");
-//                        wolf.setTooltip(new Tooltip("You gain the hunting sensibilities of a wolf. You can track other creatures while travelling at a fast pace, \nand you can move stealthily while travelling at a normal pace."));
-//                        wolf.getTooltip().setWrapText(true);
-//
-//                        HBox primalPathChoices = new HBox(20);
-//                        primalPathChoices.getChildren().addAll(bear, eagle,wolf);
-//                        primalPathChoices.setAlignment(Pos.TOP_CENTER);
-//
-//                        pane.getChildren().addAll(choosePath, choice,primalPathChoices, continueButton );
-//
-//                        bear.setOnAction(bearEvent->{
-//                            this.totemSpirit = "Bear";
-//                            choice.setText("Totem Spirit: " + this.totemSpirit);
-//                            continueButton.setDisable(false);
-//                        });
-//
-//                        eagle.setOnAction(eagleEvent->{
-//                            this.totemSpirit = "Eagle";
-//                            choice.setText("Totem Spirit: " + this.totemSpirit);
-//                            continueButton.setDisable(false);
-//                        });
-//
-//                        wolf.setOnAction(wolfEvent->{
-//                            this.totemSpirit = "Wolf";
-//                            choice.setText("Totem Spirit: " + this.totemSpirit);
-//                            continueButton.setDisable(false);
-//                        });
-//
-//                        continueButton.setOnAction(continueButtonEvent -> {
-//                            character.getFeaturesList().add("Aspect of the Beast: " + this.totemSpirit);
-//                            features.setItems(character.getFeaturesList());
-//                            primalPath.setText("Primal Path: "+ this.primalPath);
-//                            if (startingLevel == maxLevel){
-//                                addLevelStage.close();
-//                            }else addLevel(addLevelStage,maxLevel,7);
-//
-//                        });
-//                    }
-//                }
-//                if (startingLevel ==7){
-//                    character.getFeaturesList().add("Feral Instinct");
-//                    features.setItems(character.getFeaturesList());
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: " + character.getHitPoints());
-//
-//                     changes.setText("Features Added: Feral Instinct");
-//                    pane.getChildren().addAll(changes,continueButton);
-//
-//                }
-//                if (startingLevel ==8){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: " + character.getHitPoints());
-//                    GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
-//                    abilityPane.setAlignment(Pos.TOP_CENTER);
-//                    borderPane.setCenter(abilityPane);
-//                }
-//                if (startingLevel ==9){
-//                    character.setProficiencyMod(4);
-//                    character.getFeaturesList().add("Brutal Critical (1 Die)");
-//                    features.setItems(character.getFeaturesList());
-//                    this.rageDamage = 3;
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    proficiency.setText("Proficiency : + "+ character.getProficiencyMod());
-//                    rageDamage.setText("Rage Damage: " + this.rageDamage);
-//                    changes.setText("Features Added: Brutal Critical (1 Die)\nProficiency +1\nRage Damage +1");
-//                    pane.getChildren().addAll(changes,continueButton);
-//
-//                }
-//                if (startingLevel ==10){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    if (this.primalPath.equals("Berserker")){
-//                        character.getFeaturesList().add("Intimidating Presence");
-//                        changes.setText("Features added: Intimidating Presence");
-//                    }else {
-//                        character.getFeaturesList().add("Spirit Walker");
-//                        changes.setText("Features added: Spirit Walker");
-//                    }
-//                    pane.getChildren().addAll(changes,continueButton);
-//                }
-//                if (startingLevel ==11){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    character.getFeaturesList().add("Relentless Rage");
-//                    features.setItems(character.getFeaturesList());
-//                    changes.setText("Features Added: Relentless Rage");
-//                    pane.getChildren().addAll(changes, continueButton);
-//
-//                }
-//                if (startingLevel ==12){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    this.rages = 5;
-//                    GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
-//                    center.setAlignment(Pos.TOP_CENTER);
-//                    borderPane.setCenter(center);
-//                }
-//                if (startingLevel ==13){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    character.setProficiencyMod(5);
-//                    character.getFeaturesList().remove("Brutal Critical (1 Die)");
-//                    character.getFeaturesList().add("Brutal Critical (2 Dice)");
-//                    changes.setText("Features Added: Updated Brutal Critical (1 Die) to Brutal Critical (2 Dice)\nProficiency +1");
-//                    pane.getChildren().addAll(changes,continueButton);
-//                }
-//                if (startingLevel ==14){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//
-//                    if (this.primalPath.equals("Berserker")){
-//                        character.getFeaturesList().add("Retaliation");
-//                        features.setItems(character.getFeaturesList());
-//                        changes.setText("Features added: Retaliation");
-//                        pane.getChildren().addAll(changes, continueButton);
-//                    }else {
-//                        continueButton.setDisable(true);
-//                        pane.setAlignment(Pos.TOP_CENTER);
-//                        Label choosePath = new Label("Choose your Totem Spirit");;
-//                        Label choice = new Label("Totem Spirit: Not Selected");
-//
-//                        HBox primalPathChoices = new HBox(20);
-//
-//                        Button bear = new Button("Bear");
-//                        bear.setTooltip(new Tooltip("While you're raging, any creature within 5 feet of you that's hostile to you has a disadvantage on attack rolls against targets other than you or another character with this feature. An enemy is immune to this effect if it can't see or hear you or if it can't be frightened."));
-//                        bear.getTooltip().setWrapText(true);
-//
-//                        Button eagle = new Button("Eagle");
-//                        eagle.setTooltip(new Tooltip("While raging, you have a flying speed equal to your current walking speed. This benefit works only in short bursts; you fall if you end your turn in the air and nothing else is holding you aloft."));
-//                        eagle.getTooltip().setWrapText(true);
-//
-//                        Button wolf = new Button("Wolf");
-//                        wolf.setTooltip(new Tooltip("While you're raging, you can use a bonus action on your turn to knock a large or smaller creature prone when you hit it with melee weapon attack."));
-//                        wolf.getTooltip().setWrapText(true);
-//
-//                        primalPathChoices.getChildren().addAll(bear,eagle,wolf);
-//                        primalPathChoices.setAlignment(Pos.TOP_CENTER);
-//                        pane.getChildren().addAll(choosePath, choice,primalPathChoices,continueButton);
-//
-//                        bear.setOnAction(bearEvent->{
-//                            this.totemSpirit = "Bear";
-//                            choice.setText("Totem Spirit: " + this.totemSpirit);
-//                            continueButton.setDisable(false);
-//                        });
-//
-//                        eagle.setOnAction(eagleEvent->{
-//                            this.totemSpirit = "Eagle";
-//                            choice.setText("Totem Spirit: " + this.totemSpirit);
-//                            continueButton.setDisable(false);
-//                        });
-//
-//                        wolf.setOnAction(wolfEvent->{
-//                            this.totemSpirit = "Wolf";
-//                            choice.setText("Totem Spirit: " + this.totemSpirit);
-//                            continueButton.setDisable(false);
-//                        });
-//
-//                        continueButton.setOnAction(continueButtonEvent -> {
-//                            character.getFeaturesList().add("Totemic Attunement");
-//                            features.setItems(character.getFeaturesList());
-//                            primalPath.setText("Primal Path: "+ this.primalPath);
-//                            if (startingLevel == maxLevel){
-//                                addLevelStage.close();
-//                            }else addLevel(addLevelStage,maxLevel,startingLevel+1);
-//
-//                        });
-//                    }
-//                }
-//                if (startingLevel ==15){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    character.getFeaturesList().add("Persistent Rage");
-//                    features.setItems(character.getFeaturesList());
-//                    changes.setText("Features Added: Persistent Rage");
-//                    pane.getChildren().addAll(changes,continueButton);
-//                }
-//                if (startingLevel ==16){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    this.rageDamage = 4;
-//                    rageDamage.setText("Rage Damage: 4");
-//
-//                    GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
-//                    center.setAlignment(Pos.TOP_CENTER);
-//
-//                    borderPane.setCenter(center);
-//                }
-//                if (startingLevel ==17){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    character.setProficiencyMod(6);
-//                    proficiency.setText("Proficiency: " + character.getProficiencyMod());
-//                    character.getFeaturesList().remove("Brutal Critical (2 Dice)");
-//                    character.getFeaturesList().add("Brutal Critical  (3 Dice)");
-//                    this.rages = 6;
-//                    changes.setText("Features Added: Updated Brutal Critical (2 Dice) to Brutal Critical (3 Dice)\nRages +1\nProficiency +1");
-//                    pane.getChildren().addAll(changes,continueButton);
-//
-//                }
-//                if (startingLevel ==18){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    character.getFeaturesList().add("Indomitable Might");
-//                    features.setItems(character.getFeaturesList());
-//                    changes.setText("Features Added: Indomitable Might");
-//                    pane.getChildren().addAll(changes,continueButton);
-//                }
-//                if (startingLevel ==19){
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//
-//                    GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,startingLevel);
-//                    center.setAlignment(Pos.TOP_CENTER);
-//
-//                    borderPane.setCenter(center);
-//                }
-//                if (startingLevel ==20){
-//                    continueButton.setText("Close");
-//                    abilityAddition(character,"Strength",4);
-//                    abilityAddition(character,"Constitution",4);
-//
-//                    character.setHitPoints(character.getHitPoints() + (d12Roll() + character.getConstitutionMod()));
-//                    hp.setText("Hit Points: "+ character.getHitPoints());
-//                    character.getFeaturesList().add("Primal Champion");
-//                    features.setItems(character.getFeaturesList());
-//                    this.rages = 999999999;
-//                    rages.setText("Rages: Unlimited");
-//                    changes.setText("Features Added: Primal Champion \nRages are now unlimited");
-//                    continueButton.setOnAction(e-> addLevelStage.close());
-//                    pane.getChildren().addAll(changes,continueButton);
-//
-//                }
-//                if (startingLevel == maxLevel){
-//                    character.setLevel(maxLevel);
-//                    misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath);
-//                     character.setMisc(misc);
-//
-//                }
+                if (startingLevel == maxLevel){
+                    character.setLevel(maxLevel);
+                    misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath);
+                     character.setMisc(misc);
+
+                }
 
                 VBox left = new VBox();
                 left.setPrefWidth(150);

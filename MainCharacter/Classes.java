@@ -1,4 +1,4 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,7 +22,7 @@ public class Classes {
      * Allows user to select the class of their character though a list of possible Classes
      * @return String of the Race the user chose
      */
-    protected static String chooseClass(Button continueButton, CharacterSheet mainCharacter) {
+    public static String chooseClass(Button continueButton, CharacterSheet mainCharacter) {
         // "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
 
         label.setText("");
@@ -157,7 +157,7 @@ public class Classes {
      * Creates Stage for the user to set the stage that their character will be. It then calls the respected class that the user has chosen previously for the chosen amount of levels.
      * @param mainCharacter Character that they are setting the level for
      */
-    protected static void setLevel(CharacterSheet mainCharacter){
+    public static void setLevel(CharacterSheet mainCharacter){
         Stage setLevelStage = new Stage();
         setLevelStage.setResizable(false);
         GridPane pane = new GridPane();

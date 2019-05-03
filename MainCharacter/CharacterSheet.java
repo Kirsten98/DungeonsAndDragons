@@ -1,4 +1,4 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

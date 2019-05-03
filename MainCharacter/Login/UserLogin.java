@@ -1,5 +1,6 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter.Login;
 
+import DungeonsAndDragons.MainCharacter.CharacterSheet;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

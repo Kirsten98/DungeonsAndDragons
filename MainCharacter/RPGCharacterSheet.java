@@ -1,8 +1,7 @@
-package DungeonsAndDragons;
+package DungeonsAndDragons.MainCharacter;
 
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
+import DungeonsAndDragons.MainCharacter.Login.UserLogin;
 import javafx.application.Application;
-import javafx.application.Preloader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -14,12 +13,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
 import java.sql.*;
 
 
@@ -68,38 +65,50 @@ public class RPGCharacterSheet extends Application {
      */
     public static void abilityAddition(CharacterSheet character, int choice, int modifierAddtion) {
         if (choice == 1) {
-            character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
-            System.out.println("Charisma +" + modifierAddtion);
+            if (character.getCharismaScore() + modifierAddtion > 30){
+                character.setCharismaScore(30);
+            }else character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
+            System.out.println("Charisma Score : " + character.getCharismaScore());
             character.setCharismaMod(findAbilityMod(character.getCharismaScore()));
-            System.out.println("Charisma Modifier " + character.getCharismaMod());
+            System.out.println("Charisma Modifier : " + character.getCharismaMod());
         }
         if (choice == 2) {
-            character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
-            System.out.println("Strength +" + modifierAddtion);
+            if (character.getStrengthScore() + modifierAddtion > 30){
+                character.setStrengthScore(30);
+            }else character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
+            System.out.println("Strength Score: " + character.getStrengthScore());
             character.setStrengthMod(findAbilityMod(character.getStrengthScore()));
             System.out.println("Strength Modifier " + character.getStrengthMod());
         }
         if (choice == 3) {
-            character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
-            System.out.println("Dexterity +" + modifierAddtion);
+            if (character.getDexterityScore() + modifierAddtion > 30){
+                character.setDexterityScore(30);
+            }else character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
+            System.out.println("Dexterity Score : " + character.getDexterityScore());
             character.setDexterityMod(findAbilityMod(character.getDexterityScore()));
             System.out.println("Dexterity Modifier " + character.getDexterityMod());
         }
         if (choice == 4) {
-            character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
-            System.out.println("Wisdom +" + modifierAddtion);
+            if (character.getWisdomScore() + modifierAddtion > 30){
+                character.setWisdomScore(30);
+            }else character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
+            System.out.println("Wisdom Score : " + character.getWisdomScore());
             character.setWisdomMod(findAbilityMod(character.getWisdomScore()));
             System.out.println("Wisdom Modifier " + character.getWisdomMod());
         }
         if (choice == 5) {
-            character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
-            System.out.println("Intelligence +" + modifierAddtion);
+            if (character.getIntelligenceScore() + modifierAddtion > 30){
+                character.setIntelligenceScore(30);
+            }else character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
+            System.out.println("Intelligence Score : " + character.getIntelligenceScore());
             character.setIntelligenceMod(findAbilityMod(character.getIntelligenceScore()));
             System.out.println("Intelligence Modifier " + character.getIntelligenceMod());
         }
         if (choice == 6) {
-            character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
-            System.out.println("Constitution +" + modifierAddtion);
+            if (character.getConstitutionScore() + modifierAddtion > 30){
+                character.setConstitutionScore(30);
+            }else character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
+            System.out.println("Constitution Score : " + character.getConstitutionScore());
             character.setConstitutionMod(findAbilityMod(character.getConstitutionScore()));
             System.out.println("Constitution Modifier " + character.getConstitutionMod());
 
@@ -114,7 +123,7 @@ public class RPGCharacterSheet extends Application {
      */
     protected static int findAbilityMod(int abilityScore) {
         if (abilityScore < 1) {
-            return 0;
+            return -6;
         }
         if (abilityScore == 1) {
             return -5;
@@ -163,14 +172,14 @@ public class RPGCharacterSheet extends Application {
         }
         return +10;
 
-        //TODO create an Algorithm that can reflects for scores greater than 30
-        // int modifier = -5;
-        //for (int i = 0; i< abilityScore; i++){
-        //     if( i%2 == 0){
-        //          modifier++;
-        //     }
-        //}
-        //return modifier;
+//        //TODO create an Algorithm that can reflects for scores greater than 30
+//        int modifier = -5;
+//        for (int i = 0; i< abilityScore; i++){
+//             if( i%2 == 0){
+//                  modifier++;
+//             }
+//        }
+//        return modifier;
 
     }
 
@@ -205,6 +214,7 @@ public class RPGCharacterSheet extends Application {
         });
 
         Button offline = new Button("Continue Offline");
+//        offline.setId("Continue_Offline_Button");
         offline.setTooltip(new Tooltip("You will not be able to save your progress if you select this option"));
         offline.setOnAction(e->{
             System.out.println(character.getPrimaryKey());
@@ -284,7 +294,7 @@ public class RPGCharacterSheet extends Application {
         borderPane.setCenter(setCenter());
 
         //Set Skills/ Borderpane Right
-        borderPane.setRight(setSillsPane(mainCharacter));
+        borderPane.setRight(setSkillsPane(mainCharacter));
 
         //Sets BorderPane left
         borderPane.setLeft(setLeft(mainCharacter,primaryStage,scene));
@@ -362,7 +372,7 @@ public class RPGCharacterSheet extends Application {
                 hp.setText("Hit Points: "+ mainCharacter.getHitPoints());
                 mainCharacter.setBaseHitPoints(mainCharacter.getHitPoints());
                 mainCharacter.setBaseSpeed(mainCharacter.getSpeed());
-                borderPane.setRight(setSillsPane(mainCharacter));
+                borderPane.setRight(setSkillsPane(mainCharacter));
             }
         });
 
@@ -426,7 +436,7 @@ public class RPGCharacterSheet extends Application {
                 ac.setText("AC: " + mainCharacter.getAc());
                 Abilities.updateAbilities(abilities,mainCharacter);
                 speed.setText("Speed: " + mainCharacter.getSpeed());
-                borderPane.setRight(setSillsPane(mainCharacter));
+                borderPane.setRight(setSkillsPane(mainCharacter));
             }
         });
 
@@ -485,7 +495,7 @@ public class RPGCharacterSheet extends Application {
                         mainCharacter.eighthLevelSpellListView,
                         mainCharacter.ninthLevelSpellListView);
                 //TODO update ArmorList to reflect any armor proficiencies updates from the college selection (Valor)
-                borderPane.setRight(setSillsPane(mainCharacter));
+                borderPane.setRight(setSkillsPane(mainCharacter));
 
             }
         });
@@ -608,7 +618,7 @@ public class RPGCharacterSheet extends Application {
             editLevel.setTooltip(new Tooltip("Edit Level"));
             editRace.setDisable(false);
             editAbilities.setDisable(true);
-            borderPane.setRight(setSillsPane(mainCharacter));
+            borderPane.setRight(setSkillsPane(mainCharacter));
 
         });
 
@@ -641,10 +651,14 @@ public class RPGCharacterSheet extends Application {
         return left;
     }
 
-    public boolean checkIfArmorIsNotProficient(String[] nonProficientArmorArray, String armor){
-        for (int i = 0; i < nonProficientArmorArray.length; i++){
-            if (nonProficientArmorArray[i].equals(armor)){
-                return true;
+    public static boolean checkIfArmorIsNotProficient(String[] nonProficientArmorArray, String armor){
+        if (armor == null)
+            return false;
+        else {
+            for (int i = 0; i < nonProficientArmorArray.length; i++){
+                if (nonProficientArmorArray[i] != null && nonProficientArmorArray[i].equals(armor)){
+                    return true;
+                }
             }
         }
         return false;
@@ -937,7 +951,7 @@ public class RPGCharacterSheet extends Application {
                    for (int i = 0 ; i< mainCharacter.instruments.size(); i++){
                        int position = findArrayPosition(mainCharacter.instruments.get(i),mainCharacter.getMusicalInstruments());
 
-                       PreparedStatement instrumentsSave = con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[position] + "  = 1 WHERE idmusicalInstruments = ?;");;
+                       PreparedStatement instrumentsSave = con.prepareStatement("UPDATE musicalinstruments SET " + SQLMusicalInstruments[position] + "  = 1 WHERE idmusicalInstruments = ?;");
                        instrumentsSave.setInt(1,mainCharacter.getPrimaryKey());
                        instrumentsSave.execute();
                    }
@@ -990,14 +1004,20 @@ public class RPGCharacterSheet extends Application {
     protected static int findArrayPosition(String itemToBeFound, Object[] arrayThatContainsItem){
 
             for (int j = 0; j< arrayThatContainsItem.length;j++){
-                if (arrayThatContainsItem[j].equals(itemToBeFound)){
-                    return j;
+                if (arrayThatContainsItem[j] == null){
+                    if (itemToBeFound == null)
+                        return j;
+
+                }else {
+                    if (arrayThatContainsItem[j].equals(itemToBeFound)){
+                        return j;
+                    }
                 }
             }
             return -1;
         }
 
-        protected HBox setSillsPane(CharacterSheet character){
+        private HBox setSkillsPane(CharacterSheet character){
             HBox right = new HBox(15);
             right.setMaxHeight(400);
             right.setStyle("-fx-background-radius: 10; -fx-border-color: silver; -fx-border-radius: 10; -fx-border-width: 3;");
@@ -1078,7 +1098,7 @@ public class RPGCharacterSheet extends Application {
             return right;
         }
 
-     protected static void saveAllSpells(CharacterSheet mainCharacter){
+     private static void saveAllSpells(CharacterSheet mainCharacter){
 
          try {
              Connection con = DriverManager.getConnection(url, "generaluser", "4Testing");
@@ -1243,7 +1263,7 @@ public class RPGCharacterSheet extends Application {
                  PreparedStatement sixthLevelSpellsSave = con.prepareStatement("UPDATE ninthLevelSpells SET " + SQLNinthLevelSpells[position] + "  = 1 WHERE idninthLevelSpells = ?;");
                  sixthLevelSpellsSave.setInt(1,mainCharacter.getPrimaryKey());
                  sixthLevelSpellsSave.execute();
-                incrementer++;;
+                incrementer++;
              }
              System.out.println("Added all Ninth Level Spells");
          } catch (SQLException e) {
