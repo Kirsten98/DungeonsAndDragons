@@ -5,25 +5,43 @@ import de.saxsys.javafx.test.JfxRunner;
 import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.assertj.swing.edt.GuiActionRunner;
+import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
-
+import org.testfx.robot.Motion;
 
 import javax.swing.*;
-
 import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class RPGCharacterSheetTest extends ApplicationTest {
+    Scene scene;
 
-   // Tests for abilityAddition()
+
+    @Test
+   public void testName(){
+       JFXPanel fxPanel = new JFXPanel();
+       RPGCharacterSheet sheet = new RPGCharacterSheet();
+       FxRobot robot = new FxRobot();
+       scene = sheet.getMainScene();
+       Button button = robot.from().lookup("Continue Offline").query();
+       clickOn(button);
+       assertEquals("Offline", sheet.label);
+   }
+
+    // Tests for abilityAddition()
     @Test
     /**
      * Test Cases:

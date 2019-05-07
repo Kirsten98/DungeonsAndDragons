@@ -224,7 +224,7 @@ public class Barbarian{
         return pane;
     }
 
-    //TODO Create separate methods for each level
+
     /**
      * Sets up a HBox with the abilities and their corresponding modifiers.
      * @return HBox of Labels that display the abilities and their corresponding modifiers

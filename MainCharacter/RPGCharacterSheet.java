@@ -22,7 +22,7 @@ import java.sql.*;
 
 public class RPGCharacterSheet extends Application {
 
-    private static Label label = new Label("");
+    public Label label = new Label("");
     private static String url = "jdbc:mysql://localhost:3306/charactersheet_database";
     private ObservableList armor = FXCollections.observableArrayList();
     private ListView armorList = new ListView();
@@ -51,6 +51,7 @@ public class RPGCharacterSheet extends Application {
     private Button continueButton = new Button("Continue");
     private Button close = new Button("Close");
     private BorderPane borderPane = new BorderPane();
+    private Scene scene;
 
 
     public static void main(String[] args) {
@@ -196,7 +197,7 @@ public class RPGCharacterSheet extends Application {
     public void start(Stage primaryStage) {
         CharacterSheet character = new CharacterSheet();
         Pane characterCreation = new Pane();
-        Scene scene = new Scene(characterCreation,1368,840);
+        this.scene = new Scene(characterCreation,1368,840);
         Stage characterCreationStage = new Stage();
         characterCreationStage.setScene(scene);
 
@@ -205,8 +206,7 @@ public class RPGCharacterSheet extends Application {
         Button login = new Button("Login");
         login.setOnAction(e->{
             // Login page
-            boolean userLogin = UserLogin.main(character);
-            if (userLogin){
+            if (UserLogin.main(character)){
                 System.out.println(character.getPrimaryKey());
                 mainStage(primaryStage, character);
                 characterCreationStage.close();
@@ -214,10 +214,11 @@ public class RPGCharacterSheet extends Application {
         });
 
         Button offline = new Button("Continue Offline");
-//        offline.setId("Continue_Offline_Button");
+        offline.setId("Continue_Offline_Button");
         offline.setTooltip(new Tooltip("You will not be able to save your progress if you select this option"));
         offline.setOnAction(e->{
             System.out.println(character.getPrimaryKey());
+            label.setText("Offline");
             mainStage(primaryStage, character);
             characterCreationStage.close();
         });
@@ -253,7 +254,7 @@ public class RPGCharacterSheet extends Application {
         shadow.setColor(Color.gray(.2));
         shadow.setRadius(5);
         borderPane.setEffect(shadow);
-        Scene scene = new Scene(borderPane, 1368, 840);
+        this.scene = new Scene(borderPane, 1368, 840);
 
         //ListViews
         //TODO add tooltip to find description / quantity for each item.
@@ -499,6 +500,17 @@ public class RPGCharacterSheet extends Application {
 
             }
         });
+
+        mainCharacter.cantripsListView.setPlaceholder(new Label("Cantrips"));
+                mainCharacter.firstLevelSpellListView.setPlaceholder(new Label("First Level Spells"));
+                mainCharacter.secondLevelSpellListView.setPlaceholder(new Label("Second Level Spells"));
+                mainCharacter.thirdLevelSpellListView.setPlaceholder(new Label("Third Level Spells"));
+                mainCharacter.fourthLevelSpellListView.setPlaceholder(new Label("Fourth Level Spells"));
+                mainCharacter.fifthLevelSpellListView.setPlaceholder(new Label("Fifth Level Spells"));
+                mainCharacter.sixthLevelSpellListView.setPlaceholder(new Label("Sixth Level Spells"));
+                mainCharacter.seventhLevelSpellListView.setPlaceholder(new Label("Seventh Level Spells"));
+                mainCharacter.eighthLevelSpellListView.setPlaceholder(new Label("Eighth Level Spells"));
+                mainCharacter.ninthLevelSpellListView.setPlaceholder(new Label("Ninth Level Spells"));
 
         // Set Age
         age.setUnderline(true);
@@ -1269,6 +1281,10 @@ public class RPGCharacterSheet extends Application {
          } catch (SQLException e) {
              e.printStackTrace();
          }
+     }
+
+     public Scene getMainScene(){
+        return this.scene;
      }
 }
 
