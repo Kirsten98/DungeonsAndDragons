@@ -4,18 +4,25 @@ import com.mysql.cj.util.TestUtils;
 import de.saxsys.javafx.test.JfxRunner;
 import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import org.assertj.core.internal.bytebuddy.implementation.Implementation;
+import org.assertj.swing.annotation.GUITest;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -23,26 +30,61 @@ import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.robot.Motion;
 
 import javax.swing.*;
+import java.awt.*;
+
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.*;
 
-public class RPGCharacterSheetTest extends ApplicationTest {
-    Scene scene;
+public class RPGCharacterSheetTest{
+    static Scene scene;
+    Stage stage;
+    static RPGCharacterSheet sheet;
+    Window window;
+    Parent mainNode;
 
 
-    @Test
-   public void testName(){
-       JFXPanel fxPanel = new JFXPanel();
-       RPGCharacterSheet sheet = new RPGCharacterSheet();
-       FxRobot robot = new FxRobot();
-       scene = sheet.getMainScene();
-       Button button = robot.from().lookup("Continue Offline").query();
-       clickOn(button);
-       assertEquals("Offline", sheet.label);
-   }
+//    @Test
+//   public void testName() {
+//       JFXPanel fxPanel = new JFXPanel();
+////        this.sheet = new RPGCharacterSheet();
+////        sheet.main(new String[1]);
+////        scene = sheet.getMainScene();
+//       FxRobot robot = new FxRobot();
+//        Button button = find("#Continue_Offline_Button");
+//        System.out.println(mainNode.lookup("#Home_Pane").getId());
+//        System.out.println(button.getText());
+//
+//       robot.clickOn(button,Motion.DIRECT,MouseButton.PRIMARY);
+////        robot.clickOn();
+//
+////       assertEquals("Offline", sheet.label.getText());
+//   }
+//
+//    public <T extends Node> T find(final String query) {
+//        /** TestFX provides many operations to retrieve elements from the loaded GUI. */
+//        return lookup(query).query();
+//    }
+//
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        stage.setScene(scene);
+//        this.stage = stage;
+//        stage.show();
+//        stage.toFront();
+//    }
+
+//    @Before
+//    public void setUp(){
+//        JFXPanel pane= new JFXPanel();
+//        sheet = new RPGCharacterSheet();
+//        scene = sheet.getMainScene();
+//        window = stage;
+//
+//
+//    }
 
     // Tests for abilityAddition()
-    @Test
+    @Test @DisplayName("Test abilityAddition() -> Charisma")
     /**
      * Test Cases:
      * 1.) Providing Charisma Ability score that after the addition, is less than one
@@ -362,11 +404,6 @@ public class RPGCharacterSheetTest extends ApplicationTest {
 
     }
 
-    @Test
-    public void testStart(){
-        new RPGCharacterSheetTest();
-        //TODO Need to traverse GUI
-    }
 
     //Test findArrayPosition()
 
@@ -432,13 +469,4 @@ public class RPGCharacterSheetTest extends ApplicationTest {
     }
 
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        com.sun.javafx.application.PlatformImpl.startup(()->{});
-        Scene scene = new Scene(new Pane(),600,600);
-        Stage stage =new Stage();
-        stage.setScene(scene);
-        stage.show();
-        stage.toFront();
-    }
 }

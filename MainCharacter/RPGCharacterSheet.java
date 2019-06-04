@@ -173,14 +173,6 @@ public class RPGCharacterSheet extends Application {
         }
         return +10;
 
-//        //TODO create an Algorithm that can reflects for scores greater than 30
-//        int modifier = -5;
-//        for (int i = 0; i< abilityScore; i++){
-//             if( i%2 == 0){
-//                  modifier++;
-//             }
-//        }
-//        return modifier;
 
     }
 
@@ -197,7 +189,9 @@ public class RPGCharacterSheet extends Application {
     public void start(Stage primaryStage) {
         CharacterSheet character = new CharacterSheet();
         Pane characterCreation = new Pane();
+        characterCreation.setId("Home_Pane");
         this.scene = new Scene(characterCreation,1368,840);
+        scene.setRoot(characterCreation);
         Stage characterCreationStage = new Stage();
         characterCreationStage.setScene(scene);
 
@@ -234,6 +228,8 @@ public class RPGCharacterSheet extends Application {
         characterCreation.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("CharacterCreator.jpg"),1368,840,false,true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
+        System.out.println("X:" + offline.getLayoutX());
+        System.out.println("Y:" + offline.getLayoutY());
 
         characterCreationStage.initStyle(StageStyle.DECORATED);
         characterCreationStage.initModality(Modality.APPLICATION_MODAL);
@@ -374,6 +370,7 @@ public class RPGCharacterSheet extends Application {
                 mainCharacter.setBaseHitPoints(mainCharacter.getHitPoints());
                 mainCharacter.setBaseSpeed(mainCharacter.getSpeed());
                 borderPane.setRight(setSkillsPane(mainCharacter));
+
             }
         });
 
@@ -502,15 +499,25 @@ public class RPGCharacterSheet extends Application {
         });
 
         mainCharacter.cantripsListView.setPlaceholder(new Label("Cantrips"));
-                mainCharacter.firstLevelSpellListView.setPlaceholder(new Label("First Level Spells"));
-                mainCharacter.secondLevelSpellListView.setPlaceholder(new Label("Second Level Spells"));
-                mainCharacter.thirdLevelSpellListView.setPlaceholder(new Label("Third Level Spells"));
-                mainCharacter.fourthLevelSpellListView.setPlaceholder(new Label("Fourth Level Spells"));
-                mainCharacter.fifthLevelSpellListView.setPlaceholder(new Label("Fifth Level Spells"));
-                mainCharacter.sixthLevelSpellListView.setPlaceholder(new Label("Sixth Level Spells"));
-                mainCharacter.seventhLevelSpellListView.setPlaceholder(new Label("Seventh Level Spells"));
-                mainCharacter.eighthLevelSpellListView.setPlaceholder(new Label("Eighth Level Spells"));
-                mainCharacter.ninthLevelSpellListView.setPlaceholder(new Label("Ninth Level Spells"));
+        mainCharacter.cantripsListView.setTooltip(new Tooltip("Cantrips"));
+        mainCharacter.firstLevelSpellListView.setPlaceholder(new Label("First Level Spells"));
+        mainCharacter.firstLevelSpellListView.setTooltip(new Tooltip("First Level Spells"));
+        mainCharacter.secondLevelSpellListView.setPlaceholder(new Label("Second Level Spells"));
+        mainCharacter.secondLevelSpellListView.setTooltip(new Tooltip("Second Level Spells"));
+        mainCharacter.thirdLevelSpellListView.setPlaceholder(new Label("Third Level Spells"));
+        mainCharacter.thirdLevelSpellListView.setTooltip(new Tooltip("Third Level Spells"));
+        mainCharacter.fourthLevelSpellListView.setPlaceholder(new Label("Fourth Level Spells"));
+        mainCharacter.fourthLevelSpellListView.setTooltip(new Tooltip("Fourth Level Spells"));
+        mainCharacter.fifthLevelSpellListView.setPlaceholder(new Label("Fifth Level Spells"));
+        mainCharacter.fifthLevelSpellListView.setTooltip(new Tooltip("Fifth Level Spells"));
+        mainCharacter.sixthLevelSpellListView.setPlaceholder(new Label("Sixth Level Spells"));
+        mainCharacter.sixthLevelSpellListView.setTooltip(new Tooltip("Sixth Level Spells"));
+        mainCharacter.seventhLevelSpellListView.setPlaceholder(new Label("Seventh Level Spells"));
+        mainCharacter.seventhLevelSpellListView.setTooltip(new Tooltip("Seventh Level Spells"));
+        mainCharacter.eighthLevelSpellListView.setPlaceholder(new Label("Eighth Level Spells"));
+        mainCharacter.eighthLevelSpellListView.setTooltip(new Tooltip("Eighth Level Spells"));
+        mainCharacter.ninthLevelSpellListView.setPlaceholder(new Label("Ninth Level Spells"));
+        mainCharacter.ninthLevelSpellListView.setTooltip(new Tooltip("Ninth Level Spells"));
 
         // Set Age
         age.setUnderline(true);

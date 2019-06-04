@@ -1093,12 +1093,6 @@ public class Barbarian{
                 proficiencies.setTooltip(new Tooltip("Proficiencies"));
                 features.setTooltip(new Tooltip("Features"));
 
-                //TODO Remove after completing individual methods for each level
-                Label rages = new Label("Rages: " + this.rages);
-                Label rageDamage = new Label("Rage Damage: " + this.rageDamage);
-                Label primalPath = new Label("Primal Path: "+ this.primalPath);
-                primalPath.setWrapText(true);
-
                 BorderPane borderPane = new BorderPane();
                 borderPane.setTop(new Label("Current level " + startingLevel + " out of " + maxLevel ));
                 VBox pane = new VBox(20);
@@ -1165,12 +1159,6 @@ public class Barbarian{
                      character.setMisc(misc);
 
                 }
-
-                VBox left = new VBox();
-                left.setPrefWidth(150);
-                left.setPadding(new Insets(10,10,10,10));
-                left.getChildren().addAll(hp,proficiency,rages,rageDamage,primalPath,proficiencies,features);
-                borderPane.setLeft(left);
                 borderPane.setStyle("-fx-border-color: black;"        +
                         "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
                 scene.setFill(Color.TRANSPARENT);
