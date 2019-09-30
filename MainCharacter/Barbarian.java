@@ -86,28 +86,32 @@ public class Barbarian{
      * @param startinglevel Level that the user is currently making choices for
      * @return
      */
-    public GridPane abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel){
-        //TODO update UI/ Return VBox?
+    public VBox abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel){
         Button continueButton = new Button("Continue");
         Label choice = new Label();
         choice.setWrapText(true);
         Button charisma = new Button("Charisma");
+        charisma.setMinWidth(95);
         Button strength = new Button("Strength");
+        strength.setMinWidth(95);
         Button dexterity = new Button("Dexterity");
+        dexterity.setMinWidth(95);
         Button wisdom = new Button("Wisdom");
+        wisdom.setMinWidth(95);
         Button intelligence = new Button("Intelligence");
+        intelligence.setMinWidth(95);
         Button constitution = new Button("Constitution");
+        constitution.setMinWidth(95);
 
-        GridPane pane = new GridPane();
+        VBox pane = new VBox();
         Label question = new Label("Would you like to increase one ability score \nby +2 or two ability scores by +1 ");
         Button plus2 = new Button("One ability score by +2");
         Button plus1 = new Button("Two ability scores by +1");
 
-        pane.add(question,0,0,6,1);
-        pane.add(plus2,1,1);
-        pane.add(plus1,1,2);
-        pane.setVgap(20);
-        pane.setHgap(20);
+        pane.getChildren().addAll(question,plus2, plus1);
+        pane.setSpacing(20);
+        pane.setAlignment(Pos.CENTER);
+
 
         charisma.setOnAction(charismaEvent->{
             if (character.getCharismaScore() +1 > 20 ||character.getCharismaScore() +2 > 20  ){
@@ -169,14 +173,14 @@ public class Barbarian{
         plus2.setOnAction(e->{
             pane.getChildren().remove(plus1);
             pane.getChildren().remove(plus2);
-            pane.add(charisma,0,1);
-            pane.add(strength,1,1);
-            pane.add(dexterity,2,1);
-            pane.add(wisdom,0,2);
-            pane.add(intelligence,1,2);
-            pane.add(constitution,2,2);
-            pane.add(choice,1,3,6,1);
-            pane.add(continueButton,1,5);
+            HBox csdAbilites = new HBox(charisma,strength,dexterity);
+            HBox wicAbilites = new HBox(wisdom,intelligence,constitution);
+            csdAbilites.setAlignment(Pos.CENTER);
+            csdAbilites.setSpacing(20);
+            wicAbilites.setAlignment(Pos.CENTER);
+            wicAbilites.setSpacing(20);
+
+            pane.getChildren().addAll(csdAbilites, wicAbilites,choice,continueButton);
             question.setText("Which Ability score would you like to increase by +2 ?");
 
             continueButton.setOnAction(continueEvent->{
@@ -192,14 +196,14 @@ public class Barbarian{
             String[] intChoice = new String[2];
             pane.getChildren().remove(plus1);
             pane.getChildren().remove(plus2);
-            pane.add(charisma,0,1);
-            pane.add(strength,1,1);
-            pane.add(dexterity,2,1);
-            pane.add(wisdom,0,2);
-            pane.add(intelligence,1,2);
-            pane.add(constitution,2,2);
-            pane.add(choice,1,3,6,1);
-            pane.add(continueButton,1,4);
+            HBox csdAbilites = new HBox(charisma,strength,dexterity);
+            HBox wicAbilites = new HBox(wisdom,intelligence,constitution);
+            csdAbilites.setAlignment(Pos.CENTER);
+            csdAbilites.setSpacing(20);
+            wicAbilites.setAlignment(Pos.CENTER);
+            wicAbilites.setSpacing(20);
+
+            pane.getChildren().addAll(csdAbilites,wicAbilites,choice,continueButton);
             continueButton.setDisable(true);
             question.setText("Choose your first ability to increase by +1.");
 
@@ -296,14 +300,13 @@ public class Barbarian{
      * Rage Damage = 2
      * User selects two race traits to be proficient in
      *
-     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifiers (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
     private void levelOne(BorderPane borderPane, Button continueButton,int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
-        //TODO why doesn't level 1 display proper HP
         character.setHitPoints(character.getHitPoints()+ character.getConstitutionMod()+12);
         System.out.println(character.getHitPoints());
         character.setProficiencyMod(2);
@@ -517,7 +520,7 @@ public class Barbarian{
         VBox pane = new VBox(20);
         updateCharacterHP();
         borderPaneSetUp(borderPane,pane);
-        GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,4);
+        VBox abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,4);
         abilityPane.setAlignment(Pos.TOP_CENTER);
         abilityPane.setPadding(new Insets(50,20,50,20));
         borderPane.setCenter(abilityPane);
@@ -676,7 +679,7 @@ public class Barbarian{
     private void levelEight(BorderPane borderPane, Button continueButton,int maxLevel){
         VBox pane = new VBox(20);
         updateCharacterHP();
-        GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,8);
+        VBox abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,8);
         pane.getChildren().add(abilityPane);
         borderPaneSetUp(borderPane,pane);
         abilityPane.setPadding(new Insets(50,20,50,20));
@@ -793,7 +796,7 @@ public class Barbarian{
         updateCharacterHP();
         borderPaneSetUp(borderPane,pane);
         this.rages = 5;
-        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,12);
+        VBox center = abilityScoreImprovement(addLevelStage,maxLevel,12);
         center.setAlignment(Pos.TOP_CENTER);
         center.setPadding(new Insets(50,20,50,20));
         borderPane.setCenter(center);
@@ -957,7 +960,7 @@ public class Barbarian{
         borderPaneSetUp(borderPane,pane);
         this.rageDamage = 4;
 
-        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,16);
+        VBox center = abilityScoreImprovement(addLevelStage,maxLevel,16);
         center.setAlignment(Pos.TOP_CENTER);
         center.setPadding(new Insets(50,20,50,20));
 
@@ -1039,7 +1042,7 @@ public class Barbarian{
         updateCharacterHP();
         borderPaneSetUp(borderPane,pane);
 
-        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,19);
+        VBox center = abilityScoreImprovement(addLevelStage,maxLevel,19);
         center.setAlignment(Pos.TOP_CENTER);
         center.setPadding(new Insets(50,20,50,20));
 
