@@ -659,7 +659,7 @@ public class CharacterSheet {
         this.shield = shield;
     }
 
-//TODO Remove getArmor() and setArmor() amd use the armor list in RPGCharacterSheet
+//TODO Use getArmor to know equipped armor
     public String getArmor() {
         return armor;
     }
