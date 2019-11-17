@@ -1,7 +1,5 @@
 package DungeonsAndDragons.MainCharacter;
 
-import DungeonsAndDragons.MainCharacter.Item;
-import DungeonsAndDragons.MainCharacter.CharacterSheet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -10,18 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.Scanner;
-import java.util.Vector;
-
-
-public class Barbarian{
-    CharacterSheet character;
+public class Barbarian extends CharacterClass{
+    static CharacterSheet character;
     private int hitDice = 12;
     private String primalPath = "Not selected";
     private int rageDamage;
@@ -29,201 +22,11 @@ public class Barbarian{
     private String totemSpirit = "Not selected";
     private Stage addLevelStage;
 
-
 // TODO move Continue button to the bottom left of the screen in AddLevel
     // TODO Make it to where if a user quits the Add Level process it does not save any progress. Return a Barbarian and if they quite it does not return anything back
     public Barbarian (CharacterSheet character){
         this.character = character;
     }
-
-    /**
-     *
-     * @param character CharacterSheet that needs the Ability Modifier added to
-     * @param AbilityChoice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
-     * @param modifierAddtion The Value that is getting added to the Modifier
-     */
-    public void abilityAddition(CharacterSheet character, String AbilityChoice, int modifierAddtion){
-        if (AbilityChoice.equals("Charisma")){
-                character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
-                System.out.println("Charisma +" + modifierAddtion);
-                character.setCharismaMod(findAbilityMod(character.getCharismaScore()));
-
-        }
-        if (AbilityChoice.equals("Strength")){
-                character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
-                System.out.println("Strength +" + modifierAddtion);
-                character.setStrengthMod(findAbilityMod(character.getStrengthScore()));
-
-        }
-        if (AbilityChoice.equals("Dexterity")){
-                character.setDexterityScore(character.getDexterityScore() + modifierAddtion);
-                System.out.println("Dexterity +" + modifierAddtion);
-                character.setDexterityMod(findAbilityMod(character.getDexterityScore()));
-
-        }
-        if (AbilityChoice.equals("Wisdom")){
-                character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
-                System.out.println("Wisdom +" + modifierAddtion);
-                character.setWisdomMod(findAbilityMod(character.getWisdomScore()));
-        }
-        if (AbilityChoice.equals("Intelligence")){
-                character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
-                System.out.println("Intelligence +" + modifierAddtion);
-                character.setIntelligenceMod(findAbilityMod(character.getIntelligenceScore()));
-        }
-        if (AbilityChoice.equals("Constitution")){
-                character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
-                System.out.println("Constitution +" + modifierAddtion);
-                character.setConstitutionMod(findAbilityMod(character.getConstitutionScore()));
-
-        }
-    }
-
-    /**
-     *  Gives the user the  choice to either add +2 to 1 ability score, or add 2 separate ability scores by +1
-     * @param addLevelStage Stage that the choice will be displayed on
-     * @param maxLevel Maximum level that the user has selected
-     * @param startinglevel Level that the user is currently making choices for
-     * @return
-     */
-    public GridPane abilityScoreImprovement(Stage addLevelStage, int maxLevel, int startinglevel){
-        //TODO update UI/ Return VBox?
-        Button continueButton = new Button("Continue");
-        Label choice = new Label();
-        choice.setWrapText(true);
-        Button charisma = new Button("Charisma");
-        Button strength = new Button("Strength");
-        Button dexterity = new Button("Dexterity");
-        Button wisdom = new Button("Wisdom");
-        Button intelligence = new Button("Intelligence");
-        Button constitution = new Button("Constitution");
-
-        GridPane pane = new GridPane();
-        Label question = new Label("Would you like to increase one ability score \nby +2 or two ability scores by +1 ");
-        Button plus2 = new Button("One ability score by +2");
-        Button plus1 = new Button("Two ability scores by +1");
-
-        pane.add(question,0,0,6,1);
-        pane.add(plus2,1,1);
-        pane.add(plus1,1,2);
-        pane.setVgap(20);
-        pane.setHgap(20);
-
-        charisma.setOnAction(charismaEvent->{
-            if (character.getCharismaScore() +1 > 20 ||character.getCharismaScore() +2 > 20  ){
-                choice.setText("Charisma ability score is greater than 20.\nPlease choose a different option.");
-                continueButton.setDisable(true);
-            }else {
-                choice.setText("Charisma");
-                continueButton.setDisable(false);
-            }
-        });
-
-        strength.setOnAction(strengthEvent->{
-            if (character.getStrengthScore()+1 > 20 ||character.getStrengthScore() +2 > 20){
-                choice.setText("Strength ability score is greater than 20. \nPlease choose a different option.");
-                continueButton.setDisable(true);
-            }else {
-                choice.setText("Strength");
-                continueButton.setDisable(false);
-            }
-        });
-        dexterity.setOnAction(dexterityEvent->{
-            if (character.getDexterityScore()+1 > 20 ||character.getDexterityScore() +2 > 20){
-                choice.setText("Dexterity ability score is greater than 20. \nPlease choose a different option.");
-                continueButton.setDisable(true);
-            }else {
-                choice.setText("Dexterity");
-                continueButton.setDisable(false);
-            }
-        });
-        wisdom.setOnAction(wisdomEvent->{
-            if (character.getWisdomScore()+1 > 20||character.getWisdomScore() +2 > 20){
-                choice.setText("Wisdom ability score is greater than 20. \nPlease choose a different option.");
-                continueButton.setDisable(true);
-            }else {
-                choice.setText("Wisdom");
-                continueButton.setDisable(false);
-            }
-        });
-        intelligence.setOnAction(intelligenceEvent->{
-            if (character.getIntelligenceScore()+1 > 20 ||character.getIntelligenceScore() +2 > 20){
-                choice.setText("Intelligence ability score is greater than 20. \nPlease choose a different option.");
-                continueButton.setDisable(true);
-            }else {
-                choice.setText("Intelligence");
-                continueButton.setDisable(false);
-            }
-        });
-        constitution.setOnAction(constitutionEvent->{
-            if (character.getConstitutionScore()+1 > 20||character.getConstitutionScore() +2 > 20){
-                choice.setText("Constitution ability score is greater than 20. \nPlease choose a different option.");
-                continueButton.setDisable(true);
-            }else {
-                choice.setText("Constitution");
-                continueButton.setDisable(false);
-            }
-        });
-
-
-        plus2.setOnAction(e->{
-            pane.getChildren().remove(plus1);
-            pane.getChildren().remove(plus2);
-            pane.add(charisma,0,1);
-            pane.add(strength,1,1);
-            pane.add(dexterity,2,1);
-            pane.add(wisdom,0,2);
-            pane.add(intelligence,1,2);
-            pane.add(constitution,2,2);
-            pane.add(choice,1,3,6,1);
-            pane.add(continueButton,1,5);
-            question.setText("Which Ability score would you like to increase by +2 ?");
-
-            continueButton.setOnAction(continueEvent->{
-                abilityAddition(character,choice.getText(),2);
-                if (startinglevel == maxLevel){
-                    addLevelStage.close();
-                }else addLevel(addLevelStage,maxLevel,startinglevel+1);
-            });
-
-        });
-
-        plus1.setOnAction(e->{
-            String[] intChoice = new String[2];
-            pane.getChildren().remove(plus1);
-            pane.getChildren().remove(plus2);
-            pane.add(charisma,0,1);
-            pane.add(strength,1,1);
-            pane.add(dexterity,2,1);
-            pane.add(wisdom,0,2);
-            pane.add(intelligence,1,2);
-            pane.add(constitution,2,2);
-            pane.add(choice,1,3,6,1);
-            pane.add(continueButton,1,4);
-            continueButton.setDisable(true);
-            question.setText("Choose your first ability to increase by +1.");
-
-            continueButton.setOnAction(continueEvent->{
-                intChoice[0] = choice.getText();
-                question.setText("Choose your second ability to increase by +1.");
-                continueButton.setDisable(true);
-                choice.setText("");
-
-                continueButton.setOnAction(continueEvent2 ->{
-                    intChoice[1] = choice.getText();
-                    for (int i = 0 ; i <2; i++){
-                        abilityAddition(character,intChoice[i],1);
-                        if (startinglevel == maxLevel){
-                            addLevelStage.close();
-                        }else addLevel(addLevelStage,maxLevel,startinglevel+1);
-                    }
-                });
-            });
-
-        });
-        return pane;
-    }
-
 
     /**
      * Sets up a HBox with the abilities and their corresponding modifiers.
@@ -296,11 +99,11 @@ public class Barbarian{
      * Rage Damage = 2
      * User selects two race traits to be proficient in
      *
-     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifieres (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
+     * @param borderPane  Borderpane that will be used across all levels to organize the ability modifiers (top). HP,  proficiency Mod, features, and level proficiencies (Left), and user choices that will be displayed in the center
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelOne(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelOne(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
         character.setHitPoints(character.getHitPoints()+ character.getConstitutionMod()+12);
@@ -377,7 +180,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelTwo(BorderPane borderPane, Button continueButton,int maxLevel){
+    private  void levelTwo(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
         character.getFeaturesList().add("Reckless Attack");
@@ -404,7 +207,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelThree(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelThree(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
 
@@ -512,11 +315,11 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelFour(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelFour(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         updateCharacterHP();
         borderPaneSetUp(borderPane,pane);
-        GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,4);
+        VBox abilityPane = abilityScoreImprovement(character, addLevelStage,maxLevel,4);
         abilityPane.setAlignment(Pos.TOP_CENTER);
         abilityPane.setPadding(new Insets(50,20,50,20));
         borderPane.setCenter(abilityPane);
@@ -533,7 +336,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelFive(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelFive(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
 
@@ -561,7 +364,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelSix (BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelSix(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
 
@@ -642,7 +445,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelSeven(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelSeven(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
         pane.setAlignment(Pos.TOP_CENTER);
@@ -672,10 +475,10 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelEight(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelEight(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         updateCharacterHP();
-        GridPane abilityPane = abilityScoreImprovement(addLevelStage,maxLevel,8);
+        VBox abilityPane = abilityScoreImprovement(character, addLevelStage,maxLevel,8);
         pane.getChildren().add(abilityPane);
         borderPaneSetUp(borderPane,pane);
         abilityPane.setPadding(new Insets(50,20,50,20));
@@ -693,7 +496,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelNine(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelNine(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
         pane.setAlignment(Pos.TOP_CENTER);
@@ -723,7 +526,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelTen(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelTen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
         pane.setAlignment(Pos.TOP_CENTER);
@@ -757,7 +560,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelEleven(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelEleven(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
         pane.setAlignment(Pos.TOP_CENTER);
@@ -787,12 +590,12 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelTwelve(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelTwelve(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         updateCharacterHP();
         borderPaneSetUp(borderPane,pane);
         this.rages = 5;
-        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,12);
+        VBox center = abilityScoreImprovement(character, addLevelStage,maxLevel,12);
         center.setAlignment(Pos.TOP_CENTER);
         center.setPadding(new Insets(50,20,50,20));
         borderPane.setCenter(center);
@@ -808,7 +611,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelThirteen(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelThirteen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         pane.setPadding(new Insets(50,20,50,20));
@@ -839,7 +642,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    private void levelFourteen(BorderPane borderPane, Button continueButton,int maxLevel){
+    private void levelFourteen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
         pane.setAlignment(Pos.TOP_CENTER);
@@ -922,7 +725,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    public void levelFifteen(BorderPane borderPane, Button continueButton,int maxLevel){
+    public void levelFifteen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         pane.setPadding(new Insets(50,20,50,20));
@@ -949,14 +752,14 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    public void levelSixteen(BorderPane borderPane, Button continueButton,int maxLevel){
+    public void levelSixteen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         updateCharacterHP();
         borderPaneSetUp(borderPane,pane);
         this.rageDamage = 4;
 
-        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,16);
+        VBox center = abilityScoreImprovement(character,addLevelStage,maxLevel,16);
         center.setAlignment(Pos.TOP_CENTER);
         center.setPadding(new Insets(50,20,50,20));
 
@@ -975,7 +778,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    public void levelSeventeen(BorderPane borderPane, Button continueButton,int maxLevel){
+    public void levelSeventeen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         pane.setPadding(new Insets(50,20,50,20));
@@ -1005,7 +808,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    public void levelEighteen(BorderPane borderPane, Button continueButton,int maxLevel){
+    public void levelEighteen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         pane.setPadding(new Insets(50,20,50,20));
@@ -1032,13 +835,13 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    public void levelNineteen(BorderPane borderPane, Button continueButton,int maxLevel){
+    public void levelNineteen(BorderPane borderPane, Button continueButton, int maxLevel){
         VBox pane = new VBox(20);
         pane.setAlignment(Pos.TOP_CENTER);
         updateCharacterHP();
         borderPaneSetUp(borderPane,pane);
 
-        GridPane center = abilityScoreImprovement(addLevelStage,maxLevel,19);
+        VBox center = abilityScoreImprovement(character, addLevelStage,maxLevel,19);
         center.setAlignment(Pos.TOP_CENTER);
         center.setPadding(new Insets(50,20,50,20));
 
@@ -1057,7 +860,7 @@ public class Barbarian{
      * @param continueButton Button to navigate the user between their choices and the next level
      * @param maxLevel The maximum level that the user has selected
      */
-    public void levelTwenty(BorderPane borderPane, Button continueButton,int maxLevel){
+    public void levelTwenty(BorderPane borderPane, Button continueButton, int maxLevel){
         continueButton.setText("Close");
         abilityAddition(character,"Strength",4);
         abilityAddition(character,"Constitution",4);
@@ -1154,36 +957,14 @@ public class Barbarian{
 
                 if (startingLevel == maxLevel){
                     character.setLevel(maxLevel);
-                    misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,rages,rageDamage,primalPath);
+                    misc.addAll(new Label("Hit Dice: " + hitDice),proficiency,new Label("Rages: " + rages),new Label("Rage Damage: " +  rageDamage),new Label("Primal Path: " + primalPath));
                      character.setMisc(misc);
-
+                     addLevelStage.close();
                 }
                 borderPane.setStyle("-fx-border-color: black;"        +
                         "-fx-background-radius: 10;"+ "-fx-border-radius: 10;");
                 scene.setFill(Color.TRANSPARENT);
             }
-
-    }
-
-    /**
-     *
-     * @param inventory Vector of items
-     * @param item item you are adding in vector, or adding quantity to already existing item
-     */
-    public void checkAndAddItemQuantity(Vector<Item> inventory, Item item){
-        int counter =0;
-        int i;
-        for ( i =0; i< inventory.size();i++){
-            if (inventory.get(i).getName().equals(item.getName())){
-                inventory.get(i).addition(item);
-                counter++;
-                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
-            }
-        }
-        if (counter == 0){
-            inventory.add(item);
-            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
-        }
 
     }
 
@@ -1198,71 +979,6 @@ public class Barbarian{
         int roll = randomDouble2.intValue();
         return roll;
     }
-
-
-    /**
-     *
-     * @param abilityScore Takes in the Ability Score
-     * @return Returns the MOdifier based on the Ability Score
-     */
-    public static int findAbilityMod(int abilityScore) {
-        Scanner scanner = new Scanner(System.in);
-        Scanner endOfLine = new Scanner(System.in);
-        while(abilityScore<0 || abilityScore>30){
-            System.out.println("Incorrect Ability Score, please enter correct score between 1 and 30");
-            scanner.nextInt();
-            endOfLine.nextLine();
-        }
-
-        if (abilityScore == 1) {
-            return -5;
-        }
-        if (abilityScore == 2 || abilityScore == 3) {
-            return -4;
-        }
-        if (abilityScore == 4 || abilityScore == 5) {
-            return -3;
-        }
-        if (abilityScore == 6 || abilityScore == 7) {
-            return -2;
-        }
-        if (abilityScore == 8 || abilityScore == 9) {
-            return -1;
-        }
-        if (abilityScore == 10 || abilityScore == 11){
-            return 0;
-        }
-        if (abilityScore == 12 || abilityScore ==13) {
-            return 1;
-        }
-        if (abilityScore == 14 || abilityScore ==15) {
-            return 2;
-        }
-        if (abilityScore == 16 || abilityScore ==17) {
-            return 3;
-        }
-        if (abilityScore == 18 || abilityScore ==19) {
-            return 4;
-        }
-        if (abilityScore == 20 || abilityScore ==21) {
-            return 5;
-        }
-        if (abilityScore == 22 || abilityScore ==23) {
-            return 6;
-        }
-        if (abilityScore == 24 || abilityScore ==25) {
-            return 7;
-        }
-        if (abilityScore == 26 || abilityScore ==27) {
-            return 8;
-        }
-        if (abilityScore == 28 || abilityScore ==29) {
-            return 9;
-        }
-        return 10;
-
-    }
-
 
     public void chooseArmor(Stage chooseArmorStage){
         VBox pane = new VBox(10);
