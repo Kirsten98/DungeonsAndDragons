@@ -303,7 +303,6 @@ public class Barbarian{
     private void levelOne(BorderPane borderPane, Button continueButton,int maxLevel){
         VBox pane = new VBox(20);
         pane.setPadding(new Insets(50,20,50,20));
-        //TODO why doesn't level 1 display proper HP
         character.setHitPoints(character.getHitPoints()+ character.getConstitutionMod()+12);
         System.out.println(character.getHitPoints());
         character.setProficiencyMod(2);
