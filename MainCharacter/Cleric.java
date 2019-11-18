@@ -7,7 +7,7 @@ import DungeonsAndDragons.MainCharacter.Spells;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Cleric {
+public class Cleric extends CharacterClass{
     private CharacterSheet character;
     private String pack;
     private int hitDice = 8;
@@ -38,109 +38,6 @@ public class Cleric {
         this.character = character;
     }
 
-    // Tested and verfied 9/10
-    /**
-     *
-     * @param character CharacterSheet that needs the Ability Modifier added to
-     * @param AbilityChoice Ability choice that the modifier is adding to. 1.) Charisma 2.) Strength 3.)Dexterity 4.) Wisdom 5.)Intelligence 6.) Constitution
-     * @param modifierAddtion The Value that is getting added to the Modifier
-     */
-    public void abilityAddition(CharacterSheet character, int AbilityChoice, int modifierAddtion){
-        int choice = 0;
-        Scanner scanner = new Scanner(System.in);
-        if (AbilityChoice == 1){
-            if(character.getCharismaScore() >= 20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                abilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice,1,6);
-                abilityAddition(character, choice, modifierAddtion);
-            }else {
-                character.setCharismaScore(character.getCharismaScore() + modifierAddtion);
-                System.out.println("Charisma +" + modifierAddtion);
-                character.setCharismaMod(findAbilityMod(character.getCharismaScore()));
-            }
-
-        }
-        if (AbilityChoice == 2){
-            if(character.getStrengthScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                abilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice,1,6);
-                abilityAddition(character, choice, modifierAddtion);
-            }else {
-                character.setStrengthScore(character.getStrengthScore() + modifierAddtion);
-                System.out.println("Strength +" + modifierAddtion);
-                character.setStrengthMod(findAbilityMod(character.getStrengthScore()));
-            }
-
-        }
-        if (AbilityChoice == 3){
-            if(character.getDexterityScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                abilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice,1,6);
-                abilityAddition(character, choice, modifierAddtion);
-            } else {
-                character.setDexterityMod(character.getDexterityMod() + modifierAddtion);
-                System.out.println("Dexterity +" + modifierAddtion);
-                character.setDexterityMod(findAbilityMod(character.getDexterityScore()));
-            }
-
-        }
-        if (AbilityChoice == 4){
-            if(character.getWisdomScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                abilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice,1,6);
-                abilityAddition(character, choice, modifierAddtion);
-            } else{
-                character.setWisdomScore(character.getWisdomScore() + modifierAddtion);
-                System.out.println("Wisdom +" + modifierAddtion);
-                character.setWisdomMod(findAbilityMod(character.getWisdomScore()));
-            }
-
-        }
-        if (AbilityChoice == 5){
-            if(character.getIntelligenceScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                abilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice,1,6);
-                abilityAddition(character, choice, modifierAddtion);
-            } else {
-                character.setIntelligenceScore(character.getIntelligenceScore() + modifierAddtion);
-                System.out.println("Intelligence +" + modifierAddtion);
-                character.setIntelligenceMod(findAbilityMod(character.getIntelligenceScore()));
-            }
-
-        }
-        if (AbilityChoice == 6){
-            if(character.getConstitutionScore() >=20){
-                System.out.println("Ability score is greater than 20. Please choose a different option.");
-                abilityChoicePrintout();
-                choice = scanner.nextInt();
-                String endOfLine = scanner.nextLine();
-                choice = inputErrorCheck(choice,1,6);
-                abilityAddition(character, choice, modifierAddtion);
-            }else {
-                character.setConstitutionScore(character.getConstitutionScore() + modifierAddtion);
-                System.out.println("Constitution +" + modifierAddtion);
-                character.setConstitutionMod(findAbilityMod(character.getConstitutionScore()));
-            }
-
-
-        }
-    }
-
 
     public static void abilityChoicePrintout(){
         System.out.println("1.) Charisma");
@@ -152,53 +49,6 @@ public class Cleric {
 
     }
 
-    public void abilityScoreImprovement(CharacterSheet character){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1 ");
-        int choice = scanner.nextInt();
-        String endOfLine = scanner.nextLine();
-        while(choice!=1 && choice !=2){
-            System.out.println("Incorrect choice. Would you like to increase 1.) 1 Ability score by +2 or 2.) 2 Ability scores by +1");
-            choice= scanner.nextInt();
-            endOfLine= scanner.nextLine();
-        }
-        if (choice==1){
-            System.out.println("Which Ability score would you like to increase by +2 ?");
-            abilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            while (choice<0 || choice > 6){
-                System.out.println("Incorrect choice please select another option");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-            }
-            abilityAddition(character, choice, 2 );
-        }
-        if (choice==2){
-            System.out.println("Choose your first ability");
-            abilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            while (choice<0 || choice > 6){
-                System.out.println("Incorrect choice please select another option");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-            }
-            abilityAddition(character, choice, 1 );
-            System.out.println("What is your second ability?");
-            abilityChoicePrintout();
-            choice = scanner.nextInt();
-            endOfLine = scanner.nextLine();
-            while (choice<0 || choice > 6){
-                System.out.println("Incorrect choice please select another option");
-                choice = scanner.nextInt();
-                endOfLine = scanner.nextLine();
-            }
-            abilityAddition(character, choice, 1 );
-
-
-        }
-    }
 
     // Tested and verified 9/10
     /**
@@ -407,29 +257,6 @@ public class Cleric {
         cantripList.remove(choice-1);
 
 
-
-    }
-
-
-    /**
-     *
-     * @param inventory Vector of items
-     * @param item item you are adding in vector, or adding quantity to already existing item
-     */
-    public void checkAndAddItemQuantity(Vector<Item> inventory, Item item){
-        int counter =0;
-        int i;
-        for ( i =0; i< inventory.size();i++){
-            if (inventory.get(i).getName().equals(item.getName())){
-                inventory.get(i).addition(item);
-                counter++;
-                System.out.println("+1 " + inventory.get(i).getName() + " added to inventory | Quantity: " + inventory.get(i).getQuantity());
-            }
-        }
-        if (counter == 0){
-            inventory.add(item);
-            System.out.println(item.getName() + " added to inventory | Quantity: " + inventory.get(inventory.size()-1).getQuantity());
-        }
 
     }
 
@@ -779,65 +606,6 @@ public class Cleric {
         Double randomDouble2 = randomDouble;
         int roll = randomDouble2.intValue();
         return roll;
-    }
-
-
-    public static int findAbilityMod(int abilityScore) {
-        Scanner scanner = new Scanner(System.in);
-        Scanner endOfLine = new Scanner(System.in);
-        while(abilityScore<0 || abilityScore>30){
-            System.out.println("Incorrect Ability Score, please enter correct score between 1 and 30");
-            scanner.nextInt();
-            endOfLine.nextLine();
-        }
-
-        if (abilityScore == 1) {
-            return -5;
-        }
-        if (abilityScore == 2 || abilityScore == 3) {
-            return -4;
-        }
-        if (abilityScore == 4 || abilityScore == 5) {
-            return -3;
-        }
-        if (abilityScore == 6 || abilityScore == 7) {
-            return -2;
-        }
-        if (abilityScore == 8 || abilityScore == 9) {
-            return -1;
-        }
-        if (abilityScore == 10 || abilityScore == 11){
-            return 0;
-        }
-        if (abilityScore == 12 || abilityScore ==13) {
-            return 1;
-        }
-        if (abilityScore == 14 || abilityScore ==15) {
-            return 2;
-        }
-        if (abilityScore == 16 || abilityScore ==17) {
-            return 3;
-        }
-        if (abilityScore == 18 || abilityScore ==19) {
-            return 4;
-        }
-        if (abilityScore == 20 || abilityScore ==21) {
-            return 5;
-        }
-        if (abilityScore == 22 || abilityScore ==23) {
-            return 6;
-        }
-        if (abilityScore == 24 || abilityScore ==25) {
-            return 7;
-        }
-        if (abilityScore == 26 || abilityScore ==27) {
-            return 8;
-        }
-        if (abilityScore == 28 || abilityScore ==29) {
-            return 9;
-        }
-        return 10;
-
     }
 
 
