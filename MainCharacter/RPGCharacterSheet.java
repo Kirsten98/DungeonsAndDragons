@@ -122,7 +122,7 @@ public class RPGCharacterSheet extends Application {
      * @param abilityScore Takes in the Ability Score
      * @return Returns the Modifier based on the Ability Score
      */
-    protected static int findAbilityMod(int abilityScore) {
+    public static int findAbilityMod(int abilityScore) {
         if (abilityScore < 1) {
             return -6;
         }
@@ -1020,7 +1020,7 @@ public class RPGCharacterSheet extends Application {
      * @param arrayThatContainsItem String array that is being searched for given item/string
      * @return Returns position of item in given array, if string is not found in array returns -1.
      */
-    protected static int findArrayPosition(String itemToBeFound, Object[] arrayThatContainsItem){
+    public static int findArrayPosition(String itemToBeFound, Object[] arrayThatContainsItem){
 
             for (int j = 0; j< arrayThatContainsItem.length;j++){
                 if (arrayThatContainsItem[j] == null){
