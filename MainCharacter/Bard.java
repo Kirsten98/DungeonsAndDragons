@@ -1221,38 +1221,6 @@ public class Bard extends CharacterClass{
     }
 
 
-    /**
-     * Converts a provided vector to a ListView of checkboxes
-     * @param vectorToConvert The vector that will be converted to the ListView
-     * @return The ListView that contains the vector information
-     */
-    public ListView<CheckBox> convertVectorToList (Vector vectorToConvert) {
-        ObservableList observableList = FXCollections.observableArrayList();
-        for (int i=0 ; i < vectorToConvert.size(); i++){
-            observableList.add(new CheckBox(vectorToConvert.get(i).toString()));
-        }
-        ListView listView = new ListView(observableList);
-        listView.setMaxWidth(150);
-        return listView ;
-
-    }
-
-    /**
-     * Converts a provided array to a ListView of checkboxes
-     * @param arrayToConvert The array that will be converted to the ListView
-     * @return The ListView that contains the Array information
-     */
-    public ListView<CheckBox>  convertArrayToList (String[] arrayToConvert) {
-        ObservableList observableList = FXCollections.observableArrayList();
-        for (int i=0 ; i < arrayToConvert.length; i++){
-            observableList.add(new CheckBox(arrayToConvert[i]));
-        }
-        ListView listView = new ListView(observableList);
-        listView.setMaxWidth(150);
-        return listView ;
-
-    }
-
 
     /**
      * Checks if the contents are already in the vector, if yes nothing happens, if no the contents are added to the vector and prints the contents have been added to the vector.

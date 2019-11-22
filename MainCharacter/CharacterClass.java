@@ -2,9 +2,13 @@ package DungeonsAndDragons.MainCharacter;
 
 import DungeonsAndDragons.MainCharacter.CharacterSheet;
 import DungeonsAndDragons.MainCharacter.Item;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -297,6 +301,38 @@ public class CharacterClass {
     }
 
     public void chooseWeapon(Stage chooseWeaponStage){
+
+    }
+
+    /**
+     * Converts a provided vector to a ListView of checkboxes
+     * @param vectorToConvert The vector that will be converted to the ListView
+     * @return The ListView that contains the vector information
+     */
+    public ListView<CheckBox> convertVectorToList (Vector vectorToConvert) {
+        ObservableList observableList = FXCollections.observableArrayList();
+        for (int i=0 ; i < vectorToConvert.size(); i++){
+            observableList.add(new CheckBox(vectorToConvert.get(i).toString()));
+        }
+        ListView listView = new ListView(observableList);
+        listView.setMaxWidth(150);
+        return listView ;
+
+    }
+
+    /**
+     * Converts a provided array to a ListView of checkboxes
+     * @param arrayToConvert The array that will be converted to the ListView
+     * @return The ListView that contains the Array information
+     */
+    public ListView<CheckBox>  convertArrayToList (String[] arrayToConvert) {
+        ObservableList observableList = FXCollections.observableArrayList();
+        for (int i=0 ; i < arrayToConvert.length; i++){
+            observableList.add(new CheckBox(arrayToConvert[i]));
+        }
+        ListView listView = new ListView(observableList);
+        listView.setMaxWidth(150);
+        return listView ;
 
     }
 }
